@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+	<TableRow
+	android:id="@+id/t1"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+	android:gravity="bottom"
+	android:layout_gravity="center"
+	>
+		<TextView
+		android:id="@+id/lbl_phone"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="번호"
+		android:textSize="30sp"
+		android:gravity="center"
+		>
+		</TextView>
+		<EditText
+		android:id="@+id/txt_phone"
+		android:layout_width="200px"
+		android:layout_height="wrap_content"
+		android:textSize="18sp"
+		android:phoneNumber="true"
+		android:hint="전화번호 입력"
+		>
+		</EditText>
+		<Button
+		android:id="@+id/cmd_address"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="주소"
+		>
+		</Button>		
+	</TableRow>
+	
+	<TextView
+	android:id="@+id/lbl_message"
+	android:textSize="15sp"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="문자(SMS)"
+	>
+	</TextView>
+	<EditText
+	android:id="@+id/txt_message"
+	android:layout_width="318px"
+	android:layout_height="wrap_content"
+	android:textSize="30sp"
+	android:capitalize="words"
+	android:gravity="top"
+	android:hint="내용을 입력해주세요."
+	>
+	</EditText>
+	
+	
+	<TableRow
+	android:id="@+id/t2"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+	android:layout_gravity="right"
+	>
+		<Button
+		android:id="@+id/add"
+		android:layout_width="80px"
+		android:layout_height="wrap_content"
+		android:text="첨부"
+		>
+		</Button>
+		<Button
+		android:id="@+id/cmd_send"
+		android:layout_width="80px"
+		android:layout_height="wrap_content"
+		android:text="전송"
+		>
+		</Button>
+		<Button
+		android:id="@+id/cmd_back"
+		android:layout_width="80px"
+		android:layout_height="wrap_content"
+		android:text="뒤로"
+		>
+		</Button>
+	</TableRow>
+</LinearLayout>
