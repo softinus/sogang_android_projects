@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<integer-array name="arr_canvas">
+		<item>320</item>
+		<item>480</item>
+	</integer-array>
+	<integer-array name="arr_img_ready">
+		<item>96</item>
+		<item>96</item>
+		<item>128</item>
+		<item>128</item>
+	</integer-array>
+	<integer-array name="arr_img_pause">
+		<item>96</item>
+		<item>96</item>
+		<item>128</item>
+		<item>128</item>
+	</integer-array>
+	<integer-array name="arr_img_gameover">
+		<item>96</item>
+		<item>96</item>
+		<item>128</item>
+		<item>128</item>
+	</integer-array>
+	<integer-array name="arr_img_heart">
+		<item>7</item>
+		<item>397</item>
+		<item>358</item>
+		<item>287</item>
+		<item>16</item>
+		<item>16</item>
+	</integer-array>
+	<integer-array name="arr_img_combo">
+		<item>7</item>
+		<item>437</item>
+		<item>418</item>
+		<item>287</item>
+		<item>16</item>
+		<item>16</item>
+	</integer-array>
+	<integer-array name="arr_img_animal_0">
+		<item>20</item>
+		<item>20</item>
+		<item>64</item>
+		<item>64</item>
+	</integer-array>
+	<integer-array name="arr_img_animal_1">
+		<item>123</item>
+		<item>20</item>
+		<item>64</item>
+		<item>64</item>
+	</integer-array>
+	<integer-array name="arr_img_animal_2">
+		<item>226</item>
+		<item>20</item>
+		<item>64</item>
+		<item>64</item>
+	</integer-array>
+	<integer-array name="arr_img_animal_3">
+		<item>20</item>
+		<item>123</item>
+		<item>64</item>
+		<item>64</item>
+	</integer-array>
+	<integer-array name="arr_img_animal_4">
+		<item>123</item>
+		<item>123</item>
+		<item>64</item>
+		<item>64</item>
+	</integer-array>
+	<integer-array name="arr_img_animal_5">
+		<item>226</item>
+		<item>123</item>
+		<item>64</item>
+		<item>64</item>
+	</integer-array>
+	<integer-array name="arr_img_animal_6">
+		<item>20</item>
+		<item>226</item>
+		<item>64</item>
+		<item>64</item>
+	</integer-array>
+	<integer-array name="arr_img_animal_7">
+		<item>123</item>
+		<item>226</item>
+		<item>64</item>
+		<item>64</item>
+	</integer-array>
+	<integer-array name="arr_img_animal_8">
+		<item>226</item>
+		<item>226</item>
+		<item>64</item>
+		<item>64</item>
+	</integer-array>
+	<integer-array name="arr_practice_score_level_1">
+		<item>40</item>
+		<item>400</item>
+		<item>360</item>
+		<item>100</item>
+	</integer-array>
+	<integer-array name="arr_practice_score_level_2">
+		<item>200</item>
+		<item>400</item>
+		<item>360</item>
+		<item>200</item>
+	</integer-array>
+	<integer-array name="arr_game_score_level_1">
+		<item>40</item>
+		<item>360</item>
+		<item>360</item>
+		<item>20</item>
+	</integer-array>
+	<integer-array name="arr_game_score_level_2">
+		<item>200</item>
+		<item>360</item>
+		<item>360</item>
+		<item>40</item>
+	</integer-array>
+	<integer-array name="arr_game_gauge_level_1">
+		<item>30</item>
+		<item>400</item>
+		<item>280</item>
+		<item>10</item>
+		<item>360</item>
+		<item>280</item>
+		<item>220</item>
+		<item>10</item>
+	</integer-array>
+	<integer-array name="arr_game_gauge_level_2">
+		<item>30</item>
+		<item>440</item>
+		<item>280</item>
+		<item>10</item>
+		<item>420</item>
+		<item>280</item>
+		<item>220</item>
+		<item>10</item>
+	</integer-array>
+</resources>
