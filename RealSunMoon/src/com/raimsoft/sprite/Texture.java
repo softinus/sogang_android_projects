@@ -12,9 +12,9 @@ public class Texture {
 	private Resources res;
 	
 	/**
-	 * ¸®¼Ò½ºÇü »ı¼ºÀÚ
-	 * @param _Res_id: ¸®¼Ò½ºÀÇ ¾ÆÀÌµğ
-	 * @param _ct: ÇöÀç Context
+	 * ë¦¬ì†ŒìŠ¤í˜• ìƒì„±ì
+	 * @param _Res_id: ë¦¬ì†ŒìŠ¤ì˜ ì•„ì´ë””
+	 * @param _ct: í˜„ì¬ Context
 	 */
 	public Texture (int _Res_id, Context _ct)
 	{	
@@ -25,8 +25,8 @@ public class Texture {
 	}
 	
 	/**
-	 * ³»ºÎ ÆÄÀÏÇü »ı¼ºÀÚ
-	 * @param _path: ÆÄÀÏÀÇ °æ·Î
+	 * ë‚´ë¶€ íŒŒì¼í˜• ìƒì„±ì
+	 * @param _path: íŒŒì¼ì˜ ê²½ë¡œ
 	 */
 	public Texture (String _path)
 	{
@@ -36,8 +36,8 @@ public class Texture {
 	}
 	
 	/**
-	 * ºñÆ®¸Ê Å©±â¸¦ RectÇüÀ¸·Î ¸®ÅÏ 
-	 * @return ºñÆ®¸ÊÀÇ Å©±â
+	 * ë¹„íŠ¸ë§µ í¬ê¸°ë¥¼ Rectí˜•ìœ¼ë¡œ ë¦¬í„´ 
+	 * @return ë¹„íŠ¸ë§µì˜ í¬ê¸°
 	 */
 	public Rect getBitmapSize_ForRect ()
 	{
@@ -46,7 +46,7 @@ public class Texture {
 	}
 	
 	/**
-	 * @return TextureÀÇ Bitmap
+	 * @return Textureì˜ Bitmap
 	 */
 	public Bitmap getBitmap ()
 	{

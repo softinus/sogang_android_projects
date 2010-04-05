@@ -3,7 +3,7 @@ package com.raimsoft.view;
 /**
  * Authoer : Choi Jun Hyeok (Raim)
  * Homepage: http://raimsoft.com
- * Copyright Raimsoft¨Ï All reserved
+ * Copyright Raimsoftâ“’ All reserved
  */
 
 import android.content.Context;
@@ -36,7 +36,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		SurfaceHolder mHolder= getHolder();
 		mHolder.addCallback(this);
 		
-		setFocusable(true);	// Æ÷Ä¿½º¸¦ Àâ¾ÆÁØ´Ù. (Å°ÀÔ·Â µî...)
+		setFocusable(true);	// í¬ì»¤ìŠ¤ë¥¼ ì¡ì•„ì¤€ë‹¤. (í‚¤ì…ë ¥ ë“±...)
 		
 		thread= new ImgThread(mHolder, context);
 		
@@ -50,24 +50,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 	public class ImgThread extends Thread
 	{
-		private SurfaceHolder mSurfaceHolder;// È­¸é Á¦¾î
-		private boolean mRun=true;			// µ¿ÀÛ ¿©ºÎ
+		private SurfaceHolder mSurfaceHolder;// í™”ë©´ ì œì–´
+		private boolean mRun=true;			// ë™ì‘ ì—¬ë¶€
 		private boolean bImg_Refreshed=true;
 		
-		private Resources mRes;				// ¸®¼Ò½º
+		private Resources mRes;				// ë¦¬ì†ŒìŠ¤
 
-		private Bitmap bBackground;			// ¹è°æ
-		private Drawable Base_char;			// Ä³¸¯ÅÍ ÀÌ¹ÌÁö
-		public Player mPlayer;				// ÇÃ·¹ÀÌ¾î °´Ã¼
+		private Bitmap bBackground;			// ë°°ê²½
+		private Drawable Base_char;			// ìºë¦­í„° ì´ë¯¸ì§€
+		public Player mPlayer;				// í”Œë ˆì´ì–´ ê°ì²´
 
-		private int Frame, fps, curTime;	// ÇÁ·¹ÀÓ, ÃÊ´çÇÁ·¹ÀÓ, ÇöÀçÇÁ·¹ÀÓ
-		private int delTime=3;				// Threadµô·¹ÀÌ
+		private int Frame, fps, curTime;	// í”„ë ˆì„, ì´ˆë‹¹í”„ë ˆì„, í˜„ì¬í”„ë ˆì„
+		private int delTime=3;				// Threadë”œë ˆì´
 		
-		private int BackSize=5760;			// ¹è°æ¼¼·Î±æÀÌ
-		private int viewSize_W, viewSize_H;	// ºä °¡·Î, ¼¼·Î ±æÀÌ
+		private int BackSize=5760;			// ë°°ê²½ì„¸ë¡œê¸¸ì´
+		private int viewSize_W, viewSize_H;	// ë·° ê°€ë¡œ, ì„¸ë¡œ ê¸¸ì´
 
 		
-		// ¸ŞÀÎ½º·¹µåÀÇ »ı¼ºÀÚ
+		// ë©”ì¸ìŠ¤ë ˆë“œì˜ ìƒì„±ì
 		public ImgThread (SurfaceHolder _Holder, Context _Context)
 		{
 			mSurfaceHolder= _Holder;
@@ -170,8 +170,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		
 		
-		/** ½º·¹µå µ¿ÀÛ ¼³Á¤
-		* @param _Run : µ¿ÀÛ ¼³Á¤ boolean°ª*/
+		/** ìŠ¤ë ˆë“œ ë™ì‘ ì„¤ì •
+		* @param _Run : ë™ì‘ ì„¤ì • booleanê°’*/
 		public void setRunning(boolean _Run)
 		{
 			mRun=_Run;
@@ -199,7 +199,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 	
 	
-// ===================== ÀÌ ¹ØºÎÅÍ SurfaceHolder.CallBack ===================== //
+// ===================== ì´ ë°‘ë¶€í„° SurfaceHolder.CallBack ===================== //
 	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,	int height) {

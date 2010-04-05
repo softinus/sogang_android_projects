@@ -9,16 +9,16 @@ import com.raimsoft.view.GameView;
 
 public class Player {
 	
-	private GameView view;	// ºä
+	private GameView view;	// ë·°
 	
-	private int x,y;		// À§Ä¡(X,Y)
-	private int wid;		// Æø
-	private int hei;		// ³ôÀÌ
-	private int spd=5;		// ¼Óµµ
+	private int x,y;		// ìœ„ì¹˜(X,Y)
+	private int wid;		// í­
+	private int hei;		// ë†’ì´
+	private int spd=5;		// ì†ë„
 	
 	private boolean bStop=false;
 	
-	public int Img_id;		// ÀÌ¹ÌÁö ID
+	public int Img_id;		// ì´ë¯¸ì§€ ID
 	public int State=0;
 	
 	private int JumpIdx_Last=10;
@@ -26,8 +26,8 @@ public class Player {
 	public int JumpIdx[]={5,4,3,2,1,-1,-2,-3,-4,-5};
 	
 	/**
-	 * ÇÃ·¹ÀÌ¾î À§Ä¡´Â ÀÚµ¿ Áß¾Ó¹èÄ¡ÇÏ´Â ±âº» »ı¼ºÀÚ
-	 * @param view : Áß¾ÓÀ§Ä¡°¡ °è»êµÉ ºä
+	 * í”Œë ˆì´ì–´ ìœ„ì¹˜ëŠ” ìë™ ì¤‘ì•™ë°°ì¹˜í•˜ëŠ” ê¸°ë³¸ ìƒì„±ì
+	 * @param view : ì¤‘ì•™ìœ„ì¹˜ê°€ ê³„ì‚°ë  ë·°
 	 */
 	public Player(GameView view)
 	{
@@ -39,10 +39,10 @@ public class Player {
 	}
 	
 	/**
-	 * ÇÃ·¹ÀÌ¾î À§Ä¡¸¸ ¼³Á¤ÇØÁÖ´Â »ı¼ºÀÚ
+	 * í”Œë ˆì´ì–´ ìœ„ì¹˜ë§Œ ì„¤ì •í•´ì£¼ëŠ” ìƒì„±ì
 	 * @param view
-	 * @param x : X°ª, (-1)ÀÌ¸é Áß¾Ó¹èÄ¡
-	 * @param y : Y°ª, (-1)ÀÌ¸é Áß¾Ó¹èÄ¡
+	 * @param x : Xê°’, (-1)ì´ë©´ ì¤‘ì•™ë°°ì¹˜
+	 * @param y : Yê°’, (-1)ì´ë©´ ì¤‘ì•™ë°°ì¹˜
 	 */
 	public Player (GameView view, int x, int y)
 	{
@@ -63,13 +63,13 @@ public class Player {
 	}
 	
 	/**
-	 * ¸ğµç Á¤º¸ ÀÔ·ÂÇÏ´Â »ı¼ºÀÚ
+	 * ëª¨ë“  ì •ë³´ ì…ë ¥í•˜ëŠ” ìƒì„±ì
 	 * @param view
-	 * @param x : X°ª, (-1)ÀÌ¸é Áß¾Ó¹èÄ¡
-	 * @param y : Y°ª, (-1)ÀÌ¸é Áß¾Ó¹èÄ¡
-	 * @param width : ÇÃ·¹ÀÌ¾î Æø
-	 * @param height : ÇÃ·¹ÀÌ¾î ³ôÀÌ
-	 * @param Image_ID : ÇÃ·¹ÀÌ¾îÀÇ ÀÌ¹ÌÁöID
+	 * @param x : Xê°’, (-1)ì´ë©´ ì¤‘ì•™ë°°ì¹˜
+	 * @param y : Yê°’, (-1)ì´ë©´ ì¤‘ì•™ë°°ì¹˜
+	 * @param width : í”Œë ˆì´ì–´ í­
+	 * @param height : í”Œë ˆì´ì–´ ë†’ì´
+	 * @param Image_ID : í”Œë ˆì´ì–´ì˜ ì´ë¯¸ì§€ID
 	 */
 	public Player(GameView view, int x, int y, int width, int height, int Image_ID)
 	{
@@ -95,8 +95,8 @@ public class Player {
 	}
 	
 	/**
-	 * ÇöÀç Ä³¸¯ÅÍ°ªÀ» Rect·Î ¸®ÅÏÇØÁØ´Ù.
-	 * @return ÇöÀç Player °´Ã¼ÀÇ Rect°ª
+	 * í˜„ì¬ ìºë¦­í„°ê°’ì„ Rectë¡œ ë¦¬í„´í•´ì¤€ë‹¤.
+	 * @return í˜„ì¬ Player ê°ì²´ì˜ Rectê°’
 	 */
 	public Rect getPlayerForRect()
 	{
@@ -104,7 +104,7 @@ public class Player {
 		return rct;
 	}
 	
-	// ÇöÀç BitmapÀ» Drawable·Î ¹Ù²Ù¸é¼­ ¾È¾²°Ô µÇ¾úÀ½.
+	// í˜„ì¬ Bitmapì„ Drawableë¡œ ë°”ê¾¸ë©´ì„œ ì•ˆì“°ê²Œ ë˜ì—ˆìŒ.
 	public Rect getStateImgRect()
 	{
 		Rect rct = new Rect(0,0,this.wid,this.hei);
@@ -207,8 +207,8 @@ public class Player {
 	}
 	
 	/**
-	 * ¹æÇâÀ» ÀÔ·Â¹Ş¾Æ  ÀÌµ¿ÇÑ´Ù.
-	 * @param dir : ¹æÇâ
+	 * ë°©í–¥ì„ ì…ë ¥ë°›ì•„  ì´ë™í•œë‹¤.
+	 * @param dir : ë°©í–¥
 	 */
 	public void Move(int dir)
 	{
@@ -255,7 +255,7 @@ public class Player {
 	}
 
 	/**
-	 * ÇÑ¹ø ÀÔ·Â¹ŞÀº ¹æÇâ´ë·Î Âß °£´Ù.
+	 * í•œë²ˆ ì…ë ¥ë°›ì€ ë°©í–¥ëŒ€ë¡œ ì­‰ ê°„ë‹¤.
 	 */
 	public void MoveAway()
 	{

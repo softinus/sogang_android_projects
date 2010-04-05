@@ -9,7 +9,7 @@ import android.util.Log;
 /**
  * @author Choi Jun Hyeok (Raim)
  * @see http://raimsoft.com
- * @since Copyright 2010 Raimsoft¨Ï All reserved
+ * @since Copyright 2010 Raimsoftâ“’ All reserved
  */
 public class SensorFactory {
 	
@@ -49,9 +49,9 @@ public class SensorFactory {
 	}
 	
 	/**
-	 * ¹æÇâ°ªÀ» °¡Áö°í ÀÖ´Â »ó¼ö¸¦ °¡Á®¿É´Ï´Ù.
-	 * ÀÌ ¸Ş¼Òµå¸¦ ÅëÇØ Present_Orientation °ªÀ¸·Î ÇöÀç ¹æÇâÀ» Ã¼Å©ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-	 * @return 1:¿ŞÂÊ, 2:¿À¸¥ÂÊ, 3:À§, 4:¾Æ·¡ (0:º¯È­¾øÀ½, -1:¾Ë¼ö¾øÀ½)
+	 * ë°©í–¥ê°’ì„ ê°€ì§€ê³  ìˆëŠ” ìƒìˆ˜ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
+	 * ì´ ë©”ì†Œë“œë¥¼ í†µí•´ Present_Orientation ê°’ìœ¼ë¡œ í˜„ì¬ ë°©í–¥ì„ ì²´í¬í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+	 * @return 1:ì™¼ìª½, 2:ì˜¤ë¥¸ìª½, 3:ìœ„, 4:ì•„ë˜ (0:ë³€í™”ì—†ìŒ, -1:ì•Œìˆ˜ì—†ìŒ)
 	 */
 	public int getSensorOrientation()
 	{
@@ -110,10 +110,10 @@ public class SensorFactory {
 	
 	
 	/**
-	 * º¯È­µÈ °ª(value_Measure)À» °¡Á®¿É´Ï´Ù.
-	 * ÀÌ ¸Ş¼Òµå´Â ÇöÀç Å¬·¡½ºÀÇ getSensorOrientation() ¸Ş¼Òµå¿Í ÇÔ²² ½ÇÇàµÇ¹Ç·Î
-	 * ¹æÇâ°ú º¯È­µÈ °ªÀ» °°ÀÌ °¡Á®¿Ã ¼ö ÀÖ½À´Ï´Ù.
-	 * @return º¯È­µÈ °ªÀ» ½Ç½Ã°£À¸·Î °¡Á®¿É´Ï´Ù.
+	 * ë³€í™”ëœ ê°’(value_Measure)ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
+	 * ì´ ë©”ì†Œë“œëŠ” í˜„ì¬ í´ë˜ìŠ¤ì˜ getSensorOrientation() ë©”ì†Œë“œì™€ í•¨ê»˜ ì‹¤í–‰ë˜ë¯€ë¡œ
+	 * ë°©í–¥ê³¼ ë³€í™”ëœ ê°’ì„ ê°™ì´ ê°€ì ¸ì˜¬ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+	 * @return ë³€í™”ëœ ê°’ì„ ì‹¤ì‹œê°„ìœ¼ë¡œ ê°€ì ¸ì˜µë‹ˆë‹¤.
 	 */
 	public Point getSensorChangedValue()
 	{
@@ -121,8 +121,8 @@ public class SensorFactory {
 	}
 	
 	/**
-	 * @refer SensorListener¿¡¼­ ¹Ş¾Æ¿Â °ªÀ» ³Ö¾îÁÖ´Âµ¥ ÁÖ·Î ¾²ÀÔ´Ï´Ù.
-	 * @param _val : SensorListener¿¡¼­ "value[]"¸¦ ¹Ş¾Æ¿É´Ï´Ù.
+	 * @refer SensorListenerì—ì„œ ë°›ì•„ì˜¨ ê°’ì„ ë„£ì–´ì£¼ëŠ”ë° ì£¼ë¡œ ì“°ì…ë‹ˆë‹¤.
+	 * @param _val : SensorListenerì—ì„œ "value[]"ë¥¼ ë°›ì•„ì˜µë‹ˆë‹¤.
 	 */
 	public void setSensorValue(float[] _val)
 	{
@@ -132,9 +132,9 @@ public class SensorFactory {
 		}
 	}
 	/**
-	 * @refer SensorListener¿¡¼­ ¹Ş¾Æ¿Â °ªÀ» ³Ö¾îÁÖ´Âµ¥ ÁÖ·Î ¾²ÀÔ´Ï´Ù.
-	 * @param _val : SensorListener¿¡¼­ "value[]"¸¦ ¹Ş¾Æ¿É´Ï´Ù.
-	 * @param _sensor : SensorListener¿¡¼­ "sensor"¸¦ ¹Ş¾Æ¿É´Ï´Ù.
+	 * @refer SensorListenerì—ì„œ ë°›ì•„ì˜¨ ê°’ì„ ë„£ì–´ì£¼ëŠ”ë° ì£¼ë¡œ ì“°ì…ë‹ˆë‹¤.
+	 * @param _val : SensorListenerì—ì„œ "value[]"ë¥¼ ë°›ì•„ì˜µë‹ˆë‹¤.
+	 * @param _sensor : SensorListenerì—ì„œ "sensor"ë¥¼ ë°›ì•„ì˜µë‹ˆë‹¤.
 	 */
 	public void setSensorValue(float[] _val, int _sensor)
 	{
@@ -146,8 +146,8 @@ public class SensorFactory {
 	}
 	
 	/**
-	 * ÁÖ·Î ActivityÀÇ SensorListener¿¡¼­ °¡Á®¿Â °ªÀ» °øÀ¯ÇÏ´Âµ¥ ¾²ÀÔ´Ï´Ù.
-	 * @return value_Ori(¿øº» value°ªÀÇ float ¹è¿­À» °¡Á®¿É´Ï´Ù.
+	 * ì£¼ë¡œ Activityì˜ SensorListenerì—ì„œ ê°€ì ¸ì˜¨ ê°’ì„ ê³µìœ í•˜ëŠ”ë° ì“°ì…ë‹ˆë‹¤.
+	 * @return value_Ori(ì›ë³¸ valueê°’ì˜ float ë°°ì—´ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
 	 */
 	public float[] getSensorValue()
 	{
@@ -155,9 +155,9 @@ public class SensorFactory {
 	}
 	
 	/**
-	 * ¼¾¼­ÀÇ Á¤º¸¸¦ LogcatÀ¸·Î Ãâ·ÂÇÕ´Ï´Ù.
-	 * SensorListenr¿¡¼­ sensor°ªÀ» ¹Ş¾Æ¿À´Â ¿À¹ö·ÎµåµÈ ¸Ş¼Òµå¸¦ »ç¿ëÇÑ °æ¿ì
-	 * sensor°ª±îÁö Ãâ·ÂµË´Ï´Ù.
+	 * ì„¼ì„œì˜ ì •ë³´ë¥¼ Logcatìœ¼ë¡œ ì¶œë ¥í•©ë‹ˆë‹¤.
+	 * SensorListenrì—ì„œ sensorê°’ì„ ë°›ì•„ì˜¤ëŠ” ì˜¤ë²„ë¡œë“œëœ ë©”ì†Œë“œë¥¼ ì‚¬ìš©í•œ ê²½ìš°
+	 * sensorê°’ê¹Œì§€ ì¶œë ¥ë©ë‹ˆë‹¤.
 	 */
 	public void debugSensorInfo()
 	{

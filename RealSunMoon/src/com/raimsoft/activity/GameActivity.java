@@ -16,7 +16,7 @@ public class GameActivity extends Activity {
 	{
 		public void onSensorChanged(int sensor, float[] values)
 		{
-			//¼¾¼­ °ª º¯È­¸¦ ´Ù·é´Ù.
+			// ì„¼ì„œ values ê°’ ë„˜ê²¨ì¤Œ
 			sf.setSensorValue(values, sensor);
 			//sf.debugSensorInfo();
 			sf.getSensorOrientation();
@@ -24,7 +24,7 @@ public class GameActivity extends Activity {
 
 		public void onAccuracyChanged(int sensor, int accuracy)
 		{
-			//ÀÚµ¿ »ý¼ºµÈ ¸Þ¼­µå
+			//ï¿½Úµï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 		}
 	};
 	
