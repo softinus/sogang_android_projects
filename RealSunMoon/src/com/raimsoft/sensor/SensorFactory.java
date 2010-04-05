@@ -2,6 +2,7 @@ package com.raimsoft.sensor;
 
 
 
+import android.graphics.Point;
 import android.hardware.SensorManager;
 import android.util.Log;
 
@@ -20,6 +21,8 @@ public class SensorFactory {
 	private float value_Measure[]= new float[3];
 	private final float value_Scale[]= new float[] { 2, 2.5f, 0.5f };
 
+	private Point value_Pos=new Point(0,0);
+	
 	private int sensor=0;
 	
 	public final int SENSOR_FACTORY_UNKNOW	= -1;
@@ -60,16 +63,17 @@ public class SensorFactory {
             value_Prev[i] = value_Ori[i];
         }
 		
-        float x = value_Measure[0];
-        float y = value_Measure[1];
-        boolean gestX = Math.abs(x) > 3;
-        boolean gestY = Math.abs(y) > 3;
+        value_Pos.x = Math.round(value_Measure[0]);
+        value_Pos.y = Math.round(value_Measure[1]);
+        
+        boolean gestX = Math.abs(value_Pos.x) > 3;
+        boolean gestY = Math.abs(value_Pos.y) > 3;
 
         if ((gestX || gestY) && !(gestX && gestY))
         {
             if (gestX)
             {
-                if (x < 0) {
+                if (value_Pos.x < 0) {
                     android.util.Log.i("Sensor", "Turn Right");
                     _sensorForReturn= sf.SENSOR_FACTORY_RIGHT;
                     Present_Orientation= sf.SENSOR_FACTORY_RIGHT;
@@ -79,7 +83,7 @@ public class SensorFactory {
                     Present_Orientation= sf.SENSOR_FACTORY_LEFT;
                 }
             } else {
-                if (y < -2)
+                if (value_Pos.y < -2)
                 {
                     android.util.Log.i("Sensor", "Turn Up");
                     _sensorForReturn= sf.SENSOR_FACTORY_UP;
@@ -111,10 +115,9 @@ public class SensorFactory {
 	 * 방향과 변화된 값을 같이 가져올 수 있습니다.
 	 * @return 변화된 값을 실시간으로 가져옵니다.
 	 */
-	public float[] getSensorChangedValue()
+	public Point getSensorChangedValue()
 	{
-		//this.getSensorOrientation();
-		return value_Measure;
+		return value_Pos;
 	}
 	
 	/**

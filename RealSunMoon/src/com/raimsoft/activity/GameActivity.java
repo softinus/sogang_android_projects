@@ -19,7 +19,7 @@ public class GameActivity extends Activity {
 			//센서 값 변화를 다룬다.
 			sf.setSensorValue(values, sensor);
 			//sf.debugSensorInfo();
-			//sf.getSensorOrientation();
+			sf.getSensorOrientation();
 		}
 
 		public void onAccuracyChanged(int sensor, int accuracy)
@@ -50,8 +50,8 @@ public class GameActivity extends Activity {
 	protected void onResume() {
 		
 		sf.sm.registerListener(mySensorListener,
-		         SensorManager.SENSOR_ORIENTATION,
-		         SensorManager.SENSOR_DELAY_GAME);
+		         sf.sm.SENSOR_ORIENTATION,
+		         sf.sm.SENSOR_DELAY_GAME);
 		
 		super.onResume();
 	}

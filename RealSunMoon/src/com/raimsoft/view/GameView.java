@@ -134,10 +134,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						+"Y= "+ Float.toString(Math.round(sf.getSensorValue()[1]))
 						+"Z= "+ Float.toString(Math.round(sf.getSensorValue()[2]))
 						, 5, 60, p);
-			c.drawText("X= " + Float.toString(Math.round(sf.getSensorChangedValue()[0]))
-						+"Y= "+ Float.toString(Math.round(sf.getSensorChangedValue()[1]))
-						+"Z= "+ Float.toString(Math.round(sf.getSensorChangedValue()[2]))
+			c.drawText("X= " + Float.toString(Math.round(sf.getSensorChangedValue().x))
+						+"Y= "+ Float.toString(Math.round(sf.getSensorChangedValue().y))
 					, 5, 75, p);
+			//c.drawText("dsadsadsad", 5, 100, p);
 		}
 		
 		void doDrawPlayer(Canvas c)
@@ -163,7 +163,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		public void doMove()
 		{
-			mPlayer.MoveAway();
+			//mPlayer.MoveAway();
+			mPlayer.SensorMove(sf.getSensorChangedValue());
 			//mPlayer.JumpAlways();
 		}
 		
@@ -175,6 +176,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		{
 			mRun=_Run;
 		}
+		
+		
 		public void setImg_Refresh()
 		{
 			bImg_Refreshed= true;
@@ -186,7 +189,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		
-		this.thread.mPlayer.setState(keyCode);
+		//this.thread.mPlayer.setState(keyCode);
 		Log.d("Key", Float.toString(keyCode));
 		
 		return super.onKeyDown(keyCode, event);

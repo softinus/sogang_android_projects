@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -70,5 +71,13 @@ public class StartActivity extends Activity {
 		Next();
 		
 		return super.onTouchEvent(event);
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+		Next();
+		
+		return super.onKeyDown(keyCode, event);
 	}
 }

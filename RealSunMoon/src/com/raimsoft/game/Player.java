@@ -239,6 +239,20 @@ public class Player {
 				x = view.getWidth() - this.wid;
 		}
 	}
+	
+	public void SensorMove(Point _val_Pos)
+	{
+		if (_val_Pos.x > 0 && _val_Pos.x != 0)
+		{
+			this.setState(KeyEvent.KEYCODE_DPAD_LEFT);
+		}else
+		{
+			this.setState(KeyEvent.KEYCODE_DPAD_RIGHT);
+		}
+		
+		this.x -= _val_Pos.x;
+		//this.y += _val_Pos.y;
+	}
 
 	/**
 	 * 한번 입력받은 방향대로 쭉 간다.
