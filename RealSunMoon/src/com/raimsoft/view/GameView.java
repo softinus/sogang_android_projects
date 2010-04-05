@@ -39,36 +39,39 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		setFocusable(true);	// 포커스를 잡아준다. (키입력 등...)
 		
 		thread= new ImgThread(mHolder, context);
+		
+		
+		this.thread.mPlayer=new Player(this, 150,430, 45,50, R.drawable.base_char_left);
+		this.thread.viewSize_W= this.getWidth();
+		this.thread.viewSize_H= this.getHeight();
 	}
 	
 
 
-	class ImgThread extends Thread
+	public class ImgThread extends Thread
 	{
-		private GameView view;
+		private SurfaceHolder mSurfaceHolder;// 화면 제어
+		private boolean mRun=true;			// 동작 여부
+		private boolean bImg_Refreshed=true;
 		
-		private SurfaceHolder mSurfaceHolder;
-		private boolean mRun=true;
-		
-		private Resources mRes;
-		//private Bitmap Player_Bitmap;
-		private Bitmap bBackground;
-		private Drawable Base_Left, Base_Right;
+		private Resources mRes;				// 리소스
 
-		private Player mPlayer;
-		private int Frame, fps, curTime;
-		private int delTime=3, BackSize=5760;
+		private Bitmap bBackground;			// 배경
+		private Drawable Base_char;			// 캐릭터 이미지
+		public Player mPlayer;				// 플레이어 객체
+
+		private int Frame, fps, curTime;	// 프레임, 초당프레임, 현재프레임
+		private int delTime=3;				// Thread딜레이
+		
+		private int BackSize=5760;			// 배경세로길이
+		private int viewSize_W, viewSize_H;	// 뷰 가로, 세로 길이
 
 		
+		// 메인스레드의 생성자
 		public ImgThread (SurfaceHolder _Holder, Context _Context)
 		{
 			mSurfaceHolder= _Holder;
 			mRes= _Context.getResources();
-			
-			mPlayer=new Player(view, 150,430, 45,50, R.drawable.base_char_left);
-			
-			Base_Left= mRes.getDrawable(R.drawable.base_char_left);
-			Base_Right= mRes.getDrawable(R.drawable.base_char_right);
 			
 			bBackground= BitmapFactory.decodeResource(mRes, R.drawable.background);
 		}
@@ -131,6 +134,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						+"Y= "+ Float.toString(Math.round(sf.getSensorValue()[1]))
 						+"Z= "+ Float.toString(Math.round(sf.getSensorValue()[2]))
 						, 5, 60, p);
+			c.drawText("X= " + Float.toString(Math.round(sf.getSensorChangedValue()[0]))
+						+"Y= "+ Float.toString(Math.round(sf.getSensorChangedValue()[1]))
+						+"Z= "+ Float.toString(Math.round(sf.getSensorChangedValue()[2]))
+					, 5, 75, p);
 		}
 		
 		void doDrawPlayer(Canvas c)
@@ -142,17 +149,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			
 			c.save();
 			
-			if (mPlayer.State==KeyEvent.KEYCODE_DPAD_LEFT)
+			if(bImg_Refreshed)
 			{
-				Base_Left.setBounds(mPlayer.getPlayerForRect());
-				Base_Left.draw(c);
+				Base_char= mRes.getDrawable(mPlayer.Img_id);
+				bImg_Refreshed= false;
 			}
 			
-			if (mPlayer.State==KeyEvent.KEYCODE_DPAD_RIGHT)
-			{
-				Base_Right.setBounds(mPlayer.getPlayerForRect());
-				Base_Right.draw(c);
-			}
+			Base_char.setBounds(mPlayer.getPlayerForRect());
+			Base_char.draw(c);
+			
 			c.restore();
 		}
 		
@@ -169,6 +174,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		public void setRunning(boolean _Run)
 		{
 			mRun=_Run;
+		}
+		public void setImg_Refresh()
+		{
+			bImg_Refreshed= true;
 		}
 	}
 		

@@ -18,7 +18,7 @@ public class SensorFactory {
 	private float value_Ori[]= new float[3];
 	private float value_Prev[]= new float[3];
 	private float value_Measure[]= new float[3];
-	private final float value_Scale[]= new float[] { 2, 2.5f, 0.5f };   // accel
+	private final float value_Scale[]= new float[] { 2, 2.5f, 0.5f };
 
 	private int sensor=0;
 	
@@ -92,11 +92,11 @@ public class SensorFactory {
             }
         }
         _sensorForReturn= sf.SENSOR_FACTORY_NOCHANGE;
-        Present_Orientation= sf.SENSOR_FACTORY_NOCHANGE;
+        //Present_Orientation= sf.SENSOR_FACTORY_NOCHANGE;
         
         if (_sensorForReturn==sf.SENSOR_FACTORY_NOCHANGE)
         {
-        	android.util.Log.i("Sensor", "Not Changed");
+        	//android.util.Log.i("Sensor", "Not Changed");
         }else if (_sensorForReturn==sf.SENSOR_FACTORY_UNKNOW)
         {
         	android.util.Log.e("Sensor", "I Don't Know");
@@ -113,7 +113,7 @@ public class SensorFactory {
 	 */
 	public float[] getSensorChangedValue()
 	{
-		this.getSensorOrientation();
+		//this.getSensorOrientation();
 		return value_Measure;
 	}
 	

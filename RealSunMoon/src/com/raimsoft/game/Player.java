@@ -123,6 +123,17 @@ public class Player {
 	public void setState(int _state)
 	{
 		this.State	=_state;
+		
+		if (this.State==KeyEvent.KEYCODE_DPAD_LEFT)
+		{
+			this.Img_id= R.drawable.base_char_left;
+			view.thread.setImg_Refresh();
+		}
+		if (this.State==KeyEvent.KEYCODE_DPAD_RIGHT)
+		{
+			this.Img_id= R.drawable.base_char_right;
+			view.thread.setImg_Refresh();
+		}
 	}	
 	
 	
@@ -248,8 +259,8 @@ public class Player {
 			break;
 		case KeyEvent.KEYCODE_DPAD_RIGHT:
 			this.x+= spd;
-			//if(x > view.getWidth() - this.wid)
-			//	x = view.getWidth() - this.wid;
+			if(x > view.getWidth() - this.wid)
+				x = view.getWidth() - this.wid;
 			break;
 		}
 	}
