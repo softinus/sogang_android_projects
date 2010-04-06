@@ -13,8 +13,8 @@ import android.util.Log;
  */
 public class SensorFactory {
 	
-	private static SensorFactory sf= new SensorFactory();
-	public SensorManager sensorMgr;
+	private static SensorFactory sf= new SensorFactory();	// 싱글톤
+	public SensorManager sensorMgr;					// 센서매니져
 	
 	private float value_Ori[]= new float[3];		// Listener에서 받아오는 원본 값
 	private float value_Prev[]= new float[3];		// 수정 이전에 받아오는 값
@@ -24,7 +24,7 @@ public class SensorFactory {
 	private Point value_Pos=new Point(0,0);			// 변경 값
 	private Point value_Fix=new Point(0,0);			// 변경 누적 값
 	
-	private int sensor=0;
+	private int sensorID;							// 센서 ID
 	
 	public final int SENSOR_FACTORY_UNKNOW	= -1;
 	public final int SENSOR_FACTORY_NOCHANGE= 0;
@@ -36,12 +36,17 @@ public class SensorFactory {
 	public int Present_Orientation= -1;				// 현재 방향 (위 상수 참조)
 	
 	
+	
+	
+	// 생성자
 	private SensorFactory() {
 		for(int i=0; i<3; i++)
 		{
 			value_Ori[i]= 0;
+			value_Prev[i]= 0;
 			value_Measure[i]= 0;
 		}
+		sensorID= sensorMgr.SENSOR_ALL;
 	}
 	
 	public static SensorFactory getSensorFactory()
@@ -56,6 +61,11 @@ public class SensorFactory {
 	 */
 	public int getSensorOrientation()
 	{
+		if (this.sensorID != sensorMgr.SENSOR_ORIENTATION)
+		{
+			return 0;
+		}
+		
 		int _sensorForReturn=sf.SENSOR_FACTORY_UNKNOW;
 		
 		for (int i = 0; i < 3; i++)
@@ -118,19 +128,22 @@ public class SensorFactory {
 	
 	
 	
+//	/**
+//	 * @refer SensorListener에서 받아온 값을 넣어주는데 주로 쓰입니다.
+//	 * @param _val : SensorListener에서 "value[]"를 받아옵니다.
+//	 */
+//	public void setSensorValue(float[] _val)
+//	{
+//		for(int i=0; i<3; i++)
+//		{
+//			value_Ori[i]= _val[i];
+//		}
+//	}
+//	
+	
 	/**
 	 * @refer SensorListener에서 받아온 값을 넣어주는데 주로 쓰입니다.
-	 * @param _val : SensorListener에서 "value[]"를 받아옵니다.
-	 */
-	public void setSensorValue(float[] _val)
-	{
-		for(int i=0; i<3; i++)
-		{
-			value_Ori[i]= _val[i];
-		}
-	}
-	/**
-	 * @refer SensorListener에서 받아온 값을 넣어주는데 주로 쓰입니다.
+	 * SensorFactory를 사용할 때 가장 처음 값을 등록하는 부분입니다.
 	 * @param _val : SensorListener에서 "value[]"를 받아옵니다.
 	 * @param _sensor : SensorListener에서 "sensor"를 받아옵니다.
 	 */
@@ -140,7 +153,7 @@ public class SensorFactory {
 		{
 			value_Ori[i]= _val[i];
 		}
-		sensor= _sensor;
+		sensorID= _sensor;
 	}
 	
 	/**
@@ -179,19 +192,11 @@ public class SensorFactory {
 	 */
 	public void debugSensorInfo_Ori()
 	{
-		if (sensor==0)
-		{
-			Log.i("SF_ORIGINAL","( " + Float.toString(Math.round(value_Ori[0]))
-					+",   "+ Float.toString(Math.round(value_Ori[1]))
-					+",   "+ Float.toString(Math.round(value_Ori[2]))
-					+" )");
-		}else{
-			Log.i("SF_ORIGINAL","Sensor= "+sensor
+		Log.i("SF_ORIGINAL","Sensor= "+sensorID
 					+" ( " + Float.toString(Math.round(value_Ori[0]))
 					+",   "+ Float.toString(Math.round(value_Ori[1]))
 					+",   "+ Float.toString(Math.round(value_Ori[2]))
 					+" )");
-		}
 	}
 	
 	public void debugSensorInfo_Changed()

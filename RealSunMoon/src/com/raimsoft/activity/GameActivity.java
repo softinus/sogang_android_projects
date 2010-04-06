@@ -12,7 +12,25 @@ public class GameActivity extends Activity {
 
 	SensorFactory sf= SensorFactory.getSensorFactory();
 	
-	SensorListener mySensorListener = new SensorListener()
+//	SensorListener OrientationListener = new SensorListener()
+//	{
+//		public void onSensorChanged(int sensor, float[] values)
+//		{
+//			// 센서 values 값 넘겨줌
+//			sf.setSensorValue(values, sensor);
+//			sf.getSensorOrientation();
+//			
+//			sf.debugSensorInfo_Changed();
+//			sf.debugSensorInfo_Fixed();
+//		}
+//
+//		public void onAccuracyChanged(int sensor, int accuracy)
+//		{
+//			// 정확도 변경시
+//		}
+//	};
+	
+	SensorListener AcceleroListener = new SensorListener()
 	{
 		public void onSensorChanged(int sensor, float[] values)
 		{
@@ -51,8 +69,12 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onResume() {
 		
-		sf.sensorMgr.registerListener(mySensorListener,
-		         sf.sensorMgr.SENSOR_ORIENTATION,
+//		sf.sensorMgr.registerListener(OrientationListener,
+//		         sf.sensorMgr.SENSOR_ORIENTATION,
+//		         sf.sensorMgr.SENSOR_DELAY_GAME);
+		
+		sf.sensorMgr.registerListener(AcceleroListener,
+		         sf.sensorMgr.SENSOR_ACCELEROMETER,
 		         sf.sensorMgr.SENSOR_DELAY_GAME);
 		
 		super.onResume();
@@ -61,7 +83,8 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onStop() {
 
-		sf.sensorMgr.unregisterListener(mySensorListener);
+		//sf.sensorMgr.unregisterListener(OrientationListener);
+		sf.sensorMgr.unregisterListener(AcceleroListener);
 		
 		super.onStop();
 	}
