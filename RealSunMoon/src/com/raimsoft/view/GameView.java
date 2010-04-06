@@ -41,7 +41,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		thread= new ImgThread(mHolder, context);
 		
 		
-		this.thread.mPlayer=new Player(this, 150,430, 45,50, R.drawable.base_char_left);
+		this.thread.mPlayer=new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
 		this.thread.viewSize_W= this.getWidth();
 		this.thread.viewSize_H= this.getHeight();
 	}
@@ -51,7 +51,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	public class ImgThread extends Thread
 	{
 		private SurfaceHolder mSurfaceHolder;// 화면 제어
-		private boolean mRun=true;			// 동작 여부
+		private boolean bRun=true;			// 동작 여부
 		private boolean bImg_Refreshed=true;
 		
 		private Resources mRes;				// 리소스
@@ -80,7 +80,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		public void run()
 		{
-			while(mRun)
+			while(bRun)
 			{
 				Canvas canvas=null;
 				
@@ -134,12 +134,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						+"Y= "+ Float.toString(Math.round(sf.getSensorValue()[1]))
 						+"Z= "+ Float.toString(Math.round(sf.getSensorValue()[2]))
 						, 5, 60, p);
-//			c.drawText("X= " + Float.toString(sf.getSensorChangedValue().x)
-//						+"Y= "+ Float.toString(sf.getSensorChangedValue().y)
-//					, 5, 75, p);
-//			c.drawText("X= " + Float.toString(sf.getSensorFixedValue().x)
-//					+"Y= "+ Float.toString(sf.getSensorFixedValue().y)
-//				, 5, 90, p);
 		}
 		
 		void doDrawPlayer(Canvas c)
@@ -171,7 +165,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		* @param _Run : 동작 설정 boolean값*/
 		public void setRunning(boolean _Run)
 		{
-			mRun=_Run;
+			bRun=_Run;
 		}
 		
 		
@@ -188,6 +182,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		//this.thread.mPlayer.setState(keyCode);
 		Log.d("Key", Float.toString(keyCode));
+		
+		if (keyCode==event.KEYCODE_MENU)
+		{
+			if (thread.bRun==true)
+			{
+				thread.bRun=false;
+			}else{
+				thread.bRun= true;
+			}
+			
+		}
 		
 		return super.onKeyDown(keyCode, event);
 	}

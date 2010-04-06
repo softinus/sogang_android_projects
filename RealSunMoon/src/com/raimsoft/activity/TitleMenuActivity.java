@@ -7,7 +7,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class TitleMenuActivity extends Activity implements OnClickListener {
-
+	
+	private boolean already_Next;
+	
+	private void Next()
+	{
+		if(!already_Next)
+		{
+			Intent intent=new Intent(TitleMenuActivity.this, GameActivity.class);
+	        startActivity(intent);
+	        already_Next=true;
+	        finish();
+		}
+	}
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -30,8 +44,7 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		if(v.getId()==R.id.start)
 		{
-			Intent intent=new Intent(TitleMenuActivity.this, GameActivity.class);
-			startActivity(intent);
+			Next();
 		}else
 		{
 			finish();

@@ -18,6 +18,7 @@ public class Player {
 	private int spd=5;		// 속도
 	
 	private boolean bStop=false;
+	//private boolean bJump=false;
 	
 	public int Img_id;		// 이미지 ID
 	public int State=0;
@@ -25,7 +26,7 @@ public class Player {
 	private int JumpIdx_Last=51;
 	private int JumpIdx_Present=0;
 	//private int JumpIdx[]={10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10};
-	private int JumpIdx[]={-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10};
+	//private int JumpIdx[]={-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10};
 	private int JumpIdx2[]={-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,
 			0,0,0,0,0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8};
 	
@@ -39,7 +40,7 @@ public class Player {
 		x = (view.getWidth() - wid)/2;
 		y = (view.getHeight() - hei)/2;		
 		
-		Img_id=R.drawable.ms;
+		Img_id=R.drawable.nui_jump_left;
 	}
 	
 	/**
@@ -130,12 +131,12 @@ public class Player {
 		
 		if (this.State==KeyEvent.KEYCODE_DPAD_LEFT)
 		{
-			this.Img_id= R.drawable.base_char_left;
+			this.Img_id= R.drawable.nui_jump_left;
 			view.thread.setImg_Refresh();
 		}
 		if (this.State==KeyEvent.KEYCODE_DPAD_RIGHT)
 		{
-			this.Img_id= R.drawable.base_char_right;
+			this.Img_id= R.drawable.nui_jump_right;
 			view.thread.setImg_Refresh();
 		}
 	}	
@@ -287,6 +288,13 @@ public class Player {
 	
 	public void JumpAlways()
 	{
+//		if (JumpIdx2[JumpIdx_Present]>0)
+//		{
+//			bJump=true;
+//		}else{
+//			bJump=false;
+//		}
+		
 		this.y+= JumpIdx2[JumpIdx_Present];
 		Log.d("Player::y", Float.toString(JumpIdx2[JumpIdx_Present]));
 		
