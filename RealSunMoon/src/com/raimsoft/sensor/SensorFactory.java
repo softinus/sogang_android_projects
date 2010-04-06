@@ -14,7 +14,7 @@ import android.util.Log;
 public class SensorFactory {
 	
 	private static SensorFactory sf= new SensorFactory();
-	public SensorManager sm;
+	public SensorManager sensorMgr;
 	
 	private float value_Ori[]= new float[3];		// Listener에서 받아오는 원본 값
 	private float value_Prev[]= new float[3];		// 수정 이전에 받아오는 값

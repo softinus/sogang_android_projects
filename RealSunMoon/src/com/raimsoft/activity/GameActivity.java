@@ -39,7 +39,7 @@ public class GameActivity extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		
-		sf.sm = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+		sf.sensorMgr = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 	}
 
 	@Override
@@ -51,9 +51,9 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onResume() {
 		
-		sf.sm.registerListener(mySensorListener,
-		         sf.sm.SENSOR_ORIENTATION,
-		         sf.sm.SENSOR_DELAY_GAME);
+		sf.sensorMgr.registerListener(mySensorListener,
+		         sf.sensorMgr.SENSOR_ORIENTATION,
+		         sf.sensorMgr.SENSOR_DELAY_GAME);
 		
 		super.onResume();
 	}
@@ -61,7 +61,7 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onStop() {
 
-		sf.sm.unregisterListener(mySensorListener);
+		sf.sensorMgr.unregisterListener(mySensorListener);
 		
 		super.onStop();
 	}
