@@ -240,23 +240,23 @@ public class Player {
 		}
 	}
 	
-	public void SensorMove(Point _val_Pos)
+	public void SensorMove(Point _val_Fix)
 	{
-		if (_val_Pos.x > 0 && _val_Pos.x != 0)
+		if (_val_Fix.x < 0 && _val_Fix.x != 0)
 		{
 			this.setState(KeyEvent.KEYCODE_DPAD_LEFT);
-		}else if (_val_Pos.x < 0 && _val_Pos.x != 0) 
+		}else if (_val_Fix.x > 0 && _val_Fix.x != 0) 
 		{
 			this.setState(KeyEvent.KEYCODE_DPAD_RIGHT);
 		}
 		
-		if(Math.abs(_val_Pos.x) < 10)
-		{// 일정 속도 이상의 값이면 무시
-			if (((this.x - _val_Pos.x) > 0) && ((this.x - _val_Pos.x) < view.getWidth()-this.wid))
-			{// Out of screen check
-				this.x -= _val_Pos.x;
-			}
+		//if(Math.abs(_val_Fix.x) < 10)
+		// 일정 속도 이상의 값이면 무시
+		if (((this.x + _val_Fix.x) > 0) && ((this.x + _val_Fix.x) < view.getWidth()-this.wid))
+		{// Out of screen check
+			this.x += _val_Fix.x *0.2;
 		}
+		//}
 		//this.y += _val_Pos.y;
 	}
 

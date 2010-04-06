@@ -16,13 +16,13 @@ public class SensorFactory {
 	private static SensorFactory sf= new SensorFactory();
 	public SensorManager sm;
 	
-	private float value_Ori[]= new float[3];
-	private float value_Prev[]= new float[3];
-	private float value_Measure[]= new float[3];
-	private final float value_Scale[]= new float[] { 2, 2.5f, 0.5f };
+	private float value_Ori[]= new float[3];		// Listener에서 받아오는 원본 값
+	private float value_Prev[]= new float[3];		// 수정 이전에 받아오는 값
+	private float value_Measure[]= new float[3];	// 수정된 값
+	//private final float value_Scale[]= new float[] { 2, 2.5f, 0.5f };	// 보정 값
 
-	private Point value_Pos=new Point(0,0);
-	private Point value_Fix=new Point(0,0);
+	private Point value_Pos=new Point(0,0);			// 변경 값
+	private Point value_Fix=new Point(0,0);			// 변경 누적 값
 	
 	private int sensor=0;
 	
@@ -33,7 +33,7 @@ public class SensorFactory {
 	public final int SENSOR_FACTORY_DOWN	= 3;
 	public final int SENSOR_FACTORY_UP		= 4;
 	
-	public int Present_Orientation= -1;
+	public int Present_Orientation= -1;				// 현재 방향 (위 상수 참조)
 	
 	
 	private SensorFactory() {
