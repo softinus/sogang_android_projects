@@ -162,7 +162,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		{
 			//mPlayer.MoveAway();
 			mPlayer.SensorMove(sf.compressFloat2Point(sf.getSensorValue()));
-			//mPlayer.JumpAlways();
+			mPlayer.JumpAlways();
 		}
 		
 		

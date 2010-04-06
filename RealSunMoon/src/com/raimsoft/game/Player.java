@@ -2,6 +2,7 @@ package com.raimsoft.game;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.raimsoft.activity.R;
@@ -21,9 +22,12 @@ public class Player {
 	public int Img_id;		// 이미지 ID
 	public int State=0;
 	
-	private int JumpIdx_Last=10;
+	private int JumpIdx_Last=51;
 	private int JumpIdx_Present=0;
-	public int JumpIdx[]={5,4,3,2,1,-1,-2,-3,-4,-5};
+	//private int JumpIdx[]={10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10};
+	private int JumpIdx[]={-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10};
+	private int JumpIdx2[]={-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,
+			0,0,0,0,0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8};
 	
 	/**
 	 * 플레이어 위치는 자동 중앙배치하는 기본 생성자
@@ -283,11 +287,13 @@ public class Player {
 	
 	public void JumpAlways()
 	{
-		this.y+= JumpIdx[JumpIdx_Present];
+		this.y+= JumpIdx2[JumpIdx_Present];
+		Log.d("Player::y", Float.toString(JumpIdx2[JumpIdx_Present]));
+		
 		if (JumpIdx_Present == JumpIdx_Last)
 		{
 			JumpIdx_Present=0;
 		}
-		JumpIdx_Present++;
+		JumpIdx_Present++;		
 	}
 }
