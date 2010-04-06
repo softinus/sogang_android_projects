@@ -22,6 +22,7 @@ public class SensorFactory {
 	private final float value_Scale[]= new float[] { 2, 2.5f, 0.5f };
 
 	private Point value_Pos=new Point(0,0);
+	private Point value_Fix=new Point(0,0);
 	
 	private int sensor=0;
 	
@@ -59,12 +60,19 @@ public class SensorFactory {
 		
 		for (int i = 0; i < 3; i++)
         {
-			value_Measure[i] = Math.round(value_Scale[i] * (value_Ori[i] - value_Prev[i]) * 0.45f);
+			value_Measure[i] = Math.round((value_Ori[i] - value_Prev[i]));
             value_Prev[i] = value_Ori[i];
         }
 		
         value_Pos.x = Math.round(value_Measure[0]);
         value_Pos.y = Math.round(value_Measure[1]);
+        
+        if (Math.abs(value_Pos.x) <= 10)	// 갑자기 큰 폭으로 변경되면 fix값에서 누적제외
+        {
+        	value_Fix.x -= value_Pos.x;
+            value_Fix.y -= value_Pos.y;
+        }
+       
         
         boolean gestX = Math.abs(value_Pos.x) > 3;
         boolean gestY = Math.abs(value_Pos.y) > 3;
@@ -109,16 +117,6 @@ public class SensorFactory {
 	}
 	
 	
-	/**
-	 * 변화된 값(value_Measure)을 가져옵니다.
-	 * 이 메소드는 현재 클래스의 getSensorOrientation() 메소드와 함께 실행되므로
-	 * 방향과 변화된 값을 같이 가져올 수 있습니다.
-	 * @return 변화된 값을 실시간으로 가져옵니다.
-	 */
-	public Point getSensorChangedValue()
-	{
-		return value_Pos;
-	}
 	
 	/**
 	 * @refer SensorListener에서 받아온 값을 넣어주는데 주로 쓰입니다.
@@ -154,25 +152,59 @@ public class SensorFactory {
 		return value_Ori;
 	}
 	
+
+	/**
+	 * 변화된 값(value_Measure)을 가져옵니다.
+	 * @return 기존 SensorListener에서 가져온 값에서 주기적으로 변화된 값
+	 */
+	public Point getSensorChangedValue()
+	{
+		return value_Pos;
+	}
+	
+	/**
+	 * 변화된 값(value_Measur)의 고정값을 가져옵니다.
+	 * @return 현재 위치의 고정값
+	 */
+	public Point getSensorFixedValue()
+	{
+		return value_Fix;
+	}
+	
+	
 	/**
 	 * 센서의 정보를 Logcat으로 출력합니다.
 	 * SensorListenr에서 sensor값을 받아오는 오버로드된 메소드를 사용한 경우
 	 * sensor값까지 출력됩니다.
 	 */
-	public void debugSensorInfo()
+	public void debugSensorInfo_Ori()
 	{
 		if (sensor==0)
 		{
-			Log.i("Sensor_DEBUG","( " + Float.toString(Math.round(value_Ori[0]))
+			Log.i("SF_ORIGINAL","( " + Float.toString(Math.round(value_Ori[0]))
 					+",   "+ Float.toString(Math.round(value_Ori[1]))
 					+",   "+ Float.toString(Math.round(value_Ori[2]))
 					+" )");
 		}else{
-			Log.i("Sensor_DEBUG","Sensor= "+sensor
+			Log.i("SF_ORIGINAL","Sensor= "+sensor
 					+" ( " + Float.toString(Math.round(value_Ori[0]))
 					+",   "+ Float.toString(Math.round(value_Ori[1]))
 					+",   "+ Float.toString(Math.round(value_Ori[2]))
 					+" )");
 		}
+	}
+	
+	public void debugSensorInfo_Changed()
+	{
+		Log.i("SF_POSITION","( " + Float.toString(value_Pos.x)
+							+",   "+ Float.toString(value_Pos.y)
+							+" )");
+	}
+	
+	public void debugSensorInfo_Fixed()
+	{
+		Log.i("SF_FIXED","( " + Float.toString(value_Fix.x)
+							+",   "+ Float.toString(value_Fix.y)
+							+" )");
 	}
 }

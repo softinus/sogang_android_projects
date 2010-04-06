@@ -18,13 +18,15 @@ public class GameActivity extends Activity {
 		{
 			// 센서 values 값 넘겨줌
 			sf.setSensorValue(values, sensor);
-			//sf.debugSensorInfo();
 			sf.getSensorOrientation();
+			
+			sf.debugSensorInfo_Changed();
+			sf.debugSensorInfo_Fixed();
 		}
 
 		public void onAccuracyChanged(int sensor, int accuracy)
 		{
-			//�ڵ� ��� �޼���
+			// 정확도 변경시
 		}
 	};
 	

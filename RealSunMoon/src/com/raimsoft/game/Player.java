@@ -245,12 +245,18 @@ public class Player {
 		if (_val_Pos.x > 0 && _val_Pos.x != 0)
 		{
 			this.setState(KeyEvent.KEYCODE_DPAD_LEFT);
-		}else
+		}else if (_val_Pos.x < 0 && _val_Pos.x != 0) 
 		{
 			this.setState(KeyEvent.KEYCODE_DPAD_RIGHT);
 		}
 		
-		this.x -= _val_Pos.x;
+		if(Math.abs(_val_Pos.x) < 10)
+		{// 일정 속도 이상의 값이면 무시
+			if (((this.x - _val_Pos.x) > 0) && ((this.x - _val_Pos.x) < view.getWidth()-this.wid))
+			{// Out of screen check
+				this.x -= _val_Pos.x;
+			}
+		}
 		//this.y += _val_Pos.y;
 	}
 

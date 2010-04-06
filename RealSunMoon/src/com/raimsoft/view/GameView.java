@@ -134,19 +134,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						+"Y= "+ Float.toString(Math.round(sf.getSensorValue()[1]))
 						+"Z= "+ Float.toString(Math.round(sf.getSensorValue()[2]))
 						, 5, 60, p);
-			c.drawText("X= " + Float.toString(Math.round(sf.getSensorChangedValue().x))
-						+"Y= "+ Float.toString(Math.round(sf.getSensorChangedValue().y))
+			c.drawText("X= " + Float.toString(sf.getSensorChangedValue().x)
+						+"Y= "+ Float.toString(sf.getSensorChangedValue().y)
 					, 5, 75, p);
-			//c.drawText("dsadsadsad", 5, 100, p);
+			c.drawText("X= " + Float.toString(sf.getSensorFixedValue().x)
+					+"Y= "+ Float.toString(sf.getSensorFixedValue().y)
+				, 5, 90, p);
 		}
 		
 		void doDrawPlayer(Canvas c)
-		{
-			//Player_Bitmap= BitmapFactory.decodeResource(mRes, mPlayer.Img_id);
-			//Rect rPlayer=new Rect(mPlayer.getX(), mPlayer.getY(), mPlayer.getX()+mPlayer.getWidth(), mPlayer.getY()+mPlayer.getHeight());
-			//c.drawBitmap(BitmapFactory.decodeResource(mRes, mPlayer.Img_id), mPlayer.getStateImgRect(), mPlayer.getPlayerForRect(), null);
-			//c.drawBitmap(mPlayer_Bitmap, mPlayer.getX(), mPlayer.getY(), null);
-			
+		{			
 			c.save();
 			
 			if(bImg_Refreshed)
