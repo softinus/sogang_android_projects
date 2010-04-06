@@ -134,12 +134,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						+"Y= "+ Float.toString(Math.round(sf.getSensorValue()[1]))
 						+"Z= "+ Float.toString(Math.round(sf.getSensorValue()[2]))
 						, 5, 60, p);
-			c.drawText("X= " + Float.toString(sf.getSensorChangedValue().x)
-						+"Y= "+ Float.toString(sf.getSensorChangedValue().y)
-					, 5, 75, p);
-			c.drawText("X= " + Float.toString(sf.getSensorFixedValue().x)
-					+"Y= "+ Float.toString(sf.getSensorFixedValue().y)
-				, 5, 90, p);
+//			c.drawText("X= " + Float.toString(sf.getSensorChangedValue().x)
+//						+"Y= "+ Float.toString(sf.getSensorChangedValue().y)
+//					, 5, 75, p);
+//			c.drawText("X= " + Float.toString(sf.getSensorFixedValue().x)
+//					+"Y= "+ Float.toString(sf.getSensorFixedValue().y)
+//				, 5, 90, p);
 		}
 		
 		void doDrawPlayer(Canvas c)
@@ -161,7 +161,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		public void doMove()
 		{
 			//mPlayer.MoveAway();
-			mPlayer.SensorMove(sf.getSensorFixedValue());
+			mPlayer.SensorMove(sf.compressFloat2Point(sf.getSensorValue()));
 			//mPlayer.JumpAlways();
 		}
 		

@@ -36,10 +36,8 @@ public class GameActivity extends Activity {
 		{
 			// 센서 values 값 넘겨줌
 			sf.setSensorValue(values, sensor);
-			sf.getSensorOrientation();
-			
-			sf.debugSensorInfo_Changed();
-			sf.debugSensorInfo_Fixed();
+
+			sf.debugSensorInfo_Ori();
 		}
 
 		public void onAccuracyChanged(int sensor, int accuracy)

@@ -13,16 +13,26 @@ import android.util.Log;
  */
 public class SensorFactory {
 	
+	
+	//============================COMMON============================//
 	private static SensorFactory sf= new SensorFactory();	// 싱글톤
 	public SensorManager sensorMgr;					// 센서매니져
 	
 	private float value_Ori[]= new float[3];		// Listener에서 받아오는 원본 값
-	private float value_Prev[]= new float[3];		// 수정 이전에 받아오는 값
-	private float value_Measure[]= new float[3];	// 수정된 값
-	//private final float value_Scale[]= new float[] { 2, 2.5f, 0.5f };	// 보정 값
-
+	
 	private Point value_Pos=new Point(0,0);			// 변경 값
 	private Point value_Fix=new Point(0,0);			// 변경 누적 값
+	//==============================================================//
+	
+	//======================SENSOR.ORIENTATION======================//
+	private float value_Prev[]= new float[3];		// 수정 이전에 받아오는 값
+	private float value_Measure[]= new float[3];	// 수정된 값
+	//private final float value_Scale[]= new float[] { 2, 2.5f, 0.5f };	// 보정 값	
+	//==============================================================//
+	
+	//======================SENSOR.ACCELOMETER======================//
+	//private float value_Adjust[]= new float[3];
+	//==============================================================//
 	
 	private int sensorID;							// 센서 ID
 	
@@ -167,21 +177,44 @@ public class SensorFactory {
 	
 
 	/**
-	 * 변화된 값(value_Measure)을 가져옵니다.
+	 * 변화된 값(value_Pos)을 가져옵니다.
 	 * @return 기존 SensorListener에서 가져온 값에서 주기적으로 변화된 값
 	 */
-	public Point getSensorChangedValue()
+	public Point getSensorPosValue()
 	{
 		return value_Pos;
 	}
 	
+	
 	/**
-	 * 변화된 값(value_Measur)의 고정값을 가져옵니다.
-	 * @return 현재 위치의 고정값
+	 * 변화된 값(value_Measure)을 가져옵니다.
+	 * @return 기존 SensorListener에서 가져온 값에서 주기적으로 변화된 값
+	 */
+	public float[] getSensorChangedValue()
+	{
+		return value_Measure;
+	}
+	
+	
+	
+	
+	/**
+	 * 변화된 값(value_Fix)의 누적값을 가져옵니다.
+	 * @return 현재 위치의 고정누적값
 	 */
 	public Point getSensorFixedValue()
 	{
 		return value_Fix;
+	}
+	
+	
+	
+	public Point compressFloat2Point(float[] f)
+	{
+		Point p=new Point();
+		p.x= (int) f[0];
+		p.y= (int) f[1];
+		return p;
 	}
 	
 	
