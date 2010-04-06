@@ -242,7 +242,7 @@ public class Player {
 	
 	public void SensorMove(Point _val_)
 	{
-		if (_val_.x < 0 && _val_.x != 0)
+		if (_val_.x < 0 && _val_.x != 0)	// 방향 체크
 		{
 			this.setState(KeyEvent.KEYCODE_DPAD_LEFT);
 		}else if (_val_.x > 0 && _val_.x != 0) 
@@ -250,14 +250,10 @@ public class Player {
 			this.setState(KeyEvent.KEYCODE_DPAD_RIGHT);
 		}
 		
-		//if(Math.abs(_val_Fix.x) < 10)
-		// 일정 속도 이상의 값이면 무시
 		if (((this.x + _val_.x) > 0) && ((this.x + _val_.x) < view.getWidth()-this.wid))
 		{// Out of screen check
 			this.x += _val_.x;
 		}
-		//}
-		//this.y += _val_Pos.y;
 	}
 
 	/**

@@ -61,7 +61,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		public Player mPlayer;				// 플레이어 객체
 
 		private int Frame, fps, curTime;	// 프레임, 초당프레임, 현재프레임
-		private int delTime=10;				// Thread딜레이
+		private int delTime=5;				// Thread딜레이
 		
 		private int BackSize=5760;			// 배경세로길이
 		private int viewSize_W, viewSize_H;	// 뷰 가로, 세로 길이
