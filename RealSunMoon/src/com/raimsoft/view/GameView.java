@@ -132,13 +132,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			p.setColor(Color.argb(0xff, 255, 0, 255));
 
 			c.drawText("Frame= " + Float.toString(Frame), 5, 15, p);
-			c.drawText("X= "+Float.toString(mPlayer.getX()) + "  Y= "+Float.toString(mPlayer.getY()), 5, 30, p);
-			c.drawText("State= " + Float.toString(mPlayer.State), 5, 45, p);
+			c.drawText("X= "+Float.toString(mPlayer.getX()) 
+						+ ", Y= "+Float.toString(mPlayer.getY()),
+						mPlayer.getX(), mPlayer.getY(), p);
+			c.drawText("State= " + Float.toString(mPlayer.State), 5, 30, p);
 			
 			c.drawText("X= " + Float.toString(Math.round(sf.getSensorValue()[0]))
 						+"Y= "+ Float.toString(Math.round(sf.getSensorValue()[1]))
 						+"Z= "+ Float.toString(Math.round(sf.getSensorValue()[2]))
-						, 5, 60, p);
+						, 5, 45, p);
+			
+			c.drawText("X= "+ Float.toString(mTreadle.getX())
+						+", Y= "+ Float.toString(mTreadle.getY()),
+					mTreadle.getX(), mTreadle.getY(), p);
 		}
 		
 		void doDrawObject(Canvas c)
