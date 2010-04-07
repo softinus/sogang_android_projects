@@ -2,6 +2,8 @@ package com.raimsoft.game;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.view.KeyEvent;
 
 import com.raimsoft.view.GameView;
 
@@ -13,25 +15,21 @@ public class GameObject {
 	protected int hei;		// 높이
 	
 	public int Img_id;		// 이미지 ID
-	
+	public Drawable Img_Drawable;	// 이미지 Drawable
 
-	public GameObject()
-	{
-		
-	}
-	
-
+	public GameObject(){}	// 기본 생성자
 	
 	/**
 	 * 현재 오브젝트 위치를 Rect값으로 리턴해준다.
-	 * @return 현재 Player 객체의 Rect값
+	 * @return 현재 Object 객체의 Rect값
 	 */
-	public Rect getPlayerForRect()
+	public Rect getObjectForRect()
 	{
 		Rect rct = new Rect (this.x, this.y, this.x+this.wid, this.y+this.hei);
 		return rct;
 	}
 	
+
 	
 	public int getX()
 	{

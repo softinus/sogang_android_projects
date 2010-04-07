@@ -95,16 +95,6 @@ public class Player extends GameObject {
 		Img_id=Image_ID;
 	}
 	
-	/**
-	 * 현재 오브젝트 위치를 Rect값으로 리턴해준다.
-	 * @return 현재 Player 객체의 Rect값
-	 */
-	public Rect getPlayerForRect()
-	{
-		Rect rct = new Rect (this.x, this.y, this.x+this.wid, this.y+this.hei);
-		return rct;
-	}
-	
 	// 현재 Bitmap을 Drawable로 바꾸면서 안쓰게 되었음.
 	public Rect getStateImgRect()
 	{
@@ -121,6 +111,7 @@ public class Player extends GameObject {
 		return rct;
 	}
 	
+	
 	public void setState(int _state)
 	{
 		if (this.State==_state)	// 이전 State와 비교해서 변경이 없으면 넘어감
@@ -129,12 +120,12 @@ public class Player extends GameObject {
 		if (_state==KeyEvent.KEYCODE_DPAD_LEFT)
 		{
 			this.Img_id= R.drawable.nui_jump_left;
-			view.thread.setImg_Refresh();
+			view.thread.setPlayerImg_Refresh();
 		}
 		if (_state==KeyEvent.KEYCODE_DPAD_RIGHT)
 		{
 			this.Img_id= R.drawable.nui_jump_right;
-			view.thread.setImg_Refresh();
+			view.thread.setPlayerImg_Refresh();
 		}
 		this.State	=_state;
 	}	

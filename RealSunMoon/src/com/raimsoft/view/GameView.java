@@ -22,8 +22,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.raimsoft.activity.R;
-import com.raimsoft.game.GameObject;
 import com.raimsoft.game.Player;
+import com.raimsoft.game.Treadle;
 import com.raimsoft.sensor.SensorFactory;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
@@ -43,6 +43,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		
 		this.thread.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
+		this.thread.mTreadle= new Treadle(this, 100, 100, 105,55, R.drawable.treadle_cloud);
+		
 		this.thread.viewSize_W= this.getWidth();
 		this.thread.viewSize_H= this.getHeight();
 	}
@@ -53,14 +55,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	{
 		private SurfaceHolder mSurfaceHolder;// 화면 제어
 		private boolean bRun=true;			// 동작 여부
-		private boolean bImg_Refreshed=true;
+		private boolean bPlayer_ImgRefreshed=true;
+		private boolean bTreadle_ImgRefreshed=true;
+
+		public Player mPlayer;				// 플레이어 객체
+		public Treadle mTreadle;		
 		
 		private Resources mRes;				// 리소스
 
 		private Bitmap bBackground;			// 배경
-		private Drawable Base_char;			// 캐릭터 이미지
-		public Player mPlayer;				// 플레이어 객체
-
+		
 		private int Frame, fps, curTime;	// 프레임, 초당프레임, 현재프레임
 		private int delTime=5;				// Thread딜레이
 		
@@ -92,7 +96,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 					{
 						doDrawBackGround(canvas);
 						doDrawText(canvas);
-						doDrawPlayer(canvas);
+						doDrawObject(canvas);
 						doMove();
 						
 						sleep(delTime);
@@ -137,19 +141,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						, 5, 60, p);
 		}
 		
-		void doDrawPlayer(Canvas c)
+		void doDrawObject(Canvas c)
 		{			
 			c.save();
 			
-			if(bImg_Refreshed)
+			if(bPlayer_ImgRefreshed)
 			{
-				Log.d("DEBUG", "Call bImg_Refreshed");
-				Base_char= mRes.getDrawable(mPlayer.Img_id);
-				bImg_Refreshed= false;
+				Log.d("DEBUG", "Call Player_ImgRefreshed");
+				mPlayer.Img_Drawable= mRes.getDrawable(mPlayer.Img_id);
+				bPlayer_ImgRefreshed= false;
 			}
 			
-			Base_char.setBounds(mPlayer.getPlayerForRect());
-			Base_char.draw(c);
+			if(bTreadle_ImgRefreshed)
+			{
+				mTreadle.Img_Drawable= mRes.getDrawable(mTreadle.Img_id);
+			}
+			
+			mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());
+			mPlayer.Img_Drawable.draw(c);
+			
+			mTreadle.Img_Drawable.setBounds(mTreadle.getObjectForRect());
+			mTreadle.Img_Drawable.draw(c);
 			
 			c.restore();
 		}
@@ -171,9 +183,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}
 		
 		
-		public void setImg_Refresh()
+		public void setPlayerImg_Refresh()
 		{
-			bImg_Refreshed= true;
+			bPlayer_ImgRefreshed= true;
+		}
+		public void setTreadleImg_Refresh()
+		{
+			bTreadle_ImgRefreshed= true;
 		}
 	}
 		
