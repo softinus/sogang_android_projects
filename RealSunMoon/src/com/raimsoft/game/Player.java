@@ -8,19 +8,14 @@ import android.view.KeyEvent;
 import com.raimsoft.activity.R;
 import com.raimsoft.view.GameView;
 
-public class Player {
+public class Player extends GameObject {
 	
-	private GameView view;	// 뷰
-	
-	private int x,y;		// 위치(X,Y)
-	private int wid;		// 폭
-	private int hei;		// 높이
+
 	private int spd=5;		// 속도
 	
 	private boolean bStop=false;
 	//private boolean bJump=false;
 	
-	public int Img_id;		// 이미지 ID
 	public int State=0;
 	
 	private int JumpIdx_Last=51;
@@ -29,6 +24,7 @@ public class Player {
 	//private int JumpIdx[]={-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10};
 	private int JumpIdx2[]={-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,
 			0,0,0,0,0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8};
+	
 	
 	/**
 	 * 플레이어 위치는 자동 중앙배치하는 기본 생성자
@@ -100,7 +96,7 @@ public class Player {
 	}
 	
 	/**
-	 * 현재 캐릭터값을 Rect로 리턴해준다.
+	 * 현재 오브젝트 위치를 Rect값으로 리턴해준다.
 	 * @return 현재 Player 객체의 Rect값
 	 */
 	public Rect getPlayerForRect()
@@ -143,63 +139,7 @@ public class Player {
 	
 	
 	
-	public int getX()
-	{
-		return x;
-	}
-	public int getY()
-	{
-		return y;
-	}
-	
-	public int getWidth()
-	{
-		return wid;
-	}
-	public int getHeight()
-	{
-		return hei;
-	}
-	
-	public Point getPos()
-	{
-		Point p = null;
-		p.x=this.x;
-		p.y=this.y;
-		return p;
-	}
 
-	
-	public void SetChangeX(int x)
-	{
-		this.x += x;
-	}
-	public void SetChangeY(int y)
-	{
-		this.x += y;
-	}
-
-	public void SetChangePos(int x, int y)
-	{
-		this.x += x;
-		this.y += y;
-	}
-	
-	public void SetPos(int x, int y)
-	{
-		this.x=x;
-		this.y=y;
-	}
-	public void SetPos(Point p)
-	{
-		this.x=p.x;
-		this.y=p.y;
-	}
-	
-	public void SetImage(int Image_ID)
-	{
-		this.Img_id=Image_ID;
-	}
 
 	public void setSpeed(int Speed)
 	{

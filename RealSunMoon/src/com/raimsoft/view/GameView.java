@@ -22,6 +22,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.raimsoft.activity.R;
+import com.raimsoft.game.GameObject;
 import com.raimsoft.game.Player;
 import com.raimsoft.sensor.SensorFactory;
 
@@ -41,7 +42,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		thread= new ImgThread(mHolder, context);
 		
 		
-		this.thread.mPlayer=new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
+		this.thread.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
 		this.thread.viewSize_W= this.getWidth();
 		this.thread.viewSize_H= this.getHeight();
 	}
