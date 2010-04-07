@@ -143,6 +143,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			
 			if(bImg_Refreshed)
 			{
+				Log.d("DEBUG", "Call bImg_Refreshed");
 				Base_char= mRes.getDrawable(mPlayer.Img_id);
 				bImg_Refreshed= false;
 			}

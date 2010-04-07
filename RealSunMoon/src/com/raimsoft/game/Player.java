@@ -123,18 +123,20 @@ public class Player extends GameObject {
 	
 	public void setState(int _state)
 	{
-		this.State	=_state;
+		if (this.State==_state)	// 이전 State와 비교해서 변경이 없으면 넘어감
+			return;
 		
-		if (this.State==KeyEvent.KEYCODE_DPAD_LEFT)
+		if (_state==KeyEvent.KEYCODE_DPAD_LEFT)
 		{
 			this.Img_id= R.drawable.nui_jump_left;
 			view.thread.setImg_Refresh();
 		}
-		if (this.State==KeyEvent.KEYCODE_DPAD_RIGHT)
+		if (_state==KeyEvent.KEYCODE_DPAD_RIGHT)
 		{
 			this.Img_id= R.drawable.nui_jump_right;
 			view.thread.setImg_Refresh();
 		}
+		this.State	=_state;
 	}	
 	
 	
@@ -187,6 +189,7 @@ public class Player extends GameObject {
 	
 	public void SensorMove(Point _val_)
 	{
+		
 		if (_val_.x < 0 && _val_.x != 0)	// 방향 체크
 		{
 			this.setState(KeyEvent.KEYCODE_DPAD_LEFT);
@@ -236,7 +239,7 @@ public class Player extends GameObject {
 //		}
 		
 		this.y+= JumpIdx2[JumpIdx_Present];
-		Log.d("Player::y", Float.toString(JumpIdx2[JumpIdx_Present]));
+		//Log.d("Player::y", Float.toString(JumpIdx2[JumpIdx_Present]));
 		
 		if (JumpIdx_Present == JumpIdx_Last)
 		{
