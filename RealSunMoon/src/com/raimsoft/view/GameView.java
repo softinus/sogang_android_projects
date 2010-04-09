@@ -14,7 +14,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -24,7 +23,7 @@ import android.view.SurfaceView;
 
 import com.raimsoft.activity.R;
 import com.raimsoft.game.Player;
-import com.raimsoft.game.Treadle;
+import com.raimsoft.game.TreadleManager;
 import com.raimsoft.sensor.SensorFactory;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
@@ -44,7 +43,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		
 		this.thread.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
-		this.thread.mTreadle= new Treadle(this, 30, 350, 105,55, R.drawable.treadle_cloud);
+		//this.thread.mTreadle= new Treadle(this, 30, 350, 105,55, R.drawable.treadle_cloud);
+		this.thread.treadleMgr= new TreadleManager(this);
 		
 		//this.thread.viewSize_W= this.getWidth();
 		//this.thread.viewSize_H= this.getHeight();
@@ -60,7 +60,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		private boolean bTreadle_ImgRefreshed=true;	//
 
 		public Player mPlayer;				// 플레이어 객체
-		public Treadle mTreadle;			// 발판 객체
+		//public Treadle mTreadle;			// 발판 객체
+		public TreadleManager treadleMgr;
 		
 		private Resources mRes;				// 리소스
 		Paint p=new Paint();				// 페인트
@@ -70,7 +71,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		private int Frame, fps, curTime;	// 프레임, 초당프레임, 현재시간
 		private int delTime=5;				// Thread딜레이
 		
-		private int BackSize=5760;			// 배경세로길이
+		public int BackSize=5760;			// 배경세로길이
 		//private int viewSize_W, viewSize_H;	// 뷰 가로, 세로 길이
 
 		
@@ -146,9 +147,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						+"Z= "+ Float.toString(Math.round(sf.getSensorValue()[2]))
 						, 5, 45, p);
 			
-			c.drawText("X= "+ Float.toString(mTreadle.getX())
-						+", Y= "+ Float.toString(mTreadle.getY()),
-					mTreadle.getX(), mTreadle.getY(), p);
+//			c.drawText("X= "+ Float.toString(mTreadle.getX())
+//						+", Y= "+ Float.toString(mTreadle.getY()),
+//					mTreadle.getX(), mTreadle.getY(), p);
 		}
 		
 		void doDrawObject(Canvas c)
@@ -164,11 +165,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			
 			if(bTreadle_ImgRefreshed)
 			{
-				mTreadle.Img_Drawable= mRes.getDrawable(mTreadle.Img_id);
+				//mTreadle.Img_Drawable= mRes.getDrawable(mTreadle.Img_id);
 			}
 			
-			mTreadle.Img_Drawable.setBounds(mTreadle.getObjectForRect());
-			mTreadle.Img_Drawable.draw(c);
+//			mTreadle.Img_Drawable.setBounds(mTreadle.getObjectForRect());
+//			mTreadle.Img_Drawable.draw(c);
 			
 			mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());
 			mPlayer.Img_Drawable.draw(c);
@@ -182,7 +183,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			//mPlayer.MoveAway();
 			mPlayer.SensorMove(sf.compressFloat2Point(sf.getSensorValue()));
 			mPlayer.JumpAlways();
-			mPlayer.CollisionTreadle(mTreadle.getObjectForRectHalf(false));
+			//mPlayer.CollisionTreadle(mTreadle.getObjectForRectHalf(false));
 			
 		}
 		
