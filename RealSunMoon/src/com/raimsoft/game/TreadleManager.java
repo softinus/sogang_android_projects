@@ -9,7 +9,7 @@ public class TreadleManager {
 	
 	private GameView view;
 	public Treadle[] treadle;
-	private final int GAP=	80;
+	private final int GAP=	120;
 	private int treadle_cnt;
 	
 	public TreadleManager(GameView _view)
@@ -26,7 +26,7 @@ public class TreadleManager {
 	{
 		for (int i=0; i<treadle_cnt; i++)
 		{
-			treadle[i]= new Treadle(view, -2, GAP*(i+1), 105, 55, R.drawable.treadle_cloud);
+			treadle[i]= new Treadle(view, -2, GAP*(i-1), 105, 55, R.drawable.treadle_cloud);
 		}
 	}
 	

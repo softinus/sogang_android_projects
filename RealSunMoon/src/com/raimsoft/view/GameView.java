@@ -147,12 +147,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						+"Z= "+ Float.toString(Math.round(sf.getSensorValue()[2]))
 						, 5, 45, p);
 			
-			for (int i=0; i<5; i++)
-			{
-			c.drawText("X= "+ Float.toString(treadleMgr.treadle[i].getX())
-						+", Y= "+ Float.toString(treadleMgr.treadle[i].getY()),
-						treadleMgr.treadle[i].getX(), treadleMgr.treadle[i].getY(), p);
-			}
+//			for (int i=0; i<5; i++)
+//			{
+//			c.drawText("X= "+ Float.toString(treadleMgr.treadle[i].getX())
+//						+", Y= "+ Float.toString(treadleMgr.treadle[i].getY()),
+//						treadleMgr.treadle[i].getX(), treadleMgr.treadle[i].getY(), p);
+//			}
 		}
 		
 		void doDrawObject(Canvas c)
@@ -169,10 +169,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			if(bTreadle_ImgRefreshed)
 			{
 				//mTreadle.Img_Drawable= mRes.getDrawable(mTreadle.Img_id);
+				for (int i=0; i<5; i++)
+				{
+					treadleMgr.treadle[i].Img_Drawable= mRes.getDrawable(R.drawable.treadle_cloud);
+				}
+				bTreadle_ImgRefreshed=false;
 			}
 			
 //			mTreadle.Img_Drawable.setBounds(mTreadle.getObjectForRect());
 //			mTreadle.Img_Drawable.draw(c);
+			
+			for (int i=0; i<5; i++)
+			{
+				treadleMgr.treadle[i].Img_Drawable.setBounds(treadleMgr.treadle[i].getObjectForRect());
+				treadleMgr.treadle[i].Img_Drawable.draw(c);				
+			}
+			
 			
 			mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());
 			mPlayer.Img_Drawable.draw(c);
@@ -187,6 +199,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			mPlayer.SensorMove(sf.compressFloat2Point(sf.getSensorValue()));
 			mPlayer.JumpAlways();
 			//mPlayer.CollisionTreadle(mTreadle.getObjectForRectHalf(false));
+			
+			for (int i=0; i<5; i++)
+			{
+				mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(false));
+			}
 			
 		}
 		

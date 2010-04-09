@@ -27,7 +27,8 @@ public class Treadle extends GameObject {
 			this.x= (view.getWidth() - wid)/2;
 		}else if(x==-2)
 		{
-			this.x= (int) (Math.random()* (view.getWidth()-this.wid) );
+			//this.x= (int) (Math.random()* (view.getWidth()-this.wid) );
+			this.x= (int) (Math.random()* 250);
 		}else{
 			this.x=x;
 		}
