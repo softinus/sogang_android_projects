@@ -13,8 +13,9 @@ public class Player extends GameObject {
 
 	private int spd=5;		// 속도
 	
-	private boolean bStop=false;
-	//private boolean bJump=false;
+	private boolean bStop=false;	// 멈추어져있나
+	public  boolean bStep=false;	// 처음점프했나
+	private boolean bLive=true;		// 살아있나
 	
 	public int State=0;
 	
@@ -22,9 +23,16 @@ public class Player extends GameObject {
 	private int JumpIdx_Present=0;
 	//private int JumpIdx[]={10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10};
 	//private int JumpIdx[]={-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10};
-	private int JumpIdx2[]={-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,
-			0,0,0,0,0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8};
 	
+	private int JumpIdxArr_First[]={-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,
+			-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,0,0,0,0,0,
+			1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8};//51
+	
+	private int JumpIdxArr_Always[]={-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,
+			-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,0,0,0,0,0,
+			1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,
+			9,9,9,10,10,10,11,11,11,12,12,12,13,13,13,
+			14,15,16,17,18,19,20,21,22,23,24,25,26};//80
 	
 	/**
 	 * 플레이어 위치는 자동 중앙배치하는 기본 생성자
@@ -222,21 +230,32 @@ public class Player extends GameObject {
 	
 	public void JumpAlways()
 	{
-//		if (JumpIdx2[JumpIdx_Present]>0)
-//		{
-//			bJump=true;
-//		}else{
-//			bJump=false;
-//		}
+		if(bStep)
+		{
+			if (!(JumpIdx_Last==80)) {JumpIdx_Last=80;}
+			this.y+= JumpIdxArr_Always[JumpIdx_Present];
+		}else{
+			if (!(JumpIdx_Last==51)) {JumpIdx_Last=51;}
+			this.y+= JumpIdxArr_First[JumpIdx_Present];
+		}
 		
-		this.y+= JumpIdx2[JumpIdx_Present];
 		//Log.d("Player::y", Float.toString(JumpIdx2[JumpIdx_Present]));
 		
 		if (JumpIdx_Present == JumpIdx_Last)
 		{
 			JumpIdx_Present=0;
 		}
-		JumpIdx_Present++;		
+		JumpIdx_Present++;
+	}
+	
+	public void CollisionTreadle(Rect r)
+	{
+		if (this.getObjectForRectHalf(false).intersect(r))
+		{
+			Log.v("Collision", "Call CollisionTreadle");
+			this.setJumpIndex(0);
+			this.bStep=true;
+		}
 	}
 	
 	public void setJumpIndex(int _idx)

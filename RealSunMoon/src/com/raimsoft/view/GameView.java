@@ -44,7 +44,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		
 		this.thread.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
-		this.thread.mTreadle= new Treadle(this, 100, 330, 105,55, R.drawable.treadle_cloud);
+		this.thread.mTreadle= new Treadle(this, 30, 350, 105,55, R.drawable.treadle_cloud);
 		
 		this.thread.viewSize_W= this.getWidth();
 		this.thread.viewSize_H= this.getHeight();
@@ -182,6 +182,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			//mPlayer.MoveAway();
 			mPlayer.SensorMove(sf.compressFloat2Point(sf.getSensorValue()));
 			mPlayer.JumpAlways();
+			mPlayer.CollisionTreadle(mTreadle.getObjectForRectHalf(false));
 		}
 		
 		
