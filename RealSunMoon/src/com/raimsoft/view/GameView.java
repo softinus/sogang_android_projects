@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -43,7 +44,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		
 		this.thread.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
-		this.thread.mTreadle= new Treadle(this, 100, 100, 105,55, R.drawable.treadle_cloud);
+		this.thread.mTreadle= new Treadle(this, 100, 330, 105,55, R.drawable.treadle_cloud);
 		
 		this.thread.viewSize_W= this.getWidth();
 		this.thread.viewSize_H= this.getHeight();
@@ -62,6 +63,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		public Treadle mTreadle;		
 		
 		private Resources mRes;				// 리소스
+		Paint p=new Paint();				// 페인트
 
 		private Bitmap bBackground;			// 배경
 		
@@ -94,10 +96,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 					canvas= mSurfaceHolder.lockCanvas();
 					synchronized (mSurfaceHolder)
 					{
+						canvas.save();
+						
 						doDrawBackGround(canvas);
 						doDrawText(canvas);
 						doDrawObject(canvas);
 						doMove();
+						
+						canvas.restore();
 						
 						sleep(delTime);
 						++Frame;
@@ -125,8 +131,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		void doDrawText(Canvas c)
 		{
-			Paint p=new Paint();
-			
 			p.setTextSize(12);
 			p.setAntiAlias(true);
 			p.setColor(Color.argb(0xff, 255, 0, 255));
@@ -149,7 +153,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		void doDrawObject(Canvas c)
 		{			
-			c.save();
+			//c.save();
 			
 			if(bPlayer_ImgRefreshed)
 			{
@@ -163,13 +167,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				mTreadle.Img_Drawable= mRes.getDrawable(mTreadle.Img_id);
 			}
 			
-			mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());
-			mPlayer.Img_Drawable.draw(c);
-			
 			mTreadle.Img_Drawable.setBounds(mTreadle.getObjectForRect());
 			mTreadle.Img_Drawable.draw(c);
 			
-			c.restore();
+			mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());
+			mPlayer.Img_Drawable.draw(c);
+			
+						
+			//c.restore();
 		}
 		
 		public void doMove()
@@ -223,6 +228,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	
 
 
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+
+		this.thread.mPlayer.setJumpIndex(0);
+		
+		return super.onTouchEvent(event);
+	}
+
 	
 	
 // ===================== 이 밑부터 SurfaceHolder.CallBack ===================== //
@@ -233,7 +246,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-
+		thread.setRunning(true);
 		thread.start();
 		
 	}
@@ -252,6 +265,5 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
             }
         }
 	}
-
 
 }

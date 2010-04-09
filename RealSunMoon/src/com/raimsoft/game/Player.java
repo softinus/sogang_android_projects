@@ -238,4 +238,9 @@ public class Player extends GameObject {
 		}
 		JumpIdx_Present++;		
 	}
+	
+	public void setJumpIndex(int _idx)
+	{
+		JumpIdx_Present= _idx;
+	}
 }

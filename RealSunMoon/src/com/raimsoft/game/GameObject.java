@@ -29,6 +29,23 @@ public class GameObject {
 		return rct;
 	}
 	
+	/**
+	 * 현재 오브젝트 위치의 위와 아래 중 하나를 Rect값으로 리턴해준다.
+	 * @param Top : true면 위, false면 아래
+	 * @return 현재 Object 객체절반의 Rect값
+	 */
+	public Rect getObjectForRectHalf(boolean Top)
+	{
+		Rect rct= null;
+		if (Top)
+		{
+			rct = new Rect (this.x, this.y, this.x+this.wid, this.y+(this.hei/2));
+		}else{
+			rct = new Rect (this.x, this.y+(this.hei/2), this.x+this.wid, this.y+this.hei);
+		}
+		return rct;
+	}
+	
 
 	
 	public int getX()
