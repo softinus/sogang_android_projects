@@ -126,8 +126,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			//c.drawARGB(0xc8, 0xf0, 0xa9, 0xff);
 			
 			c.drawBitmap(bBackground, new Rect(0, BackSize-480, 320,BackSize), new Rect(0,0,320,480), null);
-			if (BackSize>480)
-				BackSize-=3;
+			//if (BackSize>480)
+			//	BackSize-=3;
 		}
 		
 		void doDrawText(Canvas c)
@@ -147,9 +147,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						+"Z= "+ Float.toString(Math.round(sf.getSensorValue()[2]))
 						, 5, 45, p);
 			
-//			c.drawText("X= "+ Float.toString(mTreadle.getX())
-//						+", Y= "+ Float.toString(mTreadle.getY()),
-//					mTreadle.getX(), mTreadle.getY(), p);
+			for (int i=0; i<5; i++)
+			{
+			c.drawText("X= "+ Float.toString(treadleMgr.treadle[i].getX())
+						+", Y= "+ Float.toString(treadleMgr.treadle[i].getY()),
+						treadleMgr.treadle[i].getX(), treadleMgr.treadle[i].getY(), p);
+			}
 		}
 		
 		void doDrawObject(Canvas c)

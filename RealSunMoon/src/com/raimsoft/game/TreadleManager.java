@@ -8,7 +8,7 @@ public class TreadleManager {
 	//private List<Treadle> ArrList=new ArrayList<Treadle> ();
 	
 	private GameView view;
-	private Treadle[] treadle;
+	public Treadle[] treadle;
 	private final int GAP=	80;
 	private int treadle_cnt;
 	
@@ -26,8 +26,13 @@ public class TreadleManager {
 	{
 		for (int i=0; i<treadle_cnt; i++)
 		{
-			treadle[i]= new Treadle(view, -2, GAP*i, 105, 55, R.drawable.treadle_cloud);
+			treadle[i]= new Treadle(view, -2, GAP*(i+1), 105, 55, R.drawable.treadle_cloud);
 		}
+	}
+	
+	public int getCount()
+	{
+		return treadle_cnt;
 	}
 	
 	
