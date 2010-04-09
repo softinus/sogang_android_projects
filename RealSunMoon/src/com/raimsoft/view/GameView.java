@@ -46,8 +46,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		this.thread.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
 		this.thread.mTreadle= new Treadle(this, 30, 350, 105,55, R.drawable.treadle_cloud);
 		
-		this.thread.viewSize_W= this.getWidth();
-		this.thread.viewSize_H= this.getHeight();
+		//this.thread.viewSize_W= this.getWidth();
+		//this.thread.viewSize_H= this.getHeight();
 	}
 	
 
@@ -56,22 +56,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	{
 		private SurfaceHolder mSurfaceHolder;// 화면 제어
 		private boolean bRun=true;			// 동작 여부
-		private boolean bPlayer_ImgRefreshed=true;
-		private boolean bTreadle_ImgRefreshed=true;
+		private boolean bPlayer_ImgRefreshed=true;	// 이미지 새로고침
+		private boolean bTreadle_ImgRefreshed=true;	//
 
 		public Player mPlayer;				// 플레이어 객체
-		public Treadle mTreadle;		
+		public Treadle mTreadle;			// 발판 객체
 		
 		private Resources mRes;				// 리소스
 		Paint p=new Paint();				// 페인트
 
 		private Bitmap bBackground;			// 배경
 		
-		private int Frame, fps, curTime;	// 프레임, 초당프레임, 현재프레임
+		private int Frame, fps, curTime;	// 프레임, 초당프레임, 현재시간
 		private int delTime=5;				// Thread딜레이
 		
 		private int BackSize=5760;			// 배경세로길이
-		private int viewSize_W, viewSize_H;	// 뷰 가로, 세로 길이
+		//private int viewSize_W, viewSize_H;	// 뷰 가로, 세로 길이
 
 		
 		// 메인스레드의 생성자
@@ -183,6 +183,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			mPlayer.SensorMove(sf.compressFloat2Point(sf.getSensorValue()));
 			mPlayer.JumpAlways();
 			mPlayer.CollisionTreadle(mTreadle.getObjectForRectHalf(false));
+			
 		}
 		
 		

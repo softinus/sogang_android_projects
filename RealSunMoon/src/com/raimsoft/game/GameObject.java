@@ -80,7 +80,7 @@ public class GameObject {
 	}
 	public void SetChangeY(int y)
 	{
-		this.x += y;
+		this.y += y;
 	}
 
 	public void SetChangePos(int x, int y)

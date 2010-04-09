@@ -4,6 +4,9 @@ import com.raimsoft.view.GameView;
 
 public class Treadle extends GameObject {
 
+	public int Purpose_Y=0;
+	//public boolean Down_Y=false;
+	
 	/**
 	 * 모든 정보 입력하는 생성자
 	 * @param view
@@ -37,5 +40,7 @@ public class Treadle extends GameObject {
 		}		
 		
 		Img_id=Image_ID;
+		
+		//Purpose_Y=y;
 	}
 }
