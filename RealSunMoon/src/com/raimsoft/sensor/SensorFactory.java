@@ -209,12 +209,18 @@ public class SensorFactory {
 	
 	
 	
-	public Point compressFloat2Point(float[] f)
+	public Point getCompressFloat2Point(float[] f)
 	{
 		Point p=new Point();
 		p.x= (int) f[0];
 		p.y= (int) f[1];
 		return p;
+	}
+	
+	public float getCompressFloat2X(float[] f)
+	{
+		float x= f[0];
+		return x;
 	}
 	
 	

@@ -11,7 +11,7 @@ import com.raimsoft.view.GameView;
 public class Player extends GameObject {
 	
 
-	private int spd=5;		// 속도
+	private float spd=(float) 2.2;	// 속도
 	
 	private boolean bStop=false;	// 멈추어져있나
 	public  boolean bStep=false;	// 처음점프했나
@@ -199,7 +199,24 @@ public class Player extends GameObject {
 		
 		if (((this.x + _val_.x) > 0) && ((this.x + _val_.x) < view.getWidth()-this.wid))
 		{// Out of screen check
-			this.x += _val_.x;
+			this.x += _val_.x*spd;
+		}
+	}
+	
+	public void SensorMove(float _x)
+	{
+		
+		if (_x < 0 && _x != 0)	// 방향 체크
+		{
+			this.setState(KeyEvent.KEYCODE_DPAD_LEFT);
+		}else if (_x > 0 && _x != 0) 
+		{
+			this.setState(KeyEvent.KEYCODE_DPAD_RIGHT);
+		}
+		
+		if (((this.x + _x) > 0) && ((this.x + _x) < view.getWidth()-this.wid))
+		{// Out of screen check
+			this.x += (_x * spd);
 		}
 	}
 
@@ -229,11 +246,20 @@ public class Player extends GameObject {
 	}
 	
 	public void JumpAlways()
-	{
+	{	
 		if(bStep)
 		{
-			if (!(JumpIdx_Last==80)) {JumpIdx_Last=80;}
-			this.y+= JumpIdxArr_Always[JumpIdx_Present];
+			if (this.y + JumpIdxArr_Always[JumpIdx_Present] < 150)
+			{
+				view.thread.treadleMgr.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]);
+				if (view.getHeight() < view.thread.BackSize)
+				{
+					view.thread.BackSize -= 5;
+				}
+			}else{
+				if (!(JumpIdx_Last==80)) {JumpIdx_Last=80;}
+				this.y+= JumpIdxArr_Always[JumpIdx_Present];
+			}
 		}else{
 			if (!(JumpIdx_Last==51)) {JumpIdx_Last=51;}
 			this.y+= JumpIdxArr_First[JumpIdx_Present];

@@ -1,5 +1,7 @@
 package com.raimsoft.game;
 
+import android.util.Log;
+
 import com.raimsoft.activity.R;
 import com.raimsoft.view.GameView;
 
@@ -26,7 +28,12 @@ public class TreadleManager {
 	{
 		for (int i=0; i<treadle_cnt; i++)
 		{
-			treadle[i]= new Treadle(view, -2, GAP*(i-1), 105, 55, R.drawable.treadle_cloud);
+			treadle[i]= new Treadle(view, -2, -(GAP*(i-3)), 65, 35, R.drawable.treadle_cloud_4);
+
+			
+			Log.d("Treadles Pos DEBUG",
+					"X= "+Float.toString(treadle[i].getX())
+				+", Y= "+Float.toString(treadle[i].getY()));
 		}
 	}
 	
@@ -35,6 +42,12 @@ public class TreadleManager {
 		return treadle_cnt;
 	}
 	
-	
+	public void setAllChangeY (int _y)
+	{
+		for (int i=0; i<treadle_cnt; i++)
+		{
+			treadle[i].y += _y;
+		}
+	}
 	
 }
