@@ -181,8 +181,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		void doDrawObject(Canvas c)
 		{			
-			//c.save();
-			
 			if(bPlayer_ImgRefreshed)
 			{
 				Log.d("DEBUG", "Call Player_ImgRefreshed");
@@ -192,7 +190,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			
 			if(bTreadle_ImgRefreshed)
 			{
-				//mTreadle.Img_Drawable= mRes.getDrawable(mTreadle.Img_id);
 				for (int i=0; i<treadleMgr.getCount(); i++)
 				{
 					Log.v("Draw Treadle", i + "th treadle Loading");
@@ -208,17 +205,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				treadleMgr.treadle[i].Img_Drawable.draw(c);				
 			}
 			
-//			mTreadle.Img_Drawable.setBounds(mTreadle.getObjectForRect());
-//			mTreadle.Img_Drawable.draw(c);
-			
-			
-			
-			
 			mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());
 			mPlayer.Img_Drawable.draw(c);
-			
-						
-			//c.restore();
 		}
 		
 		public void doMove()
@@ -265,16 +253,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		if (keyCode==event.KEYCODE_MENU)
 		{
-			
-			if (thread.bRun==true)
+			synchronized (thread.mSurfaceHolder)
 			{
-				thread.SaveBox.putInt("PLAYER_X", thread.mPlayer.getX());
-				thread.SaveBox.putInt("PLAYER_Y", thread.mPlayer.getY());
-				thread.bRun=false;
-			}else{
-				thread.mPlayer.SetPos(thread.SaveBox.getInt("PLAYER_X"),
-									  thread.SaveBox.getInt("PLAYER_Y"));
-				thread.bRun= true;
+				if (thread.bRun==true)
+				{
+					thread.SaveBox.putInt("PLAYER_X", thread.mPlayer.getX());
+					thread.SaveBox.putInt("PLAYER_Y", thread.mPlayer.getY());
+					Log.v("MENU", "bRun=false");
+					thread.setRunning(false);
+				}else{
+					thread.mPlayer.SetPos(thread.SaveBox.getInt("PLAYER_X"),
+										  thread.SaveBox.getInt("PLAYER_Y"));
+					Log.v("MENU", "bRun=true");
+					thread.setRunning(true);
+					thread.run();
+				}
 			}
 			
 		}
@@ -287,7 +280,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
-		this.thread.mPlayer.setJumpIndex(0);
+		if (thread.mPlayer.getObjectForRect().contains((int)event.getX(), (int)event.getY()))
+			this.thread.mPlayer.setJumpIndex(0);
 		
 		return super.onTouchEvent(event);
 	}

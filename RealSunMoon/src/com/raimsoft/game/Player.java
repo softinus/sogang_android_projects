@@ -214,9 +214,19 @@ public class Player extends GameObject {
 			this.setState(KeyEvent.KEYCODE_DPAD_RIGHT);
 		}
 		
-		if (((this.x + _x) > 0) && ((this.x + _x) < view.getWidth()-this.wid))
-		{// Out of screen check
+		//if (((this.x + _x) > 0) && ((this.x + _x) < view.getWidth()-this.wid))
+		//{// Out of screen check
 			this.x += (_x * spd);
+		//}
+			
+		if (this.x + _x < -this.wid - spd)
+		{
+			this.x= view.getWidth();
+		}
+		
+		if (this.x + _x > this.wid + view.getWidth() +spd)
+		{
+			this.x= -this.wid;
 		}
 	}
 
