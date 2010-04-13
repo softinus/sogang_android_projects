@@ -30,6 +30,7 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		
 		findViewById(R.id.start).setOnClickListener(this);
+		//findViewById(R.id.img_start).setOnClickListener(this);
 		findViewById(R.id.exit).setOnClickListener(this);
 	}
 	
