@@ -11,7 +11,9 @@ public class TreadleManager {
 	
 	private GameView view;
 	public Treadle[] treadle;
-	private final int GAP=	120;
+	private final int GAP_less=40;
+	private final int GAP_top=120;
+	private final int GAP=	100;
 	private int treadle_cnt;
 	
 	public TreadleManager(GameView _view)
@@ -28,7 +30,7 @@ public class TreadleManager {
 	{
 		for (int i=0; i<treadle_cnt; i++)
 		{
-			treadle[i]= new Treadle(view, -2, -(GAP*(i-3)), 65, 35, R.drawable.treadle_cloud_4);
+			treadle[i]= new Treadle(view, -2, -(GAP*(i-6)), 65, 35, R.drawable.treadle_cloud_4);
 
 			
 			Log.d("Treadles Pos DEBUG",

@@ -29,8 +29,9 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 		
 		super.onCreate(savedInstanceState);
 		
-		findViewById(R.id.start).setOnClickListener(this);
-		//findViewById(R.id.img_start).setOnClickListener(this);
+		findViewById(R.id.btn_start).setOnClickListener(this);
+		findViewById(R.id.btn_how).setOnClickListener(this);
+		findViewById(R.id.btn_option).setOnClickListener(this);
 		findViewById(R.id.exit).setOnClickListener(this);
 	}
 	
@@ -43,12 +44,16 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if(v.getId()==R.id.start)
+		if(v.getId()==R.id.btn_start)
 		{
 			Next();
-		}else
+		}else if(v.getId()==R.id.btn_how)
 		{
-			finish();
+			Intent intent=new Intent(TitleMenuActivity.this, HowtoplayActivity.class);
+	        startActivity(intent);
+		}else if(v.getId()==R.id.btn_option)
+		{
+			
 		}
 	}
 }

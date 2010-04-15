@@ -44,7 +44,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		setFocusable(true);	// 포커스를 잡아준다. (키입력 등...)
 		
 		thread= new ImgThread(mHolder, context);
-		
+			
 		
 		this.thread.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
 		//this.thread.mTreadle= new Treadle(this, 30, 350, 105,55, R.drawable.treadle_cloud);
@@ -178,7 +178,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 //						treadleMgr.treadle[i].getX(), treadleMgr.treadle[i].getY(), p);
 			//}
 		}
-		
+		boolean IsNotClipped(int player_Y, int treadle_Y)
+		{
+			if (Math.abs(treadle_Y - player_Y) > 480)
+				return false;
+			return true;
+		}
 		void doDrawObject(Canvas c)
 		{			
 			if(bPlayer_ImgRefreshed)
@@ -192,8 +197,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			{
 				for (int i=0; i<treadleMgr.getCount(); i++)
 				{
+					
 					Log.v("Draw Treadle", i + "th treadle Loading");
-					treadleMgr.treadle[i].Img_Drawable= mRes.getDrawable(R.drawable.treadle_cloud);
+					treadleMgr.treadle[i].Img_Drawable= mRes.getDrawable(R.drawable.treadle_cloud);	
 				}
 				bTreadle_ImgRefreshed=false;
 			}
@@ -201,9 +207,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			for (int i=0; i<treadleMgr.getCount(); i++)
 			{
 				//Log.v("Draw Treadle", i + "th treadle Drawing");
-				treadleMgr.treadle[i].Img_Drawable.setBounds(treadleMgr.treadle[i].getObjectForRect());
-				treadleMgr.treadle[i].Img_Drawable.draw(c);				
+				if (IsNotClipped(mPlayer.getY(), treadleMgr.treadle[i].getY())) {
+					treadleMgr.treadle[i].Img_Drawable.setBounds(treadleMgr.treadle[i].getObjectForRect());
+					treadleMgr.treadle[i].Img_Drawable.draw(c);				
+				}
 			}
+			
 			
 			mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());
 			mPlayer.Img_Drawable.draw(c);
@@ -218,7 +227,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			
 			for (int i=0; i<treadleMgr.getCount(); i++)
 			{
-				mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(false));
+				if (mPlayer.bJump==true)
+				{
+					mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(true));
+				}
+				
 			}
 			
 		}
@@ -253,23 +266,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		if (keyCode==event.KEYCODE_MENU)
 		{
-			synchronized (thread.mSurfaceHolder)
+			if (thread.bRun==true)
 			{
-				if (thread.bRun==true)
-				{
-					thread.SaveBox.putInt("PLAYER_X", thread.mPlayer.getX());
-					thread.SaveBox.putInt("PLAYER_Y", thread.mPlayer.getY());
-					Log.v("MENU", "bRun=false");
-					thread.setRunning(false);
-				}else{
-					thread.mPlayer.SetPos(thread.SaveBox.getInt("PLAYER_X"),
-										  thread.SaveBox.getInt("PLAYER_Y"));
-					Log.v("MENU", "bRun=true");
-					thread.setRunning(true);
-					thread.run();
-				}
+				thread.SaveBox.putInt("PLAYER_X", thread.mPlayer.getX());
+				thread.SaveBox.putInt("PLAYER_Y", thread.mPlayer.getY());
+				Log.v("MENU", "bRun=false");
+				thread.setRunning(false);
+			}else{
+				thread.mPlayer.SetPos(thread.SaveBox.getInt("PLAYER_X"),
+									  thread.SaveBox.getInt("PLAYER_Y"));
+				Log.v("MENU", "bRun=true");
+				thread.setRunning(true);
+				thread.run();
 			}
-			
 		}
 		
 		return super.onKeyDown(keyCode, event);
