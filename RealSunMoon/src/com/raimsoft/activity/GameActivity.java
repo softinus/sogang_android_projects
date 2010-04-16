@@ -2,6 +2,7 @@ package com.raimsoft.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -11,24 +12,18 @@ import com.raimsoft.sensor.SensorFactory;
 public class GameActivity extends Activity {
 
 	SensorFactory sf= SensorFactory.getSensorFactory();
+	private boolean already_Next=false;
 	
-//	SensorListener OrientationListener = new SensorListener()
-//	{
-//		public void onSensorChanged(int sensor, float[] values)
-//		{
-//			// 센서 values 값 넘겨줌
-//			sf.setSensorValue(values, sensor);
-//			sf.getSensorOrientation();
-//			
-//			sf.debugSensorInfo_Changed();
-//			sf.debugSensorInfo_Fixed();
-//		}
-//
-//		public void onAccuracyChanged(int sensor, int accuracy)
-//		{
-//			// 정확도 변경시
-//		}
-//	};
+	public void NextGameOverActivity()
+	{
+		if(!already_Next)
+		{
+			Intent intent=new Intent (GameActivity.this, GameOverActivity.class);
+			startActivity(intent);
+			this.already_Next=true;
+			this.finish();
+		}		
+	}
 	
 	SensorListener AcceleroListener = new SensorListener()
 	{

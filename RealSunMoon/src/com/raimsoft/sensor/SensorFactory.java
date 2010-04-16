@@ -56,7 +56,7 @@ public class SensorFactory {
 			value_Prev[i]= 0;
 			value_Measure[i]= 0;
 		}
-		sensorID= sensorMgr.SENSOR_ALL;
+		sensorID= SensorManager.SENSOR_ALL;
 	}
 	
 	public static SensorFactory getSensorFactory()
@@ -71,7 +71,7 @@ public class SensorFactory {
 	 */
 	public int getSensorOrientation()
 	{
-		if (this.sensorID != sensorMgr.SENSOR_ORIENTATION)
+		if (this.sensorID != SensorManager.SENSOR_ORIENTATION)
 		{
 			return 0;
 		}

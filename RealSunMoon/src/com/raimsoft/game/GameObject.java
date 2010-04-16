@@ -3,21 +3,23 @@ package com.raimsoft.game;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.view.KeyEvent;
 
 import com.raimsoft.view.GameView;
 
 public class GameObject {
-	protected GameView view;	// 뷰
+	protected GameView view;				// 뷰
 	
-	protected int x,y;		// 위치(X,Y)
-	protected int wid;		// 폭
-	protected int hei;		// 높이
+	protected boolean bStop=	false;		// 멈추어져있나
+	protected boolean bLive=	true;		// 살아있나
 	
-	public int Img_id;		// 이미지 ID
-	public Drawable Img_Drawable;	// 이미지 Drawable
+	protected int x,y;						// 위치(X,Y)
+	protected int wid;						// 폭
+	protected int hei;						// 높이
+	
+	public int Img_id;						// 이미지 ID
+	public Drawable Img_Drawable;			// 이미지 Drawable
 
-	public GameObject(){}	// 기본 생성자
+	public GameObject(){}					// 기본 생성자
 	
 	/**
 	 * 현재 오브젝트 위치를 Rect값으로 리턴해준다.
@@ -73,6 +75,11 @@ public class GameObject {
 		p.y=this.y;
 		return p;
 	}
+	
+	public boolean isLive()
+	{
+		return this.bLive;
+	}
 
 	public void SetChangeX(int x)
 	{
@@ -104,4 +111,12 @@ public class GameObject {
 	{
 		this.Img_id=Image_ID;
 	}
+
+	
+	public void setStop (boolean r)
+	{
+		this.bStop= r;
+	}
+	
+
 }

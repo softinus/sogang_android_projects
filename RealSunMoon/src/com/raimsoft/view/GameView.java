@@ -23,6 +23,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.raimsoft.activity.GameActivity;
 import com.raimsoft.activity.R;
 import com.raimsoft.game.Player;
 import com.raimsoft.game.TreadleManager;
@@ -34,6 +35,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	SensorFactory sf= SensorFactory.getSensorFactory();
 	PowerManager pm;
 	PowerManager.WakeLock wl;
+	GameActivity gameContext;
 	
 	public GameView(Context context, AttributeSet attrs)
 	{
@@ -45,13 +47,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		thread= new ImgThread(mHolder, context);
 			
+		gameContext= (GameActivity) context;
 		
 		this.thread.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
 		//this.thread.mTreadle= new Treadle(this, 30, 350, 105,55, R.drawable.treadle_cloud);
 		this.thread.treadleMgr= new TreadleManager(this);
-		
-		//this.thread.viewSize_W= this.getWidth();
-		//this.thread.viewSize_H= this.getHeight();
 		
 		pm= (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 		wl= pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
@@ -81,7 +81,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		private long curTime, oldTime;		// 현재시간, 지난시간
 		private int delTime=5;				// Thread딜레이
 		
-		public int BackSize=5760;			// 배경세로길이
+		public int BackSize=1920;			// 배경세로길이
 		//private int viewSize_W, viewSize_H;	// 뷰 가로, 세로 길이
 		Canvas canvas=null;
 		Bundle SaveBox=new Bundle();
@@ -93,7 +93,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			mSurfaceHolder= _Holder;
 			mRes= _Context.getResources();
 			
-			bBackground= BitmapFactory.decodeResource(mRes, R.drawable.background);
+			bBackground= BitmapFactory.decodeResource(mRes, R.drawable.background_1);
 		}
 		
 
@@ -131,6 +131,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 							AccFrame=0;
 							RenderAccTime=0;
 						}
+						
+						this.LifeCheck();
 					}
 				}catch (InterruptedException e) {
 					e.printStackTrace();
@@ -178,17 +180,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 //						treadleMgr.treadle[i].getX(), treadleMgr.treadle[i].getY(), p);
 			//}
 		}
-		boolean IsNotClipped(int player_Y, int treadle_Y)
-		{
-			if (Math.abs(treadle_Y - player_Y) > 480)
-				return false;
-			return true;
-		}
+		
+
+		
+		
 		void doDrawObject(Canvas c)
 		{			
 			if(bPlayer_ImgRefreshed)
 			{
-				Log.d("DEBUG", "Call Player_ImgRefreshed");
+				//Log.v("verbose", "Call Player_ImgRefreshed");
 				mPlayer.Img_Drawable= mRes.getDrawable(mPlayer.Img_id);
 				bPlayer_ImgRefreshed= false;
 			}
@@ -237,6 +237,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}
 		
 		
+		/**
+		 * 캐릭터와 발판들의 거리를 계산하여 화면 밖에 있는 객체들은 DRAW하지 않습니다.
+		 * @param player_Y : 캐릭터의 Y값
+		 * @param Object_Y : 체크할 다른 객체의 Y값
+		 * @return 화면안에 있으면:true, 화면밖에 있으면:false
+		 */
+		boolean IsNotClipped(int player_Y, int Object_Y)
+		{
+			if (Math.abs(Object_Y - player_Y) > 480)
+				return false;
+			return true;
+		}
+		
+		void LifeCheck()
+		{
+			if (!mPlayer.isLive())
+			{
+				gameContext.NextGameOverActivity();
+			}
+		}
 		
 		/** 스레드 동작 설정
 		* @param _Run : 동작 설정 boolean값*/

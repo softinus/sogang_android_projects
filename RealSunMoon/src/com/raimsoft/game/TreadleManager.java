@@ -11,16 +11,16 @@ public class TreadleManager {
 	
 	private GameView view;
 	public Treadle[] treadle;
-	private final int GAP_less=40;
-	private final int GAP_top=120;
-	private final int GAP=	100;
+//	private final int GAP_less=40;
+//	private final int GAP_top=120;
+	private final int GAP=	110;
 	private int treadle_cnt;
 	
 	public TreadleManager(GameView _view)
 	{
 		this.view= _view;
 		
-		treadle_cnt= Math.round(view.thread.BackSize / GAP);
+		treadle_cnt= Math.round(view.thread.BackSize*3 / GAP);
 		
 		treadle= new Treadle[treadle_cnt];
 		
