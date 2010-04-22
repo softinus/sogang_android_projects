@@ -35,10 +35,7 @@ public final class R {
         public static final int nui_landing_right=0x7f020015;
         public static final int nui_stand_left=0x7f020016;
         public static final int nui_stand_right=0x7f020017;
-        public static final int treadle_cloud=0x7f020018;
-        public static final int treadle_cloud_2=0x7f020019;
-        public static final int treadle_cloud_3=0x7f02001a;
-        public static final int treadle_cloud_4=0x7f02001b;
+        public static final int treadle_cloud_4=0x7f020018;
     }
     public static final class id {
         public static final int btn_cancel=0x7f06000c;

@@ -199,7 +199,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				{
 					
 					Log.v("Draw Treadle", i + "th treadle Loading");
-					treadleMgr.treadle[i].Img_Drawable= mRes.getDrawable(R.drawable.treadle_cloud);	
+					treadleMgr.treadle[i].Img_Drawable= mRes.getDrawable(R.drawable.treadle_cloud_4);	
 				}
 				bTreadle_ImgRefreshed=false;
 			}
@@ -325,9 +325,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		
 		thread.setRunning(true);
+		wl.acquire();	
 		thread.start();
-		wl.acquire();		
+			
 	}
 
 	@Override
@@ -338,12 +340,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         thread.setRunning(false);
         while (retry) {
             try {
+            	wl.release();
                 thread.join();
                 retry = false;
             } catch (InterruptedException e) {
             }
         }
-        wl.release();
 	}
 
 }

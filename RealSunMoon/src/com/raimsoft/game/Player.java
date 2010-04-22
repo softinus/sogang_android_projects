@@ -151,7 +151,7 @@ public class Player extends GameObject {
 	
 	public void checkLife()
 	{
-		Log.v("checkLife()", "Call checkLife()");
+		//Log.v("checkLife()", "Call checkLife()");
 		if (this.y > view.getHeight())
 		{
 			this.bLive= false;
