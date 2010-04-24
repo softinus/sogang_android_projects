@@ -5,6 +5,7 @@ import com.raimsoft.view.GameView;
 public class Treadle extends GameObject {
 
 	public int Purpose_Y=0;
+	public boolean bStepped=false;
 	//public boolean Down_Y=false;
 	
 	/**

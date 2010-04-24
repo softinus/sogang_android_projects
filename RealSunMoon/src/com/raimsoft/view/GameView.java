@@ -77,7 +77,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		public Monster mMonster;			// 몬스터 객체
 		
 		private Resources mRes;				// 리소스
-		private Paint p=new Paint();				// 페인트
+		private Paint pDebug=new Paint();	// 페인트
+		private Paint pScore=new Paint();
 
 		private Bitmap bBackground;			// 배경
 		
@@ -101,9 +102,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			mSurfaceHolder= _Holder;
 			mRes= _Context.getResources();
 			
-			p.setTextSize(12);
-			p.setAntiAlias(true);
-			p.setColor(Color.argb(0xff, 255, 0, 255));
+			pDebug.setTextSize(12);
+			pDebug.setAntiAlias(true);
+			pDebug.setColor(Color.argb(0xff, 255, 0, 255));
+			
+			pScore.setTextSize(24);
+			pScore.setAntiAlias(true);
+			pScore.setColor(Color.argb(0xff, 255, 0, 255));
 			
 			bBackground= BitmapFactory.decodeResource(mRes, R.drawable.background_1);
 		}
@@ -123,8 +128,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						canvas.save();
 						
 						doDrawBackGround(canvas);
-						//doDrawText(canvas);
 						doDrawObject(canvas);
+						//doDrawText(canvas);
+						doDrawScore(canvas);
 						doMove();
 						
 						canvas.restore();
@@ -169,17 +175,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		{
 			
 
-			c.drawText("FPS= " + Float.toString(FPS), 5, 30, p);
-			c.drawText("Frame= " + Float.toString(AccFrame), 5, 15, p);
+			c.drawText("FPS= " + Float.toString(FPS), 5, 30, pDebug);
+			c.drawText("Frame= " + Float.toString(AccFrame), 5, 15, pDebug);
 			c.drawText("X= "+Float.toString(mPlayer.getX()) 
 						+ ", Y= "+Float.toString(mPlayer.getY()),
-						mPlayer.getX(), mPlayer.getY(), p);
-			c.drawText("State= " + Float.toString(mPlayer.State), 5, 45, p);
+						mPlayer.getX(), mPlayer.getY(), pDebug);
+			c.drawText("State= " + Float.toString(mPlayer.State), 5, 45, pDebug);
 			
 			c.drawText("X= " + Float.toString(sf.getSensorValue()[0])
 						+"Y= "+ Float.toString(sf.getSensorValue()[1])
 						+"Z= "+ Float.toString(sf.getSensorValue()[2])
-						, 5, 60, p);
+						, 5, 60, pDebug);
 			
 			//for (int i=0; i<treadleMgr.getCount(); i++)
 			//{
@@ -191,7 +197,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		void doDrawScore(Canvas c)
 		{
-			c.drawText("Score : " + Float.toString(gameScore), 5, 30, p);
+			c.drawText("점수 : " + Float.toString(gameScore), 5, 20, pScore);
 		}
 		
 
@@ -265,7 +271,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			{
 				if (mPlayer.bJump==true)
 				{
-					mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(true));
+					mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(true), treadleMgr.treadle[i]);
 				}
 				
 			}
@@ -378,7 +384,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         thread.setRunning(false);
         while (retry) {
             try {
-            	wl.release();
+            	//wl.release();
                 thread.join();
                 retry = false;
             } catch (InterruptedException e) {

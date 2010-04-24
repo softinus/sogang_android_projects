@@ -7,6 +7,7 @@ import com.raimsoft.view.GameView;
 public class Monster extends GameObject {
 
 	private final int spd=4;
+	public boolean bFly=false;
 	
 	
 	/**
@@ -52,6 +53,7 @@ public class Monster extends GameObject {
 		{
 			this.x-=spd;
 			this.y+=spd;
+			this.bFly= true;
 		}
 	}
 	

@@ -279,16 +279,27 @@ public class Player extends GameObject {
 		{
 			if (this.y + JumpIdxArr_Always[JumpIdx_Present] < 150)
 			{
-				view.thread.treadleMgr.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]);
+				view.thread.treadleMgr.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]); 	// 150px이상 화면 나가면 구름을 점프한만큼 내림
+				if (view.thread.mMonster.bFly)	//몬스터가 날고있을 때 캐릭터 올라가면 몬스터 내림
+				{
+					view.thread.mMonster.SetChangeY(-JumpIdxArr_Always[JumpIdx_Present]);
+				}
+				
+				
 				if (view.getHeight() < view.thread.BackSize)
 				{
 					view.thread.BackSize += Math.round(JumpIdxArr_Always[JumpIdx_Present] / 3);
 				}
-			}else{
+				
+			}
+			else
+			{
 				if (!(JumpIdx_Last==79)) {JumpIdx_Last=79;}
 				this.y+= JumpIdxArr_Always[JumpIdx_Present];
 			}
-		}else{
+		}
+		else
+		{
 			if (!(JumpIdx_Last==67)) {JumpIdx_Last=67;}
 			this.y+= JumpIdxArr_First[JumpIdx_Present];
 		}
@@ -311,13 +322,34 @@ public class Player extends GameObject {
 		JumpIdx_Present++;
 	}
 	
-	public void CollisionTreadle(Rect r)
+	public void CollisionTreadle(Rect r, Treadle _tra)
 	{
 		if (this.getObjectForRectHalf(false).intersect(r))
 		{
 			Log.v("Collision", "Call CollisionTreadle");
 			this.setJumpIndex(0);
 			view.thread.cnt_Step++;
+			
+			switch (_tra.Img_id)
+			{
+				case R.drawable.cloud1_1:
+					if (!_tra.bStepped)
+						view.thread.gameScore+=70;
+					_tra.bStepped=true;
+					break;
+				case R.drawable.cloud1_2:
+					if (!_tra.bStepped)
+						view.thread.gameScore+=50;
+					_tra.bStepped=true;
+					break;
+				case R.drawable.cloud1_3:
+					if (!_tra.bStepped)
+						view.thread.gameScore+=10;
+					_tra.bStepped=true;
+					break;
+					
+			}
+			
 			this.bStep=true;
 		}
 	}
