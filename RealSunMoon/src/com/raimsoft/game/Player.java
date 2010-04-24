@@ -14,8 +14,9 @@ public class Player extends GameObject {
 
 	private final float spd;	// 속도 G1: 0.9~1.2, 오드로이드: 2.4~2.7
 	
-	public  boolean bStep=false;	// 처음점프했나
-	public 	boolean bJump=false;	// 올라가고있나
+	public  boolean bStep=		false;	// 처음점프했나
+	public 	boolean bJump=		false;	// 올라가고있나
+	public	boolean bCrushed=	false;	// 부딫혔나
 	
 	public int State=0;
 	
@@ -149,7 +150,7 @@ public class Player extends GameObject {
 	}	
 	
 	
-	public void checkLife()
+	public void fallcheck()
 	{
 		//Log.v("checkLife()", "Call checkLife()");
 		if (this.y > view.getHeight())
@@ -264,9 +265,18 @@ public class Player extends GameObject {
 		}
 	}
 	
+	public void CrushFall()
+	{
+		this.fallcheck();
+		this.y+=5;
+		
+		this.Img_id=R.drawable.nui_fall_3;
+		view.thread.setPlayerImg_Refresh();
+	}
+	
 	public void JumpAlways()
 	{
-		this.checkLife();
+		this.fallcheck();
 		
 		if(bStop) return;
 		
@@ -312,8 +322,18 @@ public class Player extends GameObject {
 		{
 			Log.v("Collision", "Call CollisionTreadle");
 			this.setJumpIndex(0);
+			view.thread.cnt_Step++;
 			this.bStep=true;
 		}
+	}
+	public void CollisionMonster(Rect rct)
+	{
+		if (this.getObjectForRectHalf(false).intersect(rct))
+		{
+			Log.v("Collision", "Call CollisionMonster");
+			this.bCrushed=true;
+		}
+
 	}
 	
 	public void setJumpIndex(int _idx)

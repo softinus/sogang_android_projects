@@ -48,6 +48,7 @@ public class GameObject {
 		return rct;
 	}
 	
+	
 
 	
 	public int getX()
