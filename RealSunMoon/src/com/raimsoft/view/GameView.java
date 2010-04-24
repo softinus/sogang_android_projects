@@ -90,6 +90,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		public int BackSize=1920;			// 배경세로길이
 		public int cnt_Step=0;				// 발판 밟은 수 
+		public int gameScore=0;
 		
 		Canvas canvas=null;
 		Bundle SaveBox=new Bundle();
@@ -100,6 +101,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			mSurfaceHolder= _Holder;
 			mRes= _Context.getResources();
 			
+			p.setTextSize(12);
+			p.setAntiAlias(true);
+			p.setColor(Color.argb(0xff, 255, 0, 255));
 			
 			bBackground= BitmapFactory.decodeResource(mRes, R.drawable.background_1);
 		}
@@ -163,9 +167,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		void doDrawText(Canvas c)
 		{
-			p.setTextSize(12);
-			p.setAntiAlias(true);
-			p.setColor(Color.argb(0xff, 255, 0, 255));
+			
 
 			c.drawText("FPS= " + Float.toString(FPS), 5, 30, p);
 			c.drawText("Frame= " + Float.toString(AccFrame), 5, 15, p);
@@ -187,6 +189,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			//}
 		}
 		
+		void doDrawScore(Canvas c)
+		{
+			c.drawText("Score : " + Float.toString(gameScore), 5, 30, p);
+		}
+		
 
 		
 		
@@ -205,7 +212,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				{
 					
 					Log.v("Draw Treadle", i + "th treadle Loading");
-					treadleMgr.treadle[i].Img_Drawable= mRes.getDrawable(R.drawable.treadle_cloud_4);	
+					treadleMgr.treadle[i].Img_Drawable= mRes.getDrawable(treadleMgr.treadle[i].Img_id);	
 				}
 				bTreadle_ImgRefreshed=false;
 			}

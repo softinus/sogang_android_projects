@@ -12,7 +12,7 @@ import com.raimsoft.view.GameView;
 public class Player extends GameObject {
 	
 
-	private final float spd;	// 속도 G1: 0.9~1.2, 오드로이드: 2.4~2.7
+	private float spd;	// 속도 G1: 0.9~1.2, 오드로이드: 2.4~2.7
 	
 	public  boolean bStep=		false;	// 처음점프했나
 	public 	boolean bJump=		false;	// 올라가고있나
@@ -45,12 +45,7 @@ public class Player extends GameObject {
 		
 		Img_id=R.drawable.nui_stand_left;
 		
-		if (Build.VERSION.SDK_INT <= 4)
-		{
-			spd= (float) 1.2;
-		}else{
-			spd= (float) 2.7;
-		}
+		setSDKforSpeed();
 	}
 	
 	/**
@@ -76,12 +71,7 @@ public class Player extends GameObject {
 			this.y=y;	
 		}
 		
-		if (Build.VERSION.SDK_INT <= 4)
-		{
-			spd= (float) 1.2;
-		}else{
-			spd= (float) 2.7;
-		}
+		setSDKforSpeed();
 	}
 	
 	/**
@@ -115,11 +105,16 @@ public class Player extends GameObject {
 		
 		Img_id=Image_ID;
 		
+		setSDKforSpeed();
+	}
+	
+	private void setSDKforSpeed()
+	{
 		if (Build.VERSION.SDK_INT <= 4)
 		{
-			spd= (float) 1.2;
+			spd= (float) 2.2;
 		}else{
-			spd= (float) 2.7;
+			spd= (float) 2.8;
 		}
 	}
 	

@@ -6,7 +6,7 @@ import com.raimsoft.view.GameView;
 
 public class Monster extends GameObject {
 
-	private final int spd=5;
+	private final int spd=4;
 	
 	
 	/**

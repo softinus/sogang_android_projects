@@ -24,7 +24,9 @@ public class TreadleManager {
 		
 		TreadleInfo setInfoToCase(int _treadleCase)
 		{
-			switch (_treadleCase)
+			int RandomCase= (int) Math.round(Math.random() * _treadleCase);
+			
+			switch (RandomCase)
 			{
 			case 1:
 				this.Init(30, 18, R.drawable.cloud1_1);
@@ -46,7 +48,7 @@ public class TreadleManager {
 	
 	private GameView view;
 	public Treadle[] treadle;
-	TreadleInfo info;
+	TreadleInfo tInfo=new TreadleInfo();
 //	private final int GAP_less=40;
 //	private final int GAP_top=120;
 	private final int GAP=	110;
@@ -61,8 +63,8 @@ public class TreadleManager {
 		this.view= _view;
 		
 		treadle_cnt= Math.round(view.thread.BackSize*3 / GAP);
-		
 		treadle= new Treadle[treadle_cnt];
+		tInfo=new TreadleInfo();
 		
 		this.TreadleCreate();
 	}
@@ -73,9 +75,13 @@ public class TreadleManager {
 	public void TreadleCreate()
 	{
 		for (int i=0; i<treadle_cnt; i++)
-		{ 
-			treadle[i]= new Treadle(view, -2, -(GAP*(i-6)), info.width, info.height, info.imgID);
-
+		{
+			tInfo.setInfoToCase(2);	// 3종류의 구름
+			treadle[i]= new Treadle(view, -2, -(GAP*(i-3))
+					, tInfo.width, tInfo.height, tInfo.imgID); 		
+			
+			// -((GAP+*(i-3))
+			// (int) -((Math.random()*(GAP_top-GAP_less)+GAP_less)*(i-5))
 			
 			Log.d("Treadles Pos DEBUG",
 					"X= "+Float.toString(treadle[i].getX())
@@ -93,22 +99,6 @@ public class TreadleManager {
 		for (int i=0; i<treadle_cnt; i++)
 		{
 			treadle[i].y += _y;
-		}
-	}
-	public TreadleInfo rndImg(int TreadleImgNumber)
-	{
-		int Treadlecase= (int) Math.round(Math.random()*TreadleImgNumber);
-		
-		switch (Treadlecase)
-		{
-		case 1:
-			return info.setInfoToCase(1);
-		case 2:
-			return info.setInfoToCase(2);
-		case 3:
-			return info.setInfoToCase(3);
-		default:
-			return info.setInfoToCase(3);
 		}
 	}
 	
