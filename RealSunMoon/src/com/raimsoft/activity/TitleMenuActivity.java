@@ -2,6 +2,7 @@ package com.raimsoft.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -9,6 +10,7 @@ import android.view.View.OnClickListener;
 public class TitleMenuActivity extends Activity implements OnClickListener {
 	
 	private boolean already_Next;
+	MediaPlayer mMedia_BGM;
 	
 	private void Next()
 	{
@@ -33,11 +35,16 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 		findViewById(R.id.btn_how).setOnClickListener(this);
 		findViewById(R.id.btn_option).setOnClickListener(this);
 		findViewById(R.id.exit).setOnClickListener(this);
+		
+		mMedia_BGM = MediaPlayer.create(this, R.raw.game_bgm);
+		mMedia_BGM.setLooping(true);
 	}
 	
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
+		mMedia_BGM.start();
+		
 		super.onStart();
 	}
 
