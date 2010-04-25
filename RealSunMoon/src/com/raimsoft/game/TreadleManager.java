@@ -28,13 +28,13 @@ public class TreadleManager {
 			
 			switch (RandomCase)
 			{
-			case 1:
+			case 0:
 				this.Init(30, 18, R.drawable.cloud1_1);
 				return this;
-			case 2:
+			case 1:
 				this.Init(42, 25, R.drawable.cloud1_2);
 				return this;
-			case 3:
+			case 2:
 				this.Init(80, 30, R.drawable.cloud1_3);
 				return this;
 			default:

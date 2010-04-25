@@ -14,6 +14,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.AttributeSet;
@@ -32,11 +34,17 @@ import com.raimsoft.sensor.SensorFactory;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
-	public ImgThread thread;
+	public GameThread thread;
+	
 	SensorFactory sf= SensorFactory.getSensorFactory();
+	
 	PowerManager pm;
 	PowerManager.WakeLock wl;
+	
 	GameActivity gameContext;
+	
+	SoundPool sound_BGM;
+	AudioManager am;
 	
 	public GameView(Context context, AttributeSet attrs)
 	{
@@ -46,7 +54,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		setFocusable(true);	// 포커스를 잡아준다. (키입력 등...)
 		
-		thread= new ImgThread(mHolder, context);	
+		thread= new GameThread(mHolder, context);	
 		gameContext= (GameActivity) context;
 		this.thread.view= this;
 		
@@ -54,7 +62,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		this.thread.treadleMgr= new TreadleManager(this);
 		this.thread.mMonster= new Monster(this, -1, -1 ,50,45, R.drawable.bird_fly_1);
 		
-		
+		sound_BGM=new SoundPool(1, am.STREAM_MUSIC, 0);
+		sound_BGM.load("game_bgm.mp3", 0);
 		
 		pm= (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 		wl= pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
@@ -62,7 +71,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	
 
 
-	public class ImgThread extends Thread
+	public class GameThread extends Thread
 	{
 		private GameView view;
 		
@@ -97,7 +106,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		Bundle SaveBox=new Bundle();
 				
 		// 메인스레드의 생성자
-		public ImgThread (SurfaceHolder _Holder, Context _Context)
+		public GameThread (SurfaceHolder _Holder, Context _Context)
 		{			
 			mSurfaceHolder= _Holder;
 			mRes= _Context.getResources();
