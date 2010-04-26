@@ -48,7 +48,7 @@ public class GameActivity extends Activity {
 		
 		setContentView(R.layout.game);
 		
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);	
 		
 		sf.sensorMgr = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 	}

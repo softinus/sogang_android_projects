@@ -5,8 +5,12 @@ import com.raimsoft.view.GameView;
 public class Treadle extends GameObject {
 
 	public int Purpose_Y=0;
-	public boolean bStepped=false;
+	public boolean bStepped=false;	// 한 번 밟힌 것 표시
+	public boolean bStepped_Pre=false;	// 현재 밟혀있는지 확인
 	//public boolean Down_Y=false;
+	private int[] SteppedArr= {1,2,3,4,5,-5,-4,-3,-2,-1};	// 밟았을 때 살짝 내려감 (부드럽게)
+	private int SteppedArr_PreIdx=0;	// 현재 살짝 내려가는 중의 인덱스
+	private int SteppedArr_MaxIdx= SteppedArr.length;
 	
 	/**
 	 * 모든 정보 입력하는 생성자
@@ -44,5 +48,17 @@ public class Treadle extends GameObject {
 		Img_id=Image_ID;
 		
 		//Purpose_Y=y;
+	}
+	void Treadle_Stepped()
+	{
+		if (bStepped_Pre)
+		{
+			this.SetChangeY(this.SteppedArr[SteppedArr_PreIdx++]);
+		}
+		if (SteppedArr_PreIdx == SteppedArr_MaxIdx)
+		{
+			bStepped_Pre=false;
+			SteppedArr_PreIdx=0;
+		}
 	}
 }

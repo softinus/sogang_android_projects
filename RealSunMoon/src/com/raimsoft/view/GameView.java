@@ -141,7 +141,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						
 						doDrawBackGround(canvas);
 						doDrawObject(canvas);
-						//doDrawText(canvas);
+						doDrawText(canvas);
 						doDrawScore(canvas);
 						doMove();
 						
@@ -185,19 +185,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		void doDrawText(Canvas c)
 		{
-			
+			c.drawText("BackSize= "+ Float.toString(BackSize), 5, 45, pDebug);
 
-			c.drawText("FPS= " + Float.toString(FPS), 5, 30, pDebug);
-			c.drawText("Frame= " + Float.toString(AccFrame), 5, 15, pDebug);
-			c.drawText("X= "+Float.toString(mPlayer.getX()) 
-						+ ", Y= "+Float.toString(mPlayer.getY()),
-						mPlayer.getX(), mPlayer.getY(), pDebug);
-			c.drawText("State= " + Float.toString(mPlayer.State), 5, 45, pDebug);
-			
-			c.drawText("X= " + Float.toString(sf.getSensorValue()[0])
-						+"Y= "+ Float.toString(sf.getSensorValue()[1])
-						+"Z= "+ Float.toString(sf.getSensorValue()[2])
-						, 5, 60, pDebug);
+//			c.drawText("FPS= " + Float.toString(FPS), 5, 30, pDebug);
+//			c.drawText("Frame= " + Float.toString(AccFrame), 5, 15, pDebug);
+//			c.drawText("X= "+Float.toString(mPlayer.getX()) 
+//						+ ", Y= "+Float.toString(mPlayer.getY()),
+//						mPlayer.getX(), mPlayer.getY(), pDebug);
+//			c.drawText("State= " + Float.toString(mPlayer.State), 5, 45, pDebug);
+//			
+//			c.drawText("X= " + Float.toString(sf.getSensorValue()[0])
+//						+"Y= "+ Float.toString(sf.getSensorValue()[1])
+//						+"Z= "+ Float.toString(sf.getSensorValue()[2])
+//						, 5, 60, pDebug);
 			
 			//for (int i=0; i<treadleMgr.getCount(); i++)
 			//{
@@ -276,6 +276,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			}
 			
 			mMonster.Move_Bird();
+			treadleMgr.ALL_Treadle_Stepped();
 			
 			mPlayer.CollisionMonster(mMonster.getObjectForRect());
 			

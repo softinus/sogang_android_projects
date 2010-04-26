@@ -280,6 +280,7 @@ public class Player extends GameObject {
 			if (this.y + JumpIdxArr_Always[JumpIdx_Present] < 150)
 			{
 				view.thread.treadleMgr.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]); 	// 150px이상 화면 나가면 구름을 점프한만큼 내림
+				
 				if (view.thread.mMonster.bFly)	//몬스터가 날고있을 때 캐릭터 올라가면 몬스터 내림
 				{
 					view.thread.mMonster.SetChangeY(-JumpIdxArr_Always[JumpIdx_Present]);
@@ -330,7 +331,7 @@ public class Player extends GameObject {
 			this.setJumpIndex(0);
 			view.thread.cnt_Step++;
 			
-			switch (_tra.Img_id)
+			switch (_tra.Img_id)	// 발판별 스코어
 			{
 				case R.drawable.cloud1_1:
 					if (!_tra.bStepped)
@@ -344,11 +345,17 @@ public class Player extends GameObject {
 					break;
 				case R.drawable.cloud1_3:
 					if (!_tra.bStepped)
+						view.thread.gameScore+=30;
+					_tra.bStepped=true;
+					break;
+				case R.drawable.cloud1_4:
+					if (!_tra.bStepped)
 						view.thread.gameScore+=10;
 					_tra.bStepped=true;
 					break;
-					
 			}
+			_tra.bStepped_Pre= true;
+			
 			
 			this.bStep=true;
 		}

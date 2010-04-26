@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 public class TitleMenuActivity extends Activity implements OnClickListener {
 	
 	private boolean already_Next;
-	MediaPlayer mMedia_BGM;
+	public MediaPlayer mMedia_BGM;
 	
 	private void Next()
 	{
