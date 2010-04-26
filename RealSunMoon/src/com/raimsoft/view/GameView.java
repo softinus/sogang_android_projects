@@ -97,7 +97,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		public int gameScore=0;
 		
 		Canvas canvas=null;
-		Bundle SaveBox=new Bundle();
+		//Bundle SaveBox=new Bundle();
 		
 		SoundManager sm;
 				
@@ -113,14 +113,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			
 			pScore.setTextSize(24);
 			pScore.setAntiAlias(true);
-			pScore.setColor(Color.argb(0xff, 255, 0, 255));
-			
-//			sm=new SoundManager(_Context);
-//			sm.create();
-//			sm.load(0, R.raw.game_bgm);
-//			sm.play(0);
-			
-			
+			pScore.setColor(Color.argb(0xff, 255, 0, 255));			
 			
 			bBackground= BitmapFactory.decodeResource(mRes, R.drawable.background_1);
 		}
@@ -129,7 +122,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		public void run()
 		{
-			while(bRun)
+			while(true)
 			{
 				try
 				{
@@ -141,9 +134,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						
 						doDrawBackGround(canvas);
 						doDrawObject(canvas);
-						doDrawText(canvas);
+						//doDrawText(canvas);
 						doDrawScore(canvas);
-						doMove();
+						
+						if (bRun) {	doMove(); }
 						
 						canvas.restore();
 						
@@ -284,7 +278,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			{
 				if (mPlayer.bJump==true)
 				{
-					mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(true), treadleMgr.treadle[i]);
+					mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(true)
+							, treadleMgr.treadle[i],	treadleMgr);
 				}
 			}
 		}
@@ -328,31 +323,28 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			bTreadle_ImgRefreshed= true;
 		}
 	}
-		
-
-
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		
 		//this.thread.mPlayer.setState(keyCode);
 		Log.d("Key", Float.toString(keyCode));
 		
-//		if (keyCode==event.KEYCODE_MENU)
-//		{
-//			if (thread.bRun==true)
-//			{
+		if (keyCode==event.KEYCODE_MENU)
+		{
+			if (thread.bRun==true)
+			{
 //				thread.SaveBox.putInt("PLAYER_X", thread.mPlayer.getX());
 //				thread.SaveBox.putInt("PLAYER_Y", thread.mPlayer.getY());
-//				Log.v("MENU", "bRun=false");
-//				thread.setRunning(false);
-//			}else{
+				Log.v("MENU", "bRun=false");
+				thread.setRunning(false);
+			}else{
 //				thread.mPlayer.SetPos(thread.SaveBox.getInt("PLAYER_X"),
 //									  thread.SaveBox.getInt("PLAYER_Y"));
-//				Log.v("MENU", "bRun=true");
-//				thread.setRunning(true);
-//				thread.run();
-//			}
-//		}
+				Log.v("MENU", "bRun=true");
+				thread.setRunning(true);
+			}
+		}
 		
 		return super.onKeyDown(keyCode, event);
 	}

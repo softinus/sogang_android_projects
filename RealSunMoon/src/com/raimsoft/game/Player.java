@@ -11,7 +11,6 @@ import com.raimsoft.view.GameView;
 
 public class Player extends GameObject {
 	
-
 	private float spd;	// 속도 G1: 0.9~1.2, 오드로이드: 2.4~2.7
 	
 	public  boolean bStep=		false;	// 처음점프했나
@@ -20,13 +19,14 @@ public class Player extends GameObject {
 	
 	public int State=0;
 	
-	private int JumpIdx_Last=69;	// 점프 배열 수 (변경될 수 있음)
-	private int JumpIdx_Present=0;	// 현재 사용되는 점프배열인덱스
 	
 	private int JumpIdxArr_First[]={-14,-13,-12,-11,-10,-9,-9,-9,-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,
 			-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,0,0,0,0,0,
 			1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,
 			10,11,12,13};//67
+	
+	private int JumpIdx_Last= JumpIdxArr_First.length;	// 점프 배열 수 (변경될 수 있음)
+	private int JumpIdx_Present=0;	// 현재 사용되는 점프배열인덱스
 	
 	private int JumpIdxArr_Always[]={-14,-13,-12,-11,-10,-9,-9,-9,-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,
 			-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,0,0,0,0,0,
@@ -108,13 +108,16 @@ public class Player extends GameObject {
 		setSDKforSpeed();
 	}
 	
+	/**
+	 * SDK별 센서 스피드 조절
+	 */
 	private void setSDKforSpeed()
 	{
 		if (Build.VERSION.SDK_INT <= 4)
 		{
 			spd= (float) 2.2;
 		}else{
-			spd= (float) 2.8;
+			spd= (float) 3.5;
 		}
 	}
 	
@@ -145,7 +148,7 @@ public class Player extends GameObject {
 	}	
 	
 	
-	public void fallcheck()
+	public void fallcheck()	// 화면 밑으로 캐릭터가 떨어지면
 	{
 		//Log.v("checkLife()", "Call checkLife()");
 		if (this.y > view.getHeight())
@@ -260,6 +263,9 @@ public class Player extends GameObject {
 		}
 	}
 	
+	/**
+	 * 몬스터와 충돌시
+	 */
 	public void CrushFall()
 	{
 		this.fallcheck();
@@ -323,15 +329,21 @@ public class Player extends GameObject {
 		JumpIdx_Present++;
 	}
 	
-	public void CollisionTreadle(Rect r, Treadle _tra)
+	public void CollisionTreadle(Rect r, Treadle _tra, TreadleManager _mgr)
 	{
 		if (this.getObjectForRectHalf(false).intersect(r))
 		{
 			Log.v("Collision", "Call CollisionTreadle");
-			this.setJumpIndex(0);
+			
+			this.setJumpIndex(0);	// 다시 점프
 			view.thread.cnt_Step++;
 			
-			switch (_tra.Img_id)	// 발판별 스코어
+			if ((_mgr.getCount()-1)==_tra.uNumber)
+			{
+				view.thread.setRunning(false);
+			}
+			
+			switch (_tra.Img_id)	// 발판별 스코어 점수증가
 			{
 				case R.drawable.cloud1_1:
 					if (!_tra.bStepped)

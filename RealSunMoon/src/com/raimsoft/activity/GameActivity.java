@@ -31,7 +31,6 @@ public class GameActivity extends Activity {
 		{
 			// 센서 values 값 넘겨줌
 			sf.setSensorValue(values, sensor);
-
 			//sf.debugSensorInfo_Ori();
 		}
 

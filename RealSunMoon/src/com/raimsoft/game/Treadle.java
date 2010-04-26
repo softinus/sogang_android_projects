@@ -4,6 +4,7 @@ import com.raimsoft.view.GameView;
 
 public class Treadle extends GameObject {
 
+	public final int uNumber;
 	public int Purpose_Y=0;
 	public boolean bStepped=false;	// 한 번 밟힌 것 표시
 	public boolean bStepped_Pre=false;	// 현재 밟혀있는지 확인
@@ -21,7 +22,7 @@ public class Treadle extends GameObject {
 	 * @param height : 플레이어 높이
 	 * @param Image_ID : 플레이어의 이미지ID
 	 */
-	public Treadle(GameView view, int x, int y, int width, int height, int Image_ID)
+	public Treadle(GameView view, int x, int y, int width, int height, int Image_ID, int treadleNumber)
 	{
 		this.view= view;
 		this.wid = width;
@@ -46,6 +47,8 @@ public class Treadle extends GameObject {
 		}		
 		
 		Img_id=Image_ID;
+		
+		uNumber=treadleNumber;
 		
 		//Purpose_Y=y;
 	}

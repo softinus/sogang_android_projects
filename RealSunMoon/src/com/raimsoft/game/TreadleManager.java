@@ -81,7 +81,7 @@ public class TreadleManager {
 		{
 			tInfo.setInfoToCase(3);	// 4종류의 구름 (0~3)
 			treadle[i]= new Treadle(view, -2, -(GAP*(i-3))
-					, tInfo.width, tInfo.height, tInfo.imgID); 		
+					, tInfo.width, tInfo.height, tInfo.imgID, i); 		
 			
 			// -((GAP*(i-3))
 			// (int) -((Math.random()*(GAP_top-GAP_less)+GAP_less)*(i-5))
