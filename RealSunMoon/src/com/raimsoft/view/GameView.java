@@ -286,9 +286,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				{
 					mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(true), treadleMgr.treadle[i]);
 				}
-				
 			}
-			
 		}
 		
 		

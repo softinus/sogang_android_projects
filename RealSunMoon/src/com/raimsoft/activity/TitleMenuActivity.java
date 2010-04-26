@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.raimsoft.sound.SoundManager;
+
 public class TitleMenuActivity extends Activity implements OnClickListener {
 	
 	private boolean already_Next;
 	public MediaPlayer mMedia_BGM;
+	private SoundManager sm= new SoundManager(this);
 	
 	private void Next()
 	{
@@ -38,6 +41,9 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 		
 		mMedia_BGM = MediaPlayer.create(this, R.raw.game_bgm);
 		mMedia_BGM.setLooping(true);
+		
+		sm.create();
+		sm.load(0, R.raw.button);
 	}
 	
 	@Override
@@ -51,6 +57,8 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		sm.play(0);
+		
 		if(v.getId()==R.id.btn_start)
 		{
 			Next();
