@@ -22,7 +22,7 @@ public class GameActivity extends Activity {
 			startActivity(intent);
 			this.already_Next=true;
 			this.finish();
-		}		
+		}
 	}
 	
 	SensorListener AcceleroListener = new SensorListener()
@@ -46,18 +46,14 @@ public class GameActivity extends Activity {
 		//SurfaceView mSurface=new SurfaceView(null);
 		
 		setContentView(R.layout.game);
+		already_Next=false;
+		
+
+		sf.sensorMgr = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 		
 		super.onCreate(savedInstanceState);	
-		
-		sf.sensorMgr = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 	}
 
-	@Override
-	protected void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-	}
-	
 	@Override
 	protected void onResume() {
 		

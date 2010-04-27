@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.raimsoft.activity.R;
+import com.raimsoft.sound.SoundManager;
 import com.raimsoft.view.GameView;
 
 public class Player extends GameObject {
@@ -33,6 +34,8 @@ public class Player extends GameObject {
 			1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,
 			10,11,12,13,14,  15,16,17,18,19,20,22,24,26,28,30};//79
 	
+	private SoundManager sm;
+	
 	/**
 	 * 플레이어 위치는 자동 중앙배치하는 기본 생성자
 	 * @param view : 중앙위치가 계산될 뷰
@@ -46,6 +49,7 @@ public class Player extends GameObject {
 		Img_id=R.drawable.nui_stand_left;
 		
 		setSDKforSpeed();
+		SoundCreate();
 	}
 	
 	/**
@@ -72,6 +76,7 @@ public class Player extends GameObject {
 		}
 		
 		setSDKforSpeed();
+		SoundCreate();
 	}
 	
 	/**
@@ -106,6 +111,7 @@ public class Player extends GameObject {
 		Img_id=Image_ID;
 		
 		setSDKforSpeed();
+		SoundCreate();
 	}
 	
 	/**
@@ -119,6 +125,13 @@ public class Player extends GameObject {
 		}else{
 			spd= (float) 3.5;
 		}
+	}
+	
+	private void SoundCreate()
+	{
+		sm= new SoundManager(view.gameContext);
+		sm.create();
+		sm.load(0, R.raw.jump);
 	}
 	
 	// 현재 Bitmap을 Drawable로 바꾸면서 안쓰게 되었음.
@@ -338,7 +351,7 @@ public class Player extends GameObject {
 			this.setJumpIndex(0);	// 다시 점프
 			view.thread.cnt_Step++;
 			
-			if ((_mgr.getCount()-1)==_tra.uNumber)
+			if ((_mgr.getCount()-1)==_tra.uNumber)	//마지막 발판 밟을시
 			{
 				view.thread.setRunning(false);
 			}
@@ -367,6 +380,8 @@ public class Player extends GameObject {
 					break;
 			}
 			_tra.bStepped_Pre= true;
+			
+			sm.play(0);
 			
 			
 			this.bStep=true;

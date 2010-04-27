@@ -78,6 +78,7 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	protected void onDestroy() {
 		
 		mMedia_BGM.stop();
+		mMedia_BGM.release();
 		sm.destroy();
 		
 		super.onDestroy();

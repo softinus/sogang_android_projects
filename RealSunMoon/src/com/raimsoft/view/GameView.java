@@ -14,8 +14,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -41,7 +39,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	PowerManager pm;
 	PowerManager.WakeLock wl;
 	
-	GameActivity gameContext;
+	public GameActivity gameContext;
 	
 	public GameView(Context context, AttributeSet attrs)
 	{
@@ -99,7 +97,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		Canvas canvas=null;
 		//Bundle SaveBox=new Bundle();
 		
-		SoundManager sm;
 				
 		// 메인스레드의 생성자
 		public GameThread (SurfaceHolder _Holder, Context _Context)
@@ -137,7 +134,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						//doDrawText(canvas);
 						doDrawScore(canvas);
 						
-						if (bRun) {	doMove(); }
+						//if (bRun)
+							doMove();
 						
 						canvas.restore();
 						
@@ -383,6 +381,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	public void surfaceDestroyed(SurfaceHolder holder) {
         // we have to tell thread to shut down & wait for it to finish, or else
         // it might touch the Surface after we return and explode
+		
         boolean retry = true;
         thread.setRunning(false);
         while (retry) {
