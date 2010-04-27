@@ -79,9 +79,23 @@ public class TreadleManager {
 	{
 		for (int i=0; i<treadle_cnt; i++)
 		{
+			if (i==this.getCount()-1)
+			{
+				treadle[i]= new Treadle(view, -1, -(GAP*(i-3))
+					,80, 30, R.drawable.cloud2_4, i);
+				
+				Log.d("Treadles Pos DEBUG",
+						"X= "+Float.toString(treadle[i].getX())
+					+", Y= "+Float.toString(treadle[i].getY()));
+				
+				return;
+			}
+			
 			tInfo.setInfoToCase(3);	// 4종류의 구름 (0~3)
 			treadle[i]= new Treadle(view, -2, -(GAP*(i-3))
-					, tInfo.width, tInfo.height, tInfo.imgID, i); 		
+					, tInfo.width, tInfo.height, tInfo.imgID, i);
+			
+			
 			
 			// -((GAP*(i-3))
 			// (int) -((Math.random()*(GAP_top-GAP_less)+GAP_less)*(i-5))

@@ -19,7 +19,7 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	{
 		if(!already_Next)
 		{
-			Intent intent=new Intent(TitleMenuActivity.this, GameActivity.class);
+			Intent intent=new Intent(TitleMenuActivity.this, PrologueActivity.class);
 	        startActivity(intent);
 	        already_Next=true;
 	        finish();
@@ -68,7 +68,18 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	        startActivity(intent);
 		}else if(v.getId()==R.id.btn_option)
 		{
-			
+			Intent intent=new Intent(TitleMenuActivity.this, OptionActivity.class);
+	        startActivity(intent);
 		}
+	}
+
+
+	@Override
+	protected void onDestroy() {
+		
+		mMedia_BGM.stop();
+		sm.destroy();
+		
+		super.onDestroy();
 	}
 }
