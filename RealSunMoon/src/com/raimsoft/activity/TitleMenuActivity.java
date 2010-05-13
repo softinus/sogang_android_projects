@@ -36,7 +36,7 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 		
 		findViewById(R.id.btn_start).setOnClickListener(this);
 		findViewById(R.id.btn_how).setOnClickListener(this);
-		findViewById(R.id.btn_option).setOnClickListener(this);
+		//findViewById(R.id.btn_option).setOnClickListener(this);
 		findViewById(R.id.exit).setOnClickListener(this);
 		
 		mMedia_BGM = MediaPlayer.create(this, R.raw.game_bgm);
@@ -66,11 +66,12 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 		{
 			Intent intent=new Intent(TitleMenuActivity.this, HowtoplayActivity.class);
 	        startActivity(intent);
-		}else if(v.getId()==R.id.btn_option)
-		{
-			Intent intent=new Intent(TitleMenuActivity.this, OptionActivity.class);
-	        startActivity(intent);
 		}
+//		else if(v.getId()==R.id.btn_option)
+//		{
+//			Intent intent=new Intent(TitleMenuActivity.this, OptionActivity.class);
+//	        startActivity(intent);
+//		}
 	}
 
 

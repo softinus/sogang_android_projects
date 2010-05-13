@@ -14,6 +14,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.PowerManager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -21,11 +22,15 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.ImageView;
 
 import com.raimsoft.activity.GameActivity;
 import com.raimsoft.activity.R;
 import com.raimsoft.game.Monster;
 import com.raimsoft.game.Player;
+import com.raimsoft.game.Rope;
 import com.raimsoft.game.TreadleManager;
 import com.raimsoft.sensor.SensorFactory;
 import com.raimsoft.sound.SoundManager;
@@ -39,7 +44,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	PowerManager pm;
 	PowerManager.WakeLock wl;
 	
-	public GameActivity gameContext;
+	GameActivity gameContext;
 	
 	public GameView(Context context, AttributeSet attrs)
 	{
@@ -56,6 +61,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		this.thread.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
 		this.thread.treadleMgr= new TreadleManager(this);
 		this.thread.mMonster= new Monster(this, -1, -1 ,50,45, R.drawable.bird_fly_1);
+		this.thread.mRope= new Rope(this, 140,-2, 17,168, R.drawable.new_rope);
 		
 		pm= (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 		wl= pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
@@ -69,19 +75,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		private SurfaceHolder mSurfaceHolder;// 화면 제어
 		private boolean bRun=true;			// 동작 여부
+		private boolean bMove=true;			// 움직임 여부 (일시정지)
+		private boolean bGameClear=false;	// 게임 클리어 여부
+		
 		private boolean bPlayer_ImgRefreshed=true;	// 이미지 새로고침(플레이어)
 		private boolean bTreadle_ImgRefreshed=true;	// 이미지 새로고침(발판)
 		private boolean bMonster_ImgRefreshed=true;	// 이미지 새로고침(몬스터)
+		private boolean bRope_ImgRefreshed=true;	// 이미지 새로고침(로프)
 
 		public Player mPlayer;				// 플레이어 객체
 		public TreadleManager treadleMgr;	// 발판 객체
 		public Monster mMonster;			// 몬스터 객체
+		public Rope mRope;
 		
 		private Resources mRes;				// 리소스
 		private Paint pDebug=new Paint();	// 페인트
 		private Paint pScore=new Paint();
 
 		private Bitmap bBackground;			// 배경
+		private Drawable dGameClear;
 		
 		private int AccFrame;				// 누적프레임
 		private int FPS;					// 초당 프레임
@@ -93,10 +105,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		public int BackSize=1920;			// 배경세로길이
 		public int cnt_Step=0;				// 발판 밟은 수 
 		public int gameScore=0;
+		private int clearTranspercy=0;
 		
 		Canvas canvas=null;
 		//Bundle SaveBox=new Bundle();
 		
+		
+		SoundManager sm;
 				
 		// 메인스레드의 생성자
 		public GameThread (SurfaceHolder _Holder, Context _Context)
@@ -110,7 +125,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			
 			pScore.setTextSize(24);
 			pScore.setAntiAlias(true);
-			pScore.setColor(Color.argb(0xff, 255, 0, 255));			
+			pScore.setColor(Color.argb(0xff, 255, 0, 255));
+			
+//			sm=new SoundManager(_Context);
+//			sm.create();
+//			sm.load(0, R.raw.game_bgm);
+//			sm.play(0);
+			
+			
 			
 			bBackground= BitmapFactory.decodeResource(mRes, R.drawable.background_1);
 		}
@@ -119,7 +141,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		public void run()
 		{
-			while(true)
+			while(bRun)
 			{
 				try
 				{
@@ -133,9 +155,31 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						doDrawObject(canvas);
 						//doDrawText(canvas);
 						doDrawScore(canvas);
+						if (bMove)	doMove();
 						
-						//if (bRun)
-							doMove();
+						if (bGameClear)
+						{
+							mRope.setX(mPlayer.getX()+(mPlayer.getWidth()/2));
+							if(mRope.getY() != -5)
+							{
+								mRope.RopeDown();
+							}else{
+								mRope.bRopeDown=false;
+							}
+							
+							if (!mRope.bRopeDown)
+							{
+								canvas.drawARGB(clearTranspercy, 0, 0, 0);
+								if (clearTranspercy<=125)
+								{
+									++clearTranspercy;
+								}
+							}
+							
+						
+							
+							
+						}
 						
 						canvas.restore();
 						
@@ -208,7 +252,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		
 		void doDrawObject(Canvas c)
-		{			
+		{
+			
+			
+			if(bRope_ImgRefreshed)
+			{
+				mRope.Img_Drawable= mRes.getDrawable(mRope.Img_id);
+				bRope_ImgRefreshed=false;
+			}
+			
 			if(bPlayer_ImgRefreshed)
 			{
 				//Log.v("verbose", "Call Player_ImgRefreshed");
@@ -251,10 +303,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				mMonster.Img_Drawable.draw(c);
 			}
 			
-			
+			if (bGameClear)	//클리어시에 로프 그림
+			{
+				mRope.Img_Drawable.setBounds(mRope.getObjectForRect());
+				mRope.Img_Drawable.draw(c);
+			}
 			
 			mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());
 			mPlayer.Img_Drawable.draw(c);
+			
+			if (!mRope.bRopeDown)
+			{
+				dGameClear= mRes.getDrawable(R.drawable.game_clear);
+				dGameClear.setBounds(20,200, 261+20,60+200);
+				dGameClear.draw(c);
+			}
 		}
 		
 		public void doMove()
@@ -279,7 +342,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 					mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(true)
 							, treadleMgr.treadle[i],	treadleMgr);
 				}
+				
 			}
+			
 		}
 		
 		
@@ -310,7 +375,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		{
 			bRun=_Run;
 		}
+		/**
+		 * 움직임 설정 (일시정지)
+		 * @param _Move : 움직임 설정 boolean값
+		 */
+		public void setMoveing(boolean _Move)
+		{
+			bMove= _Move;
+		}
 		
+		public void setGameClear(boolean _Clear)
+		{
+			bGameClear= _Clear;
+		}
 		
 		public void setPlayerImg_Refresh()
 		{
@@ -321,28 +398,41 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			bTreadle_ImgRefreshed= true;
 		}
 	}
-	
+		
+
+
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
 		
 		//this.thread.mPlayer.setState(keyCode);
 		Log.d("Key", Float.toString(keyCode));
 		
-		if (keyCode==event.KEYCODE_MENU)
-		{
-			if (thread.bRun==true)
-			{
+//		if (keyCode==event.KEYCODE_MENU)
+//		{
+//			if (thread.bRun==true)
+//			{
 //				thread.SaveBox.putInt("PLAYER_X", thread.mPlayer.getX());
 //				thread.SaveBox.putInt("PLAYER_Y", thread.mPlayer.getY());
-				Log.v("MENU", "bRun=false");
-				thread.setRunning(false);
-			}else{
+//				Log.v("MENU", "bRun=false");
+//				thread.setRunning(false);
+//			}else{
 //				thread.mPlayer.SetPos(thread.SaveBox.getInt("PLAYER_X"),
 //									  thread.SaveBox.getInt("PLAYER_Y"));
-				Log.v("MENU", "bRun=true");
-				thread.setRunning(true);
-			}
+//				Log.v("MENU", "bRun=true");
+//				thread.setRunning(true);
+//				thread.run();
+//			}
+//		}
+		
+		if (thread.bMove)
+		{
+			this.thread.setMoveing(false);
+		}else{
+			this.thread.setMoveing(true);
 		}
+		
+		
 		
 		return super.onKeyDown(keyCode, event);
 	}
@@ -353,7 +443,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	public boolean onTouchEvent(MotionEvent event) {
 
 		//if (thread.mPlayer.getObjectForRect().contains((int)event.getX(), (int)event.getY()))
-		//	this.thread.mPlayer.setJumpIndex(0);
+		//this.thread.mPlayer.setJumpIndex(0);
 		
 		return super.onTouchEvent(event);
 	}
@@ -381,7 +471,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	public void surfaceDestroyed(SurfaceHolder holder) {
         // we have to tell thread to shut down & wait for it to finish, or else
         // it might touch the Surface after we return and explode
-		
         boolean retry = true;
         thread.setRunning(false);
         while (retry) {

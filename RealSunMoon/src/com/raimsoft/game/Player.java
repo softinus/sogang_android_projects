@@ -34,7 +34,7 @@ public class Player extends GameObject {
 			1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,
 			10,11,12,13,14,  15,16,17,18,19,20,22,24,26,28,30};//79
 	
-	private SoundManager sm;
+	//private SoundManager sm;
 	
 	/**
 	 * 플레이어 위치는 자동 중앙배치하는 기본 생성자
@@ -49,7 +49,7 @@ public class Player extends GameObject {
 		Img_id=R.drawable.nui_stand_left;
 		
 		setSDKforSpeed();
-		SoundCreate();
+		//SoundCreate();
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class Player extends GameObject {
 		}
 		
 		setSDKforSpeed();
-		SoundCreate();
+		//SoundCreate();
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class Player extends GameObject {
 		Img_id=Image_ID;
 		
 		setSDKforSpeed();
-		SoundCreate();
+		//SoundCreate();
 	}
 	
 	/**
@@ -127,12 +127,12 @@ public class Player extends GameObject {
 		}
 	}
 	
-	private void SoundCreate()
-	{
-		sm= new SoundManager(view.gameContext);
-		sm.create();
-		sm.load(0, R.raw.jump);
-	}
+//	private void SoundCreate()
+//	{
+//		sm= new SoundManager(view.gameContext);
+//		sm.create();
+//		sm.load(0, R.raw.jump);
+//	}
 	
 	// 현재 Bitmap을 Drawable로 바꾸면서 안쓰게 되었음.
 	public Rect getStateImgRect()
@@ -353,7 +353,9 @@ public class Player extends GameObject {
 			
 			if ((_mgr.getCount()-1)==_tra.uNumber)	//마지막 발판 밟을시
 			{
-				view.thread.setRunning(false);
+				view.thread.setMoveing(false);
+				view.thread.setGameClear(true);
+				
 			}
 			
 			switch (_tra.Img_id)	// 발판별 스코어 점수증가
@@ -381,7 +383,7 @@ public class Player extends GameObject {
 			}
 			_tra.bStepped_Pre= true;
 			
-			sm.play(0);
+			//sm.play(0);
 			
 			
 			this.bStep=true;
