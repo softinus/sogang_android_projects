@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, StartActivity!</string>
+    <string name="app_name">RealSunMoon</string>
+    <string name="howtoplay_text">
+    <B>1.개요</B>
+	\n본격 햇님 달님에 오신 것을 환영합니다!\n
+	이 게임은 한국의 전래동화인 햇님달님을 소재로 하여 한국의 전통문화를 알리자는 취지로 만들어졌습니다.
+	처음 누이 캐릭터가 널뛰기를 통하여 하늘로 올라가게 됩니다.\n
+	\n<b>2.조작</b>
+	\n캐릭터는 센서를 이용하여 좌우로 이동할 수 있습니다.\n
+	양옆 화면 밖으로 나갈 시에는 반대 방향으로 나옵니다.\n
+	\n<b>3.목적</b>
+	\n이 게임의 목적은 누이 캐릭터를 이용하여 끝까지 올라가는 것입니다.\n
+	마지막 위에 있는 동아줄을 잡으면 승리하게 됩니다.
+	</string>
+</resources>
