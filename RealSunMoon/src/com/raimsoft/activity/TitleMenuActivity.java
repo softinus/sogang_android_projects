@@ -47,15 +47,16 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	}
 	
 	@Override
-	protected void onStart() {
-		// TODO Auto-generated method stub
+	protected void onStart()
+	{
 		mMedia_BGM.start();
 		
 		super.onStart();
 	}
 
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v)
+	{
 		// TODO Auto-generated method stub
 		sm.play(0);
 		

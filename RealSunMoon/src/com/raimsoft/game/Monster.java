@@ -49,7 +49,7 @@ public class Monster extends GameObject {
 	
 	public void Move_Bird()
 	{
-		if (view.thread.cnt_Step>5)
+		if (view.thread.mStageMgr.GetStage().cnt_Step>5)
 		{
 			this.x-=spd;
 			this.y+=spd;
