@@ -10,13 +10,13 @@ import android.util.Log;
 public class Stage1 extends BaseStage{
 	
 
+	public Stage1()
+	{
+		//view.thread.setupInit();
+		stageSetup();
+	}
 	private int clearTranspercy=0;
-
-
 	final int STAGE_ID=1;
-	
-
-
 	
 	@Override
 	int GetStageID()
@@ -37,7 +37,6 @@ public class Stage1 extends BaseStage{
 	void stageSetup()
 	{
 		bBackground= BitmapFactory.decodeResource(mRes, R.drawable.background_1);
-		
 	}
 
 	@Override
@@ -63,10 +62,18 @@ public class Stage1 extends BaseStage{
 				mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(true)
 						, treadleMgr.treadle[i],	treadleMgr);
 			}
-			
 		}
+		this.LifeCheck();
+		
 	}
 
+	void LifeCheck()
+	{
+		if (!mPlayer.isLive())
+		{
+			view.thread.gameOver();
+		}
+	}
 	
 	
 	void doDrawBackGround(Canvas c)
@@ -184,16 +191,15 @@ public class Stage1 extends BaseStage{
 				{
 					clearTranspercy+=5;
 				}
+				if (clearTranspercy==255)
+				{
+					view.thread.mStageMgr.StageChange(99);
+				}
 			}
 			
 		}
 		
-//		if (!mRope.bRopeDown)
-//		{
-//			dGameClear= mRes.getDrawable(R.drawable.game_clear);
-//			dGameClear.setBounds(20,200, 261+20,60+200);
-//			dGameClear.draw(c);
-//		}
+
 	}
 	
 

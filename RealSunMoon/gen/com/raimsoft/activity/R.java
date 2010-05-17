@@ -102,7 +102,8 @@ public final class R {
         public static final int get_item=0x7f050003;
         public static final int jump=0x7f050004;
         public static final int owl=0x7f050005;
-        public static final int tiger=0x7f050006;
+        public static final int success=0x7f050006;
+        public static final int tiger=0x7f050007;
     }
     public static final class string {
         public static final int app_name=0x7f060001;

@@ -1,5 +1,6 @@
 package com.raimsoft.stage;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,18 +19,18 @@ public abstract class BaseStage
 {
 	public GameView view;
 	public Resources mRes;
+	public Context mContext;
 	
 	public Player mPlayer;				// 플레이어 객체
 	public TreadleManager treadleMgr;	// 발판 객체
 	public Monster mMonster;			// 몬스터 객체
 	public Rope mRope;
 	
-	boolean bGameClear=false;	// 게임 클리어 여부
+	public boolean bGameClear=false;	// 게임 클리어 여부
 	boolean bPlayer_ImgRefreshed=true;	// 이미지 새로고침(플레이어)
 	boolean bTreadle_ImgRefreshed=true;	// 이미지 새로고침(발판)
 	boolean bMonster_ImgRefreshed=true;	// 이미지 새로고침(몬스터)
 	boolean bRope_ImgRefreshed=true;	// 이미지 새로고침(로프)
-	
 	
 	Bitmap bBackground;			// 배경
 	Drawable dGameClear;
@@ -52,6 +53,9 @@ public abstract class BaseStage
 		pScore.setTextSize(24);
 		pScore.setAntiAlias(true);
 		pScore.setColor(Color.argb(0xff, 255, 0, 255));
+		
+//		mContext= view.thread.getGameContext();
+//		mRes= mContext.getResources();
 	}
 	
 	abstract int GetStageID();
@@ -89,5 +93,6 @@ public abstract class BaseStage
 		bTreadle_ImgRefreshed= true;
 	}
 	
+
 
 }

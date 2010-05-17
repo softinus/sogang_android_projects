@@ -6,6 +6,8 @@ import android.util.Log;
 public class StageManager {
 	final int STAGE_1=	1;
 	final int STAGE_2=	2;
+	final int SUCCESS=	99;
+	
 	private BaseStage mStage;
 	
 	/**
@@ -26,13 +28,14 @@ public class StageManager {
 		case STAGE_2:
 			mStage= new Stage2();
 			break;
+		case SUCCESS:
+			mStage= new Success();
+			break;
 		}
 	}
 	
 	public BaseStage GetStage()
-	{
-		Log.i("StageManager","GetStage");
-		
+	{	
 		if(mStage!=null)
 		{
 			return mStage;

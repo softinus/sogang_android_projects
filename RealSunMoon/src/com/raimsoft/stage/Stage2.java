@@ -6,6 +6,12 @@ public class Stage2 extends BaseStage {
 
 	final int STAGE_ID=2;
 	
+	public Stage2()
+	{
+		//view.thread.setupInit();
+		stageSetup();
+	}
+	
 	@Override
 	int GetStageID()
 	{

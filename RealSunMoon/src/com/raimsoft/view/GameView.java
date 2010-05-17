@@ -74,7 +74,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		private SurfaceHolder mSurfaceHolder;// 화면 제어
 		private boolean bRun=true;			// 동작 여부
 		private boolean bMove=true;			// 움직임 여부 (일시정지)
-
+		private boolean bSetupInit=true;
+		
 		public Resources mRes;				// 리소스
 
 		private int AccFrame;				// 누적프레임
@@ -87,9 +88,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		Canvas canvas=null;
 		
 		public StageManager mStageMgr;
-				
-		SoundManager sm;
-				
+		
 		// 메인스레드의 생성자
 		public GameThread (SurfaceHolder _Holder, Context _Context)
 		{
@@ -99,13 +98,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			mRes= _Context.getResources();
 						
 			mStageMgr=new StageManager();
+			this.mStageMgr.GetStage().mContext= _Context;
 			this.mStageMgr.GetStage().mRes= this.mRes;
-			
-			this.mStageMgr.AllSetUp();
-//			sm=new SoundManager(_Context);
-//			sm.create();
-//			sm.load(0, R.raw.game_bgm);
-//			sm.play(0);	
 		}
 		
 
@@ -122,29 +116,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						oldTime= System.currentTimeMillis();
 						canvas.save();
 						
-						mStageMgr.AllDraw(canvas);
-						if (bMove) mStageMgr.AllUpdate();
+						if (bSetupInit)
+						{
+							this.mStageMgr.AllSetUp();
+							bSetupInit=false;
+						}
+						
+						mStageMgr.AllDraw(canvas);	//현재 스테이지를 모두 그림
+						
+						if (bMove && !mStageMgr.GetStage().bGameClear)
+							mStageMgr.AllUpdate();
 						
 						canvas.restore();
 						
 						
-						
 						sleep(delTime);
-						++AccFrame;
+						clacFrame();
 						
-						curTime= System.currentTimeMillis() - delTime;
-						
-						Render1ForTime= curTime - oldTime;
-						RenderAccTime+= Render1ForTime;
-						
-						if (RenderAccTime > 1000)
-						{
-							FPS= AccFrame;
-							AccFrame=0;
-							RenderAccTime=0;
-						}
-						
-						this.LifeCheck();
 					}
 				}catch (InterruptedException e) {
 					e.printStackTrace();
@@ -158,13 +146,35 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			}
 		}
 		
-		void LifeCheck()
+		/**
+		 * 게임오버시 게임오버Activity로
+		 */
+		public void gameOver()
 		{
-			if (!mStageMgr.GetStage().mPlayer.isLive())
-			{
-				gameContext.NextGameOverActivity();
-			}
+			gameContext.NextGameOverActivity();
 		}
+		
+		/**
+		 * 프레임 계산 모듈
+		 */
+		private void clacFrame()
+		{
+			++AccFrame;
+			
+			curTime= System.currentTimeMillis() - delTime;
+			
+			Render1ForTime= curTime - oldTime;
+			RenderAccTime+= Render1ForTime;
+			
+			if (RenderAccTime > 1000)
+			{
+				FPS= AccFrame;
+				AccFrame=0;
+				RenderAccTime=0;
+			}
+			
+		}
+		
 		
 		/** 스레드 동작 설정
 		* @param _Run : 동작 설정 boolean값*/
@@ -179,6 +189,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		public void setMoveing(boolean _Move)
 		{
 			bMove= _Move;
+		}
+		
+		public void setupInit()
+		{
+			bSetupInit= true;
+		}
+		public Context getGameContext()
+		{
+			return gameContext;
 		}
 		
 
