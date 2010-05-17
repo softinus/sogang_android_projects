@@ -2,16 +2,20 @@ package com.raimsoft.stage;
 
 import android.graphics.Canvas;
 
+import com.raimsoft.activity.R;
+import com.raimsoft.sound.SoundManager;
+
 public class Success extends BaseStage
 {
 	final int STAGE_ID=99;
 
 //	Drawable dStageClear;
+	SoundManager sm;
 	
 	public Success()
 	{
 		//view.thread.setupInit();
-		stageSetup();
+		//stageSetup();
 	}
 	
 	@Override
@@ -30,6 +34,9 @@ public class Success extends BaseStage
 	void stageSetup()
 	{
 //		dStageClear= mRes.getDrawable(R.drawable.game_clear);
+		sm.create();
+		sm.load(0, R.raw.success);
+		sm.play(0);
 		
 	}
 

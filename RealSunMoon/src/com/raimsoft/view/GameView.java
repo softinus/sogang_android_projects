@@ -98,8 +98,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			mRes= _Context.getResources();
 						
 			mStageMgr=new StageManager();
-			this.mStageMgr.GetStage().mContext= _Context;
-			this.mStageMgr.GetStage().mRes= this.mRes;
+			mStageMgr.GetStage().mContext= _Context;
+			mStageMgr.GetStage().mRes= this.mRes;
 		}
 		
 

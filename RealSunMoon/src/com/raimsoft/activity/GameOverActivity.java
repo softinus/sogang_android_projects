@@ -3,6 +3,7 @@ package com.raimsoft.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -11,6 +12,7 @@ public class GameOverActivity extends Activity implements OnClickListener {
 	private boolean already_Next=false;
 	
 //	SoundManager sm=new SoundManager(this);
+	
 	
 	public void NextActivity()
 	{
@@ -28,6 +30,9 @@ public class GameOverActivity extends Activity implements OnClickListener {
 	
 		setContentView (R.layout.gameover);
 		already_Next=false;
+		
+		Vibrator vib= (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
+		vib.vibrate(300);
 		
 //		sm.create();
 //		sm.load(0, R.raw.gameover);

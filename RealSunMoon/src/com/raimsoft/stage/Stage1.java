@@ -13,7 +13,7 @@ public class Stage1 extends BaseStage{
 	public Stage1()
 	{
 		//view.thread.setupInit();
-		stageSetup();
+		//stageSetup();
 	}
 	private int clearTranspercy=0;
 	final int STAGE_ID=1;
@@ -50,7 +50,7 @@ public class Stage1 extends BaseStage{
 			mPlayer.JumpAlways();
 		}
 		
-	mMonster.Move_Bird();
+		mMonster.Move_Bird();
 		treadleMgr.ALL_Treadle_Stepped();
 		
 		mPlayer.CollisionMonster(mMonster.getObjectForRect());
