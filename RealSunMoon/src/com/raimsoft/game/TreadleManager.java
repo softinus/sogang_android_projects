@@ -65,7 +65,7 @@ public class TreadleManager {
 	{
 		this.view= _view;
 		
-		treadle_cnt= Math.round(view.thread.mStageMgr.GetStage().BackSize*3 / GAP);
+		treadle_cnt= Math.round(view.thread.mStageMgr.GetStage1().BackSize*3 / GAP);
 		treadle= new Treadle[treadle_cnt];
 		tInfo=new TreadleInfo();
 		

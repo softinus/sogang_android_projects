@@ -9,12 +9,16 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.raimsoft.sensor.SensorFactory;
+import com.raimsoft.sound.SoundManager;
 
 public class GameActivity extends Activity {
 
 	SensorFactory sf= SensorFactory.getSensorFactory();
 	private boolean already_Next=false;
+	private boolean already_Option=false;
 	public MediaPlayer mMedia_BGM;
+	public MediaPlayer mMedia_Success;
+	SoundManager sm=new SoundManager(this);
 	
 	public void NextGameOverActivity()
 	{
@@ -23,6 +27,17 @@ public class GameActivity extends Activity {
 			Intent intent=new Intent (GameActivity.this, GameOverActivity.class);
 			startActivity(intent);
 			this.already_Next=true;
+			this.finish();
+		}
+	}
+	
+	public void NextOptionActivity()
+	{
+		if(!already_Option)
+		{
+			Intent intent=new Intent (GameActivity.this, OptionActivity.class);
+			startActivity(intent);
+			this.already_Option=true;
 			this.finish();
 		}
 	}
@@ -51,6 +66,11 @@ public class GameActivity extends Activity {
 		
 		mMedia_BGM = MediaPlayer.create(this, R.raw.game_bgm);
 		mMedia_BGM.setLooping(true);
+		
+		mMedia_Success= MediaPlayer.create(this, R.raw.success);
+		
+//		sm.create();
+//		sm.load(0, R.raw.success);
 
 		sf.sensorMgr = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 		
@@ -69,6 +89,15 @@ public class GameActivity extends Activity {
 		         sf.sensorMgr.SENSOR_DELAY_GAME);
 		
 		super.onResume();
+	}
+	
+	public void stopBGM()
+	{
+		mMedia_BGM.stop();
+	}
+	public void playSE()
+	{
+		mMedia_Success.start();
 	}
 
 	@Override

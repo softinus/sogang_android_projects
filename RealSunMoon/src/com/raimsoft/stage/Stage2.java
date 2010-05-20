@@ -6,6 +6,12 @@ public class Stage2 extends BaseStage {
 
 	final int STAGE_ID=2;
 	
+	private static Stage2 stage2= new Stage2();
+	public Stage2 getStage1()
+	{
+		return stage2;
+	}
+	
 	public Stage2()
 	{
 		//view.thread.setupInit();

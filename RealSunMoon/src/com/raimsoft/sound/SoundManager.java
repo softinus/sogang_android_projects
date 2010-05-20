@@ -23,7 +23,7 @@ public class SoundManager {
 	}
 	
 	public void create() {
-		mSoundPool = new SoundPool(16, AudioManager.STREAM_MUSIC, 0);
+		mSoundPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
 		mSoundPoolMap = new HashMap<Integer, Integer>();
 		mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 	}

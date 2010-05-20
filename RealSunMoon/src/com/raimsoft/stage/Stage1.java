@@ -1,19 +1,64 @@
 package com.raimsoft.stage;
 
-import com.raimsoft.activity.R;
-
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+
+import com.raimsoft.activity.GameActivity;
+import com.raimsoft.activity.R;
+import com.raimsoft.game.Monster;
+import com.raimsoft.game.Player;
+import com.raimsoft.game.Rope;
+import com.raimsoft.game.TreadleManager;
 
 public class Stage1 extends BaseStage{
 	
+	private static Stage1 stage1= new Stage1();
+	public Stage1 getStage1()
+	{
+		return stage1;
+	}
+	
+	public static Player mPlayer;				// 플레이어 객체
+	public static TreadleManager treadleMgr;	// 발판 객체
+	public static Monster mMonster;			// 몬스터 객체
+	public static Rope mRope;
+	
+	private boolean bClearStage1= false;
+	Bitmap bBackground;			// 배경
+	Drawable dGameClear;
+	
+	Paint pDebug=new Paint();	// 페인트
+	Paint pScore=new Paint();
+	
+	public static int BackSize=1920;			// 배경세로길이
+	public static int cnt_Step=0;				// 발판 밟은 수 
+	public static int gameScore=0;
 
+	public static boolean bGameClear=false;	// 게임 클리어 여부
+	static boolean bPlayer_ImgRefreshed=true;	// 이미지 새로고침(플레이어)
+	static boolean bTreadle_ImgRefreshed=true;	// 이미지 새로고침(발판)
+	static boolean bMonster_ImgRefreshed=true;	// 이미지 새로고침(몬스터)
+	static boolean bRope_ImgRefreshed=true;	// 이미지 새로고침(로프)
+	
+	
 	public Stage1()
 	{
 		//view.thread.setupInit();
 		//stageSetup();
+		
+		pDebug.setTextSize(12);
+		pDebug.setAntiAlias(true);
+		pDebug.setColor(Color.argb(0xff, 255, 0, 255));
+		
+		pScore.setTextSize(24);
+		pScore.setAntiAlias(true);
+		pScore.setColor(Color.argb(0xff, 255, 0, 255));
 	}
 	private int clearTranspercy=0;
 	final int STAGE_ID=1;
@@ -180,6 +225,8 @@ public class Stage1 extends BaseStage{
 			if(mRope.getY() != -5)
 			{
 				mRope.RopeDown();
+				((GameActivity) mContext).stopBGM();
+				((GameActivity) mContext).playSE();
 			}else{
 				mRope.bRopeDown=false;
 			}
@@ -193,7 +240,7 @@ public class Stage1 extends BaseStage{
 				}
 				if (clearTranspercy==255)
 				{
-					view.thread.mStageMgr.StageChange(99);
+					bClearStage1= true;	// 스테이지1 클리어
 				}
 			}
 			
@@ -202,6 +249,20 @@ public class Stage1 extends BaseStage{
 
 	}
 	
+	
+	public void setGameClear(boolean _Clear)
+	{
+		bGameClear= _Clear;
+	}
+	
+	public void setPlayerImg_Refresh()
+	{
+		bPlayer_ImgRefreshed= true;
+	}
+	public void setTreadleImg_Refresh()
+	{
+		bTreadle_ImgRefreshed= true;
+	}
 
 	
 }

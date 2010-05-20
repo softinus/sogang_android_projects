@@ -9,6 +9,7 @@ public class StageManager {
 	final int SUCCESS=	99;
 	
 	private BaseStage mStage;
+	public int currStage;
 	
 	/**
 	 * 생성자
@@ -20,6 +21,7 @@ public class StageManager {
 	
 	void StageChange (int _StageNum)
 	{
+		currStage= _StageNum;	// 현재 스테이지값을 조정
 		switch (_StageNum)
 		{
 		case STAGE_1:
@@ -45,6 +47,11 @@ public class StageManager {
 			Log.e("StageManager","GetStage - mStage haven't Object");
 			return null;
 		}
+	}
+	public Stage1 GetStage1()
+	{
+		Stage1 mStage1 = new Stage1();
+		return (mStage1.getStage1());		
 	}
 
 	public void AllSetUp()

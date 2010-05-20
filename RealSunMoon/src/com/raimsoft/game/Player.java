@@ -123,7 +123,7 @@ public class Player extends GameObject {
 		{
 			spd= (float) 2.2;
 		}else{
-			spd= (float) 3.5;
+			spd= (float) 5.5;
 		}
 	}
 	
@@ -285,7 +285,7 @@ public class Player extends GameObject {
 		this.y+=5;
 		
 		this.Img_id=R.drawable.nui_fall_3;
-		view.thread.mStageMgr.GetStage().setPlayerImg_Refresh();
+		view.thread.mStageMgr.GetStage1().setPlayerImg_Refresh();
 	}
 	
 	public void JumpAlways()
@@ -298,17 +298,17 @@ public class Player extends GameObject {
 		{
 			if (this.y + JumpIdxArr_Always[JumpIdx_Present] < 150)
 			{
-				view.thread.mStageMgr.GetStage().treadleMgr.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]); 	// 150px이상 화면 나가면 구름을 점프한만큼 내림
+				view.thread.mStageMgr.GetStage1().treadleMgr.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]); 	// 150px이상 화면 나가면 구름을 점프한만큼 내림
 				
-				if (view.thread.mStageMgr.GetStage().mMonster.bFly)	//몬스터가 날고있을 때 캐릭터 올라가면 몬스터 내림
+				if (view.thread.mStageMgr.GetStage1().mMonster.bFly)	//몬스터가 날고있을 때 캐릭터 올라가면 몬스터 내림
 				{
-					view.thread.mStageMgr.GetStage().mMonster.SetChangeY(-JumpIdxArr_Always[JumpIdx_Present]);
+					view.thread.mStageMgr.GetStage1().mMonster.SetChangeY(-JumpIdxArr_Always[JumpIdx_Present]);
 				}
 				
 				
-				if (view.getHeight() < view.thread.mStageMgr.GetStage().BackSize)
+				if (view.getHeight() < view.thread.mStageMgr.GetStage1().BackSize)
 				{
-					view.thread.mStageMgr.GetStage().BackSize += Math.round(JumpIdxArr_Always[JumpIdx_Present] / 3);
+					view.thread.mStageMgr.GetStage1().BackSize += Math.round(JumpIdxArr_Always[JumpIdx_Present] / 3);
 				}
 				
 			}
@@ -349,12 +349,12 @@ public class Player extends GameObject {
 			Log.v("Collision", "Call CollisionTreadle");
 			
 			this.setJumpIndex(0);	// 다시 점프
-			view.thread.mStageMgr.GetStage().cnt_Step++;
+			view.thread.mStageMgr.GetStage1().cnt_Step++;
 			
 			if ((_mgr.getCount()-1)==_tra.uNumber)	//마지막 발판 밟을시
 			{
 				view.thread.setMoveing(false);
-				view.thread.mStageMgr.GetStage().setGameClear(true);
+				view.thread.mStageMgr.GetStage1().setGameClear(true);
 				
 			}
 			
@@ -362,22 +362,22 @@ public class Player extends GameObject {
 			{
 				case R.drawable.cloud1_1:
 					if (!_tra.bStepped)
-						view.thread.mStageMgr.GetStage().gameScore+=70;
+						view.thread.mStageMgr.GetStage1().gameScore+=70;
 					_tra.bStepped=true;
 					break;
 				case R.drawable.cloud1_2:
 					if (!_tra.bStepped)
-						view.thread.mStageMgr.GetStage().gameScore+=50;
+						view.thread.mStageMgr.GetStage1().gameScore+=50;
 					_tra.bStepped=true;
 					break;
 				case R.drawable.cloud1_3:
 					if (!_tra.bStepped)
-						view.thread.mStageMgr.GetStage().gameScore+=30;
+						view.thread.mStageMgr.GetStage1().gameScore+=30;
 					_tra.bStepped=true;
 					break;
 				case R.drawable.cloud1_4:
 					if (!_tra.bStepped)
-						view.thread.mStageMgr.GetStage().gameScore+=10;
+						view.thread.mStageMgr.GetStage1().gameScore+=10;
 					_tra.bStepped=true;
 					break;
 			}
@@ -414,7 +414,7 @@ public class Player extends GameObject {
 			}else{
 				this.Img_id= R.drawable.nui_jump_left;
 			}
-			view.thread.mStageMgr.GetStage().setPlayerImg_Refresh();
+			view.thread.mStageMgr.GetStage1().setPlayerImg_Refresh();
 		}
 		if (this.State==KeyEvent.KEYCODE_DPAD_RIGHT)
 		{
@@ -424,7 +424,7 @@ public class Player extends GameObject {
 			}else{
 				this.Img_id= R.drawable.nui_jump_right;
 			}
-			view.thread.mStageMgr.GetStage().setPlayerImg_Refresh();
+			view.thread.mStageMgr.GetStage1().setPlayerImg_Refresh();
 		}
 	}
 }

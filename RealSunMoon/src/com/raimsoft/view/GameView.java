@@ -59,10 +59,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			
 		this.thread.mStageMgr.GetStage().view= this;
 		
-		this.thread.mStageMgr.GetStage().mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
-		this.thread.mStageMgr.GetStage().treadleMgr= new TreadleManager(this);
-		this.thread.mStageMgr.GetStage().mMonster= new Monster(this, -1, -1 ,50,45, R.drawable.bird_fly_1);
-		this.thread.mStageMgr.GetStage().mRope= new Rope(this, 140,-2, 17,168, R.drawable.new_rope);
+		this.thread.mStageMgr.GetStage1().mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
+		this.thread.mStageMgr.GetStage1().mMonster= new Monster(this, -1, -1 ,50,45, R.drawable.bird_fly_1);
+		this.thread.mStageMgr.GetStage1().mRope= new Rope(this, 140,-2, 17,168, R.drawable.new_rope);
+		this.thread.mStageMgr.GetStage1().treadleMgr= new TreadleManager(this);
 		
 		pm= (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 		wl= pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
@@ -124,7 +124,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						
 						mStageMgr.AllDraw(canvas);	//현재 스테이지를 모두 그림
 						
-						if (bMove && !mStageMgr.GetStage().bGameClear)
+						if (bMove && !mStageMgr.GetStage1().bGameClear)
 							mStageMgr.AllUpdate();
 						
 						canvas.restore();
@@ -231,6 +231,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		
 		if (thread.bMove)
 		{
+			gameContext.NextOptionActivity();
 			this.thread.setMoveing(false);
 		}else{
 			this.thread.setMoveing(true);
@@ -258,7 +259,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,	int height)
-			{}
+	{}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder)
@@ -280,7 +281,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         thread.setRunning(false);
         while (retry) {
             try {
-            	//wl.release();
+            	wl.release();
                 thread.join();
                 retry = false;
             } catch (InterruptedException e) {

@@ -34,10 +34,7 @@ public class Success extends BaseStage
 	void stageSetup()
 	{
 //		dStageClear= mRes.getDrawable(R.drawable.game_clear);
-		sm.create();
-		sm.load(0, R.raw.success);
-		sm.play(0);
-		
+
 	}
 
 	@Override
