@@ -7,6 +7,7 @@ import com.raimsoft.view.GameView;
 
 public class TreadleManager {
 
+
 	private class TreadleInfo
 	{
 		int width;
@@ -29,19 +30,19 @@ public class TreadleManager {
 			switch (RandomCase)
 			{
 			case 0:
-				this.Init(30, 18, R.drawable.cloud1_1);
+				this.Init(30, 18, treadleImgID[0]);
 				return this;
 			case 1:
-				this.Init(42, 25, R.drawable.cloud1_2);
+				this.Init(42, 25, treadleImgID[1]);
 				return this;
 			case 2:
-				this.Init(60, 30, R.drawable.cloud1_3);
+				this.Init(60, 30, treadleImgID[2]);
 				return this;
 			case 3:
-				this.Init(80, 30, R.drawable.cloud1_4);
+				this.Init(80, 30, treadleImgID[3]);
 				return this;
 			default:
-				this.Init(80, 30, R.drawable.cloud1_4);
+				this.Init(80, 30, treadleImgID[3]);
 				return this;
 			}
 		}
@@ -57,6 +58,8 @@ public class TreadleManager {
 	private final int GAP=	100;
 	private int treadle_cnt;
 	
+	public int treadleImgID[]= new int[5];
+
 	/**
 	 * 생성자
 	 * @param _view
@@ -65,38 +68,43 @@ public class TreadleManager {
 	{
 		this.view= _view;
 		
-		treadle_cnt= Math.round(view.thread.mStageMgr.GetStage1().BackSize*3 / GAP);
+		treadle_cnt= Math.round(view.thread.mStageMgr.mStage.BackSize*3 / GAP);
 		treadle= new Treadle[treadle_cnt];
 		tInfo=new TreadleInfo();
+		
+		treadleImgID[0]=R.drawable.cloud1_1;
+		treadleImgID[1]=R.drawable.cloud1_2;
+		treadleImgID[2]=R.drawable.cloud1_3;
+		treadleImgID[3]=R.drawable.cloud1_4;
+		treadleImgID[4]=R.drawable.cloud2_4;
 		
 		this.TreadleCreate();
 	}
 	
 
 	
-	
+	/**
+	 * 발판을 생성합니다.
+	 */
 	public void TreadleCreate()
 	{
-		for (int i=0; i<treadle_cnt; i++)
+		for (int i=0; i<treadle_cnt; i++) // 발판 수만큼 배열에 구름좌표와 이미지 추가
 		{
 			if (i==this.getCount()-1)
 			{
-				treadle[i]= new Treadle(view, -1, -(GAP*(i-3))
-					,80, 30, R.drawable.cloud2_4, i);
+				treadle[i]= new Treadle(view, -1, -(GAP*(i-3))	// 마지막 구름 설정
+					,80, 30, treadleImgID[4], i);
 				
-				Log.d("Treadles Pos DEBUG",
-						"X= "+Float.toString(treadle[i].getX())
-					+", Y= "+Float.toString(treadle[i].getY()));
-				
+//				Log.d("Treadles Pos DEBUG",
+//						"X= "+Float.toString(treadle[i].getX())
+//					+", Y= "+Float.toString(treadle[i].getY()));
+//				
 				return;
 			}
 			
-			tInfo.setInfoToCase(3);	// 4종류의 구름 (0~3)
+			tInfo.setInfoToCase( 3 );	// 4종류의 구름 (0~3)
 			treadle[i]= new Treadle(view, -2, -(GAP*(i-3))
 					, tInfo.width, tInfo.height, tInfo.imgID, i);
-			
-			
-			
 			// -((GAP*(i-3))
 			// (int) -((Math.random()*(GAP_top-GAP_less)+GAP_less)*(i-5))
 			

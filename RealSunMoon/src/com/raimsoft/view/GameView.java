@@ -57,12 +57,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		thread= new GameThread(mHolder, context);	
 		gameContext= (GameActivity) context;
 			
-		this.thread.mStageMgr.GetStage().view= this;
+		this.thread.mStageMgr.mStage.view= this;
 		
-		this.thread.mStageMgr.GetStage1().mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
-		this.thread.mStageMgr.GetStage1().mMonster= new Monster(this, -1, -1 ,50,45, R.drawable.bird_fly_1);
-		this.thread.mStageMgr.GetStage1().mRope= new Rope(this, 140,-2, 17,168, R.drawable.new_rope);
-		this.thread.mStageMgr.GetStage1().treadleMgr= new TreadleManager(this);
+		this.thread.mStageMgr.mStage.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
+		this.thread.mStageMgr.mStage.mMonster= new Monster(this, -1, -1 ,50,45, R.drawable.bird_fly_1);
+		this.thread.mStageMgr.mStage.mRope= new Rope(this, 140,-2, 17,168, R.drawable.new_rope);
+		this.thread.mStageMgr.mStage.treadleMgr= new TreadleManager(this);
 		
 		pm= (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 		wl= pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
@@ -98,15 +98,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			mRes= _Context.getResources();
 						
 			mStageMgr=new StageManager();
-			mStageMgr.GetStage().mContext= _Context;
-			mStageMgr.GetStage().mRes= this.mRes;
+			mStageMgr.mStage.mContext= _Context;
+			mStageMgr.mStage.mRes= this.mRes;
 		}
 		
 
 		
 		public void run()
 		{
-			while(bRun)
+			while(bRun)	// 게임 루프 (Game Loop)
 			{
 				try
 				{
@@ -118,14 +118,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						
 						if (bSetupInit)
 						{
-							this.mStageMgr.AllSetUp();
+							this.mStageMgr.StageSetUp();
 							bSetupInit=false;
 						}
 						
-						mStageMgr.AllDraw(canvas);	//현재 스테이지를 모두 그림
+						mStageMgr.StageDraw(canvas);	//현재 스테이지를 모두 그림
 						
-						if (bMove && !mStageMgr.GetStage1().bGameClear)
-							mStageMgr.AllUpdate();
+						if (bMove && !mStageMgr.mStage.bGameClear)
+							mStageMgr.StageUpdate();
+						
+						if (mStageMgr.mStage.bClearStage1)
+						{
+							//mStageMgr.StageChange(99);
+						}
 						
 						canvas.restore();
 						
@@ -229,7 +234,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 //			}
 //		}
 		
-		if (thread.bMove)
+		if (thread.bMove) 	// 일시정지와 해제
 		{
 			gameContext.NextOptionActivity();
 			this.thread.setMoveing(false);

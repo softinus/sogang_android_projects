@@ -1,5 +1,7 @@
 package com.raimsoft.stage;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,39 +17,43 @@ import com.raimsoft.game.Monster;
 import com.raimsoft.game.Player;
 import com.raimsoft.game.Rope;
 import com.raimsoft.game.TreadleManager;
+import com.raimsoft.sensor.SensorFactory;
+import com.raimsoft.view.GameView;
 
-public class Stage1 extends BaseStage{
+public class Stage{
 	
-	private static Stage1 stage1= new Stage1();
-	public Stage1 getStage1()
-	{
-		return stage1;
-	}
 	
-	public static Player mPlayer;				// 플레이어 객체
-	public static TreadleManager treadleMgr;	// 발판 객체
-	public static Monster mMonster;			// 몬스터 객체
-	public static Rope mRope;
+	public GameView view;
+	public Resources mRes;
+	public Context mContext;
 	
-	private boolean bClearStage1= false;
+	SensorFactory sf= SensorFactory.getSensorFactory();
+	
+	public Player mPlayer;				// 플레이어 객체
+	public TreadleManager treadleMgr;	// 발판 객체
+	public Monster mMonster;			// 몬스터 객체
+	public Rope mRope;
+	
+	public boolean bClearStage1= false;
+	int nBackgroundID= R.drawable.background_1;			// 배경 아이디값
 	Bitmap bBackground;			// 배경
 	Drawable dGameClear;
 	
 	Paint pDebug=new Paint();	// 페인트
 	Paint pScore=new Paint();
 	
-	public static int BackSize=1920;			// 배경세로길이
-	public static int cnt_Step=0;				// 발판 밟은 수 
-	public static int gameScore=0;
+	public int BackSize=1920;			// 배경세로길이
+	public int cnt_Step=0;				// 발판 밟은 수 
+	public int gameScore=0;
 
-	public static boolean bGameClear=false;	// 게임 클리어 여부
-	static boolean bPlayer_ImgRefreshed=true;	// 이미지 새로고침(플레이어)
-	static boolean bTreadle_ImgRefreshed=true;	// 이미지 새로고침(발판)
-	static boolean bMonster_ImgRefreshed=true;	// 이미지 새로고침(몬스터)
-	static boolean bRope_ImgRefreshed=true;	// 이미지 새로고침(로프)
+	public boolean bGameClear=false;	// 게임 클리어 여부
+	boolean bPlayer_ImgRefreshed=true;	// 이미지 새로고침(플레이어)
+	boolean bTreadle_ImgRefreshed=true;	// 이미지 새로고침(발판)
+	boolean bMonster_ImgRefreshed=true;	// 이미지 새로고침(몬스터)
+	boolean bRope_ImgRefreshed=true;	// 이미지 새로고침(로프)
 	
 	
-	public Stage1()
+	public Stage()
 	{
 		//view.thread.setupInit();
 		//stageSetup();
@@ -63,13 +69,7 @@ public class Stage1 extends BaseStage{
 	private int clearTranspercy=0;
 	final int STAGE_ID=1;
 	
-	@Override
-	int GetStageID()
-	{
-		return STAGE_ID;
-	}
 
-	@Override
 	void stageDraw(Canvas canvas)
 	{
 		doDrawBackGround(canvas);
@@ -77,14 +77,25 @@ public class Stage1 extends BaseStage{
 		//doDrawText(canvas);
 		doDrawScore(canvas);
 	}
-
-	@Override
+	
+	/**
+	 * 캐릭터와 발판들의 거리를 계산하여 화면 밖에 있는 객체들은 DRAW하지 않습니다.
+	 * @param player_Y : 캐릭터의 Y값
+	 * @param Object_Y : 체크할 다른 객체의 Y값
+	 * @return 화면안에 있으면:true, 화면밖에 있으면:false
+	 */
+	boolean IsNotClipped(int player_Y, int Object_Y)
+	{
+		if (Math.abs(Object_Y - player_Y) > view.getHeight())
+			return false;
+		return true;
+	}
+	
 	void stageSetup()
 	{
-		bBackground= BitmapFactory.decodeResource(mRes, R.drawable.background_1);
+		bBackground= BitmapFactory.decodeResource(mRes, nBackgroundID);
 	}
 
-	@Override
 	void stageUpdate()
 	{
 		if (mPlayer.bCrushed)
@@ -243,10 +254,7 @@ public class Stage1 extends BaseStage{
 					bClearStage1= true;	// 스테이지1 클리어
 				}
 			}
-			
 		}
-		
-
 	}
 	
 	
