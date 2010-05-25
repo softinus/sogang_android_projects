@@ -12,7 +12,7 @@ import com.raimsoft.sound.SoundManager;
 public class TitleMenuActivity extends Activity implements OnClickListener {
 	
 	private boolean already_Next;
-	public MediaPlayer mMedia_BGM;
+	//public MediaPlayer mMedia_BGM;
 	private SoundManager sm= new SoundManager(this);
 	
 	private void Next()
@@ -39,8 +39,8 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 		//findViewById(R.id.btn_option).setOnClickListener(this);
 		findViewById(R.id.exit).setOnClickListener(this);
 		
-		mMedia_BGM = MediaPlayer.create(this, R.raw.game_bgm);
-		mMedia_BGM.setLooping(true);
+//		mMedia_BGM = MediaPlayer.create(this, R.raw.game_bgm);
+//		mMedia_BGM.setLooping(true);
 		
 		sm.create();
 		sm.load(0, R.raw.button);
@@ -49,7 +49,7 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onStart()
 	{
-		mMedia_BGM.start();
+//		mMedia_BGM.start();
 		
 		super.onStart();
 	}
@@ -79,8 +79,8 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onDestroy() {
 		
-		mMedia_BGM.stop();
-		mMedia_BGM.release();
+//		mMedia_BGM.stop();
+//		mMedia_BGM.release();
 		sm.destroy();
 		
 		super.onDestroy();

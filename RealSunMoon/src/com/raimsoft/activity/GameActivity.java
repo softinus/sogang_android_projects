@@ -16,7 +16,7 @@ public class GameActivity extends Activity {
 	SensorFactory sf= SensorFactory.getSensorFactory();
 	private boolean already_Next=false;
 	private boolean already_Option=false;
-	public MediaPlayer mMedia_BGM;
+	//public MediaPlayer mMedia_BGM;
 	public MediaPlayer mMedia_Success;
 	SoundManager sm=new SoundManager(this);
 	
@@ -64,8 +64,8 @@ public class GameActivity extends Activity {
 		setContentView(R.layout.game);
 		already_Next=false;
 		
-		mMedia_BGM = MediaPlayer.create(this, R.raw.game_bgm);
-		mMedia_BGM.setLooping(true);
+//		mMedia_BGM = MediaPlayer.create(this, R.raw.game_bgm);
+//		mMedia_BGM.setLooping(true);
 		
 		mMedia_Success= MediaPlayer.create(this, R.raw.success);
 		
@@ -93,7 +93,7 @@ public class GameActivity extends Activity {
 	
 	public void stopBGM()
 	{
-		mMedia_BGM.stop();
+		//mMedia_BGM.stop();
 	}
 	public void playSE()
 	{
@@ -103,8 +103,8 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onStop() {
 
-		mMedia_BGM.stop();
-		mMedia_BGM.release();
+//		mMedia_BGM.stop();
+//		mMedia_BGM.release();
 		
 		//sf.sensorMgr.unregisterListener(OrientationListener);
 		sf.sensorMgr.unregisterListener(AcceleroListener);
@@ -115,7 +115,7 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onStart() {
 
-		mMedia_BGM.start();
+//		mMedia_BGM.start();
 		
 		super.onStart();
 	}

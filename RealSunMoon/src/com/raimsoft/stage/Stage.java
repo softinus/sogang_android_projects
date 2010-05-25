@@ -20,7 +20,8 @@ import com.raimsoft.game.TreadleManager;
 import com.raimsoft.sensor.SensorFactory;
 import com.raimsoft.view.GameView;
 
-public class Stage{
+public class Stage
+{
 	
 	
 	public GameView view;
@@ -66,7 +67,7 @@ public class Stage{
 		pScore.setAntiAlias(true);
 		pScore.setColor(Color.argb(0xff, 255, 0, 255));
 	}
-	private int clearTranspercy=0;
+	int clearTranspercy=0;
 	final int STAGE_ID=1;
 	
 
@@ -204,16 +205,19 @@ public class Stage{
 		}
 		
 		
-		
-		
-		for (int i=0; i<treadleMgr.getCount(); i++)
+		if (!treadleMgr.bInitializing)
 		{
-			//Log.v("Draw Treadle", i + "th treadle Drawing");
-			if (IsNotClipped(mPlayer.getY(), treadleMgr.treadle[i].getY())) {
-				treadleMgr.treadle[i].Img_Drawable.setBounds(treadleMgr.treadle[i].getObjectForRect());
-				treadleMgr.treadle[i].Img_Drawable.draw(c);				
+			for (int i=0; i<treadleMgr.getCount(); i++)
+			{
+				//Log.v("Draw Treadle", i + "th treadle Drawing");
+				if (IsNotClipped(mPlayer.getY(), treadleMgr.treadle[i].getY())) {
+					treadleMgr.treadle[i].Img_Drawable.setBounds(treadleMgr.treadle[i].getObjectForRect());
+					treadleMgr.treadle[i].Img_Drawable.draw(c);				
+				}
 			}
 		}
+		
+		
 		
 		if (IsNotClipped(mPlayer.getY(), mMonster.getY()))
 		{
@@ -221,7 +225,7 @@ public class Stage{
 			mMonster.Img_Drawable.draw(c);
 		}
 		
-		if (bGameClear)	//클리어시에 로프 그림
+		if (bGameClear && !bClearStage1)	//클리어시에 로프 그림
 		{
 			mRope.Img_Drawable.setBounds(mRope.getObjectForRect());
 			mRope.Img_Drawable.draw(c);
@@ -230,7 +234,7 @@ public class Stage{
 		mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());
 		mPlayer.Img_Drawable.draw(c);
 		
-		if (bGameClear)
+		if (bGameClear) // 게임이 클리어되면
 		{
 			mRope.setX(mPlayer.getX()+(mPlayer.getWidth()/2));
 			if(mRope.getY() != -5)
@@ -242,8 +246,8 @@ public class Stage{
 				mRope.bRopeDown=false;
 			}
 			
-			if (!mRope.bRopeDown)
-			{
+			if (!mRope.bRopeDown && !bClearStage1) 
+			{// 로프가 다 내려오고 스테이지1을 아직 클리어 안했을 때
 				c.drawARGB(clearTranspercy, 0, 0, 0);
 				if (clearTranspercy<255)
 				{
@@ -252,6 +256,7 @@ public class Stage{
 				if (clearTranspercy==255)
 				{
 					bClearStage1= true;	// 스테이지1 클리어
+					view.thread.mStageMgr.StageChange(2);
 				}
 			}
 		}

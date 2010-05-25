@@ -19,6 +19,7 @@ public class Player extends GameObject {
 	public	boolean bCrushed=	false;	// 부딫혔나
 	
 	public int State=0;
+	public int OriX, OriY;
 	
 	private int JumpIdxArr_First[]={-14,-13,-12,-11,-10,-9,-9,-9,-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,
 			-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,0,0,0,0,0,
@@ -44,6 +45,15 @@ public class Player extends GameObject {
 			spd= (float) 2.9;
 		}
 	}
+	private void OriginalPos(int _x, int _y)
+	{
+		OriX= _x;
+		OriY= _y;
+	}
+	public void ResetPlayerPos()
+	{
+		this.SetPos(OriX, OriY);
+	}
 	
 	/**
 	 * 플레이어 위치는 자동 중앙배치하는 기본 생성자
@@ -58,6 +68,7 @@ public class Player extends GameObject {
 		Img_id=R.drawable.nui_stand_left;
 		
 		setSDKforSpeed();
+		OriginalPos(x,y);
 		//SoundCreate();
 	}
 	
@@ -85,6 +96,7 @@ public class Player extends GameObject {
 		}
 		
 		setSDKforSpeed();
+		OriginalPos(x,y);
 		//SoundCreate();
 	}
 	
@@ -120,6 +132,7 @@ public class Player extends GameObject {
 		Img_id=Image_ID;
 		
 		setSDKforSpeed();
+		OriginalPos(x,y);
 		//SoundCreate();
 	}
 

@@ -13,9 +13,7 @@ public class TreadleManager {
 		int width;
 		int height;
 		int imgID;
-		
-		int treadleCase;
-		
+				
 		void Init(int _wid, int _hei, int imgID)
 		{
 			this.width= _wid;
@@ -57,6 +55,7 @@ public class TreadleManager {
 //	private final int GAP_top=120;
 	private final int GAP=	100;
 	private int treadle_cnt;
+	public boolean bInitializing; // 구름 초기화중
 	
 	public int treadleImgID[]= new int[5];
 
@@ -88,6 +87,7 @@ public class TreadleManager {
 	 */
 	public void TreadleCreate()
 	{
+		bInitializing= true;
 		for (int i=0; i<treadle_cnt; i++) // 발판 수만큼 배열에 구름좌표와 이미지 추가
 		{
 			if (i==this.getCount()-1)
@@ -98,7 +98,7 @@ public class TreadleManager {
 //				Log.d("Treadles Pos DEBUG",
 //						"X= "+Float.toString(treadle[i].getX())
 //					+", Y= "+Float.toString(treadle[i].getY()));
-//				
+				bInitializing= false;
 				return;
 			}
 			
@@ -112,6 +112,7 @@ public class TreadleManager {
 					"X= "+Float.toString(treadle[i].getX())
 				+", Y= "+Float.toString(treadle[i].getY()));
 		}
+		bInitializing= false;
 	}
 	
 	public void ALL_Treadle_Stepped()
