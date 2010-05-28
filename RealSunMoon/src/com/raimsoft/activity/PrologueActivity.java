@@ -15,9 +15,9 @@ public class PrologueActivity extends Activity {
 	TextView txtScr;
 	int scene_count=1;
 	private SoundManager sm= new SoundManager(this);
-	
+
 	private boolean already_Next=false;
-	
+
 	public void NextActivity()
 	{
 		if(!already_Next)
@@ -26,49 +26,49 @@ public class PrologueActivity extends Activity {
 			startActivity(intent);
 			this.already_Next=true;
 			this.finish();
-		}		
+		}
 	}
-	
-	
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		setContentView(R.layout.prologue);
-		
+
 		cutImg= (ImageView) findViewById(R.id.cut_scene);
 		txtScr= (TextView) findViewById(R.id.script);
 		txtScr.setTextSize(24);
-		
+
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
 	protected void onStart() {
-		
+
 		cutImg.setImageResource(R.drawable.cut_scene1);
 		txtScr.setText("남성 : 이제 예정된 날이 되었네. 어쩔 수 없는 이별의 시간인가?\n\n"
 						+"여성 : 어쩔 수 없는 이별이네요. 올려 줄테니 조심해요.");
-		
+
 		sm.create();
 		sm.load(0, R.raw.button);
-		sm.load(1, R.raw.get_item);
+		sm.load(1, R.raw.blink);
 		sm.load(2, R.raw.owl);
 		sm.load(3, R.raw.tiger);
-		
-		
+
+
 		super.onStart();
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		
+
 		if (event.getAction()==MotionEvent.ACTION_DOWN)
 		{
 
 			++scene_count;
-			
+
 			sm.play(1);
-			
+
 			switch(scene_count)
 			{
 			case 2:
@@ -98,7 +98,7 @@ public class PrologueActivity extends Activity {
 				txtScr.setTextSize(16);
 				txtScr.setText("누이가 살고 있는 초가집 앞에 등장한 호랑이. 문을 앞두고 오누이와 호랑이가 대면하고 있다.\n"
 						+"동생 : 어머니다!\n" + "호랑이 : 문을 열어주렴\n"
-						+"누이 : (작은 목소리로 그리고 동생을 가로 막으며) 동생아. 어머니의 목소리가 아닌거 같은데, 아무래도 무슨 일이 생긴 거 같아.\n" 
+						+"누이 : (작은 목소리로 그리고 동생을 가로 막으며) 동생아. 어머니의 목소리가 아닌거 같은데, 아무래도 무슨 일이 생긴 거 같아.\n"
 						+"오누이는 조심해서 문 밖의 사람을 보자 호랑이라는 것을 알게 된다.");
 				break;
 			case 7:
@@ -121,14 +121,14 @@ public class PrologueActivity extends Activity {
 				txtScr.setText("누이 : (작은 목소리로)\n내가 도움을 요청할때까지 안전하길.");
 				break;
 			}
-			
+
 			if (scene_count==10)
 			{
 				NextActivity();
 			}
-			
+
 		}
-		
+
 		return super.onTouchEvent(event);
 	}
 

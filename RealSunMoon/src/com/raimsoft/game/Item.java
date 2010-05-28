@@ -5,9 +5,9 @@ import com.raimsoft.view.GameView;
 public class Item extends GameObject
 
 {
-	int nItemKind;
+	//int nItemKind;
 	static int nItemNum= 1;
-	
+
 	/**
 	 * 모든 정보 입력하는 생성자
 	 * @param view
@@ -22,7 +22,7 @@ public class Item extends GameObject
 		this.view= view;
 		this.wid = width;
 		this.hei = height;
-		
+
 		if(x==-1)
 		{
 			this.x= 160-wid/2;
@@ -32,17 +32,17 @@ public class Item extends GameObject
 		}else{
 			this.x=x;
 		}
-		
+
 		if(y==-1)
 		{
 			this.y= 240-hei/2;
 		}else{
 			this.y=y;
-		}		
-		
+		}
+
 		Img_id=Image_ID;
-		
-		nItemKind= (int) (Math.random() * 2);
+
+		//nItemKind= (int) (1+(Math.random() * 2));
 		++nItemNum;
 	}
 

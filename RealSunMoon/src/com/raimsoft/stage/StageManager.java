@@ -9,10 +9,10 @@ public class StageManager {
 	final int STAGE_1=	1;
 	final int STAGE_2=	2;
 	final int SUCCEss= 	99;
-	
+
 	public Stage mStage;
 	public int currStage;
-	
+
 	/**
 	 * 생성자
 	 */
@@ -20,7 +20,7 @@ public class StageManager {
 	{
 		mStage= new Stage();
 	}
-	
+
 	public void StageChange (int _StageNum)
 	{
 		currStage= _StageNum;	// 현재 스테이지값을 조정
@@ -28,7 +28,7 @@ public class StageManager {
 		switch (_StageNum)
 		{
 		case STAGE_1:
-			
+
 			break;
 		case STAGE_2:
 			mStage.nBackgroundID= R.drawable.background_2;
@@ -36,19 +36,20 @@ public class StageManager {
 			break;
 		}
 	}
-	
+
 	public void InitStage() // 스테이지 초기화
 	{
 		mStage.clearTranspercy= 0;			// 스테이지 막 없앰
-		
-		mStage.BackSize= 1920;				// 배경 초기화		
-		
+
+		mStage.BackSize= 1920;				// 배경 초기화
+		mStage.mItemList.LastItemPos= 1920;	//
+
 		mStage.treadleMgr.TreadleCreate();	// 발판 초기화
-		mStage.bTreadle_ImgRefreshed= true; // 
-		
+		mStage.bTreadle_ImgRefreshed= true; //
+
 		mStage.gameScore= 0;				// 점수 초기화
 		mStage.mPlayer.ResetPlayerPos();	// 플레이어 위치 초기화
-		
+
 		mStage.bGameClear= false;			//
 	}
 
@@ -56,12 +57,12 @@ public class StageManager {
 	{
 		mStage.stageSetup();
 	}
-		  
+
 	public void StageUpdate()
 	{
 		mStage.stageUpdate();
 	}
-		  
+
 	public void StageDraw(Canvas canvas)
 	{
 		mStage.stageDraw(canvas);

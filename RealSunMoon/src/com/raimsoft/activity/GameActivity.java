@@ -19,7 +19,7 @@ public class GameActivity extends Activity {
 	//public MediaPlayer mMedia_BGM;
 	public MediaPlayer mMedia_Success;
 	SoundManager sm=new SoundManager(this);
-	
+
 	public void NextGameOverActivity()
 	{
 		if(!already_Next)
@@ -30,7 +30,7 @@ public class GameActivity extends Activity {
 			this.finish();
 		}
 	}
-	
+
 	public void NextOptionActivity()
 	{
 		if(!already_Option)
@@ -38,10 +38,10 @@ public class GameActivity extends Activity {
 			Intent intent=new Intent (GameActivity.this, OptionActivity.class);
 			startActivity(intent);
 			this.already_Option=true;
-			this.finish();
+			//this.finish();
 		}
 	}
-	
+
 	SensorListener AcceleroListener = new SensorListener()
 	{
 		public void onSensorChanged(int sensor, float[] values)
@@ -56,41 +56,41 @@ public class GameActivity extends Activity {
 			// 정확도 변경시
 		}
 	};
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		//SurfaceView mSurface=new SurfaceView(null);
-		
+
 		setContentView(R.layout.game);
 		already_Next=false;
-		
+
 //		mMedia_BGM = MediaPlayer.create(this, R.raw.game_bgm);
 //		mMedia_BGM.setLooping(true);
-		
+
 		mMedia_Success= MediaPlayer.create(this, R.raw.success);
-		
+
 //		sm.create();
 //		sm.load(0, R.raw.success);
 
 		sf.sensorMgr = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-		
-		super.onCreate(savedInstanceState);	
+
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
 	protected void onResume() {
-		
+
 //		sf.sensorMgr.registerListener(OrientationListener,
 //		         sf.sensorMgr.SENSOR_ORIENTATION,
 //		         sf.sensorMgr.SENSOR_DELAY_GAME);
-		
+
 		sf.sensorMgr.registerListener(AcceleroListener,
 		         sf.sensorMgr.SENSOR_ACCELEROMETER,
 		         sf.sensorMgr.SENSOR_DELAY_GAME);
-		
+
 		super.onResume();
 	}
-	
+
 	public void stopBGM()
 	{
 		//mMedia_BGM.stop();
@@ -105,10 +105,10 @@ public class GameActivity extends Activity {
 
 //		mMedia_BGM.stop();
 //		mMedia_BGM.release();
-		
+
 		//sf.sensorMgr.unregisterListener(OrientationListener);
 		sf.sensorMgr.unregisterListener(AcceleroListener);
-		
+
 		super.onStop();
 	}
 
@@ -116,7 +116,7 @@ public class GameActivity extends Activity {
 	protected void onStart() {
 
 //		mMedia_BGM.start();
-		
+
 		super.onStart();
 	}
 }
