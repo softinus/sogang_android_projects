@@ -22,6 +22,8 @@ public class Player extends GameObject {
 	public int State=0;
 	public int OriX, OriY;
 
+	SoundManager sm;
+
 	private int JumpIdxArr_First[]={-14,-13,-12,-11,-10,-9,-9,-9,-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,
 			-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,0,0,0,0,0,
 			1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,
@@ -70,7 +72,7 @@ public class Player extends GameObject {
 
 		setSDKforSpeed();
 		OriginalPos(x,y);
-		//SoundCreate();
+		SoundCreate();
 	}
 
 	/**
@@ -98,7 +100,7 @@ public class Player extends GameObject {
 
 		setSDKforSpeed();
 		OriginalPos(x,y);
-		//SoundCreate();
+		SoundCreate();
 	}
 
 	/**
@@ -134,16 +136,16 @@ public class Player extends GameObject {
 
 		setSDKforSpeed();
 		OriginalPos(x,y);
-		//SoundCreate();
+		SoundCreate();
 	}
 
 
-//	private void SoundCreate()
-//	{
-//		sm= new SoundManager(view.gameContext);
-//		sm.create();
-//		sm.load(0, R.raw.jump);
-//	}
+	private void SoundCreate()
+	{
+		sm= new SoundManager(view.gameContext);
+		sm.create();
+		sm.load(0, R.raw.jump);
+	}
 
 	// 현재 Bitmap을 Drawable로 바꾸면서 안쓰게 되었음.
 	public Rect getStateImgRect()
@@ -370,6 +372,8 @@ public class Player extends GameObject {
 	 */
 	public void CollisionTreadle(Rect rct, Treadle _tra)
 	{
+		sm.play(0);
+
 		if (this.getObjectForRectHalf(false).intersect(rct))
 		{
 			Log.v("Collision", "Call CollisionTreadle");
@@ -408,9 +412,6 @@ public class Player extends GameObject {
 					break;
 			}
 			_tra.bStepped_Pre= true;
-
-			//sm.play(0);
-
 
 			this.bStep=true;
 		}

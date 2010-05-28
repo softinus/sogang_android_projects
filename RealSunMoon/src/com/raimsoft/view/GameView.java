@@ -42,7 +42,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	PowerManager pm;
 	PowerManager.WakeLock wl;
 
-	GameActivity gameContext;
+	public GameActivity gameContext;
 
 	public GameView(Context context, AttributeSet attrs)
 	{
