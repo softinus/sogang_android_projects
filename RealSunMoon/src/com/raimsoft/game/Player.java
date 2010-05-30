@@ -27,15 +27,25 @@ public class Player extends GameObject {
 	private int JumpIdxArr_First[]={-14,-13,-12,-11,-10,-9,-9,-9,-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,
 			-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,0,0,0,0,0,
 			1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,
-			10,11,12,13};//67
+			10,11,12,13};//67 (37)
 
 	private int JumpIdx_Last= JumpIdxArr_First.length;	// 점프 배열 수 (변경될 수 있음)
 	private int JumpIdx_Present=0;	// 현재 사용되는 점프배열인덱스
+
 
 	private int JumpIdxArr_Always[]={-14,-13,-12,-11,-10,-9,-9,-9,-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,
 			-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,0,0,0,0,0,
 			1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,
 			10,11,12,13,14,  15,16,17,18,19,20,22,24,26,28,30};//79
+
+	private int FlyWingIdxArr[]= {-1,-1,-2,-2,-3,-4,-5,-6,-7,-8,-9,-10,-12,
+			-14,-16,-19,-23,-25,-27,-30,-32,-35,-40,-45,-50,
+			-45,-40,-30,-20,-19,-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-9,-9,-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,
+			-4,-4,-4,-3,-3,-3,-3,-3,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,0,0,0,0,0,0,0}; //
+
+	private int FlyIdx_Present=0;
+	private int FlyIdx_Last= FlyWingIdxArr.length;
+
 	/**
 	 * SDK별 센서 스피드 조절
 	 */
@@ -145,6 +155,9 @@ public class Player extends GameObject {
 		sm= new SoundManager(view.gameContext);
 		sm.create();
 		sm.load(0, R.raw.jump);
+		sm.load(1, R.raw.getitem);
+		sm.load(2, R.raw.birdprey);
+		sm.load(3, R.raw.touchstar);
 	}
 
 	// 현재 Bitmap을 Drawable로 바꾸면서 안쓰게 되었음.
@@ -304,35 +317,66 @@ public class Player extends GameObject {
 	/**
 	 * 반복 점프
 	 */
-	public void JumpAlways()
+	public void JumpAlways()	
 	{
 		this.fallcheck(); 	// 떨어졌는지 체크
 
-		if(bStop) return;
+		if(bStop) return; // 일시정지 상태이면 점프안함
 
-		if(bStep)
+
+		if(bStep && bItemGet)	// 아이템을 먹었을 시의 점프
 		{
-			if (this.y + JumpIdxArr_Always[JumpIdx_Present] < 150) // 캐릭터가 150px이상 화면으로
+			if (FlyIdx_Present==FlyIdx_Last)
 			{
-				view.thread.mStageMgr.mStage.treadleMgr.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]); 	// 올라가면 구름을 점프한만큼 내림
+				bItemGet=false;
+				this.setJumpIndex(38); // 점프인덱스변경 (중간)
+				return;
+			}
+			if (this.y + FlyWingIdxArr[FlyIdx_Present] < 150) // 캐릭터가 150px이상 화면으로 올라가
+			{
+				view.thread.mStageMgr.mStage.treadleMgr.setAllChangeY(-FlyWingIdxArr[FlyIdx_Present]); 	// 면 구름을 점프한만큼 내림
 
-				view.thread.mStageMgr.mStage.mItemList.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]);		// 올라가면 아이템 내림
+				view.thread.mStageMgr.mStage.mItemList.setAllChangeY(-FlyWingIdxArr[FlyIdx_Present]);	// 면 아이템 내림
 
-				if (view.thread.mStageMgr.mStage.mMonster.bFly)	// 올라가고 몬스터가 날고있을 때 몬스터 내림
+				if (view.thread.mStageMgr.mStage.mMonster.bFly)	// 고 몬스터가 날고있을 때
+				{
+					view.thread.mStageMgr.mStage.mMonster.SetChangeY(-FlyWingIdxArr[FlyIdx_Present]); // 몬스터 내림
+				}
+				if (view.getHeight() < view.thread.mStageMgr.mStage.BackSize) // 고 화면이 백사이즈보다 작을 때
+				{
+					view.thread.mStageMgr.mStage.BackSize += Math.round(FlyWingIdxArr[FlyIdx_Present] / 3);
+					view.thread.mStageMgr.mStage.mItemList.CreateItems(); // 아이템 만들어줌
+					//Log.d("BackSize= ", Float.toString(view.thread.mStageMgr.mStage.BackSize));
+				}
+
+			}else{
+				//if (!(FlyIdx_Last==34)) {FlyIdx_Last=34;}
+				this.y+= FlyWingIdxArr[FlyIdx_Present];
+			}
+			++FlyIdx_Present;
+		}
+
+		else if(bStep && (!bItemGet)) // 아이템 안먹었을 시의 점프
+		{
+
+
+			if (this.y + JumpIdxArr_Always[JumpIdx_Present] < 150) // 캐릭터가 150px이상 화면으로 올라가
+			{
+				view.thread.mStageMgr.mStage.treadleMgr.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]); 	// 면 구름을 점프한만큼 내림
+
+				view.thread.mStageMgr.mStage.mItemList.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]);		// 면 아이템 내림
+
+				if (view.thread.mStageMgr.mStage.mMonster.bFly)	// 고 몬스터가 날고있을 때 몬스터 내림
 				{
 					view.thread.mStageMgr.mStage.mMonster.SetChangeY(-JumpIdxArr_Always[JumpIdx_Present]);
 				}
 
-
-
-				if (view.getHeight() < view.thread.mStageMgr.mStage.BackSize) // 올라가고 화면이 백사이즈보다 작을 때
+				if (view.getHeight() < view.thread.mStageMgr.mStage.BackSize) // 고 화면이 백사이즈보다 작을 때
 				{
 					view.thread.mStageMgr.mStage.BackSize += Math.round(JumpIdxArr_Always[JumpIdx_Present] / 3);
 					view.thread.mStageMgr.mStage.mItemList.CreateItems(); // 아이템 만들어줌
-
 					//Log.d("BackSize= ", Float.toString(view.thread.mStageMgr.mStage.BackSize));
 				}
-
 			}
 			else
 			{
@@ -342,6 +386,7 @@ public class Player extends GameObject {
 		}
 		else
 		{
+			if (bItemGet) return;
 			if (!(JumpIdx_Last==67)) {JumpIdx_Last=67;}
 			this.y+= JumpIdxArr_First[JumpIdx_Present];
 		}
@@ -372,8 +417,6 @@ public class Player extends GameObject {
 	 */
 	public void CollisionTreadle(Rect rct, Treadle _tra)
 	{
-		sm.play(0);
-
 		if (this.getObjectForRectHalf(false).intersect(rct))
 		{
 			Log.v("Collision", "Call CollisionTreadle");
@@ -412,7 +455,7 @@ public class Player extends GameObject {
 					break;
 			}
 			_tra.bStepped_Pre= true;
-
+			sm.play(0);
 			this.bStep=true;
 		}
 	}
@@ -434,8 +477,10 @@ public class Player extends GameObject {
 			case R.drawable.item_wing:
 				view.thread.mStageMgr.mStage.gameScore+=100;
 				this.bItemGet= true;
+				this.FlyIdx_Present= 0;
 				break;
 			}
+			sm.play(3);
 			view.thread.mStageMgr.mStage.mItemList.itemList.remove(_idx);
 		}
 	}
@@ -457,6 +502,7 @@ public class Player extends GameObject {
 	public void setJumpIndex(int _idx)
 	{
 		JumpIdx_Present= _idx;
+		//FlyIdx_Present= _idx;
 	}
 
 	public void setPlayerImgChange()

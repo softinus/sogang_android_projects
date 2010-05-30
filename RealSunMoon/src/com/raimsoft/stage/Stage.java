@@ -23,8 +23,6 @@ import com.raimsoft.view.GameView;
 
 public class Stage
 {
-
-
 	public GameView view;
 	public Resources mRes;
 	public Context mContext;
@@ -95,12 +93,12 @@ public class Stage
 		return true;
 	}
 
-	void stageSetup()
+	void stageSetup() // 설정
 	{
 		bBackground= BitmapFactory.decodeResource(mRes, nBackgroundID);
 	}
 
-	void stageUpdate()
+	void stageUpdate() // 좌표 업데이트
 	{
 		if (mPlayer.bCrushed)
 		{
@@ -130,7 +128,7 @@ public class Stage
 		}
 
 
-	this.LifeCheck(); //
+	this.LifeCheck(); // 라이프 체크
 
 	}
 
@@ -152,8 +150,8 @@ public class Stage
 
 	void doDrawText(Canvas c)
 	{
-		c.drawText("BackSize= "+ Float.toString(BackSize), 5, 45, pDebug);
-
+//		c.drawText("BackSize= "+ Float.toString(BackSize), 5, 45, pDebug);
+//
 //		c.drawText("FPS= " + Float.toString(FPS), 5, 30, pDebug);
 //		c.drawText("Frame= " + Float.toString(AccFrame), 5, 15, pDebug);
 //		c.drawText("X= "+Float.toString(mPlayer.getX())
@@ -165,13 +163,13 @@ public class Stage
 //					+"Y= "+ Float.toString(sf.getSensorValue()[1])
 //					+"Z= "+ Float.toString(sf.getSensorValue()[2])
 //					, 5, 60, pDebug);
-
-		//for (int i=0; i<treadleMgr.getCount(); i++)
-		//{
+//
+//			for (int i=0; i<treadleMgr.getCount(); i++)
+//		{
 //		c.drawText("X= "+ Float.toString(treadleMgr.treadle[i].getX())
 //					+", Y= "+ Float.toString(treadleMgr.treadle[i].getY()),
 //					treadleMgr.treadle[i].getX(), treadleMgr.treadle[i].getY(), p);
-		//}
+//		}
 	}
 
 	void doDrawScore(Canvas c)

@@ -1,15 +1,14 @@
 package com.raimsoft.game;
 
-import android.os.Build;
-
 import com.raimsoft.view.GameView;
 
 public class Monster extends GameObject {
 
 	private final int spd=4;
 	public boolean bFly=false;
-	
-	
+	private boolean bSEPlay= false;
+
+
 	/**
 	 * 모든 정보 입력하는 생성자
 	 * @param view
@@ -24,29 +23,29 @@ public class Monster extends GameObject {
 		this.view= view;
 		this.wid = width;
 		this.hei = height;
-		
+
 		if(x==-1)
 		{
 			this.x= 380;
 		}else{
 			this.x=x;
 		}
-		
+
 		if(y==-1)
 		{
 			this.y= -hei;
 		}else{
-			this.y=y;	
-		}			
-		
+			this.y=y;
+		}
+
 		Img_id=Image_ID;
 	}
-	
+
 	public void Move_Tiger()
 	{
 		this.y+=spd;
 	}
-	
+
 	public void Move_Bird()
 	{
 		if (view.thread.mStageMgr.mStage.cnt_Step>5)
@@ -54,7 +53,12 @@ public class Monster extends GameObject {
 			this.x-=spd;
 			this.y+=spd;
 			this.bFly= true;
+			if (!bSEPlay)
+			{
+				view.thread.mStageMgr.mStage.mPlayer.sm.play(2);
+				bSEPlay= true;
+			}
 		}
 	}
-	
+
 }
