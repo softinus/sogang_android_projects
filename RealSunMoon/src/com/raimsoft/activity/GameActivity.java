@@ -15,7 +15,7 @@ public class GameActivity extends Activity {
 
 	SensorFactory sf= SensorFactory.getSensorFactory();
 	private boolean already_Next=false;
-	private boolean already_Option=false;
+	//boolean already_Option=false;
 	//public MediaPlayer mMedia_BGM;
 	public MediaPlayer mMedia_Success;
 	SoundManager sm=new SoundManager(this);
@@ -33,13 +33,8 @@ public class GameActivity extends Activity {
 
 	public void NextOptionActivity()
 	{
-		if(!already_Option)
-		{
-			Intent intent=new Intent (GameActivity.this, OptionActivity.class);
-			startActivity(intent);
-			this.already_Option=true;
-			//this.finish();
-		}
+		Intent intent=new Intent (GameActivity.this, OptionActivity.class);
+		startActivity(intent);
 	}
 
 	SensorListener AcceleroListener = new SensorListener()

@@ -3,6 +3,7 @@
 android:id="@+id/widget0"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
+android:background="@drawable/book"
 xmlns:android="http://schemas.android.com/apk/res/android"
 >
 
@@ -10,7 +11,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 android:id="@+id/cut_scene"
 android:layout_width="235dip"
 android:layout_height="188dip"
-android:layout_x="37dip"
+android:layout_x="55dip"
 android:layout_y="29dip"
 >
 </ImageView>
@@ -19,7 +20,7 @@ android:layout_y="29dip"
 android:id="@+id/script"
 android:layout_width="280dip"
 android:layout_height="225dip"
-android:layout_x="20dip"
+android:layout_x="50dip"
 android:layout_y="230dip"
 >
 </TextView>

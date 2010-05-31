@@ -25,4 +25,12 @@ public class OptionActivity extends Activity {
 		// TODO Auto-generated method stub
 		return super.onTouchEvent(event);
 	}
+
+	@Override
+	protected void onDestroy() {
+		
+		
+		
+		super.onDestroy();
+	}
 }

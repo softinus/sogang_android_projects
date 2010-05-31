@@ -8,6 +8,7 @@ import android.util.Log;
 public class StageManager {
 	final int STAGE_1=	1;
 	final int STAGE_2=	2;
+	final int STAGE_3=	3;
 	final int SUCCEss= 	99;
 
 	public Stage mStage;
@@ -32,6 +33,20 @@ public class StageManager {
 			break;
 		case STAGE_2:
 			mStage.nBackgroundID= R.drawable.background_2;
+			mStage.treadleMgr.treadleImgID[0]= R.drawable.cloud2_1;
+			mStage.treadleMgr.treadleImgID[1]= R.drawable.cloud2_2;
+			mStage.treadleMgr.treadleImgID[2]= R.drawable.cloud2_3;
+			mStage.treadleMgr.treadleImgID[3]= R.drawable.cloud2_4;
+			mStage.treadleMgr.treadleImgID[4]= R.drawable.cloud3_4;
+			mStage.stageSetup();
+			break;
+		case STAGE_3:	// 준비되지 않음
+			//mStage.nBackgroundID= R.drawable.background_3;
+			mStage.treadleMgr.treadleImgID[0]= R.drawable.cloud3_1;
+			mStage.treadleMgr.treadleImgID[1]= R.drawable.cloud3_2;
+			mStage.treadleMgr.treadleImgID[2]= R.drawable.cloud3_3;
+			mStage.treadleMgr.treadleImgID[3]= R.drawable.cloud3_4;
+			//mStage.treadleMgr.treadleImgID[4]= R.drawable.cloud4_4;
 			mStage.stageSetup();
 			break;
 		}
@@ -45,12 +60,14 @@ public class StageManager {
 		mStage.mItemList.LastItemPos= 1920;	//
 
 		mStage.treadleMgr.TreadleCreate();	// 발판 초기화
-		mStage.bTreadle_ImgRefreshed= true; //
+		mStage.bTreadle_ImgRefreshed= true; // 아이템 시작위치
 
 		mStage.gameScore= 0;				// 점수 초기화
 		mStage.mPlayer.ResetPlayerPos();	// 플레이어 위치 초기화
 
-		mStage.bGameClear= false;			//
+		mStage.bGameClear= 		false;		//
+		mStage.mPlayer.bStep=	false;		// 처음 발판 밟지 않았음
+		mStage.view.thread.setMoveing(true);// 움직임
 	}
 
 	public void StageSetUp()

@@ -58,7 +58,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		thread= new GameThread(mHolder, context);
 		gameContext= (GameActivity) context;
 
-		this.thread.mStageMgr.mStage.view= this;
+		this.thread.mStageMgr.mStage.view= this;	// 뷰 넘겨줌
 
 		this.thread.mStageMgr.mStage.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
 		this.thread.mStageMgr.mStage.mMonster= new Monster(this, -1, -1 ,50,45, R.drawable.bird_fly_1);

@@ -96,6 +96,7 @@ public class Stage
 	void stageSetup() // 설정
 	{
 		bBackground= BitmapFactory.decodeResource(mRes, nBackgroundID);
+		this.bTreadle_ImgRefreshed= true;
 	}
 
 	void stageUpdate() // 좌표 업데이트
