@@ -54,6 +54,9 @@ public class Stage
 	boolean bRope_ImgRefreshed=true;	// 이미지 새로고침(로프)
 	boolean bItem_ImgRefreshed=true;	// 이미지 새로고침(아이템)
 
+	//OptionActivity opt=new OptionActivity();
+
+
 
 	public Stage()
 	{
@@ -101,6 +104,8 @@ public class Stage
 
 	void stageUpdate() // 좌표 업데이트
 	{
+
+
 		if (mPlayer.bCrushed)
 		{
 			mPlayer.CrushFall();

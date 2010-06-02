@@ -80,6 +80,7 @@ public final class R {
         public static final int pop_up=0x7f020042;
         public static final int tiger_damage=0x7f020043;
         public static final int tiger_down=0x7f020044;
+        public static final int title_2=0x7f020045;
     }
     public static final class id {
         public static final int btn_how=0x7f070012;

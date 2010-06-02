@@ -7,6 +7,7 @@ import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import com.raimsoft.sensor.SensorFactory;
 import com.raimsoft.sound.SoundManager;
@@ -113,5 +114,14 @@ public class GameActivity extends Activity {
 //		mMedia_BGM.start();
 
 		super.onStart();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+			return true;
+
+		return super.onKeyDown(keyCode, event);
 	}
 }

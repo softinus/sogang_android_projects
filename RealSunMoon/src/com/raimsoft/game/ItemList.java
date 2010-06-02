@@ -31,14 +31,13 @@ public class ItemList
 
 	public void CreateItems()
 	{
-		itemcase.RandomCaseItemSel();
-
-		RndItemPos= (int) (200+(Math.random()*500)); //200~700
-
-
 		if (view.thread.mStageMgr.mStage.BackSize > (LastItemPos-RndItemPos-10) &&
-				view.thread.mStageMgr.mStage.BackSize < (LastItemPos-RndItemPos+10))
+			view.thread.mStageMgr.mStage.BackSize < (LastItemPos-RndItemPos+10))
 		{
+			itemcase.RandomCaseItemSel();
+
+			RndItemPos= (int) (200+(Math.random()*500)); //200~700
+
 			itemList.add(new Item(view, -2,0, itemcase.wid,itemcase.hei, itemcase.imgID));
 
 			for (int i=0; i<itemList.size(); i++)

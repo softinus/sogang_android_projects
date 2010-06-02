@@ -8,13 +8,7 @@ package com.raimsoft.view;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.PowerManager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -24,20 +18,18 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.raimsoft.activity.GameActivity;
+import com.raimsoft.activity.OptionActivity;
 import com.raimsoft.activity.R;
 import com.raimsoft.game.ItemList;
 import com.raimsoft.game.Monster;
 import com.raimsoft.game.Player;
 import com.raimsoft.game.Rope;
 import com.raimsoft.game.TreadleManager;
-import com.raimsoft.sensor.SensorFactory;
-import com.raimsoft.sound.SoundManager;
 import com.raimsoft.stage.StageManager;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
 	public GameThread thread;
-
 
 	PowerManager pm;
 	PowerManager.WakeLock wl;
@@ -48,7 +40,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	{
 		super(context, attrs);
 
-		Log.i("GameView", "CALL Constructor");
+		Log.i("GameView", "Call Constructor");
 
 		SurfaceHolder mHolder= getHolder();
 		mHolder.addCallback(this);
@@ -236,6 +228,35 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 //			}
 //		}
 
+		if (keyCode == KeyEvent.KEYCODE_MENU)
+		{
+			if (thread.bMove) 	// 일시정지와 해제
+			{
+				gameContext.NextOptionActivity();
+				this.thread.setMoveing(false);
+			}else{
+				this.thread.setMoveing(true);
+			}
+			return super.onKeyDown(keyCode, event);
+		}
+		else if (keyCode == android.view.KeyEvent.KEYCODE_BACK)
+		{
+			return true;
+		}else{
+			//return super.onKeyDown(keyCode, event);
+			return false;
+		}
+	}
+
+
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event)
+	{
+
+		//if (thread.mPlayer.getObjectForRect().contains((int)event.getX(), (int)event.getY()))
+		//this.thread.mPlayer.setJumpIndex(0);
+
 		if (thread.bMove) 	// 일시정지와 해제
 		{
 			gameContext.NextOptionActivity();
@@ -243,21 +264,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}else{
 			this.thread.setMoveing(true);
 		}
-
-
-
-		return super.onKeyDown(keyCode, event);
-	}
-
-
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-
-		//if (thread.mPlayer.getObjectForRect().contains((int)event.getX(), (int)event.getY()))
-		//this.thread.mPlayer.setJumpIndex(0);
-
 		return super.onTouchEvent(event);
+
+
 	}
 
 
@@ -274,7 +283,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 		thread.setRunning(true);
 		wl.acquire();
+
+//		if ( !(Thread.State.RUNNABLE == thread.getState()) )
+		thread.stop();
 		thread.start();
+
 
 	}
 
@@ -286,12 +299,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         // it might touch the Surface after we return and explode
         boolean retry = true;
         thread.setRunning(false);
-        while (retry) {
-            try {
+        while (retry)
+        {
+            try
+            {
             	wl.release();
                 thread.join();
                 retry = false;
             } catch (InterruptedException e) {
+            	Log.e("GameView", e.toString());
             }
         }
 	}

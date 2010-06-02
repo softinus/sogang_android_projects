@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -151,6 +152,18 @@ public class PrologueActivity extends Activity {
 		}
 
 		return super.onTouchEvent(event);
+	}
+
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
 	}
 
 }
