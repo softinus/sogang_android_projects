@@ -34,7 +34,7 @@ public class GameActivity extends Activity {
 
 	public void NextOptionActivity()
 	{
-		Intent intent=new Intent (GameActivity.this, OptionActivity.class);
+		Intent intent=new Intent (GameActivity.this, PopupActivity.class);
 		startActivity(intent);
 	}
 

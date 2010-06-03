@@ -18,7 +18,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.raimsoft.activity.GameActivity;
-import com.raimsoft.activity.OptionActivity;
+import com.raimsoft.activity.PopupActivity;
 import com.raimsoft.activity.R;
 import com.raimsoft.game.ItemList;
 import com.raimsoft.game.Monster;

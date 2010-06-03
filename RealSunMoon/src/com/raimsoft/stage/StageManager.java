@@ -38,6 +38,7 @@ public class StageManager {
 			mStage.treadleMgr.treadleImgID[2]= R.drawable.cloud2_3;
 			mStage.treadleMgr.treadleImgID[3]= R.drawable.cloud2_4;
 			mStage.treadleMgr.treadleImgID[4]= R.drawable.cloud3_4;
+			mStage.strInfo=	"Stage 2";
 			mStage.stageSetup();
 			break;
 		case STAGE_3:	// 준비되지 않음
@@ -62,7 +63,8 @@ public class StageManager {
 		mStage.treadleMgr.TreadleCreate();	// 발판 초기화
 		mStage.bTreadle_ImgRefreshed= true; // 아이템 시작위치
 
-		mStage.gameScore= 0;				// 점수 초기화
+		//mStage.gameScore= 0;				// 점수 초기화
+
 		mStage.mPlayer.ResetPlayerPos();	// 플레이어 위치 초기화
 
 		mStage.bGameClear= 		false;		//

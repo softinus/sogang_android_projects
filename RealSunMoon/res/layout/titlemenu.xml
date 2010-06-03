@@ -7,20 +7,20 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 >
 
 <ImageView
-android:id="@+id/main_back"
+android:id="@+id/main_bg"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
-android:src="@drawable/main"
+android:src="@drawable/main_background"
 >
 </ImageView>
 
 <ImageView
-android:id="@+id/main_button"
+android:id="@+id/main_bg2"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:layout_x="41dip"
-android:layout_y="112dip"
-android:src="@drawable/main_button"
+android:layout_x="0dip"
+android:layout_y="0dip"
+android:src="@drawable/background"
 >
 </ImageView>
 
@@ -28,28 +28,38 @@ android:src="@drawable/main_button"
 android:id="@+id/logo_title"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:layout_x="55dip"
-android:layout_y="36dip"
-android:src="@drawable/logo_title"
+android:layout_x="115dip"
+android:layout_y="47dip"
+android:src="@drawable/title_2"
 >
 </ImageView>
 
 <Button
-android:id="@+id/btn_start"
+android:id="@+id/btn_challengemode"
 android:layout_height="wrap_content"
 android:layout_width="wrap_content"
-android:layout_x="74dip"
-android:layout_y="204dip"
-android:background="@xml/btn_start"
+android:layout_x="30dip"
+android:layout_y="286dip"
+android:background="@xml/btn_challengemode"
 ></Button>
 
 <Button
 android:id="@+id/btn_how"
 android:layout_height="wrap_content"
 android:layout_width="wrap_content"
-android:layout_x="74dip"
-android:layout_y="253dip"
+android:layout_x="72dip"
+android:layout_y="372dip"
 android:background="@xml/btn_how"
+></Button>
+
+
+<Button
+android:id="@+id/btn_freemode"
+android:layout_height="wrap_content"
+android:layout_width="wrap_content"
+android:layout_x="30dip"
+android:layout_y="333dip"
+android:background="@xml/btn_freemode"
 >
 </Button>
 
@@ -57,22 +67,20 @@ android:background="@xml/btn_how"
 android:id="@+id/btn_option"
 android:layout_height="wrap_content"
 android:layout_width="wrap_content"
-android:layout_x="74dip"
-android:layout_y="302dip"
+android:layout_x="140dip"
+android:layout_y="434dip"
 android:background="@xml/btn_option"
 >
 </Button>
 
 <Button
 android:id="@+id/exit"
-android:layout_width="60px"
-android:text="Exit"
-android:typeface="sans"
-android:textStyle="bold"
-android:layout_x="200px"
-android:layout_y="350px"
-android:layout_height="30px"
-android:visibility="invisible">
+android:layout_height="wrap_content"
+android:layout_width="wrap_content"
+android:layout_x="224dip"
+android:layout_y="434dip"
+android:background="@xml/btn_exit"
+>
 </Button>
 
 

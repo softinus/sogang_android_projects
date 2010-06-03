@@ -2,10 +2,10 @@
 <selector
 xmlns:android="http://schemas.android.com/apk/res/android">
 	<item
-	android:drawable="@drawable/main_button_options2"
+	android:drawable="@drawable/btn_option_2"
 	android:state_pressed="true" />
 
 	<item
-	android:drawable="@drawable/main_button_options" />
-	
+	android:drawable="@drawable/btn_option" />
+
 </selector>

@@ -2,7 +2,8 @@ package com.raimsoft.game;
 
 import com.raimsoft.view.GameView;
 
-public class Monster extends GameObject {
+public class Monster extends GameObject
+{
 
 	private final int spd=4;
 	public boolean bFly=false;

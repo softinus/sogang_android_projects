@@ -2,10 +2,10 @@
 <selector
 xmlns:android="http://schemas.android.com/apk/res/android">
 	<item
-	android:drawable="@drawable/main_button_how_to_play2"
+	android:drawable="@drawable/btn_freemode_2"
 	android:state_pressed="true" />
 
 	<item
-	android:drawable="@drawable/main_button_how_to_play" />
+	android:drawable="@drawable/btn_freemode" />
 
 </selector>

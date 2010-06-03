@@ -42,6 +42,8 @@ public class Stage
 
 	Paint pDebug=new Paint();	// 페인트
 	Paint pScore=new Paint();
+	Paint pText= new Paint();
+	public String strInfo= "Stage 1";
 
 	public int BackSize=1920;			// 배경세로길이
 	public int cnt_Step=0;				// 발판 밟은 수
@@ -70,6 +72,10 @@ public class Stage
 		pScore.setTextSize(24);
 		pScore.setAntiAlias(true);
 		pScore.setColor(Color.argb(0xff, 255, 0, 255));
+
+		pText.setTextSize(24);
+		pText.setAntiAlias(true);
+		pText.setColor(Color.argb(0x99, 0, 0, 0));
 	}
 	int clearTranspercy=0;
 	final int STAGE_ID=1;
@@ -181,6 +187,7 @@ public class Stage
 	void doDrawScore(Canvas c)
 	{
 		c.drawText("점수 : " + Float.toString(gameScore), 5, 20, pScore);
+		c.drawText(strInfo, view.getWidth()-100, view.getHeight()-30, pText);
 	}
 
 

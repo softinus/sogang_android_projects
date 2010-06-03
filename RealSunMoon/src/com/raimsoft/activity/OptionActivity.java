@@ -1,79 +1,51 @@
 package com.raimsoft.activity;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.raimsoft.stage.Stage;
+public class OptionActivity extends Activity implements OnClickListener
+{
 
-public class OptionActivity extends Activity implements OnClickListener {
-
-	Intent intent;
-	public boolean bContinue;
+	public boolean bSound_ON= true;
+	private Resources mRes;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		setContentView(R.layout.option);
+
+		mRes= this.getResources();
 
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
-	protected void onStart() {
-
-		findViewById(R.id.btn_popup_continue).setOnClickListener(this);
-		findViewById(R.id.btn_popup_oncemore).setOnClickListener(this);
-		findViewById(R.id.btn_popup_gameclose).setOnClickListener(this);
+	protected void onStart()
+	{
+		findViewById(R.id.btn_sound).setOnClickListener(this);
 
 		super.onStart();
-	}
-
-
-	@Override
-	protected void onDestroy() {
-
-
-
-		super.onDestroy();
 	}
 
 	@Override
 	public void onClick(View v)
 	{
-
-		if(v.getId()==R.id.btn_popup_continue)
+		if (v.getId()==R.id.btn_sound)
 		{
-			finish();
+			if (bSound_ON)
+			{
+				v.setBackgroundDrawable(mRes.getDrawable(R.drawable.sound_icon2));
+				bSound_ON= false;
+			}else{
+				v.setBackgroundDrawable(mRes.getDrawable(R.drawable.sound_icon));
+				bSound_ON=true;
+			}
 
 		}
-		else if(v.getId()==R.id.btn_popup_oncemore)
-		{
-			intent=new Intent(OptionActivity.this, GameActivity.class);
-	        startActivity(intent);
-	        finish();
-		}
-		else if(v.getId()==R.id.btn_popup_gameclose)
-		{
-			intent=new Intent(OptionActivity.this, TitleMenuActivity.class);
-	        startActivity(intent);
-
-	        finish();
-		}
-
-
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-		if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK)
-			finish();
-
-		return super.onKeyDown(keyCode, event);
-	}
 
 }
