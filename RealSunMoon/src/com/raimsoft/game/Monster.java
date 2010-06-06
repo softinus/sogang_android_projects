@@ -8,7 +8,7 @@ public class Monster extends GameObject
 	private final int spd=4;
 	public boolean bFly=false;
 	private boolean bSEPlay= false;
-
+	private int nRndNum;
 
 	/**
 	 * 모든 정보 입력하는 생성자
@@ -21,6 +21,8 @@ public class Monster extends GameObject
 	 */
 	public Monster(GameView view, int x, int y, int width, int height, int Image_ID)
 	{
+		nRndNum= (int) (5+ (Math.random()*5));
+
 		this.view= view;
 		this.wid = width;
 		this.hei = height;
@@ -49,7 +51,7 @@ public class Monster extends GameObject
 
 	public void Move_Bird()
 	{
-		if (view.thread.mStageMgr.mStage.cnt_Step>5)
+		if (view.thread.mStageMgr.mStage.cnt_Step > nRndNum)
 		{
 			this.x-=spd;
 			this.y+=spd;

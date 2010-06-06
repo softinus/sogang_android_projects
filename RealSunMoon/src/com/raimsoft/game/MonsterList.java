@@ -1,5 +1,6 @@
 package com.raimsoft.game;
 
-public class MonsterList {
+public class MonsterList
+{
 
 }

@@ -12,8 +12,9 @@ android:background="#00000099"
 android:id="@+id/main_back"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
-android:layout_y="15dip"
-android:src="@drawable/pop_up"
+android:layout_x="0dip"
+android:layout_y="0dip"
+android:src="@drawable/popup"
 >
 </ImageView>
 

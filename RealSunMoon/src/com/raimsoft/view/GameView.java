@@ -18,8 +18,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.raimsoft.activity.GameActivity;
-import com.raimsoft.activity.PopupActivity;
 import com.raimsoft.activity.R;
+import com.raimsoft.game.FakeCloudList;
 import com.raimsoft.game.ItemList;
 import com.raimsoft.game.Monster;
 import com.raimsoft.game.Player;
@@ -55,8 +55,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		this.thread.mStageMgr.mStage.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
 		this.thread.mStageMgr.mStage.mMonster= new Monster(this, -1, -1 ,50,45, R.drawable.bird_fly_1);
 		this.thread.mStageMgr.mStage.mItemList= new ItemList(this);
+		this.thread.mStageMgr.mStage.mFakeList= new FakeCloudList(this);
 		this.thread.mStageMgr.mStage.mRope= new Rope(this, 140,-2, 17,168, R.drawable.new_rope);
 		this.thread.mStageMgr.mStage.treadleMgr= new TreadleManager(this);
+
 
 		pm= (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 		wl= pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
@@ -284,9 +286,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		thread.setRunning(true);
 		wl.acquire();
 
-//		if ( !(Thread.State.RUNNABLE == thread.getState()) )
-		thread.stop();
-		thread.start();
+		if ( !(Thread.State.TERMINATED == thread.getState()) )
+			thread.start();
 
 
 	}

@@ -317,7 +317,7 @@ public class Player extends GameObject {
 	/**
 	 * 반복 점프
 	 */
-	public void JumpAlways()	
+	public void JumpAlways()
 	{
 		this.fallcheck(); 	// 떨어졌는지 체크
 
@@ -335,8 +335,8 @@ public class Player extends GameObject {
 			if (this.y + FlyWingIdxArr[FlyIdx_Present] < 150) // 캐릭터가 150px이상 화면으로 올라가
 			{
 				view.thread.mStageMgr.mStage.treadleMgr.setAllChangeY(-FlyWingIdxArr[FlyIdx_Present]); 	// 면 구름을 점프한만큼 내림
-
 				view.thread.mStageMgr.mStage.mItemList.setAllChangeY(-FlyWingIdxArr[FlyIdx_Present]);	// 면 아이템 내림
+				view.thread.mStageMgr.mStage.mFakeList.setAllChangeY(-FlyWingIdxArr[FlyIdx_Present]);	// 면 가짜구름 내림
 
 				if (view.thread.mStageMgr.mStage.mMonster.bFly)	// 고 몬스터가 날고있을 때
 				{
@@ -346,6 +346,7 @@ public class Player extends GameObject {
 				{
 					view.thread.mStageMgr.mStage.BackSize += Math.round(FlyWingIdxArr[FlyIdx_Present] / 3);
 					view.thread.mStageMgr.mStage.mItemList.CreateItems(); // 아이템 만들어줌
+					view.thread.mStageMgr.mStage.mFakeList.CreateFakes(); // 가짜구름 만들어줌
 					//Log.d("BackSize= ", Float.toString(view.thread.mStageMgr.mStage.BackSize));
 				}
 
@@ -363,8 +364,8 @@ public class Player extends GameObject {
 			if (this.y + JumpIdxArr_Always[JumpIdx_Present] < 150) // 캐릭터가 150px이상 화면으로 올라가
 			{
 				view.thread.mStageMgr.mStage.treadleMgr.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]); 	// 면 구름을 점프한만큼 내림
-
 				view.thread.mStageMgr.mStage.mItemList.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]);		// 면 아이템 내림
+				view.thread.mStageMgr.mStage.mFakeList.setAllChangeY(-JumpIdxArr_Always[JumpIdx_Present]);		// 면 아이템 내림
 
 				if (view.thread.mStageMgr.mStage.mMonster.bFly)	// 고 몬스터가 날고있을 때 몬스터 내림
 				{
@@ -375,6 +376,7 @@ public class Player extends GameObject {
 				{
 					view.thread.mStageMgr.mStage.BackSize += Math.round(JumpIdxArr_Always[JumpIdx_Present] / 3);
 					view.thread.mStageMgr.mStage.mItemList.CreateItems(); // 아이템 만들어줌
+					view.thread.mStageMgr.mStage.mFakeList.CreateFakes(); // 가짜구름 만들어줌
 					//Log.d("BackSize= ", Float.toString(view.thread.mStageMgr.mStage.BackSize));
 				}
 			}
@@ -433,22 +435,22 @@ public class Player extends GameObject {
 
 			switch (_tra.Img_id)	// 발판별 스코어 점수증가
 			{
-				case R.drawable.cloud1_1:
+				case R.drawable.cloud1_1:	case R.drawable.cloud2_1:	case R.drawable.cloud3_1:
 					if (!_tra.bStepped)
 						view.thread.mStageMgr.mStage.gameScore+=70;
 					_tra.bStepped=true;
 					break;
-				case R.drawable.cloud1_2:
+				case R.drawable.cloud1_2:	case R.drawable.cloud2_2:	case R.drawable.cloud3_2:
 					if (!_tra.bStepped)
 						view.thread.mStageMgr.mStage.gameScore+=50;
 					_tra.bStepped=true;
 					break;
-				case R.drawable.cloud1_3:
+				case R.drawable.cloud1_3:	case R.drawable.cloud2_3:	case R.drawable.cloud3_3:
 					if (!_tra.bStepped)
 						view.thread.mStageMgr.mStage.gameScore+=30;
 					_tra.bStepped=true;
 					break;
-				case R.drawable.cloud1_4:
+				case R.drawable.cloud1_4:	case R.drawable.cloud2_4:	case R.drawable.cloud3_4:
 					if (!_tra.bStepped)
 						view.thread.mStageMgr.mStage.gameScore+=10;
 					_tra.bStepped=true;
@@ -482,6 +484,22 @@ public class Player extends GameObject {
 			}
 			sm.play(3);
 			view.thread.mStageMgr.mStage.mItemList.itemList.remove(_idx);
+		}
+	}
+
+	public void CollisionFakeCloud(Rect rct, FakeCloud _fake, int _idx)
+	{
+		if (this.getObjectForRect().intersect(rct))
+		{
+			Log.v("Collision", "Call CollisionItem");
+
+			switch (_fake.Img_id)
+			{
+			case R.drawable.fakecloud2:
+				break;
+			}
+			//sm.play(3);
+			//view.thread.mStageMgr.mStage.mFakeList.fakeList.remove(_idx);
 		}
 	}
 

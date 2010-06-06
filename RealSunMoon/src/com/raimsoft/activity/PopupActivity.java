@@ -13,6 +13,7 @@ public class PopupActivity extends Activity implements OnClickListener {
 
 	Intent intent;
 	public boolean bContinue;
+	private GameActivity gameContext= new GameActivity();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class PopupActivity extends Activity implements OnClickListener {
 			intent=new Intent(PopupActivity.this, TitleMenuActivity.class);
 	        startActivity(intent);
 
+	        gameContext.finish();
 	        finish();
 		}
 

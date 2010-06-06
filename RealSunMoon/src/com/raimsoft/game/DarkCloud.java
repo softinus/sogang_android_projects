@@ -2,22 +2,18 @@ package com.raimsoft.game;
 
 import com.raimsoft.view.GameView;
 
-public class Item extends GameObject
-
+public class DarkCloud extends GameObject
 {
-	//int nItemKind;
-	static int nItemNum= 1;
-
 	/**
 	 * 모든 정보 입력하는 생성자
 	 * @param view
 	 * @param x : X값, (-1)이면 중앙배치, (-2)이면 랜덤배치
 	 * @param y : Y값, (-1)이면 중앙배치
-	 * @param width : 아이템 폭
-	 * @param height : 아이템 높이
-	 * @param Image_ID : 아이템 이미지ID
+	 * @param width : 먹구름 폭
+	 * @param height : 먹구름 높이
+	 * @param Image_ID : 먹구름 이미지ID
 	 */
-	public Item(GameView view, int x, int y, int width, int height, int Image_ID)
+	public DarkCloud(GameView view, int x, int y, int width, int height, int Image_ID)
 	{
 		this.view= view;
 		this.wid = width;
@@ -41,9 +37,5 @@ public class Item extends GameObject
 		}
 
 		Img_id=Image_ID;
-
-		//nItemKind= (int) (1+(Math.random() * 2));
-		++nItemNum;
 	}
-
 }

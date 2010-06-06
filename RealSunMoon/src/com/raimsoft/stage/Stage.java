@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.raimsoft.activity.GameActivity;
 import com.raimsoft.activity.R;
+import com.raimsoft.game.FakeCloudList;
 import com.raimsoft.game.ItemList;
 import com.raimsoft.game.Monster;
 import com.raimsoft.game.Player;
@@ -34,6 +35,7 @@ public class Stage
 	public Monster mMonster;			// 몬스터 객체
 	public Rope mRope;					// 동아줄 객체
 	public ItemList mItemList;			// 아이템 객체
+	public FakeCloudList mFakeList;		// 가짜구름 객체
 
 	public boolean bClearStage1= false;
 	int nBackgroundID= R.drawable.background_1;			// 배경 아이디값
@@ -46,7 +48,7 @@ public class Stage
 	public String strInfo= "Stage 1";
 
 	public int BackSize=1920;			// 배경세로길이
-	public int cnt_Step=0;				// 발판 밟은 수
+	 public int cnt_Step=0;				// 발판 밟은 수
 	public int gameScore=0;
 
 	public boolean bGameClear=false;	// 게임 클리어 여부
@@ -55,6 +57,7 @@ public class Stage
 	boolean bMonster_ImgRefreshed=true;	// 이미지 새로고침(몬스터)
 	boolean bRope_ImgRefreshed=true;	// 이미지 새로고침(로프)
 	boolean bItem_ImgRefreshed=true;	// 이미지 새로고침(아이템)
+	boolean bFake_ImgRefreshed=true;	// 이미지 새로고침(가짜구름)
 
 	//OptionActivity opt=new OptionActivity();
 
@@ -78,7 +81,7 @@ public class Stage
 		pText.setColor(Color.argb(0x99, 0, 0, 0));
 	}
 	int clearTranspercy=0;
-	final int STAGE_ID=1;
+	public int STAGE_ID= 1;
 
 
 	void stageDraw(Canvas canvas)
@@ -104,6 +107,7 @@ public class Stage
 
 	void stageSetup() // 설정
 	{
+		this.treadleMgr.TreadleCreate();
 		bBackground= BitmapFactory.decodeResource(mRes, nBackgroundID);
 		this.bTreadle_ImgRefreshed= true;
 	}
@@ -137,6 +141,11 @@ public class Stage
 		for (int i=0; i<mItemList.itemList.size(); i++)
 		{
 			mPlayer.CollisionItem(mItemList.itemList.get(i).getObjectForRect(), mItemList.itemList.get(i), i);
+		}
+
+		for (int i=0; i<mFakeList.fakeList.size(); i++)
+		{
+			mPlayer.CollisionFakeCloud(mFakeList.fakeList.get(i).getObjectForRect(), mFakeList.fakeList.get(i), i);
 		}
 
 
@@ -219,6 +228,15 @@ public class Stage
 			bItem_ImgRefreshed= false;
 		}
 
+		if(bFake_ImgRefreshed) // 가짜구름 초기화
+		{
+			for (int i=0; i<mFakeList.fakeList.size(); i++)
+			{
+				mFakeList.fakeList.get(i).Img_Drawable= mRes.getDrawable(mFakeList.fakeList.get(i).Img_id);
+			}
+			bFake_ImgRefreshed= false;
+		}
+
 		if(bTreadle_ImgRefreshed) // 발판 초기화
 		{
 			for (int i=0; i<treadleMgr.getCount(); i++)
@@ -270,10 +288,22 @@ public class Stage
 			}
 		}
 
+		for (int i=0; i<mFakeList.fakeList.size(); i++) // 가짜구름 뿌려줌 (fakeList)
+		{
+			if (isInSight(mPlayer.getY(), mFakeList.fakeList.get(i).getY())) // 화면 내에 있으면
+			{
+				mFakeList.fakeList.get(i).Img_Drawable.setBounds(mFakeList.fakeList.get(i).getObjectForRect());
+				mFakeList.fakeList.get(i).Img_Drawable.draw(c);
+			}else{ // 화면 밖이면
+				mFakeList.fakeList.remove(i); // 리스트에서 제외
+				Log.v("ItemList", i + "th item removed.");
+			}
+		}
 
 
 
-		if (bGameClear && !bClearStage1)	//클리어시에 로프 그림
+
+		if (bGameClear)	//클리어시에 로프 그림
 		{
 			mRope.Img_Drawable.setBounds(mRope.getObjectForRect());
 			mRope.Img_Drawable.draw(c);
@@ -282,20 +312,20 @@ public class Stage
 		mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());
 		mPlayer.Img_Drawable.draw(c);
 
+
 		if (bGameClear) // 게임이 클리어되면
 		{
 			mRope.setX(mPlayer.getX()+(mPlayer.getWidth()/2));
 			if(mRope.getY() != -5)
 			{
 				mRope.RopeDown();
-				((GameActivity) mContext).stopBGM();
 				((GameActivity) mContext).playSE();
 			}else{
 				mRope.bRopeDown=false;
 			}
 
-			if (!mRope.bRopeDown && !bClearStage1)
-			{// 로프가 다 내려오고 스테이지1을 아직 클리어 안했을 때
+			if (!mRope.bRopeDown)
+			{// 로프가 다 내려오고 스테이지를 아직 클리어 안했을 때
 				c.drawARGB(clearTranspercy, 0, 0, 0);
 				if (clearTranspercy<255)
 				{
@@ -303,8 +333,19 @@ public class Stage
 				}
 				if (clearTranspercy==255)
 				{
-					bClearStage1= true;	// 스테이지1 클리어
-					view.thread.mStageMgr.StageChange(2);
+					switch (this.STAGE_ID)
+					{
+					case 1:
+						view.thread.mStageMgr.StageChange(2);
+						break;
+					case 2:
+						view.thread.mStageMgr.StageChange(3);
+						break;
+					case 3:
+						view.thread.mStageMgr.StageChange(4);
+						break;
+					}
+
 				}
 			}
 		}
@@ -329,6 +370,10 @@ public class Stage
 	public void setItemImg_Refresh()
 	{
 		bItem_ImgRefreshed= true;
+	}
+	public void setFakeImg_Refresh()
+	{
+		bFake_ImgRefreshed= true;
 	}
 
 

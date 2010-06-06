@@ -2,10 +2,11 @@ package com.raimsoft.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.raimsoft.sound.SoundManager;
 
@@ -14,6 +15,7 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	private boolean already_Next;
 	//public MediaPlayer mMedia_BGM;
 	private SoundManager sm= new SoundManager(this);
+	private Button btnStart, btnChallengeMode, btnFreeMode;
 
 	private void Next()
 	{
@@ -34,10 +36,18 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 
 		super.onCreate(savedInstanceState);
 
-		findViewById(R.id.btn_challengemode).setOnClickListener(this);
+		btnStart= (Button) findViewById(R.id.btn_gamestart);
+		btnStart.setOnClickListener(this);
+
+		btnFreeMode= (Button) findViewById(R.id.btn_freemode);
+		btnFreeMode.setOnClickListener(this);
+
+		btnChallengeMode= (Button) findViewById(R.id.btn_challengemode);
+		btnChallengeMode.setOnClickListener(this);
+
 		findViewById(R.id.btn_how).setOnClickListener(this);
 		findViewById(R.id.btn_option).setOnClickListener(this);
-		findViewById(R.id.exit).setOnClickListener(this);
+		findViewById(R.id.btn_exit).setOnClickListener(this);
 
 //		mMedia_BGM = MediaPlayer.create(this, R.raw.game_bgm);
 //		mMedia_BGM.setLooping(true);
@@ -59,10 +69,21 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	{
 		sm.play(0);
 
-		if(v.getId()==R.id.btn_challengemode)
+		if(v.getId()==R.id.btn_gamestart)
+		{
+			btnChallengeMode.setVisibility(View.VISIBLE);
+			btnFreeMode.setVisibility(View.VISIBLE);
+			btnStart.setVisibility(View.INVISIBLE);
+		}
+		else if(v.getId()==R.id.btn_challengemode)
 		{
 			Next();
-		}else if(v.getId()==R.id.btn_how)
+		}
+		else if(v.getId()==R.id.btn_freemode)
+		{
+
+		}
+		else if(v.getId()==R.id.btn_how)
 		{
 			Intent intent=new Intent(TitleMenuActivity.this, HowtoplayActivity.class);
 	        startActivity(intent);
@@ -71,6 +92,10 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 		{
 			Intent intent=new Intent(TitleMenuActivity.this, OptionActivity.class);
 	        startActivity(intent);
+		}
+		else if(v.getId()==R.id.btn_exit)
+		{	
+			finish();
 		}
 	}
 
@@ -83,5 +108,17 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 		sm.destroy();
 
 		super.onDestroy();
+	}
+
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
 	}
 }

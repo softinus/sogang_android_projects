@@ -34,22 +34,25 @@ android:src="@drawable/title_2"
 >
 </ImageView>
 
-<Button
-android:id="@+id/btn_challengemode"
-android:layout_height="wrap_content"
-android:layout_width="wrap_content"
-android:layout_x="30dip"
-android:layout_y="286dip"
-android:background="@xml/btn_challengemode"
-></Button>
 
 <Button
 android:id="@+id/btn_how"
 android:layout_height="wrap_content"
 android:layout_width="wrap_content"
-android:layout_x="72dip"
-android:layout_y="372dip"
+android:layout_x="30dip"
+android:layout_y="434dip"
 android:background="@xml/btn_how"
+></Button>
+
+
+<Button
+android:id="@+id/btn_gamestart"
+android:layout_height="wrap_content"
+android:layout_width="wrap_content"
+android:layout_x="30dip"
+android:layout_y="310dip"
+android:background="@xml/btn_start"
+android:visibility="visible"
 ></Button>
 
 
@@ -60,8 +63,20 @@ android:layout_width="wrap_content"
 android:layout_x="30dip"
 android:layout_y="333dip"
 android:background="@xml/btn_freemode"
+android:visibility="invisible"
 >
 </Button>
+
+<Button
+android:id="@+id/btn_challengemode"
+android:layout_height="wrap_content"
+android:layout_width="wrap_content"
+android:layout_x="30dip"
+android:layout_y="286dip"
+android:background="@xml/btn_challengemode"
+android:visibility="invisible"
+></Button>
+
 
 <Button
 android:id="@+id/btn_option"
@@ -74,7 +89,7 @@ android:background="@xml/btn_option"
 </Button>
 
 <Button
-android:id="@+id/exit"
+android:id="@+id/btn_exit"
 android:layout_height="wrap_content"
 android:layout_width="wrap_content"
 android:layout_x="224dip"

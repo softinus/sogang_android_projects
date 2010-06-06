@@ -53,7 +53,7 @@ public class TreadleManager {
 	TreadleInfo tInfo=new TreadleInfo();
 //	private final int GAP_less=40;
 //	private final int GAP_top=120;
-	private final int GAP=	100;
+	private int GAP=	100;
 	private int treadle_cnt;
 	public boolean bInitializing; // 구름 초기화중
 
@@ -65,7 +65,7 @@ public class TreadleManager {
 	 */
 	public TreadleManager(GameView _view)
 	{
-		Log.v("treadleMgr","Constructor call");
+		Log.v("treadleMgr","Constructor CALL");
 
 		this.view= _view;
 
@@ -125,6 +125,10 @@ public class TreadleManager {
 		}
 	}
 
+	public void setPlusGAP(int _GAP)
+	{
+		this.GAP += _GAP;
+	}
 	public int getCount()
 	{
 		return treadle_cnt;
