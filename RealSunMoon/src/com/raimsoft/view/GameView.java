@@ -81,6 +81,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		private long Render1ForTime;			// 렌더1번에 걸리는 시간
 		private long RenderAccTime;			// 1초 렌더 누적시간
 		private long curTime, oldTime;		// 현재시간, 지난시간
+		public  long lightTime=	0;			// 번개 타이머
 		private int delTime=5;				// Thread딜레이
 
 		Canvas canvas=null;
@@ -163,6 +164,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 			Render1ForTime= curTime - oldTime;
 			RenderAccTime+= Render1ForTime;
+			lightTime	 += Render1ForTime;
 
 			if (RenderAccTime > 1000)
 			{

@@ -17,7 +17,10 @@ public class Player extends GameObject {
 	public  boolean bStep=		false;	// 처음점프했나
 	public 	boolean bJump=		false;	// 올라가고있나
 	public	boolean bCrushed=	false;	// 부딫혔나
+	public	boolean bShorked=	false;	// 감전되었나
 	public	boolean bItemGet=	false;	// 아이템먹었나
+
+	private int nShorkSprite=0;	// 쇼크애니메이션
 
 	public int State=0;
 	public int OriX, OriY;
@@ -314,6 +317,26 @@ public class Player extends GameObject {
 		this.Img_id=R.drawable.nui_fall_3;
 		view.thread.mStageMgr.mStage.setPlayerImg_Refresh();
 	}
+	/**
+	 * 번개와 충돌시
+	 */
+	public void ShorkChar()
+	{
+		if (nShorkSprite%2==0)
+		{
+			this.Img_id=R.drawable.nui_shork_2;
+			view.thread.mStageMgr.mStage.setPlayerImg_Refresh();
+
+		}else if (nShorkSprite%2==1){
+			this.Img_id=R.drawable.nui_shork_1;
+			view.thread.mStageMgr.mStage.setPlayerImg_Refresh();
+		}
+		++nShorkSprite;
+		if (nShorkSprite==120)
+		{
+			view.thread.gameOver();
+		}
+	}
 
 	/**
 	 * 반복 점프
@@ -491,6 +514,12 @@ public class Player extends GameObject {
 		}
 	}
 
+	/**
+	 * 가짜구름과 충돌
+	 * @param rct
+	 * @param _fake
+	 * @param _idx
+	 */
 	public void CollisionFakeCloud(Rect rct, FakeCloud _fake, int _idx)
 	{
 		if (this.getObjectForRect().intersect(rct))
@@ -508,6 +537,19 @@ public class Player extends GameObject {
 	}
 
 	/**
+	 * 번개와 충돌
+	 * @param rct
+	 */
+	public void CollisionLight(Rect rct)
+	{// 번개 치는동안 캐릭터가 번개에 맞으면
+		if (this.getObjectForRectHalf(false).intersect(rct) && view.thread.mStageMgr.mStage.mDark.getLightning())
+		{
+			Log.v("Collision", "Call CollisionLight");
+			this.bShorked=true;
+		}
+	}
+
+	/**
 	 * 몬스터와의 충돌
 	 * @param rct
 	 */
@@ -518,7 +560,6 @@ public class Player extends GameObject {
 			Log.v("Collision", "Call CollisionMonster");
 			this.bCrushed=true;
 		}
-
 	}
 
 	public void setJumpIndex(int _idx)

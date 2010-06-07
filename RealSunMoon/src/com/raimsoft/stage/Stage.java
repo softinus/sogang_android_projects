@@ -125,6 +125,7 @@ public class Stage
 			mDark.State= 2;
 		}
 
+
 		if (mDark.State== 1)
 		{
 			mDark.SetChangeX(2);
@@ -135,12 +136,44 @@ public class Stage
 			mDark.SetChangeX(-2);
 			mDark.lt.SetChangeX(-2);
 		}
+		else if (mDark.State== 0)
+		{	}
+
+
+
+		if (view.thread.lightTime > 3000)
+		{
+			mDark.State=0;
+		}
+		if (view.thread.lightTime > 3300)
+		{
+			mDark.Lightly(true);
+		}
+		if (view.thread.lightTime > 3500)
+		{
+			mDark.Lightly(false);
+			mDark.Lightning(true);
+		}
+		if (view.thread.lightTime > 3800)
+		{
+			mDark.Lightning(false);
+			mDark.State= (int) (1+Math.random()*2);
+			view.thread.lightTime=0;
+		}
+
+
+
+
 
 
 
 		if (mPlayer.bCrushed)
 		{
 			mPlayer.CrushFall();
+		}
+		else if (mPlayer.bShorked)
+		{
+			mPlayer.ShorkChar();
 		}else{
 			mPlayer.SensorMove( sf.getCompressFloat2X( sf.getSensorValue() ) );
 			mPlayer.JumpAlways();
@@ -150,6 +183,8 @@ public class Stage
 		treadleMgr.ALL_Treadle_Stepped();
 
 		mPlayer.CollisionMonster(mMonster.getObjectForRect());
+
+		mPlayer.CollisionLight(mDark.lt.getObjectForRect());
 
 		for (int i=0; i<treadleMgr.getCount(); i++)
 		{
@@ -348,8 +383,12 @@ public class Stage
 		mPlayer.Img_Drawable.draw(c);
 
 		mDark.Img_Drawable.setBounds(mDark.getObjectForRect());	//먹구름과 번개 그림
-		mDark.lt.Img_Drawable.setBounds(mDark.lt.getObjectForRect());
-		mDark.lt.Img_Drawable.draw(c);
+		if (mDark.getLightning()) // 번개 칠 때에만
+		{
+			mDark.lt.Img_Drawable.setBounds(mDark.lt.getObjectForRect()); // 번개 그림
+			mDark.lt.Img_Drawable.draw(c);
+		}
+
 		mDark.Img_Drawable.draw(c);
 
 

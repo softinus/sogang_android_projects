@@ -83,8 +83,8 @@ class ItemCase // 랜덤으로 아이템을 뽑아주는 클래스
 
 		if (rndFreq > 100-item1_PercentFreq)
 		{
-			wid= 35;
-			hei= 49;
+			wid= 66;
+			hei= 21;
 			imgID= R.drawable.item_wing;
 		}
 		else if (rndFreq <= item2_PercentFreq )
