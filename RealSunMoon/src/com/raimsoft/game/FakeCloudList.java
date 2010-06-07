@@ -83,9 +83,9 @@ class fakeCase // 랜덤으로 아이템을 뽑아주는 클래스
 
 		if (rndFreq > 100-fake1_PercentFreq)
 		{
-			wid= 85;
-			hei= 48;
-			imgID= R.drawable.fakecloud2;
+			wid= 80;
+			hei= 30;
+			imgID= R.drawable.fakecloud3;
 		}
 		else if (rndFreq <= fake2_PercentFreq )
 		{

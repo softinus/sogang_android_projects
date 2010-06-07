@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.raimsoft.activity.GameActivity;
 import com.raimsoft.activity.R;
+import com.raimsoft.game.DarkCloud;
 import com.raimsoft.game.FakeCloudList;
 import com.raimsoft.game.ItemList;
 import com.raimsoft.game.Monster;
@@ -36,8 +37,8 @@ public class Stage
 	public Rope mRope;					// 동아줄 객체
 	public ItemList mItemList;			// 아이템 객체
 	public FakeCloudList mFakeList;		// 가짜구름 객체
+	public DarkCloud mDark;				// 먹구름 객체
 
-	public boolean bClearStage1= false;
 	int nBackgroundID= R.drawable.background_1;			// 배경 아이디값
 	Bitmap bBackground;			// 배경
 	Drawable dGameClear;
@@ -58,6 +59,7 @@ public class Stage
 	boolean bRope_ImgRefreshed=true;	// 이미지 새로고침(로프)
 	boolean bItem_ImgRefreshed=true;	// 이미지 새로고침(아이템)
 	boolean bFake_ImgRefreshed=true;	// 이미지 새로고침(가짜구름)
+	boolean bDark_ImgRefreshed=true;	// 이미지 새로고침(먹구름)
 
 	//OptionActivity opt=new OptionActivity();
 
@@ -114,6 +116,26 @@ public class Stage
 
 	void stageUpdate() // 좌표 업데이트
 	{
+		if (mDark.getX() < 0)
+		{
+			mDark.State= 1;
+		}
+		else if (mDark.getX() > view.getWidth()-50)
+		{
+			mDark.State= 2;
+		}
+
+		if (mDark.State== 1)
+		{
+			mDark.SetChangeX(2);
+			mDark.lt.SetChangeX(2);
+		}
+		else if (mDark.State== 2)
+		{
+			mDark.SetChangeX(-2);
+			mDark.lt.SetChangeX(-2);
+		}
+
 
 
 		if (mPlayer.bCrushed)
@@ -131,7 +153,7 @@ public class Stage
 
 		for (int i=0; i<treadleMgr.getCount(); i++)
 		{
-			if (mPlayer.bJump==true) //
+			if (mPlayer.bJump==true) // 착지 중에만 충돌체크
 			{
 				mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(true)
 						, treadleMgr.treadle[i]);
@@ -145,7 +167,10 @@ public class Stage
 
 		for (int i=0; i<mFakeList.fakeList.size(); i++)
 		{
-			mPlayer.CollisionFakeCloud(mFakeList.fakeList.get(i).getObjectForRect(), mFakeList.fakeList.get(i), i);
+			if (mPlayer.bJump==true) // 착지 중에만 충돌체크
+			{
+				mPlayer.CollisionFakeCloud(mFakeList.fakeList.get(i).getObjectForRectHalf(true), mFakeList.fakeList.get(i), i);
+			}
 		}
 
 
@@ -253,8 +278,16 @@ public class Stage
 			bMonster_ImgRefreshed=false;
 		}
 
+		if(bDark_ImgRefreshed) // 먹구름 초기화
+		{
+			mDark.Img_Drawable= mRes.getDrawable(mDark.Img_id);
+			mDark.lt.Img_Drawable= mRes.getDrawable(mDark.lt.Img_id);
+			bDark_ImgRefreshed=false;
+		}
+
 
 		/* ========================= Rendering ========================= */
+
 
 
 		if (!treadleMgr.bInitializing) // 초기화 중이 아닐 때
@@ -303,14 +336,21 @@ public class Stage
 
 
 
+
+
 		if (bGameClear)	//클리어시에 로프 그림
 		{
 			mRope.Img_Drawable.setBounds(mRope.getObjectForRect());
 			mRope.Img_Drawable.draw(c);
 		}
 
-		mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());
+		mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());	// 플레이어 그림
 		mPlayer.Img_Drawable.draw(c);
+
+		mDark.Img_Drawable.setBounds(mDark.getObjectForRect());	//먹구름과 번개 그림
+		mDark.lt.Img_Drawable.setBounds(mDark.lt.getObjectForRect());
+		mDark.lt.Img_Drawable.draw(c);
+		mDark.Img_Drawable.draw(c);
 
 
 		if (bGameClear) // 게임이 클리어되면
@@ -374,6 +414,10 @@ public class Stage
 	public void setFakeImg_Refresh()
 	{
 		bFake_ImgRefreshed= true;
+	}
+	public void setDarkImg_Refresh()
+	{
+		bDark_ImgRefreshed= true;
 	}
 
 

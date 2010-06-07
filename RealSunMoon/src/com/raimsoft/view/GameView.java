@@ -19,6 +19,7 @@ import android.view.SurfaceView;
 
 import com.raimsoft.activity.GameActivity;
 import com.raimsoft.activity.R;
+import com.raimsoft.game.DarkCloud;
 import com.raimsoft.game.FakeCloudList;
 import com.raimsoft.game.ItemList;
 import com.raimsoft.game.Monster;
@@ -58,6 +59,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		this.thread.mStageMgr.mStage.mFakeList= new FakeCloudList(this);
 		this.thread.mStageMgr.mStage.mRope= new Rope(this, 140,-2, 17,168, R.drawable.new_rope);
 		this.thread.mStageMgr.mStage.treadleMgr= new TreadleManager(this);
+		this.thread.mStageMgr.mStage.mDark= new DarkCloud(this, 0,0, 71,38, R.drawable.darkcloud);
 
 
 		pm= (PowerManager) context.getSystemService(Context.POWER_SERVICE);
@@ -122,11 +124,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 						if (bMove && !mStageMgr.mStage.bGameClear)
 							mStageMgr.StageUpdate();
-
-						if (mStageMgr.mStage.bClearStage1)
-						{
-							//mStageMgr.StageChange(99);
-						}
 
 						canvas.restore();
 

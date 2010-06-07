@@ -83,6 +83,7 @@ public class StageManager {
 
 		//mStage.treadleMgr.TreadleCreate();	// 발판 초기화
 		mStage.bTreadle_ImgRefreshed= true; // 아이템 시작위치
+		mStage.mPlayer.bItemGet= false;
 
 		//mStage.gameScore= 0;				// 점수 초기화
 

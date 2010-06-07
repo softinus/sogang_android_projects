@@ -1,9 +1,34 @@
 package com.raimsoft.game;
 
+import com.raimsoft.activity.R;
 import com.raimsoft.view.GameView;
 
 public class DarkCloud extends GameObject
 {
+	public class Light extends GameObject
+	{
+		private boolean bLightly= false;
+		private boolean bLightning= false;
+
+		private Light(GameView view, int x, int y, int width, int height, int Image_ID)
+		{
+			this.view= view;
+			this.wid = width;
+			this.hei = height;
+			this.x= x;
+			this.y= y;
+			this.Img_id= Image_ID;
+		}
+
+
+
+	}
+
+
+	public Light lt;
+	public int State=1; // 0:멈춤, 1:오른쪽, 2:왼쪽
+
+
 	/**
 	 * 모든 정보 입력하는 생성자
 	 * @param view
@@ -15,6 +40,7 @@ public class DarkCloud extends GameObject
 	 */
 	public DarkCloud(GameView view, int x, int y, int width, int height, int Image_ID)
 	{
+
 		this.view= view;
 		this.wid = width;
 		this.hei = height;
@@ -37,5 +63,25 @@ public class DarkCloud extends GameObject
 		}
 
 		Img_id=Image_ID;
+
+		lt= new Light(this.view, this.x+15, this.y+20, 51,234, R.drawable.lightning);
 	}
+
+	public void Lightning(boolean light)
+	{
+		lt.bLightning= light;
+	}
+	public boolean getLightning()
+	{
+		return lt.bLightning;
+	}
+	public void Lightly(boolean light)
+	{
+		lt.bLightly= light;
+	}
+	public boolean getLightly()
+	{
+		return lt.bLightly;
+	}
+
 }

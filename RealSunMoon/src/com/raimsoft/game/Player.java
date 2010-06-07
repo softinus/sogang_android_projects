@@ -158,6 +158,7 @@ public class Player extends GameObject {
 		sm.load(1, R.raw.getitem);
 		sm.load(2, R.raw.birdprey);
 		sm.load(3, R.raw.touchstar);
+		sm.load(4, R.raw.blink);
 	}
 
 	// 현재 Bitmap을 Drawable로 바꾸면서 안쓰게 되었음.
@@ -345,8 +346,9 @@ public class Player extends GameObject {
 				if (view.getHeight() < view.thread.mStageMgr.mStage.BackSize) // 고 화면이 백사이즈보다 작을 때
 				{
 					view.thread.mStageMgr.mStage.BackSize += Math.round(FlyWingIdxArr[FlyIdx_Present] / 3);
-					view.thread.mStageMgr.mStage.mItemList.CreateItems(); // 아이템 만들어줌
-					view.thread.mStageMgr.mStage.mFakeList.CreateFakes(); // 가짜구름 만들어줌
+					//view.thread.mStageMgr.mStage.mItemList.CreateItems(); // 아이템 만들어줌
+					if (view.thread.mStageMgr.currStage != 1)
+						view.thread.mStageMgr.mStage.mFakeList.CreateFakes(); // 가짜구름 만들어줌
 					//Log.d("BackSize= ", Float.toString(view.thread.mStageMgr.mStage.BackSize));
 				}
 
@@ -376,7 +378,9 @@ public class Player extends GameObject {
 				{
 					view.thread.mStageMgr.mStage.BackSize += Math.round(JumpIdxArr_Always[JumpIdx_Present] / 3);
 					view.thread.mStageMgr.mStage.mItemList.CreateItems(); // 아이템 만들어줌
-					view.thread.mStageMgr.mStage.mFakeList.CreateFakes(); // 가짜구름 만들어줌
+
+					if (view.thread.mStageMgr.currStage != 1)
+						view.thread.mStageMgr.mStage.mFakeList.CreateFakes(); // 가짜구름 만들어줌
 					//Log.d("BackSize= ", Float.toString(view.thread.mStageMgr.mStage.BackSize));
 				}
 			}
@@ -470,7 +474,7 @@ public class Player extends GameObject {
 	 */
 	public void CollisionItem(Rect rct, Item _item, int _idx)
 	{
-		if (this.getObjectForRect().intersect(rct))
+		if (this.getObjectForRectHalf(false).intersect(rct))
 		{
 			Log.v("Collision", "Call CollisionItem");
 
@@ -495,11 +499,11 @@ public class Player extends GameObject {
 
 			switch (_fake.Img_id)
 			{
-			case R.drawable.fakecloud2:
+			case R.drawable.fakecloud3:
 				break;
 			}
-			//sm.play(3);
-			//view.thread.mStageMgr.mStage.mFakeList.fakeList.remove(_idx);
+			sm.play(4);
+			view.thread.mStageMgr.mStage.mFakeList.fakeList.remove(_idx);
 		}
 	}
 

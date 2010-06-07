@@ -46,7 +46,7 @@ public class PrologueActivity extends Activity {
 		txtScr.setTextSize(24);
         fadein.setDuration(750);
         txtScr.setAnimation(fadein);
-        txtScr.setTextColor(Color.argb(0xff, 255, 255, 255));
+        txtScr.setTextColor(Color.argb(0xff, 0, 0, 0));
 
 
 		super.onCreate(savedInstanceState);
@@ -60,8 +60,8 @@ public class PrologueActivity extends Activity {
 
 
 
-		txtScr.setText("남성 : 이제 예정된 날이 되었네. 어쩔 수 없는 이별의 시간인가?\n\n"
-						+"여성 : 어쩔 수 없는 이별이네요. 올려 줄테니 조심해요.");
+		txtScr.setText("아버지 : 이제 예정된 날이 되었네. 어쩔 수 없는 이별의 시간인가?\n\n"
+						+"어머니 : 어쩔 수 없는 이별이네요. 올려 줄테니 조심해요.");
 
 		sm.create();
 		sm.load(0, R.raw.button);
@@ -88,7 +88,7 @@ public class PrologueActivity extends Activity {
 			case 2:
 				txtScr.startAnimation(fadein);
 				cutImg.setImageResource(R.drawable.cut_scene2);
-				txtScr.setText("남성은 널뛰기를 이용해 하늘로 올라간다. 여성은 그 모습을 보며 소매로 눈물을 훔친다.");
+				txtScr.setText("아버지는 널뛰기를 이용해 하늘로 올라간다. 어머니 그 모습을 보며 소매로 눈물을 훔친다.");
 				break;
 			case 3:
 				txtScr.startAnimation(fadein);
