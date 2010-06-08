@@ -81,7 +81,7 @@ public class PrologueActivity extends Activity {
 
 			++scene_count;
 
-			sm.play(1);
+			if(sm.bSoundOpt) sm.play(1);
 
 			switch(scene_count)
 			{
@@ -94,22 +94,22 @@ public class PrologueActivity extends Activity {
 				txtScr.startAnimation(fadein);
 				cutImg.setImageResource(R.drawable.cut_scene3);
 				txtScr.setText("어두운 밤 산길을 어머니가 이동하고 있다.");
-				sm.play(2);
+				if(sm.bSoundOpt) sm.play(2);
 				break;
 			case 4:
 				txtScr.startAnimation(fadein);
-				sm.stop(2);
+				if(sm.bSoundOpt) sm.stop(2);
 				cutImg.setImageResource(R.drawable.cut_scene4);
 				txtScr.setText("갑자기 어머니의 앞에 호랑이가 나타난다.\n\n" +
 						"호랑이 : 크아앙");
-				sm.play(3);
+				if(sm.bSoundOpt) sm.play(3);
 				break;
 			case 5:
 				txtScr.startAnimation(fadein);
 				cutImg.setImageResource(R.drawable.cut_scene5);
 				txtScr.setText("누이가 어머니가 올 시간이 되었는데 안오는 것을 이상하게 생각한다\n\n"
 						+"누이 : 왜 이리 안오시지?");
-				sm.stop(3);
+				if(sm.bSoundOpt) sm.stop(3);
 				break;
 			case 6:
 				txtScr.startAnimation(fadein);

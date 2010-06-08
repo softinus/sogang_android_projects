@@ -7,8 +7,11 @@ public class DarkCloud extends GameObject
 {
 	public class Light extends GameObject
 	{
+		public int nLightyAlpha= 255;
 		private boolean bLightly= false;
 		private boolean bLightning= false;
+
+
 
 		private Light(GameView view, int x, int y, int width, int height, int Image_ID)
 		{
@@ -19,14 +22,12 @@ public class DarkCloud extends GameObject
 			this.y= y;
 			this.Img_id= Image_ID;
 		}
-
-
-
 	}
 
 
 	public Light lt;
 	public int State=1; // 0:멈춤, 1:오른쪽, 2:왼쪽
+	public boolean bLightningSound= true;		// 천둥 사운드
 
 
 	/**

@@ -1,18 +1,19 @@
 package com.raimsoft.stage;
 
-import com.raimsoft.activity.R;
-
 import android.graphics.Canvas;
-import android.util.Log;
+
+import com.raimsoft.activity.R;
 
 public class StageManager {
 	final int STAGE_1=	1;
 	final int STAGE_2=	2;
 	final int STAGE_3=	3;
 	final int STAGE_4= 	4;
-	final int SUCCEss= 	99;
+	final int STAGE_BOSS= 5;
+	final int STAGE_SUCCESS= 	99;
 
 	public Stage mStage;
+	public BossStage mBossStage;
 	public int currStage= 1;
 
 	/**
@@ -21,6 +22,7 @@ public class StageManager {
 	public StageManager()
 	{
 		mStage= new Stage();
+		mBossStage= new BossStage();
 	}
 
 	public void StageChange (int _StageNum)
@@ -53,7 +55,7 @@ public class StageManager {
 			mStage.treadleMgr.treadleImgID[1]= R.drawable.cloud3_2;
 			mStage.treadleMgr.treadleImgID[2]= R.drawable.cloud3_3;
 			mStage.treadleMgr.treadleImgID[3]= R.drawable.cloud3_4;
-			//mStage.treadleMgr.treadleImgID[4]= R.drawable.cloud4_4;
+			mStage.treadleMgr.treadleImgID[4]= R.drawable.star4_3;
 
 
 			mStage.stageSetup();
@@ -61,14 +63,21 @@ public class StageManager {
 
 		case STAGE_4:	// 준비되지 않음
 			mStage.nBackgroundID= R.drawable.background_4;
-//			mStage.treadleMgr.treadleImgID[0]= R.drawable.cloud4_1;
-//			mStage.treadleMgr.treadleImgID[1]= R.drawable.cloud4_2;
-//			mStage.treadleMgr.treadleImgID[2]= R.drawable.cloud4_3;
-//			mStage.treadleMgr.treadleImgID[3]= R.drawable.cloud4_4;
+			mStage.treadleMgr.treadleImgID[0]= R.drawable.star4_1;
+			mStage.treadleMgr.treadleImgID[1]= R.drawable.star4_2;
+			mStage.treadleMgr.treadleImgID[2]= R.drawable.star4_3;
+			mStage.treadleMgr.treadleImgID[3]= R.drawable.star4_3;
 			//mStage.treadleMgr.treadleImgID[4]= R.drawable.cloud4_4;
 
 
 			mStage.stageSetup();
+			break;
+
+		case STAGE_BOSS:
+
+			break;
+
+		case STAGE_SUCCESS:
 			break;
 		}
 	}
@@ -81,7 +90,6 @@ public class StageManager {
 		mStage.mItemList.LastItemPos= 1920;	// 아이템 위치 초기화
 		mStage.mFakeList.LastFakePos= 1920;	// 아이템 위치 초기화
 
-		//mStage.treadleMgr.TreadleCreate();	// 발판 초기화
 		mStage.bTreadle_ImgRefreshed= true; // 아이템 시작위치
 		mStage.mPlayer.bItemGet= false;
 
@@ -94,7 +102,7 @@ public class StageManager {
 		mStage.view.thread.setMoveing(true);// 움직임
 		mStage.setGameClear(false);
 
-		mStage.mRope.setY(-120);			// 로프 초기화
+		mStage.mRope.setY(-140);			// 로프 초기화
 		mStage.mRope.bRopeDown= true;		//
 
 		mStage.strInfo=	"Stage "+currStage; // 스테이지 알림 텍스트
@@ -106,16 +114,41 @@ public class StageManager {
 
 	public void StageSetUp()
 	{
-		mStage.stageSetup();
+		switch (this.currStage)
+		{
+		case STAGE_1:	case STAGE_2:	case STAGE_3:	case STAGE_4:
+			mStage.stageSetup();
+			break;
+		case STAGE_BOSS:
+			mBossStage.stageSetup();
+			break;
+		}
+
 	}
 
 	public void StageUpdate()
 	{
-		mStage.stageUpdate();
+		switch (this.currStage)
+		{
+		case STAGE_1:	case STAGE_2:	case STAGE_3:	case STAGE_4:
+			mStage.stageUpdate();
+			break;
+		case STAGE_BOSS:
+			mBossStage.stageUpdate();
+			break;
+		}
 	}
 
 	public void StageDraw(Canvas canvas)
 	{
-		mStage.stageDraw(canvas);
+		switch (this.currStage)
+		{
+		case STAGE_1:	case STAGE_2:	case STAGE_3:	case STAGE_4:
+			mStage.stageDraw(canvas);
+			break;
+		case STAGE_BOSS:
+			mBossStage.stageDraw(canvas);
+			break;
+		}
 	}
 }

@@ -42,7 +42,7 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 		btnFreeMode= (Button) findViewById(R.id.btn_freemode);
 		btnFreeMode.setOnClickListener(this);
 
-		btnChallengeMode= (Button) findViewById(R.id.btn_challengemode);
+		btnChallengeMode= (Button) findViewById(R.id.btn_storymode);
 		btnChallengeMode.setOnClickListener(this);
 
 		findViewById(R.id.btn_how).setOnClickListener(this);
@@ -67,7 +67,7 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v)
 	{
-		sm.play(0);
+		if(sm.bSoundOpt) sm.play(0);
 
 		if(v.getId()==R.id.btn_gamestart)
 		{
@@ -75,7 +75,7 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 			btnFreeMode.setVisibility(View.VISIBLE);
 			btnStart.setVisibility(View.INVISIBLE);
 		}
-		else if(v.getId()==R.id.btn_challengemode)
+		else if(v.getId()==R.id.btn_storymode)
 		{
 			Next();
 		}
@@ -94,7 +94,7 @@ public class TitleMenuActivity extends Activity implements OnClickListener {
 	        startActivity(intent);
 		}
 		else if(v.getId()==R.id.btn_exit)
-		{	
+		{
 			finish();
 		}
 	}

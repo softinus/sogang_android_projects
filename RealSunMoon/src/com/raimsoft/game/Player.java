@@ -25,7 +25,7 @@ public class Player extends GameObject {
 	public int State=0;
 	public int OriX, OriY;
 
-	SoundManager sm;
+	public SoundManager sm;
 
 	private int JumpIdxArr_First[]={-14,-13,-12,-11,-10,-9,-9,-9,-8,-8,-8,-7,-7,-7,-6,-6,-6,-5,-5,-5,
 			-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,0,0,0,0,0,
@@ -162,6 +162,7 @@ public class Player extends GameObject {
 		sm.load(2, R.raw.birdprey);
 		sm.load(3, R.raw.touchstar);
 		sm.load(4, R.raw.blink);
+		sm.load(5, R.raw.lightning);
 	}
 
 	// 현재 Bitmap을 Drawable로 바꾸면서 안쓰게 되었음.
@@ -484,7 +485,7 @@ public class Player extends GameObject {
 					break;
 			}
 			_tra.bStepped_Pre= true;
-			sm.play(0);
+			if(sm.bSoundOpt) sm.play(0);
 			this.bStep=true;
 		}
 	}
@@ -509,7 +510,7 @@ public class Player extends GameObject {
 				this.FlyIdx_Present= 0;
 				break;
 			}
-			sm.play(3);
+			if(sm.bSoundOpt) sm.play(3);
 			view.thread.mStageMgr.mStage.mItemList.itemList.remove(_idx);
 		}
 	}
@@ -531,7 +532,7 @@ public class Player extends GameObject {
 			case R.drawable.fakecloud3:
 				break;
 			}
-			sm.play(4);
+			if(sm.bSoundOpt) sm.play(4);
 			view.thread.mStageMgr.mStage.mFakeList.fakeList.remove(_idx);
 		}
 	}

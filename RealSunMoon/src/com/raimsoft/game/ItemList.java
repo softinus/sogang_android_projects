@@ -31,12 +31,12 @@ public class ItemList
 
 	public void CreateItems()
 	{
-		if (view.thread.mStageMgr.mStage.BackSize > (LastItemPos-RndItemPos-10) &&
-			view.thread.mStageMgr.mStage.BackSize < (LastItemPos-RndItemPos+10))
+		if (view.thread.mStageMgr.mStage.BackSize > (LastItemPos-RndItemPos-8) &&
+			view.thread.mStageMgr.mStage.BackSize < (LastItemPos-RndItemPos+8))
 		{
 			itemcase.RandomCaseItemSel();
 
-			RndItemPos= (int) (200+(Math.random()*500)); //200~700
+			RndItemPos= (int) (300+(Math.random()*200)); //300~500
 
 			itemList.add(new Item(view, -2,0, itemcase.wid,itemcase.hei, itemcase.imgID));
 
@@ -72,14 +72,14 @@ class ItemCase // 랜덤으로 아이템을 뽑아주는 클래스
 	private int rndFreq, item1_PercentFreq, item2_PercentFreq;
 	//private final int ITEM_CASE= 2;
 	private final int ITEM1_FREQ= 1;	// ITEM1이 나올 빈도
-	private final int ITEM2_FREQ= 0;	// ITEM1이 나올 빈도
+	private final int ITEM2_FREQ= 0;	// ITEM2가 나올 빈도
 
 	void RandomCaseItemSel()
 	{
 		item1_PercentFreq= ITEM1_FREQ/(ITEM1_FREQ+ITEM2_FREQ) * 100; //
 		item2_PercentFreq= ITEM2_FREQ/(ITEM1_FREQ+ITEM2_FREQ) * 100; // 각각 백분율로 환산
 
-		rndFreq= (int) (1+(Math.random()*100)); // 1~100
+		rndFreq= (int) (1+(Math.random()*99)); // 1~100
 
 		if (rndFreq > 100-item1_PercentFreq)
 		{

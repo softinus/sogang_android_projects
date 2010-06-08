@@ -61,6 +61,8 @@ public class Stage
 	boolean bFake_ImgRefreshed=true;	// 이미지 새로고침(가짜구름)
 	boolean bDark_ImgRefreshed=true;	// 이미지 새로고침(먹구름)
 
+
+
 	//OptionActivity opt=new OptionActivity();
 
 
@@ -109,9 +111,9 @@ public class Stage
 
 	void stageSetup() // 설정
 	{
-		this.treadleMgr.TreadleCreate();
-		bBackground= BitmapFactory.decodeResource(mRes, nBackgroundID);
-		this.bTreadle_ImgRefreshed= true;
+		this.treadleMgr.TreadleCreate();	// 발판 재생성
+		this.bTreadle_ImgRefreshed= true;	//
+		bBackground= BitmapFactory.decodeResource(mRes, nBackgroundID);	//배경이미지 바꿈
 	}
 
 	void stageUpdate() // 좌표 업데이트
@@ -140,28 +142,39 @@ public class Stage
 		{	}
 
 
+		//================== 번개 애니메이션 ==================//
 
-		if (view.thread.lightTime > 3000)
+		if (view.thread.mStageMgr.currStage>=3) // 3스테이지부터 나옴
 		{
-			mDark.State=0;
-		}
-		if (view.thread.lightTime > 3300)
-		{
-			mDark.Lightly(true);
-		}
-		if (view.thread.lightTime > 3500)
-		{
-			mDark.Lightly(false);
-			mDark.Lightning(true);
-		}
-		if (view.thread.lightTime > 3800)
-		{
-			mDark.Lightning(false);
-			mDark.State= (int) (1+Math.random()*2);
-			view.thread.lightTime=0;
+			if (view.thread.lightTime > 3000)
+			{
+				mDark.State=0;
+			}
+			if (view.thread.lightTime > 3300)
+			{
+				mDark.Lightly(true);
+			}
+			if (view.thread.lightTime > 3500)
+			{
+				mDark.Lightly(false);
+				if (mDark.bLightningSound)	// 천둥 사운드 한번만 재생
+				{
+					if (this.mPlayer.sm.bSoundOpt) this.mPlayer.sm.play(5);	// 사운드 재생
+					mDark.bLightningSound= false;
+				}
+				mDark.Lightning(true);
+			}
+			if (view.thread.lightTime > 3800)
+			{
+				mDark.Lightning(false);
+				mDark.bLightningSound= true;
+				mDark.State= (int) (1+Math.random()*2);
+				view.thread.lightTime=0;
+			}
 		}
 
 
+		//================== 애니메이션 끝 ==================//
 
 
 
@@ -313,12 +326,17 @@ public class Stage
 			bMonster_ImgRefreshed=false;
 		}
 
-		if(bDark_ImgRefreshed) // 먹구름 초기화
+		if (view.thread.mStageMgr.currStage>=3) // 3스테이지 부터나옴
 		{
-			mDark.Img_Drawable= mRes.getDrawable(mDark.Img_id);
-			mDark.lt.Img_Drawable= mRes.getDrawable(mDark.lt.Img_id);
-			bDark_ImgRefreshed=false;
+			if(bDark_ImgRefreshed) // 먹구름 초기화
+			{
+				mDark.Img_Drawable= mRes.getDrawable(mDark.Img_id);
+				mDark.lt.Img_Drawable= mRes.getDrawable(mDark.lt.Img_id);
+				bDark_ImgRefreshed=false;
+			}
 		}
+
+
 
 
 		/* ========================= Rendering ========================= */
@@ -382,14 +400,20 @@ public class Stage
 		mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());	// 플레이어 그림
 		mPlayer.Img_Drawable.draw(c);
 
-		mDark.Img_Drawable.setBounds(mDark.getObjectForRect());	//먹구름과 번개 그림
-		if (mDark.getLightning()) // 번개 칠 때에만
+
+
+		if (view.thread.mStageMgr.currStage>=3) // 3스테이지 부터 나옴
 		{
-			mDark.lt.Img_Drawable.setBounds(mDark.lt.getObjectForRect()); // 번개 그림
-			mDark.lt.Img_Drawable.draw(c);
+			mDark.Img_Drawable.setBounds(mDark.getObjectForRect());	//먹구름과 번개 그림
+			if (mDark.getLightning()) // 번개 칠 때에만
+			{
+				mDark.lt.Img_Drawable.setBounds(mDark.lt.getObjectForRect()); // 번개 그림
+				mDark.lt.Img_Drawable.draw(c);
+			}
+			mDark.Img_Drawable.draw(c);
 		}
 
-		mDark.Img_Drawable.draw(c);
+
 
 
 		if (bGameClear) // 게임이 클리어되면
@@ -422,6 +446,9 @@ public class Stage
 						break;
 					case 3:
 						view.thread.mStageMgr.StageChange(4);
+						break;
+					case 4:
+						view.thread.mStageMgr.StageChange(5);
 						break;
 					}
 

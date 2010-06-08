@@ -58,7 +58,7 @@ public class Monster extends GameObject
 			this.bFly= true;
 			if (!bSEPlay)
 			{
-				view.thread.mStageMgr.mStage.mPlayer.sm.play(2);
+				if(view.thread.mStageMgr.mStage.mPlayer.sm.bSoundOpt) view.thread.mStageMgr.mStage.mPlayer.sm.play(2);
 				bSEPlay= true;
 			}
 		}

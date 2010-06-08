@@ -52,6 +52,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		gameContext= (GameActivity) context;
 
 		this.thread.mStageMgr.mStage.view= this;	// 뷰 넘겨줌
+		this.thread.mStageMgr.mBossStage.view= this;	// 뷰 넘겨줌
 
 		this.thread.mStageMgr.mStage.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
 		this.thread.mStageMgr.mStage.mMonster= new Monster(this, -1, -1 ,50,45, R.drawable.bird_fly_1);
@@ -228,6 +229,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 //				thread.run();
 //			}
 //		}
+		if (keyCode == KeyEvent.KEYCODE_A)
+		{
+
+		}
+
+		if (keyCode == KeyEvent.KEYCODE_B)
+		{
+			this.thread.mStageMgr.mStage.mPlayer.setJumpIndex(0);
+		}
+
+		if (keyCode == KeyEvent.KEYCODE_X)
+		{
+
+		}
+
+		if (keyCode == KeyEvent.KEYCODE_Y)
+		{
+			this.thread.mStageMgr.StageChange(thread.mStageMgr.currStage+1);
+			this.thread.mStageMgr.mStage.mPlayer.setJumpIndex(0);
+		}
+
 
 		if (keyCode == KeyEvent.KEYCODE_MENU)
 		{
@@ -240,7 +262,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			}
 			return super.onKeyDown(keyCode, event);
 		}
-		else if (keyCode == android.view.KeyEvent.KEYCODE_BACK)
+		else if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
 			return true;
 		}else{

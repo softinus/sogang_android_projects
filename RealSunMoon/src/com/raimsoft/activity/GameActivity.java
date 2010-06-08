@@ -19,7 +19,8 @@ public class GameActivity extends Activity {
 	//boolean already_Option=false;
 	//public MediaPlayer mMedia_BGM;
 	public MediaPlayer mMedia_Success;
-	SoundManager sm=new SoundManager(this);
+
+	SoundManager sm=new SoundManager(null);
 
 	public void NextGameOverActivity()
 	{
@@ -63,7 +64,7 @@ public class GameActivity extends Activity {
 //		mMedia_BGM = MediaPlayer.create(this, R.raw.game_bgm);
 //		mMedia_BGM.setLooping(true);
 
-		mMedia_Success= MediaPlayer.create(this, R.raw.success);
+		if (sm.bSoundOpt)	mMedia_Success= MediaPlayer.create(this, R.raw.success);
 
 //		sm.create();
 //		sm.load(0, R.raw.success);
@@ -117,8 +118,8 @@ public class GameActivity extends Activity {
 	}
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 			return true;
 

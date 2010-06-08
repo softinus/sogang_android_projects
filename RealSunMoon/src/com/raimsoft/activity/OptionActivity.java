@@ -5,12 +5,15 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
+
+import com.raimsoft.sound.SoundManager;
 
 public class OptionActivity extends Activity implements OnClickListener
 {
-
-	public boolean bSound_ON= true;
+	SoundManager sm;
 	private Resources mRes;
+	private Button BtnSoundOpt;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -18,6 +21,7 @@ public class OptionActivity extends Activity implements OnClickListener
 		setContentView(R.layout.option);
 
 		mRes= this.getResources();
+		sm= new SoundManager(this);
 
 		super.onCreate(savedInstanceState);
 	}
@@ -25,7 +29,15 @@ public class OptionActivity extends Activity implements OnClickListener
 	@Override
 	protected void onStart()
 	{
-		findViewById(R.id.btn_sound).setOnClickListener(this);
+		BtnSoundOpt= (Button) findViewById(R.id.btn_sound);
+		BtnSoundOpt.setOnClickListener(this);
+
+		if (sm.bSoundOpt)
+		{
+			BtnSoundOpt.setBackgroundDrawable(mRes.getDrawable(R.drawable.sound_icon));
+		}else{
+			BtnSoundOpt.setBackgroundDrawable(mRes.getDrawable(R.drawable.sound_icon2));
+		}
 
 		super.onStart();
 	}
@@ -33,15 +45,15 @@ public class OptionActivity extends Activity implements OnClickListener
 	@Override
 	public void onClick(View v)
 	{
-		if (v.getId()==R.id.btn_sound)
+		if (v==BtnSoundOpt)
 		{
-			if (bSound_ON)
+			if (sm.bSoundOpt)
 			{
-				v.setBackgroundDrawable(mRes.getDrawable(R.drawable.sound_icon2));
-				bSound_ON= false;
+				BtnSoundOpt.setBackgroundDrawable(mRes.getDrawable(R.drawable.sound_icon2));
+				sm.bSoundOpt= false;
 			}else{
-				v.setBackgroundDrawable(mRes.getDrawable(R.drawable.sound_icon));
-				bSound_ON=true;
+				BtnSoundOpt.setBackgroundDrawable(mRes.getDrawable(R.drawable.sound_icon));
+				sm.bSoundOpt= true;
 			}
 
 		}

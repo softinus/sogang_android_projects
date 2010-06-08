@@ -68,12 +68,12 @@ android:visibility="invisible"
 </Button>
 
 <Button
-android:id="@+id/btn_challengemode"
+android:id="@+id/btn_storymode"
 android:layout_height="wrap_content"
 android:layout_width="wrap_content"
 android:layout_x="30dip"
 android:layout_y="286dip"
-android:background="@xml/btn_challengemode"
+android:background="@xml/btn_storymode"
 android:visibility="invisible"
 ></Button>
 
