@@ -22,8 +22,8 @@ android:src="@drawable/popup"
 android:id="@+id/btn_popup_continue"
 android:layout_height="wrap_content"
 android:layout_width="wrap_content"
-android:layout_x="70dip"
-android:layout_y="90dip"
+android:layout_x="115dip"
+android:layout_y="140dip"
 android:background="@xml/btn_popup_continue"
 ></Button>
 
@@ -31,8 +31,8 @@ android:background="@xml/btn_popup_continue"
 android:id="@+id/btn_popup_oncemore"
 android:layout_height="wrap_content"
 android:layout_width="wrap_content"
-android:layout_x="70dip"
-android:layout_y="170dip"
+android:layout_x="115dip"
+android:layout_y="200dip"
 android:background="@xml/btn_popup_oncemore"
 ></Button>
 
@@ -41,8 +41,8 @@ android:background="@xml/btn_popup_oncemore"
 android:id="@+id/btn_popup_gameclose"
 android:layout_height="wrap_content"
 android:layout_width="wrap_content"
-android:layout_x="70dip"
-android:layout_y="250dip"
+android:layout_x="115dip"
+android:layout_y="260dip"
 android:background="@xml/btn_popup_gameclose"
 ></Button>
 

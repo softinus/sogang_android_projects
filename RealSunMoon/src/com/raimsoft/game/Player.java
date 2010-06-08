@@ -562,7 +562,13 @@ public class Player extends GameObject {
 			this.bCrushed=true;
 		}
 	}
+	
 
+
+	/**
+	 * 점프인덱스 변경
+	 * @param _idx
+	 */
 	public void setJumpIndex(int _idx)
 	{
 		JumpIdx_Present= _idx;

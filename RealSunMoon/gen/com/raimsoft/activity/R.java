@@ -120,8 +120,10 @@ public final class R {
         public static final int star4_3=0x7f02006a;
         public static final int story_mode=0x7f02006b;
         public static final int story_mode_2=0x7f02006c;
-        public static final int title_2=0x7f02006d;
-        public static final int trap=0x7f02006e;
+        public static final int tiger1=0x7f02006d;
+        public static final int tiger2=0x7f02006e;
+        public static final int title_2=0x7f02006f;
+        public static final int trap=0x7f020070;
     }
     public static final class id {
         public static final int btn_exit=0x7f07001a;

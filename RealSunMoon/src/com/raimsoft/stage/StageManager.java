@@ -13,7 +13,6 @@ public class StageManager {
 	final int STAGE_SUCCESS= 	99;
 
 	public Stage mStage;
-	public BossStage mBossStage;
 	public int currStage= 1;
 
 	/**
@@ -22,7 +21,6 @@ public class StageManager {
 	public StageManager()
 	{
 		mStage= new Stage();
-		mBossStage= new BossStage();
 	}
 
 	public void StageChange (int _StageNum)
@@ -45,7 +43,6 @@ public class StageManager {
 			mStage.treadleMgr.treadleImgID[3]= R.drawable.cloud2_4;
 			mStage.treadleMgr.treadleImgID[4]= R.drawable.cloud3_4;
 
-
 			mStage.stageSetup();
 
 			break;
@@ -57,7 +54,6 @@ public class StageManager {
 			mStage.treadleMgr.treadleImgID[3]= R.drawable.cloud3_4;
 			mStage.treadleMgr.treadleImgID[4]= R.drawable.star4_3;
 
-
 			mStage.stageSetup();
 			break;
 
@@ -65,16 +61,15 @@ public class StageManager {
 			mStage.nBackgroundID= R.drawable.background_4;
 			mStage.treadleMgr.treadleImgID[0]= R.drawable.star4_1;
 			mStage.treadleMgr.treadleImgID[1]= R.drawable.star4_2;
-			mStage.treadleMgr.treadleImgID[2]= R.drawable.star4_3;
+			mStage.treadleMgr.treadleImgID[2]= R.drawable.star4_2;
 			mStage.treadleMgr.treadleImgID[3]= R.drawable.star4_3;
-			//mStage.treadleMgr.treadleImgID[4]= R.drawable.cloud4_4;
-
+			mStage.treadleMgr.treadleImgID[4]= R.drawable.star4_3;
 
 			mStage.stageSetup();
 			break;
 
 		case STAGE_BOSS:
-
+			mStage.stageSetup();
 			break;
 
 		case STAGE_SUCCESS:
@@ -114,41 +109,16 @@ public class StageManager {
 
 	public void StageSetUp()
 	{
-		switch (this.currStage)
-		{
-		case STAGE_1:	case STAGE_2:	case STAGE_3:	case STAGE_4:
-			mStage.stageSetup();
-			break;
-		case STAGE_BOSS:
-			mBossStage.stageSetup();
-			break;
-		}
-
+		mStage.stageSetup();
 	}
 
 	public void StageUpdate()
 	{
-		switch (this.currStage)
-		{
-		case STAGE_1:	case STAGE_2:	case STAGE_3:	case STAGE_4:
-			mStage.stageUpdate();
-			break;
-		case STAGE_BOSS:
-			mBossStage.stageUpdate();
-			break;
-		}
+		mStage.stageUpdate();
 	}
 
 	public void StageDraw(Canvas canvas)
 	{
-		switch (this.currStage)
-		{
-		case STAGE_1:	case STAGE_2:	case STAGE_3:	case STAGE_4:
-			mStage.stageDraw(canvas);
-			break;
-		case STAGE_BOSS:
-			mBossStage.stageDraw(canvas);
-			break;
-		}
+		mStage.stageDraw(canvas);
 	}
 }

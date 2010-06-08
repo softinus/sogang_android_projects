@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.raimsoft.activity.GameActivity;
 import com.raimsoft.activity.R;
+import com.raimsoft.game.BossMonster;
 import com.raimsoft.game.DarkCloud;
 import com.raimsoft.game.FakeCloudList;
 import com.raimsoft.game.ItemList;
@@ -38,10 +39,12 @@ public class Stage
 	public ItemList mItemList;			// 아이템 객체
 	public FakeCloudList mFakeList;		// 가짜구름 객체
 	public DarkCloud mDark;				// 먹구름 객체
+	public BossMonster mBoss;			// 보스 객체
 
 	int nBackgroundID= R.drawable.background_1;			// 배경 아이디값
 	Bitmap bBackground;			// 배경
 	Drawable dGameClear;
+	Drawable dBossBackground;
 
 	Paint pDebug=new Paint();	// 페인트
 	Paint pScore=new Paint();
@@ -60,7 +63,7 @@ public class Stage
 	boolean bItem_ImgRefreshed=true;	// 이미지 새로고침(아이템)
 	boolean bFake_ImgRefreshed=true;	// 이미지 새로고침(가짜구름)
 	boolean bDark_ImgRefreshed=true;	// 이미지 새로고침(먹구름)
-
+	boolean bBoss_ImgRefreshed=true;	// 이미지 새로고침(보스)
 
 
 	//OptionActivity opt=new OptionActivity();
@@ -90,10 +93,36 @@ public class Stage
 
 	void stageDraw(Canvas canvas)
 	{
-		doDrawBackGround(canvas); // 배경그리기
-		doDrawObject(canvas); // 오브젝트그리기
-		//doDrawText(canvas); // 디버깅
-		doDrawScore(canvas); // 점수그리기
+		if (view.thread.mStageMgr.currStage==5) // 보스 스테이지 그리기
+		{
+			dBossBackground.setBounds(0,0, view.getWidth(), view.getHeight());
+			dBossBackground.draw(canvas);
+
+			if(bBoss_ImgRefreshed) // 캐릭터 초기화
+			{
+				mBoss.Img_Drawable= mRes.getDrawable(mBoss.Img_id);
+				bBoss_ImgRefreshed= false;
+			}
+
+			if(bPlayer_ImgRefreshed) // 캐릭터 초기화
+			{
+				mPlayer.Img_Drawable= mRes.getDrawable(mPlayer.Img_id);
+				bPlayer_ImgRefreshed= false;
+			}
+
+			mBoss.Img_Drawable.setBounds(mBoss.getObjectForRect());
+			mBoss.Img_Drawable.draw(canvas);
+
+			mPlayer.Img_Drawable.setBounds(mPlayer.getObjectForRect());	// 플레이어 그림
+			mPlayer.Img_Drawable.draw(canvas);
+		}
+		else
+		{
+			doDrawBackGround(canvas); // 배경그리기
+			doDrawObject(canvas); // 오브젝트그리기
+			//doDrawText(canvas); // 디버깅
+			doDrawScore(canvas); // 점수그리기
+		}
 	}
 
 	/**
@@ -111,119 +140,156 @@ public class Stage
 
 	void stageSetup() // 설정
 	{
-		this.treadleMgr.TreadleCreate();	// 발판 재생성
-		this.bTreadle_ImgRefreshed= true;	//
-		bBackground= BitmapFactory.decodeResource(mRes, nBackgroundID);	//배경이미지 바꿈
+		if (view.thread.mStageMgr.currStage==5)
+		{
+			dBossBackground= mRes.getDrawable(R.drawable.boss_background);
+		}
+		else
+		{
+			this.treadleMgr.TreadleCreate();	// 발판 재생성
+			this.bTreadle_ImgRefreshed= true;	//
+			bBackground= BitmapFactory.decodeResource(mRes, nBackgroundID);	//배경이미지 바꿈
+		}
+
 	}
 
+	/**
+	 * 스테이지 업데이트 (Coordinate Update)
+	 */
 	void stageUpdate() // 좌표 업데이트
 	{
-		if (mDark.getX() < 0)
+		if (view.thread.mStageMgr.currStage==5)
 		{
-			mDark.State= 1;
-		}
-		else if (mDark.getX() > view.getWidth()-50)
-		{
-			mDark.State= 2;
-		}
-
-
-		if (mDark.State== 1)
-		{
-			mDark.SetChangeX(2);
-			mDark.lt.SetChangeX(2);
-		}
-		else if (mDark.State== 2)
-		{
-			mDark.SetChangeX(-2);
-			mDark.lt.SetChangeX(-2);
-		}
-		else if (mDark.State== 0)
-		{	}
-
-
-		//================== 번개 애니메이션 ==================//
-
-		if (view.thread.mStageMgr.currStage>=3) // 3스테이지부터 나옴
-		{
-			if (view.thread.lightTime > 3000)
-			{
-				mDark.State=0;
-			}
-			if (view.thread.lightTime > 3300)
-			{
-				mDark.Lightly(true);
-			}
-			if (view.thread.lightTime > 3500)
-			{
-				mDark.Lightly(false);
-				if (mDark.bLightningSound)	// 천둥 사운드 한번만 재생
-				{
-					if (this.mPlayer.sm.bSoundOpt) this.mPlayer.sm.play(5);	// 사운드 재생
-					mDark.bLightningSound= false;
-				}
-				mDark.Lightning(true);
-			}
-			if (view.thread.lightTime > 3800)
-			{
-				mDark.Lightning(false);
-				mDark.bLightningSound= true;
-				mDark.State= (int) (1+Math.random()*2);
-				view.thread.lightTime=0;
-			}
-		}
-
-
-		//================== 애니메이션 끝 ==================//
-
-
-
-
-
-		if (mPlayer.bCrushed)
-		{
-			mPlayer.CrushFall();
-		}
-		else if (mPlayer.bShorked)
-		{
-			mPlayer.ShorkChar();
-		}else{
-			mPlayer.SensorMove( sf.getCompressFloat2X( sf.getSensorValue() ) );
 			mPlayer.JumpAlways();
-		}
+			this.LifeCheck(); // 라이프 체크
+			mPlayer.SensorMove( sf.getCompressFloat2X( sf.getSensorValue() ) );
 
-		mMonster.Move_Bird();
-		treadleMgr.ALL_Treadle_Stepped();
 
-		mPlayer.CollisionMonster(mMonster.getObjectForRect());
+			mBoss.DirectionSet();
+			mBoss.MoveToDirection();
 
-		mPlayer.CollisionLight(mDark.lt.getObjectForRect());
-
-		for (int i=0; i<treadleMgr.getCount(); i++)
-		{
-			if (mPlayer.bJump==true) // 착지 중에만 충돌체크
+			if (view.thread.BossTime%2==0)
 			{
-				mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(true)
-						, treadleMgr.treadle[i]);
+				mBoss.Img_id= R.drawable.tiger1;
+				this.setBossImg_Refresh();
 			}
-		}
-
-		for (int i=0; i<mItemList.itemList.size(); i++)
-		{
-			mPlayer.CollisionItem(mItemList.itemList.get(i).getObjectForRect(), mItemList.itemList.get(i), i);
-		}
-
-		for (int i=0; i<mFakeList.fakeList.size(); i++)
-		{
-			if (mPlayer.bJump==true) // 착지 중에만 충돌체크
+			else if (view.thread.BossTime%2==1)
 			{
-				mPlayer.CollisionFakeCloud(mFakeList.fakeList.get(i).getObjectForRectHalf(true), mFakeList.fakeList.get(i), i);
+				mBoss.Img_id= R.drawable.tiger2;
+				this.setBossImg_Refresh();
 			}
+
+			mBoss.CollisionBoss(mPlayer.getObjectForRect()); // 보스와 충돌체크
 		}
+		else
+		{
+			if (view.thread.mStageMgr.currStage>=3) // 3스테이지부터 나옴
+			{
+				if (mDark.getX() < 0)
+				{
+					mDark.State= 1;
+				}
+				else if (mDark.getX() > view.getWidth()-50)
+				{
+					mDark.State= 2;
+				}
 
 
-	this.LifeCheck(); // 라이프 체크
+				if (mDark.State== 1)
+				{
+					mDark.SetChangeX(2);
+					mDark.lt.SetChangeX(2);
+				}
+				else if (mDark.State== 2)
+				{
+					mDark.SetChangeX(-2);
+					mDark.lt.SetChangeX(-2);
+				}
+				else if (mDark.State== 0)
+				{	}
 
+
+			//================== 번개 애니메이션 ==================//
+
+
+				if (view.thread.lightTime > 3000)
+				{
+					mDark.State=0;
+				}
+				if (view.thread.lightTime > 3300)
+				{
+					mDark.Lightly(true);
+				}
+				if (view.thread.lightTime > 3500)
+				{
+					mDark.Lightly(false);
+					if (mDark.bLightningSound)	// 천둥 사운드 한번만 재생
+					{
+						if (this.mPlayer.sm.bSoundOpt) this.mPlayer.sm.play(5);	// 사운드 재생
+						mDark.bLightningSound= false;
+					}
+					mDark.Lightning(true);
+				}
+				if (view.thread.lightTime > 3800)
+				{
+					mDark.Lightning(false);
+					mDark.bLightningSound= true;
+					mDark.State= (int) (1+Math.random()*2);
+					view.thread.lightTime=0;
+				}
+			}
+
+
+			//================== 애니메이션 끝 ==================//
+
+
+
+
+
+			if (mPlayer.bCrushed)
+			{
+				mPlayer.CrushFall();
+			}
+			else if (mPlayer.bShorked)
+			{
+				mPlayer.ShorkChar();
+			}else{
+				mPlayer.SensorMove( sf.getCompressFloat2X( sf.getSensorValue() ) );
+				mPlayer.JumpAlways();
+			}
+
+
+			mMonster.Move_Bird();
+			treadleMgr.ALL_Treadle_Stepped();
+
+			mPlayer.CollisionMonster(mMonster.getObjectForRect());
+			mPlayer.CollisionLight(mDark.lt.getObjectForRect());
+
+
+			for (int i=0; i<treadleMgr.getCount(); i++)
+			{
+				if (mPlayer.bJump==true) // 착지 중에만 충돌체크
+				{
+					mPlayer.CollisionTreadle(treadleMgr.treadle[i].getObjectForRectHalf(true)
+							, treadleMgr.treadle[i]);
+				}
+			}
+
+			for (int i=0; i<mItemList.itemList.size(); i++)
+			{
+				mPlayer.CollisionItem(mItemList.itemList.get(i).getObjectForRect(), mItemList.itemList.get(i), i);
+			}
+
+			for (int i=0; i<mFakeList.fakeList.size(); i++)
+			{
+				if (mPlayer.bJump==true) // 착지 중에만 충돌체크
+				{
+					mPlayer.CollisionFakeCloud(mFakeList.fakeList.get(i).getObjectForRectHalf(true), mFakeList.fakeList.get(i), i);
+				}
+			}
+
+			this.LifeCheck(); // 라이프 체크
+		}
 	}
 
 	void LifeCheck()
@@ -484,6 +550,10 @@ public class Stage
 	public void setDarkImg_Refresh()
 	{
 		bDark_ImgRefreshed= true;
+	}
+	public void setBossImg_Refresh()
+	{
+		bBoss_ImgRefreshed= true;
 	}
 
 

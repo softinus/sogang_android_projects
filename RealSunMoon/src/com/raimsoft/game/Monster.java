@@ -15,8 +15,8 @@ public class Monster extends GameObject
 	 * @param view
 	 * @param x : X값, (-1)이면 자동배치
 	 * @param y : Y값, (-1)이면 자동배치
-	 * @param width : 이미지 폭
-	 * @param height : 이미지 높이
+	 * @param width : 몬스터 폭
+	 * @param height : 몬스터 높이
 	 * @param Image_ID : 몬스터의 이미지ID
 	 */
 	public Monster(GameView view, int x, int y, int width, int height, int Image_ID)

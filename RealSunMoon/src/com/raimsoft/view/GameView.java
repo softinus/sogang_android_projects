@@ -19,6 +19,7 @@ import android.view.SurfaceView;
 
 import com.raimsoft.activity.GameActivity;
 import com.raimsoft.activity.R;
+import com.raimsoft.game.BossMonster;
 import com.raimsoft.game.DarkCloud;
 import com.raimsoft.game.FakeCloudList;
 import com.raimsoft.game.ItemList;
@@ -52,7 +53,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		gameContext= (GameActivity) context;
 
 		this.thread.mStageMgr.mStage.view= this;	// 뷰 넘겨줌
-		this.thread.mStageMgr.mBossStage.view= this;	// 뷰 넘겨줌
 
 		this.thread.mStageMgr.mStage.mPlayer= new Player(this, 150,430, 45,50, R.drawable.nui_jump_left);
 		this.thread.mStageMgr.mStage.mMonster= new Monster(this, -1, -1 ,50,45, R.drawable.bird_fly_1);
@@ -61,7 +61,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		this.thread.mStageMgr.mStage.mRope= new Rope(this, 140,-2, 17,168, R.drawable.new_rope);
 		this.thread.mStageMgr.mStage.treadleMgr= new TreadleManager(this);
 		this.thread.mStageMgr.mStage.mDark= new DarkCloud(this, 0,0, 71,38, R.drawable.darkcloud);
-
+		this.thread.mStageMgr.mStage.mBoss= new BossMonster(this, 200,359, 94,121, R.drawable.tiger1);
 
 		pm= (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 		wl= pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
@@ -83,6 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		private long RenderAccTime;			// 1초 렌더 누적시간
 		private long curTime, oldTime;		// 현재시간, 지난시간
 		public  long lightTime=	0;			// 번개 타이머
+		public 	long BossTime= 0;			// 보스 타이머
 		private int delTime=5;				// Thread딜레이
 
 		Canvas canvas=null;
@@ -166,6 +167,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			Render1ForTime= curTime - oldTime;
 			RenderAccTime+= Render1ForTime;
 			lightTime	 += Render1ForTime;
+			BossTime	 += Render1ForTime;
 
 			if (RenderAccTime > 1000)
 			{
@@ -231,7 +233,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 //		}
 		if (keyCode == KeyEvent.KEYCODE_A)
 		{
-
+			this.thread.mStageMgr.StageChange(thread.mStageMgr.currStage-1);
 		}
 
 		if (keyCode == KeyEvent.KEYCODE_B)
@@ -241,13 +243,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 		if (keyCode == KeyEvent.KEYCODE_X)
 		{
-
+			this.thread.mStageMgr.StageChange(thread.mStageMgr.currStage);
 		}
 
 		if (keyCode == KeyEvent.KEYCODE_Y)
 		{
 			this.thread.mStageMgr.StageChange(thread.mStageMgr.currStage+1);
-			this.thread.mStageMgr.mStage.mPlayer.setJumpIndex(0);
 		}
 
 
