@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/widget0"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:background="@drawable/book"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+
+<ImageView
+android:id="@+id/cut_scene"
+android:layout_width="235dip"
+android:layout_height="188dip"
+android:layout_x="43dip"
+android:layout_y="45dip"
+>
+</ImageView>
+
+<TextView
+android:id="@+id/script"
+android:layout_width="280dip"
+android:layout_height="225dip"
+android:layout_x="37dip"
+android:layout_y="260dip"
+>
+</TextView>
+</AbsoluteLayout>

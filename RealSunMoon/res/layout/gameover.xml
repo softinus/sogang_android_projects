@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/layout_gameover"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<ImageView
+android:id="@+id/gameover"
+android:src="@drawable/game_over"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_x="26dip"
+android:layout_y="140dip"
+>
+</ImageView>
+
+<Button
+android:id="@+id/btn_playagain"
+android:layout_height="wrap_content"
+android:layout_width="wrap_content"
+android:layout_x="77dip"
+android:layout_y="300dip"
+android:background="@xml/btn_playagain"
+></Button>
+
+</AbsoluteLayout>
