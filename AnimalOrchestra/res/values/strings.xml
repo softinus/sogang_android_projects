@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, Main!</string>
+    <string name="app_name">Animal Orchestra</string>
+    <string name="alert_dialog_save">Save</string>
+    <string name="alert_dialog_cancel">Cancel</string>
+</resources>
