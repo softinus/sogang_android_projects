@@ -14,6 +14,8 @@ public class GameThread extends Thread
 	private boolean isThreadRun = false;
 
 	StageManager mStageMgr;
+	int nPresentStageID=0; // 현재의 StageID
+	int nPrevStageID=0;	 // 한단계 루프 이전의 StageID
 
 
 	public GameThread(GameActivity context, SurfaceHolder holder)
@@ -24,12 +26,44 @@ public class GameThread extends Thread
 	}
 
 
+	private void GotoStage()
+	{
+		switch(mStageMgr.GetNextStageID())
+		{
+		case 0:
+			return;
+		case StageManager.STAGE_MAIN:
+			mStageMgr.ChangeStage(StageManager.STAGE_MAIN);
+			break;
+		case StageManager.STAGE_SCENARIO:
+			mStageMgr.ChangeStage(StageManager.STAGE_SCENARIO);
+			break;
+		case StageManager.STAGE_1:
+			mStageMgr.ChangeStage(StageManager.STAGE_1);
+			break;
+		case StageManager.STAGE_2:
+			mStageMgr.ChangeStage(StageManager.STAGE_2);
+			break;
+		}
+	}
+
+	private void bStageUpdated(boolean _UpdateRes)
+	{
+		if (_UpdateRes)
+		{
+			GotoStage();
+		}
+	}
+
 
 	@Override
 	public void run()
-	{Canvas canvas = null;
+	{
+		Canvas canvas = null;
 		while(true)
 		{
+
+
 			try
 			{
 				Thread.sleep(10);
@@ -41,6 +75,7 @@ public class GameThread extends Thread
 					if(canvas == null)
 						continue;
 
+					bStageUpdated(mStageMgr.Update(0));
 					mStageMgr.Render(canvas, 0);
 				}
 			}

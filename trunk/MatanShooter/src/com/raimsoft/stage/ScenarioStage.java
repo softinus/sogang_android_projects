@@ -2,6 +2,7 @@ package com.raimsoft.stage;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.MotionEvent;
 
 public class ScenarioStage extends BaseStage
@@ -21,14 +22,13 @@ public class ScenarioStage extends BaseStage
 	@Override
 	public void StageRender(Canvas canvas)
 	{
-
-
+		canvas.drawColor(Color.GREEN);
 	}
 
 	@Override
-	public int StageUpdate(float Delay)
+	public boolean StageUpdate(float Delay)
 	{
-		return 0;
+		return false;
 	}
 
 	@Override

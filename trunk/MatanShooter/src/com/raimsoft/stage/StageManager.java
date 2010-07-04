@@ -7,19 +7,18 @@ import android.view.MotionEvent;
 
 public class StageManager
 {
-	final static int STAGE_MAIN		=1;
-	final static int STAGE_OPTION	=2;
-	final static int STAGE_SCENARIO =3;
-	final static int STAGE_1		=101;
-	final static int STAGE_2		=102;
-	final static int STAGE_3		=103;
-	final static int STAGE_4		=104;
-	final static int STAGE_5		=105;
-	final static int STAGE_6		=106;
+	public final static int STAGE_MAIN	   =1;
+	public final static int STAGE_OPTION   =2;
+	public final static int STAGE_SCENARIO =3;
+	public final static int STAGE_1		=101;
+	public final static int STAGE_2		=102;
+	public final static int STAGE_3		=103;
+	public final static int STAGE_4		=104;
+	public final static int STAGE_5		=105;
+	public final static int STAGE_6		=106;
 
 	private BaseStage mStage;
 	private Context ManagerContext;
-	private int StageState;
 
 	public StageManager(Context context)
 	{
@@ -27,17 +26,19 @@ public class StageManager
 		ManagerContext = context;
 
 		mStage=new Stage1(ManagerContext);
-		StageState= STAGE_1;
 	}
 
 	public void ChangeStage(int _stageID)
 	{
-		Log.v("StageManager","ChangerStage");
+		Log.v("StageManager","ChangeStage : "+Float.toString(_stageID));
 
 		switch(_stageID)
 		{
 		case STAGE_OPTION:
 			//mStage=new StageOption(ManagerContext);
+			break;
+		case STAGE_SCENARIO:
+			mStage=new ScenarioStage(ManagerContext);
 			break;
 		case STAGE_1:
 			mStage=new Stage1(ManagerContext);
@@ -49,52 +50,54 @@ public class StageManager
 		}
 	}
 
+
 	/**
-	 * @return
+	 * Render : 화면을 그린다.
+	 * @param canvas
+	 * @param Delay
 	 */
-	public int GetStageState()
-	{
-		Log.i("StageManager","GetStageState");
-
-		return StageState;
-	}
-
-	//--------------------------------------------------------------------------------------------------------------//
-	// 화면에 출력할 모든 것을 갱신하는 함수
-	//--------------------------------------------------------------------------------------------------------------//
 	public void Render(Canvas canvas, float Delay)
 	{
 		//StageState= mStage.StageUpdate(Delay);
 		mStage.StageRender(canvas);
 	}
 
-	//--------------------------------------------------------------------------------------------------------------//
-	// 각 Stage의 ID를 return 하는 함수
-	//--------------------------------------------------------------------------------------------------------------//
+	/**
+	 * Update : 정보를 연산한다.
+	 * @param Delay
+	 */
+	public boolean Update(int Delay)
+	{
+		return ( mStage.StageUpdate(Delay) );
+	}
+
+	/**
+	 *
+	 * @return : 현재 Stage의 ID를 리턴
+	 */
 	public int GetStageID()
 	{
-		Log.i("StageManager","GetStageID");
 
 		return mStage.GetStageID();
 	}
 
-//	//--------------------------------------------------------------------------------------------------------------//
-//	// Touch 관련 함수
-//	//--------------------------------------------------------------------------------------------------------------//
-//	public void TouchUpdate(int TouchState, int Choice)
-//	{
-//		Log.i("StageManager","TouchUpdate");
-//
-//		mStage.StageTouchUpdate(TouchState, Choice);
-//	}
+	/**
+	 *
+	 * @return : 다음에 넘어갈 Stage의 ID를 리턴
+	 */
+	public int GetNextStageID()
+	{
+		return mStage.NextStageID;
+	}
 
-	//--------------------------------------------------------------------------------------------------------------//
-	// Touch 관련 함수
-	//--------------------------------------------------------------------------------------------------------------//
-		public void Touch(MotionEvent event)
-		{
-			Log.i("StageManager","Touch");
+	/**
+	 * 터치시에 동작
+	 * @param event
+	 */
+	public void Touch(MotionEvent event)
+	{
+		Log.i("StageManager","Touch");
 
-			mStage.Touch(event.getAction(), event.getX(), event.getY());
-		}
+		mStage.Touch(event.getAction(), event.getX(), event.getY());
+	}
 }
