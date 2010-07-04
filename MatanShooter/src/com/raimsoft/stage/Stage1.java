@@ -4,6 +4,7 @@ import com.raimsoft.util.FPoint;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -12,6 +13,8 @@ public class Stage1 extends BaseStage
 {
 
 	public boolean bDrag=false;
+	public boolean bTest=false;
+
 	private FPoint pStart, pEnd;
 	private Paint PAINTLine, PAINText;
 
@@ -41,18 +44,21 @@ public class Stage1 extends BaseStage
 	{
 		if (bDrag)
 		{
-			canvas.drawARGB(0xff, 0, 0, 0);
+			canvas.drawColor(Color.BLACK);
 			canvas.drawLine(pStart.x, pStart.y, pEnd.x, pEnd.y,PAINTLine);
-
-			Log.d("pStart", pStart.FPointtoString());
-			Log.d("pEnd", pEnd.FPointtoString());
 		}
 	}
 
 	@Override
-	public int StageUpdate(float Delay)
+	public boolean StageUpdate(float Delay)
 	{
-		return 0;
+		if (bTest)
+		{
+			this.NextStageID= StageManager.STAGE_SCENARIO;
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
@@ -77,6 +83,8 @@ public class Stage1 extends BaseStage
 		case MotionEvent.ACTION_UP:
 
 			this.bDrag= false;
+			this.bTest= true;
+
 
 			break;
 		}
