@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 
 import com.raimsoft.activity.GameActivity;
 import com.raimsoft.stage.StageManager;
+import com.raimsoft.util.FrameManager;
 
 public class GameThread extends Thread
 {
@@ -14,6 +15,7 @@ public class GameThread extends Thread
 	private boolean isThreadRun = false;
 
 	StageManager mStageMgr;
+	FrameManager mFrameMgr= FrameManager.getInstance();
 	int nPresentStageID=0; // 현재의 StageID
 	int nPrevStageID=0;	 // 한단계 루프 이전의 StageID
 
@@ -62,7 +64,7 @@ public class GameThread extends Thread
 		Canvas canvas = null;
 		while(true)
 		{
-
+			mFrameMgr.IncreaseTotalFrame();
 
 			try
 			{
@@ -76,7 +78,7 @@ public class GameThread extends Thread
 						continue;
 
 					bStageUpdated(mStageMgr.Update(0));
-					mStageMgr.Render(canvas, 0);
+					mStageMgr.Render(canvas);
 				}
 			}
 			catch(Exception e)

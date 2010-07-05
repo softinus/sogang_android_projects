@@ -56,7 +56,7 @@ public class StageManager
 	 * @param canvas
 	 * @param Delay
 	 */
-	public void Render(Canvas canvas, float Delay)
+	public void Render(Canvas canvas)
 	{
 		//StageState= mStage.StageUpdate(Delay);
 		mStage.StageRender(canvas);
