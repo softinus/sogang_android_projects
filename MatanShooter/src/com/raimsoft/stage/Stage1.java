@@ -2,12 +2,9 @@ package com.raimsoft.stage;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import com.raimsoft.activity.R;
@@ -23,15 +20,12 @@ public class Stage1 extends BaseStage
 
 	private FPoint pStart, pEnd;
 	private Paint PAINTLine, PAINText;
-	Bitmap bitmapTest;
 
 	public Stage1(Context managerContext)
 	{
 		mRes= managerContext.getResources();
 		SpriteTrap= new SpriteBitmap(R.drawable.trap1_sprite, mRes
 				, 50, 50, 5, 10);
-		SpriteTrap2= new SpriteBitmap(R.drawable.test_sprite, mRes
-				, 50, 50, 5, 100);
 
 		pStart= new FPoint();
 		pEnd= new FPoint();
@@ -67,7 +61,7 @@ public class Stage1 extends BaseStage
 	}
 
 	@Override
-	public boolean StageUpdate(float Delay)
+	public boolean StageUpdate()
 	{
 //		if (bTest) // 스테이지 넘길때는 true값
 //		{
