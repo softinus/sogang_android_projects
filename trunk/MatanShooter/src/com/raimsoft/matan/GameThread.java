@@ -11,19 +11,19 @@ import com.raimsoft.util.FrameManager;
 
 public class GameThread extends Thread
 {
-	private final SurfaceHolder surfaceHolder;
-	private boolean isThreadRun = false;
+	private final SurfaceHolder surfaceHolder; // 화면관리
 
-	StageManager mStageMgr;
-	FrameManager mFrameMgr= FrameManager.getInstance();
-	int nPresentStageID=0; // 현재의 StageID
-	int nPrevStageID=0;	 // 한단계 루프 이전의 StageID
+	StageManager mStageMgr;		// 스테이지관리
+	FrameManager mFrameMgr; 	// 프레임관리 (싱글톤)
+	int nPresentStageID=0;		// 현재의 StageID
+	int nPrevStageID=0;			// 한단계 루프 이전의 StageID
 
 
 	public GameThread(GameActivity context, SurfaceHolder holder)
 	{
-		start();
+		start(); // Thread 시작
 		mStageMgr= new StageManager(context);
+		mFrameMgr= FrameManager.getInstance();
 		surfaceHolder = holder;
 	}
 
@@ -36,6 +36,9 @@ public class GameThread extends Thread
 			return;
 		case StageManager.STAGE_MAIN:
 			mStageMgr.ChangeStage(StageManager.STAGE_MAIN);
+			break;
+		case StageManager.STAGE_OPTION:
+			mStageMgr.ChangeStage(StageManager.STAGE_OPTION);
 			break;
 		case StageManager.STAGE_SCENARIO:
 			mStageMgr.ChangeStage(StageManager.STAGE_SCENARIO);
@@ -64,7 +67,7 @@ public class GameThread extends Thread
 		Canvas canvas = null;
 		while(true)
 		{
-			mFrameMgr.IncreaseTotalFrame();
+			mFrameMgr.IncreaseTotalFrame();				// ++TotalFrame
 
 			try
 			{
@@ -77,8 +80,8 @@ public class GameThread extends Thread
 					if(canvas == null)
 						continue;
 
-					bStageUpdated(mStageMgr.Update(0));
-					mStageMgr.Render(canvas);
+					bStageUpdated(mStageMgr.Update());	// Update
+					mStageMgr.Render(canvas);			// Render
 				}
 			}
 			catch(Exception e)

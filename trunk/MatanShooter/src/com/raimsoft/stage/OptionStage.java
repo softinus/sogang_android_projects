@@ -2,12 +2,11 @@ package com.raimsoft.stage;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 
-public class ScenarioStage extends BaseStage
+public class OptionStage extends BaseStage
 {
 
-	public ScenarioStage(Context managerContext)
+	public OptionStage(Context managerContext)
 	{
 
 	}
@@ -15,13 +14,13 @@ public class ScenarioStage extends BaseStage
 	@Override
 	public int GetStageID()
 	{
-		return StageManager.STAGE_SCENARIO;
+		return StageManager.STAGE_OPTION;
 	}
 
 	@Override
 	public void StageRender(Canvas canvas)
 	{
-		canvas.drawColor(Color.GREEN);
+
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class StageManager
 		Log.i("StageManager","Construct");
 		ManagerContext = context;
 
-		mStage=new Stage1(ManagerContext);
+		mStage=new MainTitleStage(ManagerContext);
 	}
 
 	public void ChangeStage(int _stageID)
@@ -35,7 +35,7 @@ public class StageManager
 		switch(_stageID)
 		{
 		case STAGE_OPTION:
-			//mStage=new StageOption(ManagerContext);
+			mStage=new OptionStage(ManagerContext);
 			break;
 		case STAGE_SCENARIO:
 			mStage=new ScenarioStage(ManagerContext);
@@ -66,9 +66,9 @@ public class StageManager
 	 * Update : 정보를 연산한다.
 	 * @param Delay
 	 */
-	public boolean Update(int Delay)
+	public boolean Update()
 	{
-		return ( mStage.StageUpdate(Delay) );
+		return ( mStage.StageUpdate() );
 	}
 
 	/**

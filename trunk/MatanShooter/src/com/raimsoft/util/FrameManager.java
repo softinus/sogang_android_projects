@@ -7,9 +7,6 @@ public class FrameManager
 
 	public int TotalFrame=0;
 
-
-
-
 	public static FrameManager getInstance()
 	{
 		return fm;
@@ -18,6 +15,11 @@ public class FrameManager
 	{
 		++TotalFrame;
 		//Log.d("FrameManager", Float.toString(TotalFrame));
+	}
+
+	public void CalcFPS()
+	{
+
 	}
 
 }

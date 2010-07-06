@@ -32,7 +32,7 @@ public class LogoActivity extends Activity
 	{
 		if(!already_Next)
 		{
-			Intent intent=new Intent(LogoActivity.this, MainTitleActivity.class);
+			Intent intent=new Intent(LogoActivity.this, GameActivity.class);
 	        startActivity(intent);
 	        already_Next=true;
 	        finish();
@@ -42,16 +42,12 @@ public class LogoActivity extends Activity
 	@Override
 	protected void onStart()
 	{
-		// TODO Auto-generated method stub
 		super.onStart();
 
 		final ImageView imageID=(ImageView) findViewById(R.id.logo);
 
 		final Animation fadein = new AlphaAnimation( 0.0f, 1.0f );
         fadein.setDuration(LogoTime);
-
-//        final Animation fadeout = new AlphaAnimation( 1.0f, 0.0f );
-//        fadeout.setDuration(LogoTime);
 
         imageID.startAnimation(fadein);
 
