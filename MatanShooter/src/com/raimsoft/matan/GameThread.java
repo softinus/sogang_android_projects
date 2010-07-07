@@ -2,6 +2,7 @@ package com.raimsoft.matan;
 
 import android.graphics.Canvas;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
@@ -14,7 +15,7 @@ public class GameThread extends Thread
 	private final SurfaceHolder surfaceHolder; // 화면관리
 
 	StageManager mStageMgr;		// 스테이지관리
-	FrameManager mFrameMgr; 	// 프레임관리 (싱글톤)
+	FrameManager mFrameMgr= FrameManager.getInstance(); 	// 프레임관리 (싱글톤)
 	int nPresentStageID=0;		// 현재의 StageID
 	int nPrevStageID=0;			// 한단계 루프 이전의 StageID
 
@@ -23,11 +24,13 @@ public class GameThread extends Thread
 	{
 		start(); // Thread 시작
 		mStageMgr= new StageManager(context);
-		mFrameMgr= FrameManager.getInstance();
 		surfaceHolder = holder;
 	}
 
 
+	/**
+	 * 다음 스테이지로 간다.
+	 */
 	private void GotoStage()
 	{
 		switch(mStageMgr.GetNextStageID())
@@ -52,6 +55,10 @@ public class GameThread extends Thread
 		}
 	}
 
+	/**
+	 * 다음 스테이지로 넘어가길 원하면
+	 * @param _UpdateRes : Update에서 넘어온 결과
+	 */
 	private void bStageUpdated(boolean _UpdateRes)
 	{
 		if (_UpdateRes)
@@ -102,6 +109,11 @@ public class GameThread extends Thread
 		{
 			mStageMgr.Touch(event);
 		}
+	}
+
+	public void onKeyDown(int keyCode, KeyEvent event)
+	{
+		mStageMgr.KeyDown(keyCode,event);
 	}
 
 }

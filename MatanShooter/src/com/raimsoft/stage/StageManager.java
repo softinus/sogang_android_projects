@@ -3,6 +3,7 @@ package com.raimsoft.stage;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 public class StageManager
@@ -10,6 +11,7 @@ public class StageManager
 	public final static int STAGE_MAIN	   =1;
 	public final static int STAGE_OPTION   =2;
 	public final static int STAGE_SCENARIO =3;
+	public final static int STAGE_STORE	   =4;
 	public final static int STAGE_1		=101;
 	public final static int STAGE_2		=102;
 	public final static int STAGE_3		=103;
@@ -39,6 +41,9 @@ public class StageManager
 			break;
 		case STAGE_SCENARIO:
 			mStage=new ScenarioStage(ManagerContext);
+			break;
+		case STAGE_STORE:
+			mStage=new StoreStage(ManagerContext);
 			break;
 		case STAGE_1:
 			mStage=new Stage1(ManagerContext);
@@ -99,5 +104,12 @@ public class StageManager
 		Log.i("StageManager","Touch");
 
 		mStage.Touch(event.getAction(), event.getX(), event.getY());
+	}
+
+	public void KeyDown(int keyCode, KeyEvent event)
+	{
+		Log.i("StageManager","KeyDown"+Float.toString(keyCode));
+
+
 	}
 }

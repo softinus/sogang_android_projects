@@ -3,6 +3,7 @@ package com.raimsoft.stage;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.view.KeyEvent;
 
 public class ScenarioStage extends BaseStage
 {
@@ -33,6 +34,12 @@ public class ScenarioStage extends BaseStage
 	@Override
 	public void Touch(int actionID, float x, float y)
 	{
+	}
+
+	@Override
+	public void KeyDown(int keyCode, KeyEvent event)
+	{
+
 	}
 
 }

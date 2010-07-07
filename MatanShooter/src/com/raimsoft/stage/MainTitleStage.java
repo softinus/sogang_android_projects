@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.view.KeyEvent;
 
 import com.raimsoft.activity.R;
 import com.raimsoft.util.SpriteBitmap;
@@ -57,9 +58,21 @@ public class MainTitleStage extends BaseStage
 	@Override
 	public void Touch(int actionID, float x, float y)
 	{
+		if (bTap && !bNext)
+		{
+			bNext=true;
+		}
 		//bNext= true;
 		if (!bTap)
 			bTap=true;
+
+
+	}
+
+	@Override
+	public void KeyDown(int keyCode, KeyEvent event)
+	{
+
 	}
 
 }

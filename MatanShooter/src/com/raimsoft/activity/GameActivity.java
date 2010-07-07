@@ -16,4 +16,5 @@ public class GameActivity extends Activity
 		view = new GameView(this);
 		setContentView(view);
 	}
+
 }
