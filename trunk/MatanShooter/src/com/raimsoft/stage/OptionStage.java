@@ -2,6 +2,7 @@ package com.raimsoft.stage;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.view.KeyEvent;
 
 public class OptionStage extends BaseStage
 {
@@ -32,6 +33,12 @@ public class OptionStage extends BaseStage
 	@Override
 	public void Touch(int actionID, float x, float y)
 	{
+	}
+
+	@Override
+	public void KeyDown(int keyCode, KeyEvent event)
+	{
+
 	}
 
 }
