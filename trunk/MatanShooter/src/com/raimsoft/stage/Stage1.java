@@ -2,54 +2,59 @@ package com.raimsoft.stage;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.raimsoft.activity.R;
 import com.raimsoft.object.Bullet;
-import com.raimsoft.util.FPoint;
 import com.raimsoft.util.SpriteBitmap;
 
 public class Stage1 extends BaseStage
 {
-	public boolean bDrag=false;
-	public boolean bConnect1= false;
+
+	// ************** 선언부 시작 ************** //
 	private Resources mRes;
 
-	private FPoint pStart, pEnd;
-	private FPoint pStart2, pEnd2;
 	private Paint PAINTLine, PAINText;
 
-	SpriteBitmap SpriteTrap, SpriteTrap2;
+	private Bitmap BITMAPbackground;
+	SpriteBitmap SPRITETrap;
+	private SpriteBitmap SPRITEpartner, SPRITEpartner2;
+
+	//BulletConnection mConnection;
 	Bullet mBullet[]=new Bullet[8];
+	// ************** 선언부 종료 ************** //
 
 	public Stage1(Context managerContext)
 	{
 		mRes= managerContext.getResources();
-		SpriteTrap= new SpriteBitmap(R.drawable.trap1_sprite, mRes
-				, 50, 50, 5, 10);
-		mBullet[0]= new Bullet(0,     0, R.drawable.dummy, 70, 70);
-		mBullet[1]= new Bullet(365,   0, R.drawable.dummy, 70, 70);
-		mBullet[2]= new Bullet(730,   0, R.drawable.dummy, 70, 70);
-		mBullet[3]= new Bullet(0,   205, R.drawable.dummy, 70, 70);
-		mBullet[4]= new Bullet(730, 205, R.drawable.dummy, 70, 70);
-		mBullet[5]= new Bullet(0,  	410, R.drawable.dummy, 70, 70);
-		mBullet[6]= new Bullet(365, 410, R.drawable.dummy, 70, 70);
-		mBullet[7]= new Bullet(730, 410, R.drawable.dummy, 70, 70);
+		SPRITETrap= new SpriteBitmap(R.drawable.trap1_sprite, mRes, 50, 50, 5, 10);
+		SPRITEpartner= new SpriteBitmap(R.drawable.man_test, mRes, 150,150,8, 20);
+		SPRITEpartner2= new SpriteBitmap(R.drawable.man_test, mRes, 150,150,8, 100);
 
+		mBullet[0]= new Bullet(0,     0, R.drawable.bullet_close, 70, 70);
+		mBullet[1]= new Bullet(365,   0, R.drawable.bullet_close, 70, 70);
+		mBullet[2]= new Bullet(730,   0, R.drawable.bullet_open, 70, 70);
+		mBullet[3]= new Bullet(0,   205, R.drawable.bullet_close, 70, 70);
+		mBullet[4]= new Bullet(730, 205, R.drawable.bullet_open, 70, 70);
+		mBullet[5]= new Bullet(0,  	410, R.drawable.bullet_close, 70, 70);
+		mBullet[6]= new Bullet(365, 410, R.drawable.bullet_open, 70, 70);
+		mBullet[7]= new Bullet(730, 410, R.drawable.bullet_close, 70, 70);
+
+		BITMAPbackground= BitmapFactory.decodeResource(mRes, R.drawable.back2);
+
+		//mConnection= new BulletConnection();
 
 		for (int i=0; i<8; i++)
 		{
-			mBullet[i].DRAWimage= mRes.getDrawable(R.drawable.dummy);
+			mBullet[i].DRAWimage= mRes.getDrawable(mBullet[i].IDimage);
 			mBullet[i].DRAWimage.setBounds(mBullet[i].getObjectForRect());
 		}
 
-
-		pStart= new FPoint();
-		pEnd= new FPoint();
 
 		PAINTLine= new Paint();
 		PAINTLine.setARGB(0xff, 255, 0, 255);
@@ -70,20 +75,17 @@ public class Stage1 extends BaseStage
 	@Override
 	public void StageRender(Canvas canvas)
 	{
-		canvas.drawColor(Color.BLACK);
+		//canvas.drawColor(Color.WHITE);
+		canvas.drawBitmap(BITMAPbackground, 0, 0, null);
 
-		SpriteTrap.Animate(canvas, 100, 100);
+		SPRITETrap.Animate(canvas, 100, 100);
+		SPRITEpartner.Animate(canvas, 325, 165);
+		SPRITEpartner2.Animate(canvas, 475, 165);
+
 
 		for (int i=0; i<8; i++)
 		{
 			mBullet[i].DRAWimage.draw(canvas);
-		}
-
-
-		if (bDrag)
-		{
-			canvas.drawLine(pStart.x, pStart.y, pEnd.x, pEnd.y,PAINTLine);
-			canvas.drawLine(pStart2.x, pStart2.y, pEnd2.x, pEnd2.y,PAINTLine);
 		}
 	}
 
@@ -102,51 +104,44 @@ public class Stage1 extends BaseStage
 	@Override
 	public void Touch(int actionID, float touchX, float touchY)
 	{
+
+
+
 		switch(actionID)
 		{
 		case MotionEvent.ACTION_DOWN:
 
-			this.bDrag= true;
-
-
-			for(int i=0; i<8; i++)
-			{
-				if (mBullet[i].getObjectForRect().contains((int)touchX, (int)touchY))
-				{
-					pStart.setPoint( mBullet[i].getObjectMiddleSpot() );
-					bConnect1= true;
-					return;
-				}
-			}
-			pStart.x= touchX;
-			pStart.y= touchY;
+//			mConnection.bDrag= true;
+//
+//			for(int i=0; i<8; i++)
+//			{
+//				if (mBullet[i].getObjectForRect().contains((int)touchX, (int)touchY))
+//				{
+//					mConnection.pStart.setPoint( mBullet[i].getObjectMiddleSpot() );
+//					Log.d("Stage1",Float.toString(mBullet[i].nBulletNum));
+//					return;
+//				}
+//			}
+//			mConnection.pStart.x= touchX;
+//			mConnection.pStart.y= touchY;
 
 
 			break;
 		case MotionEvent.ACTION_MOVE:
 
-//			for(int i=0; i<8; i++)
-//			{
-//				if (mBullet[i].getObjectForRect().contains((int)touchX, (int)touchY))
-//				{
-//					if (bConnect1)
-//					{
-//						pEnd.setPoint( mBullet[i].getObjectMiddleSpot());
-//						pStart2.setPoint( mBullet[i].getObjectMiddleSpot() );
-//						return;
-//					}
-//
-//				}
-//			}
+			for(int i=0; i<8; i++)
+			{
+				if (mBullet[i].getObjectForRect().contains((int)touchX, (int)touchY))
+				{
 
-			pEnd.x= touchX;
-			pEnd.y= touchY;
+
+				}
+			}
 
 			break;
 		case MotionEvent.ACTION_UP:
 
-			bDrag= false;
-			bConnect1= false;
+			//mConnection.bDrag= false;
 			break;
 		}
 	}

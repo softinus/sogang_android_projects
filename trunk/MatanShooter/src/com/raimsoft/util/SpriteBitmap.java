@@ -47,15 +47,17 @@ public class SpriteBitmap
 	 */
 	public void Animate (Canvas canvas, int DestinationX, int DestinationY)
 	{
+		canvas.drawBitmap(mBitmap, CropRect, DestRect, null);
+
 		if (TotalFramePerDelay())
 		{
 			++count;
 		}
 
 		RectSetting(DestinationX, DestinationY);
-		canvas.drawBitmap(mBitmap, CropRect, DestRect, null);
 
 		if (count == SpriteNum) count=0; //스프라이트 루프
+
 	}
 
 	/**
