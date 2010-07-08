@@ -10,7 +10,7 @@ import com.raimsoft.activity.GameActivity;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
-	private GameThread gameThread;
+	public GameThread gameThread;
 
 	public GameView(GameActivity context)
 	{
@@ -25,15 +25,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	{
 		super(context);
 	}
-
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event)
-	{
-		gameThread.OnTouchEvent(event);
-		return true;
-	}
-
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,	int height)
@@ -70,6 +61,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			}
 		}
 	}
+
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event)
+	{
+		gameThread.OnTouchEvent(event);
+		return true;
+	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{

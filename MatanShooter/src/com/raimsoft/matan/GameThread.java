@@ -75,6 +75,7 @@ public class GameThread extends Thread
 		while(true)
 		{
 			mFrameMgr.IncreaseTotalFrame();				// ++TotalFrame
+			mFrameMgr.CurrentTime= System.currentTimeMillis();
 
 			try
 			{
