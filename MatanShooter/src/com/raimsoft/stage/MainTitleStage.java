@@ -20,8 +20,10 @@ public class MainTitleStage extends BaseStage
 	private GameButton BTNstory, BTNbonus, BTNoption, BTNexit;
 	private Bitmap BITMAPpresstouch;
 
+
 	public MainTitleStage(Context managerContext)
 	{
+
 		mRes= managerContext.getResources();
 
 		BITMAPbackground1= BitmapFactory.decodeResource(mRes, R.drawable.ui_mainbackground_01);
@@ -80,21 +82,21 @@ public class MainTitleStage extends BaseStage
 		if (!mFrameMgr.TouchToDealy(10)) return; // 터치 딜레이 (100ms)
 
 
-		if (BTNstory.ButtonPress((int)x, (int)y))
+		if (BTNstory.ButtonPress(actionID, (int)x, (int)y))
 			bNext= true;
 
-		BTNbonus.ButtonPress((int)x, (int)y);
-		BTNoption.ButtonPress((int)x, (int)y);
-		BTNexit.ButtonPress((int)x, (int)y);
+		BTNbonus.ButtonPress(actionID, (int)x, (int)y);
+		BTNoption.ButtonPress(actionID, (int)x, (int)y);
+		BTNexit.ButtonPress(actionID, (int)x, (int)y);
 
 		if (!bTap)
 			bTap=true;
 	}
 
 	@Override
-	public void KeyDown(int keyCode, KeyEvent event)
+	public boolean KeyDown(int keyCode, KeyEvent event)
 	{
-
+		return false;
 	}
 
 }

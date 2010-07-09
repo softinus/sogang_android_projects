@@ -13,6 +13,7 @@ import com.raimsoft.util.FrameManager;
 public class GameThread extends Thread
 {
 	private final SurfaceHolder surfaceHolder; // 화면관리
+	private boolean bKeyResult;
 
 	StageManager mStageMgr;		// 스테이지관리
 	FrameManager mFrameMgr= FrameManager.getInstance(); 	// 프레임관리 (싱글톤)
@@ -112,9 +113,10 @@ public class GameThread extends Thread
 		}
 	}
 
-	public void onKeyDown(int keyCode, KeyEvent event)
+	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
-		mStageMgr.KeyDown(keyCode,event);
+		bKeyResult= mStageMgr.KeyDown(keyCode,event);
+		return bKeyResult;
 	}
 
 }

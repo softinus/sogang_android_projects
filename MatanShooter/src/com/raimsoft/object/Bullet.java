@@ -3,7 +3,7 @@ package com.raimsoft.object;
 
 public class Bullet extends GameObject
 {
-	public boolean bUsed= false;
+	public boolean bClosed= false;
 	private static int nBulletCount;
 	public int nBulletNum;
 

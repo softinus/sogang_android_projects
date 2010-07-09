@@ -11,6 +11,7 @@ import com.raimsoft.activity.GameActivity;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
 	public GameThread gameThread;
+	private boolean bKeyResult;
 
 	public GameView(GameActivity context)
 	{
@@ -73,8 +74,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
-		gameThread.onKeyDown(keyCode, event);
+		bKeyResult= gameThread.onKeyDown(keyCode, event);
 
-		return super.onKeyDown(keyCode, event);
+		return bKeyResult;
 	}
 }

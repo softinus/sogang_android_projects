@@ -36,9 +36,9 @@ public class OptionStage extends BaseStage
 	}
 
 	@Override
-	public void KeyDown(int keyCode, KeyEvent event)
+	public boolean KeyDown(int keyCode, KeyEvent event)
 	{
-
+		return false;
 	}
 
 }
