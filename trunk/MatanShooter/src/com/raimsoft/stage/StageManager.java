@@ -21,6 +21,7 @@ public class StageManager
 
 	private BaseStage mStage;
 	private Context ManagerContext;
+	private boolean bKeyResult;
 
 	public StageManager(Context context)
 	{
@@ -36,6 +37,9 @@ public class StageManager
 
 		switch(_stageID)
 		{
+		case STAGE_MAIN:
+			mStage=new MainTitleStage(ManagerContext);
+			break;
 		case STAGE_OPTION:
 			mStage=new OptionStage(ManagerContext);
 			break;
@@ -106,10 +110,11 @@ public class StageManager
 		mStage.Touch(event.getAction(), event.getX(), event.getY());
 	}
 
-	public void KeyDown(int keyCode, KeyEvent event)
+	public boolean KeyDown(int keyCode, KeyEvent event)
 	{
 		Log.i("StageManager","KeyDown"+Float.toString(keyCode));
 
-
+		bKeyResult= mStage.KeyDown(keyCode, event);
+		return bKeyResult;
 	}
 }

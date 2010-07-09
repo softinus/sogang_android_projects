@@ -2,18 +2,26 @@ package com.raimsoft.object;
 
 import com.raimsoft.util.FPoint;
 
+
 public class BulletConnection
 {
-	public FPoint pStart;
-	public FPoint pConnect[];
+	//public ArrayList<FPoint> pConnect= new ArrayList<FPoint>();
+	public FPoint[] pConnect= new FPoint[10];
 
 	public boolean bDrag= false;
 	public int ConnectionNum= 0;
 
 	public BulletConnection()
 	{
-		this.pStart = new FPoint();
-		this.pConnect[6] = new FPoint();
+		for (int i=0; i<8; i++)
+		{
+			pConnect[i]= new FPoint();
+		}
+	}
+
+	public void AddConnectionPoint()
+	{
+		++ConnectionNum;
 	}
 
 	/**

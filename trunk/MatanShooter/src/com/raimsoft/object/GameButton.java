@@ -1,6 +1,7 @@
 package com.raimsoft.object;
 
 import android.content.res.Resources;
+import android.view.MotionEvent;
 
 public class GameButton extends GameObject
 {
@@ -15,14 +16,18 @@ public class GameButton extends GameObject
 		IDpressimg= IDpressImage;
 	}
 
-	public boolean ButtonPress(int mouseX, int mouseY)
+	public boolean ButtonPress(int actionID, int mouseX, int mouseY)
 	{
 		if(this.getObjectForRect().contains(mouseX, mouseY))
 		{
 			bPressed= true;
 			return true;
 		}
-		bPressed= false;
+		if(actionID == MotionEvent.ACTION_UP)
+		{
+			bPressed= false;
+			return false;
+		}
 		return false;
 	}
 
