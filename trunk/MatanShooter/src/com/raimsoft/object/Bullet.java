@@ -5,7 +5,7 @@ public class Bullet extends GameObject
 {
 	public boolean bClosed= false;
 	private static int nBulletCount;
-	public int nBulletNum;
+	public int nBulletNum; // 자신 마탄의 번호
 
 	/**
 	 * 마탄:생성자
@@ -22,12 +22,18 @@ public class Bullet extends GameObject
 		BulletCountAndSetNumber();
 	}
 
+	/**
+	 * 마탄의 개수를 세주면서 각 마탄의 번호 할당
+	 */
 	private void BulletCountAndSetNumber()
 	{
 		nBulletNum= nBulletCount;
 		++nBulletCount;
 	}
 
+	/**
+	 * 마탄 총개수 정보 초기화 (스테이지 넘김시)
+	 */
 	public void BulletInfoInit()
 	{
 		nBulletCount=0;

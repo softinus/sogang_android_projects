@@ -9,8 +9,13 @@ public class BulletConnection
 	public FPoint[] pConnect= new FPoint[10];
 
 	public boolean bDrag= false;
+	public boolean bOut= false;
 	public int ConnectionNum= 0;
+	public int LastConnectBulletNum= -1;
 
+	/**
+	 * 배열 모든 인덱스 동적 할당
+	 */
 	public BulletConnection()
 	{
 		for (int i=0; i<8; i++)
@@ -19,6 +24,9 @@ public class BulletConnection
 		}
 	}
 
+	/**
+	 * 연결된 선이 추가되었음을 알린다.
+	 */
 	public void AddConnectionPoint()
 	{
 		++ConnectionNum;

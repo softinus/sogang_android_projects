@@ -7,6 +7,9 @@ public class Fog extends GameObject
 		super(X, Y, IDimage, Width, Height);
 	}
 
+	/**
+	 * 안개가 움직인다.
+	 */
 	public void MoveTest()
 	{
 		++this.x;
