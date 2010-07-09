@@ -27,11 +27,13 @@ public class Stage1 extends BaseStage
 
 	private Bitmap BITMAPbackground;
 	private SpriteBitmap SPRITETrap;
-	private SpriteBitmap SPRITEpartner, SPRITEpartner2;
+	private SpriteBitmap SPRITEpartner;
 	private Fog mFog;
 
-	BulletConnection mConnection;
-	Bullet mBullet[]=new Bullet[8];
+	private boolean bRefreshImg_Bullets= true;
+
+	private BulletConnection mConnection;
+	private Bullet mBullet[]=new Bullet[8];
 	// ************** 선언부 종료 ************** //
 
 	public Stage1(Context managerContext)
@@ -39,16 +41,15 @@ public class Stage1 extends BaseStage
 		mRes= managerContext.getResources();
 		SPRITETrap= new SpriteBitmap(R.drawable.trap1_sprite, mRes, 50, 50, 5, 10);
 		SPRITEpartner= new SpriteBitmap(R.drawable.man_test, mRes, 150,150,8, 20);
-		SPRITEpartner2= new SpriteBitmap(R.drawable.man_test, mRes, 150,150,8, 100);
 
-		mBullet[0]= new Bullet(0,     0, R.drawable.bullet_close, 70, 70);
-		mBullet[1]= new Bullet(365,   0, R.drawable.bullet_close, 70, 70);
+		mBullet[0]= new Bullet(0,     0, R.drawable.bullet_open, 70, 70);
+		mBullet[1]= new Bullet(365,   0, R.drawable.bullet_open, 70, 70);
 		mBullet[2]= new Bullet(730,   0, R.drawable.bullet_open, 70, 70);
-		mBullet[3]= new Bullet(0,   205, R.drawable.bullet_close, 70, 70);
+		mBullet[3]= new Bullet(0,   205, R.drawable.bullet_open, 70, 70);
 		mBullet[4]= new Bullet(730, 205, R.drawable.bullet_open, 70, 70);
-		mBullet[5]= new Bullet(0,  	410, R.drawable.bullet_close, 70, 70);
+		mBullet[5]= new Bullet(0,  	410, R.drawable.bullet_open, 70, 70);
 		mBullet[6]= new Bullet(365, 410, R.drawable.bullet_open, 70, 70);
-		mBullet[7]= new Bullet(730, 410, R.drawable.bullet_close, 70, 70);
+		mBullet[7]= new Bullet(730, 410, R.drawable.bullet_open, 70, 70);
 
 		mFog= new Fog(0,0, R.drawable.eff_fog2, 600,360);
 
@@ -57,17 +58,12 @@ public class Stage1 extends BaseStage
 		mConnection= new BulletConnection();
 
 
-		for (int i=0; i<8; i++)
-		{
-			mBullet[i].DRAWimage= mRes.getDrawable(mBullet[i].IDimage);
-			mBullet[i].DRAWimage.setBounds(mBullet[i].getObjectForRect());
-		}
 		mFog.DRAWimage= mRes.getDrawable(mFog.IDimage);
 
 
 
 		PAINTLine= new Paint();
-		PAINTLine.setARGB(0xff, 255, 0, 255);
+		PAINTLine.setARGB(128, 255, 0, 255);
 		PAINTLine.setStrokeWidth(6.0f);
 		PAINTLine.setAntiAlias(true);
 
@@ -85,22 +81,40 @@ public class Stage1 extends BaseStage
 	@Override
 	public void StageRender(Canvas canvas)
 	{
-		//canvas.drawColor(Color.WHITE);
-		canvas.drawBitmap(BITMAPbackground, 0, 0, null);
+		canvas.drawBitmap(BITMAPbackground, 0, 0, null);	// 배경 그려줌
 
-		SPRITETrap.Animate(canvas, 100, 100);
-		SPRITEpartner.Animate(canvas, 325, 165);
-		SPRITEpartner2.Animate(canvas, 475, 165);
+		if (this.bRefreshImg_Bullets) // 마탄 이미지 새로고침
+		{
+			for (int i=0; i<8; i++)
+			{
+				if (mBullet[i].bClosed)
+				{
+					mBullet[i].IDimage= R.drawable.bullet_close;
+				}else{
+					mBullet[i].IDimage= R.drawable.bullet_open;
+				}
 
-		mFog.DRAWimage.setBounds(mFog.getObjectForRect());
-		mFog.DRAWimage.draw(canvas);
+				mBullet[i].DRAWimage= mRes.getDrawable(mBullet[i].IDimage);
+				mBullet[i].DRAWimage.setBounds(mBullet[i].getObjectForRect());
+			}
+			bRefreshImg_Bullets= false;
+		}
+
+
+		SPRITETrap.Animate(canvas, 100, 100);	// 트랩 그려줌
+		SPRITEpartner.Animate(canvas, 325, 165);	// 파트너 그려줌
+
+		mFog.DRAWimage.setBounds(mFog.getObjectForRect());	// 안개 위치 세팅
+		mFog.DRAWimage.draw(canvas);	// 안개 그려줌
+
+
 
 		for (int i=0; i<8; i++)
 		{
-			mBullet[i].DRAWimage.draw(canvas);
+			mBullet[i].DRAWimage.draw(canvas);	// 마탄 그려줌
 		}
 
-		if (mConnection.bDrag)
+		if (mConnection.bDrag) // 드래그 상태이면
 		{
 			for (int i=0; i<8; i++)
 			{
@@ -129,17 +143,15 @@ public class Stage1 extends BaseStage
 	{
 
 		if (mConnection.bOut) // 선이 밖으로 나갔으면
-			PAINTLine.setARGB(0xff, 0, 255, 0); // 쓰레기색
+			PAINTLine.setARGB(128, 0, 255, 0); // 쓰레기색
 		else
-			PAINTLine.setARGB(0xff, 255, 0, 255); // 아니면 초록색
+			PAINTLine.setARGB(128, 255, 0, 255); // 아니면 초록색
+		
 
 
 		mFog.MoveTest();
-//		if (bTest) // 스테이지 넘길때는 true값
-//		{
-//			this.NextStageID= StageManager.STAGE_SCENARIO;
-//			return true;
-//		}
+
+
 		return false;
 	}
 
@@ -171,6 +183,8 @@ public class Stage1 extends BaseStage
 					mConnection.pConnect[mConnection.ConnectionNum+1].setPoint(mBullet[i].getObjectMiddleSpot());
 					mBullet[i].bClosed= true; // 해당 마탄 닫힘
 
+					this.bRefreshImg_Bullets= true; // 마탄 이미지 새로고침
+
 					if (mConnection.LastConnectBulletNum != -1)
 					{// 마지막으로 연결된 마탄의 정보가 있으면
 						Log.d("Stage1::OutCheck", Float.toString(mConnection.LastConnectBulletNum)+"-"+Float.toString(i));
@@ -188,7 +202,11 @@ public class Stage1 extends BaseStage
 			}
 
 			if (mConnection.ConnectionNum!=0) // 기존 0번째 포인트가 있을 경우
-				mConnection.pConnect[mConnection.ConnectionNum].setFPoint(touchX, touchY);
+			{
+				//if (mConnection.bOut) return;
+					mConnection.pConnect[mConnection.ConnectionNum].setFPoint(touchX, touchY);
+			}
+
 
 			break;
 		case MotionEvent.ACTION_UP:
@@ -197,7 +215,8 @@ public class Stage1 extends BaseStage
 				mConnection.pConnect[i]= new FPoint(); // 배열 인덱스모두 동적할당
 
 			for (int i=0; i<8; i++)
-				mBullet[i].bClosed= false;	// 마탄 모두 닫힘
+				mBullet[i].bClosed= false;	// 마탄 모두 열림
+			this.bRefreshImg_Bullets= true;
 
 			mConnection.ConnectionNum= 0;	// 연결된 개수없음
 
