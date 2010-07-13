@@ -23,7 +23,7 @@ public class Stage1 extends BaseStage
 	// ************** 선언부 시작 ************** //
 	private Resources mRes;
 
-	private Paint PAINTLine, PAINText;
+	private Paint PAINTLine;
 
 	private Bitmap BITMAPbackground;
 	private SpriteBitmap SPRITETrap;
@@ -60,16 +60,10 @@ public class Stage1 extends BaseStage
 
 		mFog.DRAWimage= mRes.getDrawable(mFog.IDimage);
 
-
-
 		PAINTLine= new Paint();
 		PAINTLine.setARGB(128, 255, 0, 255);
 		PAINTLine.setStrokeWidth(6.0f);
 		PAINTLine.setAntiAlias(true);
-
-		PAINText= new Paint();
-		PAINText.setARGB(0xff, 255, 0, 255);
-		PAINText.setAntiAlias(true);
 	}
 
 	@Override
@@ -146,7 +140,7 @@ public class Stage1 extends BaseStage
 			PAINTLine.setARGB(128, 0, 255, 0); // 쓰레기색
 		else
 			PAINTLine.setARGB(128, 255, 0, 255); // 아니면 초록색
-		
+
 
 
 		mFog.MoveTest();

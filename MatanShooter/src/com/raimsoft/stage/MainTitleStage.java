@@ -1,11 +1,13 @@
 package com.raimsoft.stage;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.KeyEvent;
+import android.widget.Button;
 
 import com.raimsoft.activity.R;
 import com.raimsoft.object.GameButton;
@@ -20,10 +22,11 @@ public class MainTitleStage extends BaseStage
 	private GameButton BTNstory, BTNbonus, BTNoption, BTNexit;
 	private Bitmap BITMAPpresstouch;
 
+	Button mButton;
+	Activity activity;
 
 	public MainTitleStage(Context managerContext)
 	{
-
 		mRes= managerContext.getResources();
 
 		BITMAPbackground1= BitmapFactory.decodeResource(mRes, R.drawable.ui_mainbackground_01);
@@ -70,7 +73,7 @@ public class MainTitleStage extends BaseStage
 	{
 		if(bNext)
 		{
-			this.NextStageID= StageManager.STAGE_1;
+			this.NextStageID= StageManager.STAGE_INTER;
 			return true;
 		}
 		return false;

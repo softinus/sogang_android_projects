@@ -12,6 +12,7 @@ public class StageManager
 	public final static int STAGE_OPTION   =2;
 	public final static int STAGE_SCENARIO =3;
 	public final static int STAGE_STORE	   =4;
+	public final static int STAGE_INTER    =5;
 	public final static int STAGE_1		=101;
 	public final static int STAGE_2		=102;
 	public final static int STAGE_3		=103;
@@ -48,6 +49,9 @@ public class StageManager
 			break;
 		case STAGE_STORE:
 			mStage=new StoreStage(ManagerContext);
+			break;
+		case STAGE_INTER:
+			mStage=new IntermissonStage(ManagerContext);
 			break;
 		case STAGE_1:
 			mStage=new Stage1(ManagerContext);
