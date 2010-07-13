@@ -47,6 +47,12 @@ public class GameThread extends Thread
 		case StageManager.STAGE_SCENARIO:
 			mStageMgr.ChangeStage(StageManager.STAGE_SCENARIO);
 			break;
+		case StageManager.STAGE_STORE:
+			mStageMgr.ChangeStage(StageManager.STAGE_STORE);
+			break;
+		case StageManager.STAGE_INTER:
+			mStageMgr.ChangeStage(StageManager.STAGE_INTER);
+			break;
 		case StageManager.STAGE_1:
 			mStageMgr.ChangeStage(StageManager.STAGE_1);
 			break;
