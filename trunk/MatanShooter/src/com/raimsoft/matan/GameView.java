@@ -1,6 +1,5 @@
 package com.raimsoft.matan;
 
-import android.content.Context;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -21,10 +20,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		holder.addCallback(this);
 
 		gameThread = new GameThread(context, holder);
-	}
-	public GameView(Context context)
-	{
-		super(context);
 	}
 
 	@Override

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/mainmenu_layout"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+
+
+	<ImageView
+	android:id="@+id/imageview_main_bg"
+	android:src="@drawable/ui_mainbackground_01"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	>
+	</ImageView>
+
+
+	<ImageView
+	android:id="@+id/imageview_presstouch"
+	android:src="@drawable/ui_mainbutton_presstouch"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_x="300px"
+	android:layout_y="400px"
+	>
+	</ImageView>
+
+
+	<Button
+	android:id="@+id/btn_main_story"
+	android:background="@xml/main_story"
+	android:layout_width="248px"
+	android:layout_height="36px"
+	android:layout_x="125px"
+	android:layout_y="221px"
+	android:visibility="invisible"
+	>
+	</Button>
+
+	<Button
+	android:id="@+id/btn_main_bonus"
+	android:background="@xml/main_bonus"
+	android:layout_width="248px"
+	android:layout_height="36px"
+	android:layout_x="155px"
+	android:layout_y="281px"
+	android:visibility="invisible"
+	>
+	</Button>
+	<Button
+	android:id="@+id/btn_main_option"
+	android:background="@xml/main_option"
+	android:layout_width="248px"
+	android:layout_height="36px"
+	android:layout_x="185px"
+	android:layout_y="341px"
+	android:visibility="invisible"
+	>
+	</Button>
+
+	<Button
+	android:id="@+id/btn_main_exit"
+	android:background="@xml/main_exit"
+	android:layout_width="248px"
+	android:layout_height="36px"
+	android:layout_x="215px"
+	android:layout_y="401px"
+	android:visibility="invisible"
+	>
+	</Button>
+
+</AbsoluteLayout>

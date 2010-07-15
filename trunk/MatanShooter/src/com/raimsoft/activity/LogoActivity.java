@@ -32,7 +32,7 @@ public class LogoActivity extends Activity
 	{
 		if(!already_Next)
 		{
-			Intent intent=new Intent(LogoActivity.this, GameActivity.class);
+			Intent intent=new Intent(LogoActivity.this, MainActivity.class);
 	        startActivity(intent);
 	        already_Next=true;
 	        finish();
