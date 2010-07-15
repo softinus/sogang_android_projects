@@ -1,10 +1,11 @@
 package com.raimsoft.stage;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+
+import com.raimsoft.activity.GameActivity;
 
 public class StageManager
 {
@@ -21,10 +22,10 @@ public class StageManager
 	public final static int STAGE_6		=106;
 
 	private BaseStage mStage;
-	private Context ManagerContext;
+	private GameActivity ManagerContext;
 	private boolean bKeyResult;
 
-	public StageManager(Context context)
+	public StageManager(GameActivity context)
 	{
 		Log.i("StageManager","Construct");
 		ManagerContext = context;

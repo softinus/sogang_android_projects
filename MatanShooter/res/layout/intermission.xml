@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/widget0"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+
+	<ImageView
+	android:src="@drawable/ui_buttonintermission_slug_1"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_x="285px"
+	android:layout_y="-16px"
+	></ImageView>
+
+	<ImageView
+	android:src="@drawable/ui_buttonintermission_slug_1"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_x="352px"
+	android:layout_y="96px"
+	></ImageView>
+
+	<ImageView
+	android:src="@drawable/ui_buttonintermission_slug_1"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_x="405px"
+	android:layout_y="226px"
+	></ImageView>
+
+	<ImageView
+	android:src="@drawable/ui_buttonintermission_slug_1"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_x="395px"
+	android:layout_y="347px"
+	></ImageView>
+
+
+	<Button
+	android:id="@+id/btn_inter_opening"
+	android:background="@xml/inter_opening"
+	android:layout_width="248px"
+	android:layout_height="36px"
+	android:layout_x="356px"
+	android:layout_y="42px"
+	>
+	</Button>
+
+	<Button
+	android:id="@+id/btn_inter_shop"
+	android:background="@xml/inter_shop"
+	android:layout_width="248px"
+	android:layout_height="36px"
+	android:layout_x="449px"
+	android:layout_y="153px"
+	>
+	</Button>
+
+	<Button
+	android:id="@+id/btn_inter_save"
+	android:background="@xml/inter_save"
+	android:layout_width="248px"
+	android:layout_height="36px"
+	android:layout_x="508px"
+	android:layout_y="283px"
+	>
+	</Button>
+
+	<Button
+	android:id="@+id/btn_inter_next"
+	android:background="@xml/inter_next"
+	android:layout_width="248px"
+	android:layout_height="36px"
+	android:layout_x="499px"
+	android:layout_y="404px"
+	>
+	</Button>
+
+</AbsoluteLayout>
