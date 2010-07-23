@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.raimsoft.matan.GameView;
 
-@SuppressWarnings("deprecation")
+
 public class GameActivity extends Activity
 {
 	GameView view;

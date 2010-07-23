@@ -42,14 +42,14 @@ public class Stage1 extends BaseStage
 		SPRITETrap= new SpriteBitmap(R.drawable.trap1_sprite, mRes, 50, 50, 5, 10);
 		SPRITEpartner= new SpriteBitmap(R.drawable.man_test, mRes, 150,150,8, 20);
 
-		mBullet[0]= new Bullet(0,     0, R.drawable.bullet_open, 70, 70);
-		mBullet[1]= new Bullet(365,   0, R.drawable.bullet_open, 70, 70);
-		mBullet[2]= new Bullet(730,   0, R.drawable.bullet_open, 70, 70);
-		mBullet[3]= new Bullet(0,   205, R.drawable.bullet_open, 70, 70);
-		mBullet[4]= new Bullet(730, 205, R.drawable.bullet_open, 70, 70);
-		mBullet[5]= new Bullet(0,  	410, R.drawable.bullet_open, 70, 70);
-		mBullet[6]= new Bullet(365, 410, R.drawable.bullet_open, 70, 70);
-		mBullet[7]= new Bullet(730, 410, R.drawable.bullet_open, 70, 70);
+		mBullet[0]= new Bullet(0,     0, R.drawable.obj_thron_open, 70, 70);
+		mBullet[1]= new Bullet(365,   0, R.drawable.obj_normal_open, 70, 70);
+		mBullet[2]= new Bullet(730,   0, R.drawable.obj_fire_open, 70, 70);
+		mBullet[3]= new Bullet(0,   205, R.drawable.obj_normal_open, 70, 70);
+		mBullet[4]= new Bullet(730, 205, R.drawable.obj_normal_open, 70, 70);
+		mBullet[5]= new Bullet(0,  	410, R.drawable.obj_bolt_open, 70, 70);
+		mBullet[6]= new Bullet(365, 410, R.drawable.obj_normal_open, 70, 70);
+		mBullet[7]= new Bullet(730, 410, R.drawable.obj_ice_open, 70, 70);
 
 		mFog= new Fog(0,0, R.drawable.eff_fog2, 600,360);
 
@@ -84,8 +84,37 @@ public class Stage1 extends BaseStage
 				if (mBullet[i].bClosed)
 				{
 					mBullet[i].IDimage= R.drawable.bullet_close;
+
+
 				}else{
-					mBullet[i].IDimage= R.drawable.bullet_open;
+					switch (i) // 마탄 번호에 따른 열림 이미지 변경
+					{
+					case 0:
+						mBullet[i].IDimage= R.drawable.obj_thron_open;
+						break;
+					case 1:
+						mBullet[i].IDimage= R.drawable.obj_normal_open;
+						break;
+					case 2:
+						mBullet[i].IDimage= R.drawable.obj_fire_open;
+						break;
+					case 3:
+						mBullet[i].IDimage= R.drawable.obj_normal_open;
+						break;
+					case 4:
+						mBullet[i].IDimage= R.drawable.obj_normal_open;
+						break;
+					case 5:
+						mBullet[i].IDimage= R.drawable.obj_bolt_open;
+						break;
+					case 6:
+						mBullet[i].IDimage= R.drawable.obj_normal_open;
+						break;
+					case 7:
+						mBullet[i].IDimage= R.drawable.obj_ice_open;
+						break;
+					}
+
 				}
 
 				mBullet[i].DRAWimage= mRes.getDrawable(mBullet[i].IDimage);

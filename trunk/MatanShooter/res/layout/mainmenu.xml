@@ -9,7 +9,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
 	<ImageView
 	android:id="@+id/imageview_main_bg"
-	android:src="@drawable/ui_mainbackground_01"
+	android:src="@drawable/main_test"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	>
@@ -30,7 +30,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 	<Button
 	android:id="@+id/btn_main_story"
 	android:background="@xml/main_story"
-	android:layout_width="248px"
+	android:layout_width="133px"
 	android:layout_height="36px"
 	android:layout_x="125px"
 	android:layout_y="221px"

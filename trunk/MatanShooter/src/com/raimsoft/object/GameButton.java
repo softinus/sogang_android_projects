@@ -1,5 +1,7 @@
 package com.raimsoft.object;
 
+import com.raimsoft.object.GameObject;
+
 import android.content.res.Resources;
 import android.view.MotionEvent;
 
