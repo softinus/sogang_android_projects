@@ -21,7 +21,7 @@ public class MainActivity extends Activity implements OnClickListener
 	private boolean already_Next=false;
 	private boolean bPressed= false;
 
-	private void NextActivity()
+	private void GotoGame()
 	{
 		if(!already_Next)
 		{
@@ -38,6 +38,9 @@ public class MainActivity extends Activity implements OnClickListener
 
 		BTN_inter_shop= (Button) findViewById(R.id.btn_inter_shop);
 		BTN_inter_shop.setOnClickListener(this);
+
+		BTN_inter_next= (Button) findViewById(R.id.btn_inter_next);
+		BTN_inter_next.setOnClickListener(this);
 	}
 
 	private void GotoStore()
@@ -93,6 +96,9 @@ public class MainActivity extends Activity implements OnClickListener
 
 		case R.id.btn_inter_shop:
 			this.GotoStore();
+			break;
+		case R.id.btn_inter_next:
+			this.GotoGame();
 			break;
 
 

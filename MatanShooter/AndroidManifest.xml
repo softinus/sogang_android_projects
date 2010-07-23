@@ -34,4 +34,11 @@
 
 	<uses-sdk android:targetSdkVersion="4" android:minSdkVersion="4"/>
 
+	<supports-screens
+	android:smallScreens="false"
+    android:normalScreens="false"
+    android:largeScreens="true"
+    android:anyDensity="true"
+    />
+
 </manifest>

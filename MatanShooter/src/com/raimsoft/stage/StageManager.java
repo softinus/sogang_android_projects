@@ -14,12 +14,18 @@ public class StageManager
 	public final static int STAGE_SCENARIO =3;
 	public final static int STAGE_STORE	   =4;
 	public final static int STAGE_INTER    =5;
-	public final static int STAGE_1		=101;
-	public final static int STAGE_2		=102;
-	public final static int STAGE_3		=103;
-	public final static int STAGE_4		=104;
-	public final static int STAGE_5		=105;
-	public final static int STAGE_6		=106;
+	public final static int STAGE_READY_1  =101;
+	public final static int STAGE_READY_2  =102;
+	public final static int STAGE_READY_3  =103;
+	public final static int STAGE_READY_4  =104;
+	public final static int STAGE_READY_5  =105;
+	public final static int STAGE_READY_6  =106;
+	public final static int STAGE_1		   =1001;
+	public final static int STAGE_2		   =1002;
+	public final static int STAGE_3		   =1003;
+	public final static int STAGE_4		   =1004;
+	public final static int STAGE_5		   =1005;
+	public final static int STAGE_6	   	   =1006;
 
 	private BaseStage mStage;
 	private GameActivity ManagerContext;
@@ -30,7 +36,7 @@ public class StageManager
 		Log.i("StageManager","Construct");
 		ManagerContext = context;
 
-		mStage=new MainTitleStage(ManagerContext);
+		mStage=new Stage1(ManagerContext);
 	}
 
 	public void ChangeStage(int _stageID)
@@ -39,20 +45,11 @@ public class StageManager
 
 		switch(_stageID)
 		{
-		case STAGE_MAIN:
-			mStage=new MainTitleStage(ManagerContext);
-			break;
-		case STAGE_OPTION:
-			mStage=new OptionStage(ManagerContext);
-			break;
-		case STAGE_SCENARIO:
-			mStage=new ScenarioStage(ManagerContext);
-			break;
 		case STAGE_STORE:
 			mStage=new StoreStage(ManagerContext);
 			break;
-		case STAGE_INTER:
-			mStage=new IntermissonStage(ManagerContext);
+		case STAGE_READY_1:
+			mStage=new ReadyStage1(ManagerContext);
 			break;
 		case STAGE_1:
 			mStage=new Stage1(ManagerContext);
