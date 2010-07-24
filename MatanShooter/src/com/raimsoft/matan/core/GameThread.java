@@ -1,4 +1,4 @@
-package com.raimsoft.matan;
+package com.raimsoft.matan.core;
 
 import android.graphics.Canvas;
 import android.util.Log;
@@ -6,9 +6,9 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-import com.raimsoft.activity.GameActivity;
-import com.raimsoft.stage.StageManager;
-import com.raimsoft.util.FrameManager;
+import com.raimsoft.matan.activity.GameActivity;
+import com.raimsoft.matan.stage.StageManager;
+import com.raimsoft.matan.util.FrameManager;
 
 public class GameThread extends Thread
 {

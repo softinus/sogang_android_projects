@@ -1,4 +1,4 @@
-package com.raimsoft.stage;
+package com.raimsoft.matan.stage;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -8,8 +8,8 @@ import android.view.KeyEvent;
 
 import com.raimsoft.activity.GameActivity;
 import com.raimsoft.activity.R;
+import com.raimsoft.matan.util.FrameManager;
 import com.raimsoft.object.GameButton;
-import com.raimsoft.util.FrameManager;
 
 @SuppressWarnings("deprecation")
 public class MainTitleStage extends BaseStage

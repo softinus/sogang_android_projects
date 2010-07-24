@@ -1,4 +1,4 @@
-package com.raimsoft.activity;
+package com.raimsoft.matan.activity;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,6 +1,6 @@
-package com.raimsoft.object;
+package com.raimsoft.matan.object;
 
-import com.raimsoft.util.FPoint;
+import com.raimsoft.matan.util.FPoint;
 
 
 public class BulletConnection

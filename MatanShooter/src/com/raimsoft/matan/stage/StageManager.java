@@ -1,11 +1,11 @@
-package com.raimsoft.stage;
+package com.raimsoft.matan.stage;
 
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.raimsoft.activity.GameActivity;
+import com.raimsoft.matan.activity.GameActivity;
 
 public class StageManager
 {
@@ -45,9 +45,6 @@ public class StageManager
 
 		switch(_stageID)
 		{
-		case STAGE_STORE:
-			mStage=new StoreStage(ManagerContext);
-			break;
 		case STAGE_READY_1:
 			mStage=new ReadyStage1(ManagerContext);
 			break;

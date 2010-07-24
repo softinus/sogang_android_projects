@@ -1,4 +1,4 @@
-package com.raimsoft.stage;
+package com.raimsoft.matan.stage;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -10,12 +10,12 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.raimsoft.activity.R;
-import com.raimsoft.object.Bullet;
-import com.raimsoft.object.BulletConnection;
-import com.raimsoft.object.Fog;
-import com.raimsoft.util.FPoint;
-import com.raimsoft.util.SpriteBitmap;
+import com.raimsoft.matan.activity.R;
+import com.raimsoft.matan.object.Bullet;
+import com.raimsoft.matan.object.BulletConnection;
+import com.raimsoft.matan.object.Fog;
+import com.raimsoft.matan.util.FPoint;
+import com.raimsoft.matan.util.SpriteBitmap;
 
 public class Stage1 extends BaseStage
 {
@@ -25,7 +25,7 @@ public class Stage1 extends BaseStage
 
 	private Paint PAINTLine;
 
-	private Bitmap BITMAPbackground;
+	private Bitmap BITMAPbackground, BITMAPbackline;
 	private SpriteBitmap SPRITETrap;
 	private SpriteBitmap SPRITEpartner;
 	private Fog mFog;
@@ -53,7 +53,8 @@ public class Stage1 extends BaseStage
 
 		mFog= new Fog(0,0, R.drawable.eff_fog2, 600,360);
 
-		BITMAPbackground= BitmapFactory.decodeResource(mRes, R.drawable.back2);
+		BITMAPbackground= BitmapFactory.decodeResource(mRes, R.drawable.bg);
+		BITMAPbackline= BitmapFactory.decodeResource(mRes, R.drawable.bg_line);
 
 		mConnection= new BulletConnection();
 
@@ -76,6 +77,7 @@ public class Stage1 extends BaseStage
 	public void StageRender(Canvas canvas)
 	{
 		canvas.drawBitmap(BITMAPbackground, 0, 0, null);	// 배경 그려줌
+		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 
 		if (this.bRefreshImg_Bullets) // 마탄 이미지 새로고침
 		{

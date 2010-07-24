@@ -1,11 +1,11 @@
-package com.raimsoft.matan;
+package com.raimsoft.matan.core;
 
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.raimsoft.activity.GameActivity;
+import com.raimsoft.matan.activity.GameActivity;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {

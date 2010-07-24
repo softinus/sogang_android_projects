@@ -1,26 +1,32 @@
-package com.raimsoft.stage;
+package com.raimsoft.matan.stage;
 
-import android.content.Context;
+import com.raimsoft.matan.activity.GameActivity;
+
 import android.graphics.Canvas;
 import android.view.KeyEvent;
 
-public class OptionStage extends BaseStage
-{
+public class ReadyStage1 extends BaseStage {
 
-	public OptionStage(Context managerContext)
+	public ReadyStage1(GameActivity managerContext)
 	{
-
 	}
 
 	@Override
 	public int GetStageID()
 	{
-		return StageManager.STAGE_OPTION;
+		return StageManager.STAGE_READY_1;
+	}
+
+	@Override
+	public boolean KeyDown(int keyCode, KeyEvent event)
+	{
+		return false;
 	}
 
 	@Override
 	public void StageRender(Canvas canvas)
 	{
+
 
 	}
 
@@ -33,12 +39,7 @@ public class OptionStage extends BaseStage
 	@Override
 	public void Touch(int actionID, float x, float y)
 	{
-	}
 
-	@Override
-	public boolean KeyDown(int keyCode, KeyEvent event)
-	{
-		return false;
 	}
 
 }

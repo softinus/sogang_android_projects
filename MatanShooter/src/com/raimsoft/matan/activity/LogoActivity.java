@@ -1,4 +1,4 @@
-package com.raimsoft.activity;
+package com.raimsoft.matan.activity;
 
 import java.util.Timer;
 import java.util.TimerTask;
