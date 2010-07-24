@@ -1,4 +1,4 @@
-package com.raimsoft.util;
+package com.raimsoft.matan.util;
 
 import android.graphics.Point;
 

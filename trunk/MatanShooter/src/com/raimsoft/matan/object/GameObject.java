@@ -1,4 +1,4 @@
-package com.raimsoft.object;
+package com.raimsoft.matan.object;
 
 import android.graphics.Point;
 import android.graphics.Rect;

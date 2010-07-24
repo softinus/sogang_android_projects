@@ -1,4 +1,4 @@
-package com.raimsoft.object;
+package com.raimsoft.matan.object;
 
 
 public class Bullet extends GameObject

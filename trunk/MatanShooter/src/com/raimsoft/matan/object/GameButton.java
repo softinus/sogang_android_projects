@@ -1,6 +1,4 @@
-package com.raimsoft.object;
-
-import com.raimsoft.object.GameObject;
+package com.raimsoft.matan.object;
 
 import android.content.res.Resources;
 import android.view.MotionEvent;
