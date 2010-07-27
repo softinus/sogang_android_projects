@@ -11,9 +11,10 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.raimsoft.matan.activity.R;
+import com.raimsoft.matan.motion.MotionVectors;
 import com.raimsoft.matan.object.Bullet;
 import com.raimsoft.matan.object.BulletConnection;
-import com.raimsoft.matan.object.Fog;
+import com.raimsoft.matan.object.Zombie;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.SpriteBitmap;
 
@@ -28,7 +29,10 @@ public class Stage1 extends BaseStage
 	private Bitmap BITMAPbackground, BITMAPbackline;
 	private SpriteBitmap SPRITETrap;
 	private SpriteBitmap SPRITEpartner;
-	private Fog mFog;
+	//private Fog mFog;
+
+	private Zombie mZombie[]=new Zombie[16];
+	MotionVectors motion;
 
 	private boolean bRefreshImg_Bullets= true;
 
@@ -39,19 +43,27 @@ public class Stage1 extends BaseStage
 	public Stage1(Context managerContext)
 	{
 		mRes= managerContext.getResources();
+
+		motion= new MotionVectors();
+
 		SPRITETrap= new SpriteBitmap(R.drawable.trap1_sprite, mRes, 50, 50, 5, 10);
-		SPRITEpartner= new SpriteBitmap(R.drawable.man_test, mRes, 150,150,8, 20);
+		SPRITEpartner= new SpriteBitmap(R.drawable.partner, mRes, 230,230,8, 20);
 
 		mBullet[0]= new Bullet(0,     0, R.drawable.obj_thron_open, 70, 70);
 		mBullet[1]= new Bullet(365,   0, R.drawable.obj_normal_open, 70, 70);
 		mBullet[2]= new Bullet(730,   0, R.drawable.obj_fire_open, 70, 70);
 		mBullet[3]= new Bullet(0,   205, R.drawable.obj_normal_open, 70, 70);
 		mBullet[4]= new Bullet(730, 205, R.drawable.obj_normal_open, 70, 70);
-		mBullet[5]= new Bullet(0,  	410, R.drawable.obj_bolt_open, 70, 70);
+		mBullet[5]= new Bullet(0,  	410, R.drawable.obj_light_open, 70, 70);
 		mBullet[6]= new Bullet(365, 410, R.drawable.obj_normal_open, 70, 70);
 		mBullet[7]= new Bullet(730, 410, R.drawable.obj_ice_open, 70, 70);
 
-		mFog= new Fog(0,0, R.drawable.eff_fog2, 600,360);
+
+		for (int i=0; i<15; i++) // 좀비 16마리 초기화
+			mZombie[i]= new Zombie(motion.pSrc[i].x, motion.pSrc[i].y, R.drawable.ch_zombie_01, 400,100, mRes);
+
+
+		//mFog= new Fog(0,0, R.drawable.eff_fog2, 600,360);
 
 		BITMAPbackground= BitmapFactory.decodeResource(mRes, R.drawable.bg);
 		BITMAPbackline= BitmapFactory.decodeResource(mRes, R.drawable.bg_line);
@@ -59,7 +71,7 @@ public class Stage1 extends BaseStage
 		mConnection= new BulletConnection();
 
 
-		mFog.DRAWimage= mRes.getDrawable(mFog.IDimage);
+		//mFog.DRAWimage= mRes.getDrawable(mFog.IDimage);
 
 		PAINTLine= new Paint();
 		PAINTLine.setARGB(128, 255, 0, 255);
@@ -77,6 +89,10 @@ public class Stage1 extends BaseStage
 	public void StageRender(Canvas canvas)
 	{
 		canvas.drawBitmap(BITMAPbackground, 0, 0, null);	// 배경 그려줌
+
+		for (int i=0; i<15; i++)
+			mZombie[i].SPRITEwalk.Animate(canvas, (int)mZombie[i].x, (int)mZombie[i].y); // 좀비 그려줌
+
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 
 		if (this.bRefreshImg_Bullets) // 마탄 이미지 새로고침
@@ -85,10 +101,6 @@ public class Stage1 extends BaseStage
 			{
 				if (mBullet[i].bClosed)
 				{
-					mBullet[i].IDimage= R.drawable.bullet_close;
-
-
-				}else{
 					switch (i) // 마탄 번호에 따른 열림 이미지 변경
 					{
 					case 0:
@@ -107,13 +119,43 @@ public class Stage1 extends BaseStage
 						mBullet[i].IDimage= R.drawable.obj_normal_open;
 						break;
 					case 5:
-						mBullet[i].IDimage= R.drawable.obj_bolt_open;
+						mBullet[i].IDimage= R.drawable.obj_light_open;
 						break;
 					case 6:
 						mBullet[i].IDimage= R.drawable.obj_normal_open;
 						break;
 					case 7:
 						mBullet[i].IDimage= R.drawable.obj_ice_open;
+						break;
+					}
+
+
+				}else{
+					switch (i) // 마탄 번호에 따른 열림 이미지 변경
+					{
+					case 0:
+						mBullet[i].IDimage= R.drawable.obj_thron_close;
+						break;
+					case 1:
+						mBullet[i].IDimage= R.drawable.obj_normal_close;
+						break;
+					case 2:
+						mBullet[i].IDimage= R.drawable.obj_fire_close;
+						break;
+					case 3:
+						mBullet[i].IDimage= R.drawable.obj_normal_close;
+						break;
+					case 4:
+						mBullet[i].IDimage= R.drawable.obj_normal_close;
+						break;
+					case 5:
+						mBullet[i].IDimage= R.drawable.obj_light_close;
+						break;
+					case 6:
+						mBullet[i].IDimage= R.drawable.obj_normal_close;
+						break;
+					case 7:
+						mBullet[i].IDimage= R.drawable.obj_ice_close;
 						break;
 					}
 
@@ -127,10 +169,10 @@ public class Stage1 extends BaseStage
 
 
 		SPRITETrap.Animate(canvas, 100, 100);	// 트랩 그려줌
-		SPRITEpartner.Animate(canvas, 325, 165);	// 파트너 그려줌
+		SPRITEpartner.Animate(canvas, 285, 125);	// 파트너 그려줌
 
-		mFog.DRAWimage.setBounds(mFog.getObjectForRect());	// 안개 위치 세팅
-		mFog.DRAWimage.draw(canvas);	// 안개 그려줌
+		//mFog.DRAWimage.setBounds(mFog.getObjectForRect());	// 안개 위치 세팅
+		//mFog.DRAWimage.draw(canvas);	// 안개 그려줌
 
 
 
@@ -172,13 +214,20 @@ public class Stage1 extends BaseStage
 		else
 			PAINTLine.setARGB(128, 255, 0, 255); // 아니면 초록색
 
+		for (int i=0; i<15; i++)
+		{
+			mZombie[i].Move(1, i);
+		}
 
-
-		mFog.MoveTest();
+		//mFog.MoveTest();
 
 
 		return false;
 	}
+
+
+
+
 
 	@Override
 	public void Touch(int actionID, float touchX, float touchY)

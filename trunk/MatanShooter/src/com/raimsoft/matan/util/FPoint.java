@@ -54,4 +54,25 @@ public class FPoint
 		else
 			return false;
 	}
+
+	public void set(int _x, int _y)
+	{
+		x= _x;
+		y= _y;
+	}
+
+	public void set(float _x, float _y)
+	{
+		x= _x;
+		y= _y;
+	}
+
+
+	public FPoint CalMinus(FPoint p)
+	{
+		FPoint pTmp = new FPoint();
+		pTmp.x= x-p.x;
+		pTmp.y= y-p.y;
+		return pTmp;
+	}
 }
