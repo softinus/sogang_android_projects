@@ -6,12 +6,12 @@ import android.graphics.drawable.Drawable;
 
 public abstract class GameObject
 {
-	public int   x, y;
+	public float   x, y;
 	public int	 IDimage;
 	public int   Width, Height;
 	public Drawable DRAWimage;
 
-	public GameObject(int X, int Y, int IDimage, int Width, int Height)
+	public GameObject(float X, float Y, int IDimage, int Width, int Height)
 	{
 		this.x = X;
 		this.y = Y;
@@ -26,7 +26,7 @@ public abstract class GameObject
 	 */
 	public Rect getObjectForRect()
 	{
-		Rect rct = new Rect (x, y, x+Width, y+Height);
+		Rect rct = new Rect ((int)x, (int)y, (int)x+Width, (int)y+Height);
 		return rct;
 	}
 
@@ -36,7 +36,7 @@ public abstract class GameObject
 	 */
 	public Point getObjectMiddleSpot()
 	{
-		Point point= new Point (x+Width/2, y+Height/2);
+		Point point= new Point ((int)x+Width/2, (int)y+Height/2);
 		return point;
 	}
 

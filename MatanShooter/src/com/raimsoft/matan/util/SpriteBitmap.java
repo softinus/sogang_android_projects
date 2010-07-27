@@ -1,5 +1,7 @@
 package com.raimsoft.matan.util;
-
+/**
+ * @author Choi Jun Hyeok (http://raimsoft.com)
+ */
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,12 +19,12 @@ public class SpriteBitmap
 
 	/**
 	 * 생성자, 스프라이트 정보를 설정하거나 초기화 한다.
-	 * @param ResourceID
-	 * @param _res
-	 * @param _wid
-	 * @param _hei
-	 * @param _SpriteNum
-	 * @param _Delay
+	 * @param ResourceID : 이미지의 ID
+	 * @param _res : Contex에서 얻어온 Resources형
+	 * @param _wid : 한 이미지의 가로크기
+	 * @param _hei : 한 이미지의 세로크기
+	 * @param _SpriteNum : 스프라이트 개수
+	 * @param _Delay : 한 이미지의 딜레이 (ms)
 	 */
 	public SpriteBitmap(int ResourceID, Resources _res, int _wid, int _hei,
 						int _SpriteNum, int _Delay)
@@ -47,6 +49,7 @@ public class SpriteBitmap
 	 */
 	public void Animate (Canvas canvas, int DestinationX, int DestinationY)
 	{
+		RectSetting(DestinationX, DestinationY);
 		canvas.drawBitmap(mBitmap, CropRect, DestRect, null);
 
 		if (TotalFramePerDelay())
@@ -54,7 +57,7 @@ public class SpriteBitmap
 			++count;
 		}
 
-		RectSetting(DestinationX, DestinationY);
+
 
 		if (count == SpriteNum) count=0; //스프라이트 루프
 
