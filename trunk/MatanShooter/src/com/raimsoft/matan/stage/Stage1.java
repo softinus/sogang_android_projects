@@ -59,13 +59,13 @@ public class Stage1 extends BaseStage
 		mBullet[7]= new Bullet(730, 410, R.drawable.obj_ice_open, 70, 70);
 
 
-		for (int i=0; i<15; i++) // 좀비 16마리 초기화
-			mZombie[i]= new Zombie(motion.pSrc[i].x, motion.pSrc[i].y, R.drawable.ch_zombie_01, 400,100, mRes);
+		mZombie[0]= new Zombie(-100, -100,new FPoint(270,130), R.drawable.ch_zombie_01, 400,100, mRes);
+		mZombie[1]= new Zombie(800, -100,new FPoint(430,130), R.drawable.ch_zombie_01, 400,100, mRes);
 
 
 		//mFog= new Fog(0,0, R.drawable.eff_fog2, 600,360);
 
-		BITMAPbackground= BitmapFactory.decodeResource(mRes, R.drawable.bg);
+		BITMAPbackground= BitmapFactory.decodeResource(mRes, R.drawable.background_stage01);
 		BITMAPbackline= BitmapFactory.decodeResource(mRes, R.drawable.bg_line);
 
 		mConnection= new BulletConnection();
@@ -90,8 +90,9 @@ public class Stage1 extends BaseStage
 	{
 		canvas.drawBitmap(BITMAPbackground, 0, 0, null);	// 배경 그려줌
 
-		for (int i=0; i<15; i++)
-			mZombie[i].SPRITEwalk.Animate(canvas, (int)mZombie[i].x, (int)mZombie[i].y); // 좀비 그려줌
+		//for (int i=0; i<15; i++)
+			mZombie[0].SPRITEwalk.Animate(canvas, (int)mZombie[0].x, (int)mZombie[0].y); // 좀비 그려줌
+			mZombie[1].SPRITEwalk.Animate(canvas, (int)mZombie[1].x, (int)mZombie[1].y);
 
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 
@@ -131,7 +132,7 @@ public class Stage1 extends BaseStage
 
 
 				}else{
-					switch (i) // 마탄 번호에 따른 열림 이미지 변경
+					switch (i) // 마탄 번호에 따른 닫힘 이미지 변경
 					{
 					case 0:
 						mBullet[i].IDimage= R.drawable.obj_thron_close;
@@ -190,8 +191,6 @@ public class Stage1 extends BaseStage
 					if (!mConnection.pConnect[1].equal(0, 0))
 						canvas.drawLine(mConnection.pConnect[0].x, mConnection.pConnect[0].y
 									  , mConnection.pConnect[1].x, mConnection.pConnect[1].y, PAINTLine);
-//					Log.d("Stage1::LineDebug", "0st point : "+mConnection.pConnect[0].FPointtoString());
-//					Log.d("Stage1::LineDebug", "1st point : "+mConnection.pConnect[1].FPointtoString());
 				}
 			}
 
@@ -199,8 +198,6 @@ public class Stage1 extends BaseStage
 			{
 				canvas.drawLine(mConnection.pConnect[i].x, mConnection.pConnect[i].y
 							, mConnection.pConnect[i+1].x, mConnection.pConnect[i+1].y, PAINTLine);
-//				Log.d("Stage1::LineDebug", Float.toString(i)+"th point : "+mConnection.pConnect[i].FPointtoString());
-//				Log.d("Stage1::LineDebug", Float.toString(i+1)+"th point : "+mConnection.pConnect[i+1].FPointtoString());
 			}
 		}
 	}
@@ -214,9 +211,10 @@ public class Stage1 extends BaseStage
 		else
 			PAINTLine.setARGB(128, 255, 0, 255); // 아니면 초록색
 
-		for (int i=0; i<15; i++)
+		//for (int i=0; i<15; i++)
 		{
-			mZombie[i].Move(1, i);
+			mZombie[0].Move(0.5f);
+			mZombie[1].Move(0.5f);
 		}
 
 		//mFog.MoveTest();

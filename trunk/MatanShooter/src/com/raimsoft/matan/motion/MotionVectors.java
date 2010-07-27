@@ -14,9 +14,6 @@ public class MotionVectors
 	기본마탄튕김 : 220*200
 	탄환 : 340*10
 	*/
-	/**
-	 *
-	 */
 	public MotionVectors()
 	{
 		for (int i=0; i<16; i++)

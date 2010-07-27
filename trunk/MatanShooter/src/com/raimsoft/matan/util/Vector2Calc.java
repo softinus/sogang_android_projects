@@ -50,7 +50,7 @@ public class Vector2Calc
 	public static FPoint CalVecNormalize (FPoint _vec)
 	{
 		float len= CalLenght(_vec);
-		vec.set(len/vec.x, len/vec.y);
+		vec.set(vec.x/len, vec.y/len);
 
 		return vec;
 	}
@@ -61,7 +61,7 @@ public class Vector2Calc
 	 * @param vec2 : 내적할 벡터2
 	 * @return : 내적된 값(float)
 	 */
-	public static float Inner (FPoint vec1, FPoint vec2)
+	public static float CalDot (FPoint vec1, FPoint vec2)
 	{
 		return (vec1.x*vec2.x + vec1.y*vec2.y);
 	}
@@ -72,7 +72,7 @@ public class Vector2Calc
 	 * @param _vec2
 	 * @return
 	 */
-	public static FPoint Cross (FPoint _vec1, FPoint _vec2)
+	public static FPoint CalCross (FPoint _vec1, FPoint _vec2)
 	{
 		vec.x= _vec1.y * _vec2.y;
 		vec.y= _vec2.x - _vec1.x;
