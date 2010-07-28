@@ -11,7 +11,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.raimsoft.matan.activity.R;
-import com.raimsoft.matan.motion.MotionVectors;
+import com.raimsoft.matan.info.Stage1Info;
 import com.raimsoft.matan.object.Bullet;
 import com.raimsoft.matan.object.BulletConnection;
 import com.raimsoft.matan.object.Zombie;
@@ -27,51 +27,39 @@ public class Stage1 extends BaseStage
 	private Paint PAINTLine;
 
 	private Bitmap BITMAPbackground, BITMAPbackline;
-	private SpriteBitmap SPRITETrap;
 	private SpriteBitmap SPRITEpartner;
-	//private Fog mFog;
 
-	private Zombie mZombie[]=new Zombie[16];
-	MotionVectors motion;
+	private Stage1Info info;
 
 	private boolean bRefreshImg_Bullets= true;
 
 	private BulletConnection mConnection;
-	private Bullet mBullet[]=new Bullet[8];
+	private Bullet mBullet[]= new Bullet[8];
+	private Zombie mZombie[]= new Zombie[16];
 	// ************** 선언부 종료 ************** //
 
 	public Stage1(Context managerContext)
 	{
 		mRes= managerContext.getResources();
 
-		motion= new MotionVectors();
+		info= new Stage1Info();
+		info.Init();
 
-		SPRITETrap= new SpriteBitmap(R.drawable.trap1_sprite, mRes, 50, 50, 5, 10);
 		SPRITEpartner= new SpriteBitmap(R.drawable.partner, mRes, 230,230,8, 20);
 
-		mBullet[0]= new Bullet(0,     0, R.drawable.obj_thron_open, 70, 70);
-		mBullet[1]= new Bullet(365,   0, R.drawable.obj_normal_open, 70, 70);
-		mBullet[2]= new Bullet(730,   0, R.drawable.obj_fire_open, 70, 70);
-		mBullet[3]= new Bullet(0,   205, R.drawable.obj_normal_open, 70, 70);
-		mBullet[4]= new Bullet(730, 205, R.drawable.obj_normal_open, 70, 70);
-		mBullet[5]= new Bullet(0,  	410, R.drawable.obj_light_open, 70, 70);
-		mBullet[6]= new Bullet(365, 410, R.drawable.obj_normal_open, 70, 70);
-		mBullet[7]= new Bullet(730, 410, R.drawable.obj_ice_open, 70, 70);
+		for (int i=0; i<8; i++) // 마탄 초기화
+			mBullet[i]= new Bullet(info.pBullet[i].x, info.pBullet[i].y, info.IDBullet[i], 70, 70);
 
+		for (int i=0; i<16; i++) // 좀비 초기화
+			mZombie[i]= new Zombie(info.pZombieStart[i].x, info.pZombieStart[i].y
+					   ,new FPoint(info.pZombieStop[i].x,info.pZombieStop[i].y)
+					   , R.drawable.ch_zombie_01, 400,100, mRes);
 
-		mZombie[0]= new Zombie(-100, -100,new FPoint(270,130), R.drawable.ch_zombie_01, 400,100, mRes);
-		mZombie[1]= new Zombie(800, -100,new FPoint(430,130), R.drawable.ch_zombie_01, 400,100, mRes);
-
-
-		//mFog= new Fog(0,0, R.drawable.eff_fog2, 600,360);
 
 		BITMAPbackground= BitmapFactory.decodeResource(mRes, R.drawable.background_stage01);
 		BITMAPbackline= BitmapFactory.decodeResource(mRes, R.drawable.bg_line);
 
 		mConnection= new BulletConnection();
-
-
-		//mFog.DRAWimage= mRes.getDrawable(mFog.IDimage);
 
 		PAINTLine= new Paint();
 		PAINTLine.setARGB(128, 255, 0, 255);
@@ -90,9 +78,9 @@ public class Stage1 extends BaseStage
 	{
 		canvas.drawBitmap(BITMAPbackground, 0, 0, null);	// 배경 그려줌
 
-		//for (int i=0; i<15; i++)
-			mZombie[0].SPRITEwalk.Animate(canvas, (int)mZombie[0].x, (int)mZombie[0].y); // 좀비 그려줌
-			mZombie[1].SPRITEwalk.Animate(canvas, (int)mZombie[1].x, (int)mZombie[1].y);
+		for (int i=0; i<16; i++)
+			mZombie[i].SPRITEwalk.Animate(canvas, (int)mZombie[i].x, (int)mZombie[i].y); // 좀비 그려줌
+
 
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 
@@ -168,8 +156,6 @@ public class Stage1 extends BaseStage
 			bRefreshImg_Bullets= false;
 		}
 
-
-		SPRITETrap.Animate(canvas, 100, 100);	// 트랩 그려줌
 		SPRITEpartner.Animate(canvas, 285, 125);	// 파트너 그려줌
 
 		//mFog.DRAWimage.setBounds(mFog.getObjectForRect());	// 안개 위치 세팅
@@ -211,10 +197,9 @@ public class Stage1 extends BaseStage
 		else
 			PAINTLine.setARGB(128, 255, 0, 255); // 아니면 초록색
 
-		//for (int i=0; i<15; i++)
+		for (int i=0; i<16; i++)
 		{
-			mZombie[0].Move(0.5f);
-			mZombie[1].Move(0.5f);
+			mZombie[i].Move(0.5f);
 		}
 
 		//mFog.MoveTest();
