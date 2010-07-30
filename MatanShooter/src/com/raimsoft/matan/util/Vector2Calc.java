@@ -3,7 +3,6 @@ package com.raimsoft.matan.util;
 
 public class Vector2Calc
 {
-	private static FPoint vec=new FPoint();
 
 	/**
 	 * 벡터값 환산
@@ -11,11 +10,19 @@ public class Vector2Calc
 	 * @param _v2 : 두번째
 	 * @return 벡터
 	 */
-	public static FPoint CalVec (FPoint _v1, FPoint _v2)
+	public FPoint CalVec (FPoint _v1, FPoint _v2)
 	{
-		vec.x=_v2.x-_v1.x;
-		vec.y=_v2.y-_v1.y;
-		return vec;
+		FPoint resVecVal=new FPoint();
+		resVecVal.x=_v2.x-_v1.x;
+		resVecVal.y=_v2.y-_v1.y;
+		return resVecVal;
+	}
+
+	public int Vector2Step (FPoint vectorValue, FPoint directionVector)
+	{
+		int res;
+		res=  ( (int) (vectorValue.x / directionVector.x) );
+		return res;
 	}
 
 	/**
@@ -24,10 +31,12 @@ public class Vector2Calc
 	 * @param k : 스칼라값
 	 * @return : 계산 결과
 	 */
-	public static FPoint CalScale(FPoint _vec, float k)
+	public FPoint CalScale(FPoint _vec, float k)
 	{
-		vec.set(k*_vec.x, k*_vec.y);
-		return vec;
+		FPoint resVecScale=new FPoint();
+		resVecScale.x= _vec.x*k;
+		resVecScale.y= _vec.y*k;
+		return resVecScale;
 	}
 
 	/**
@@ -35,7 +44,7 @@ public class Vector2Calc
 	 * @param _vec : 크기를 구할 대상
 	 * @return : 크기
 	 */
-	static float CalLenght (FPoint _vec)
+	public float CalLenght (FPoint _vec)
 	{
 		float len= (float) Math.sqrt( _vec.x*_vec.x + _vec.y*_vec.y);
 		return len;
@@ -47,12 +56,14 @@ public class Vector2Calc
 	 * @param _VecSize : 크기
 	 * @return : 정규화된 값
 	 */
-	public static FPoint CalVecNormalize (FPoint _vec)
+	public FPoint CalVecNormalize (FPoint _vec)
 	{
+		FPoint resVecNor=new FPoint();
 		float len= CalLenght(_vec);
-		vec.set(vec.x/len, vec.y/len);
+		resVecNor.x= _vec.x/len;
+		resVecNor.y= _vec.y/len;
 
-		return vec;
+		return resVecNor;
 	}
 
 	/**
@@ -61,7 +72,7 @@ public class Vector2Calc
 	 * @param vec2 : 내적할 벡터2
 	 * @return : 내적된 값(float)
 	 */
-	public static float CalDot (FPoint vec1, FPoint vec2)
+	public float CalDot (FPoint vec1, FPoint vec2)
 	{
 		return (vec1.x*vec2.x + vec1.y*vec2.y);
 	}
@@ -72,14 +83,17 @@ public class Vector2Calc
 	 * @param _vec2
 	 * @return
 	 */
-	public static FPoint CalCross (FPoint _vec1, FPoint _vec2)
-	{
-		vec.x= _vec1.y * _vec2.y;
-		vec.y= _vec2.x - _vec1.x;
-		return vec;
-	}
+//	public static FPoint CalCross (FPoint _vec1, FPoint _vec2)
+//	{
+//		vec.x= _vec1.y * _vec2.y;
+//		vec.y= _vec2.x - _vec1.x;
+//		return vec;
+//	}
 
-	public static float Projection (float _vec1_len, double theta)
+	/**
+	 * 투영
+	 */
+	public float Projection (float _vec1_len, double theta)
 	{
 		float projection_len;
 		projection_len= (float) (_vec1_len * Math.cos(theta));

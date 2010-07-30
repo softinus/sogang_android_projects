@@ -3,7 +3,7 @@ package com.raimsoft.matan.object;
 
 public class Bullet extends GameObject
 {
-	public boolean bClosed= false;
+	public boolean bOpen= false;
 	private static int nBulletCount;
 	public int nBulletNum; // 자신 마탄의 번호
 

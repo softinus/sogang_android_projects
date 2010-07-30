@@ -32,6 +32,7 @@ public class Stage1 extends BaseStage
 	private Stage1Info info;
 
 	private boolean bRefreshImg_Bullets= true;
+	public static boolean bRefreshImg_Zombies= true;
 
 	private BulletConnection mConnection;
 	private Bullet mBullet[]= new Bullet[8];
@@ -42,7 +43,7 @@ public class Stage1 extends BaseStage
 	{
 		mRes= managerContext.getResources();
 
-		info= new Stage1Info();
+		info= new Stage1Info(); // 스테이지 정보
 		info.Init();
 
 		SPRITEpartner= new SpriteBitmap(R.drawable.partner, mRes, 230,230,8, 20);
@@ -53,7 +54,7 @@ public class Stage1 extends BaseStage
 		for (int i=0; i<16; i++) // 좀비 초기화
 			mZombie[i]= new Zombie(info.pZombieStart[i].x, info.pZombieStart[i].y
 					   ,new FPoint(info.pZombieStop[i].x,info.pZombieStop[i].y)
-					   , R.drawable.ch_zombie_01, 400,100, mRes);
+					   , R.drawable.ch_zombie1_walk, 400,100, mRes);
 
 
 		BITMAPbackground= BitmapFactory.decodeResource(mRes, R.drawable.background_stage01);
@@ -78,88 +79,20 @@ public class Stage1 extends BaseStage
 	{
 		canvas.drawBitmap(BITMAPbackground, 0, 0, null);	// 배경 그려줌
 
-		for (int i=0; i<16; i++)
-			mZombie[i].SPRITEwalk.Animate(canvas, (int)mZombie[i].x, (int)mZombie[i].y); // 좀비 그려줌
-
-
-		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
-
-		if (this.bRefreshImg_Bullets) // 마탄 이미지 새로고침
-		{
-			for (int i=0; i<8; i++)
-			{
-				if (mBullet[i].bClosed)
-				{
-					switch (i) // 마탄 번호에 따른 열림 이미지 변경
-					{
-					case 0:
-						mBullet[i].IDimage= R.drawable.obj_thron_open;
-						break;
-					case 1:
-						mBullet[i].IDimage= R.drawable.obj_normal_open;
-						break;
-					case 2:
-						mBullet[i].IDimage= R.drawable.obj_fire_open;
-						break;
-					case 3:
-						mBullet[i].IDimage= R.drawable.obj_normal_open;
-						break;
-					case 4:
-						mBullet[i].IDimage= R.drawable.obj_normal_open;
-						break;
-					case 5:
-						mBullet[i].IDimage= R.drawable.obj_light_open;
-						break;
-					case 6:
-						mBullet[i].IDimage= R.drawable.obj_normal_open;
-						break;
-					case 7:
-						mBullet[i].IDimage= R.drawable.obj_ice_open;
-						break;
-					}
-
-
-				}else{
-					switch (i) // 마탄 번호에 따른 닫힘 이미지 변경
-					{
-					case 0:
-						mBullet[i].IDimage= R.drawable.obj_thron_close;
-						break;
-					case 1:
-						mBullet[i].IDimage= R.drawable.obj_normal_close;
-						break;
-					case 2:
-						mBullet[i].IDimage= R.drawable.obj_fire_close;
-						break;
-					case 3:
-						mBullet[i].IDimage= R.drawable.obj_normal_close;
-						break;
-					case 4:
-						mBullet[i].IDimage= R.drawable.obj_normal_close;
-						break;
-					case 5:
-						mBullet[i].IDimage= R.drawable.obj_light_close;
-						break;
-					case 6:
-						mBullet[i].IDimage= R.drawable.obj_normal_close;
-						break;
-					case 7:
-						mBullet[i].IDimage= R.drawable.obj_ice_close;
-						break;
-					}
-
-				}
-
-				mBullet[i].DRAWimage= mRes.getDrawable(mBullet[i].IDimage);
-				mBullet[i].DRAWimage.setBounds(mBullet[i].getObjectForRect());
-			}
-			bRefreshImg_Bullets= false;
-		}
+		for (int i=0; i<8; i++)
+			mZombie[i].SPRITE.Animate(canvas, (int)mZombie[i].x, (int)mZombie[i].y); // 좀비(파트너밑) 그려줌
 
 		SPRITEpartner.Animate(canvas, 285, 125);	// 파트너 그려줌
 
-		//mFog.DRAWimage.setBounds(mFog.getObjectForRect());	// 안개 위치 세팅
-		//mFog.DRAWimage.draw(canvas);	// 안개 그려줌
+		for (int i=8; i<16; i++)
+			mZombie[i].SPRITE.Animate(canvas, (int)mZombie[i].x, (int)mZombie[i].y); // 좀비(파트너위) 그려줌
+
+		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
+
+
+
+
+
 
 
 
@@ -202,7 +135,11 @@ public class Stage1 extends BaseStage
 			mZombie[i].Move(0.5f);
 		}
 
-		//mFog.MoveTest();
+		if (this.bRefreshImg_Bullets) // 마탄 이미지 새로고침
+			this.Refresh_Bullets();
+
+		if (bRefreshImg_Zombies)
+			this.Refresh_Zombies();
 
 
 		return false;
@@ -233,12 +170,12 @@ public class Stage1 extends BaseStage
 			{
 				if (mBullet[i].getObjectForRect().contains((int)touchX, (int)touchY))
 				{ // 마탄을 터치했는가
-					if (mBullet[i].bClosed) return; // 해당 마탄이 이미 닫혀있으면 선 추가안함
+					if (mBullet[i].bOpen) return; // 해당 마탄이 이미 닫혀있으면 선 추가안함
 
 					mConnection.pConnect[mConnection.ConnectionNum].setPoint(mBullet[i].getObjectMiddleSpot());
 					mConnection.AddConnectionPoint();
 					mConnection.pConnect[mConnection.ConnectionNum+1].setPoint(mBullet[i].getObjectMiddleSpot());
-					mBullet[i].bClosed= true; // 해당 마탄 닫힘
+					mBullet[i].bOpen= true; // 해당 마탄 닫힘
 
 					this.bRefreshImg_Bullets= true; // 마탄 이미지 새로고침
 
@@ -272,7 +209,7 @@ public class Stage1 extends BaseStage
 				mConnection.pConnect[i]= new FPoint(); // 배열 인덱스모두 동적할당
 
 			for (int i=0; i<8; i++)
-				mBullet[i].bClosed= false;	// 마탄 모두 열림
+				mBullet[i].bOpen= false;	// 마탄 모두 열림
 			this.bRefreshImg_Bullets= true;
 
 			mConnection.ConnectionNum= 0;	// 연결된 개수없음
@@ -292,6 +229,53 @@ public class Stage1 extends BaseStage
 			return true;
 		}
 		return true;
+	}
+
+
+	/**
+	 * 좀비 새로고침
+	 */
+	private void Refresh_Zombies()
+	{
+		for (int i=0; i<16; i++)
+		{
+			switch (mZombie[i].nZombieState)
+			{
+			case WALK:
+				break;
+			case ATTACK:
+				mZombie[i].Init(R.drawable.ch_zombie1_attack, 7, 3, mRes);
+				break;
+			case HIT:
+				break;
+			case DIE:
+				break;
+			}
+		}
+		bRefreshImg_Zombies= false;
+	}
+
+	/**
+	 * 마탄 새로고침
+	 */
+	private void Refresh_Bullets()
+	{
+		for (int i=0; i<8; i++)
+		{
+			if (mBullet[i].bOpen)
+			{
+				mBullet[i].IDimage= info.IDBullet[i];
+			}
+			else
+			{
+				mBullet[i].IDimage= info.IDBullet_close[i];
+			}
+
+
+			mBullet[i].DRAWimage= mRes.getDrawable(mBullet[i].IDimage);
+			mBullet[i].DRAWimage.setBounds(mBullet[i].getObjectForRect());
+		}
+		bRefreshImg_Bullets= false;
 	}
 
 }
