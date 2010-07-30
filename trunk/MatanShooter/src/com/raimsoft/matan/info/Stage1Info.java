@@ -7,7 +7,8 @@ import android.graphics.Point;
 public class Stage1Info implements IStageInfo
 {
 	public Point pBullet[]= new Point[8]; // 마탄 포인트
-	public int  IDBullet[]= new int[8]; // 마탄 이미지ID
+	public int  IDBullet[]= new int[8]; // 마탄 열림 이미지ID
+	public int  IDBullet_close[]= new int[8]; // 마탄 닫힘 이미지ID
 
 	public Point pZombieStart[]= new Point[16]; // 좀비 시작포인트
 	public Point pZombieStop[]= new Point[16];  // 좀비 끝포인트
@@ -15,7 +16,10 @@ public class Stage1Info implements IStageInfo
 	public Stage1Info()
 	{
 		for (int i=0; i<8; i++)
+		{
 			pBullet[i]= new Point();
+		}
+
 		for (int i=0; i<16; i++)
 		{
 			pZombieStart[i]= new Point();
@@ -43,6 +47,15 @@ public class Stage1Info implements IStageInfo
 		IDBullet[5]= R.drawable.obj_light_open;
 		IDBullet[6]= R.drawable.obj_normal_open;
 		IDBullet[7]= R.drawable.obj_ice_open;
+
+		IDBullet_close[0]= R.drawable.obj_thron_close;
+		IDBullet_close[1]= R.drawable.obj_normal_close;
+		IDBullet_close[2]= R.drawable.obj_fire_close;
+		IDBullet_close[3]= R.drawable.obj_normal_close;
+		IDBullet_close[4]= R.drawable.obj_normal_close;
+		IDBullet_close[5]= R.drawable.obj_light_close;
+		IDBullet_close[6]= R.drawable.obj_normal_close;
+		IDBullet_close[7]= R.drawable.obj_ice_close;
 
 		pZombieStart[0] .set(-100, -100);
 		pZombieStart[1] .set( 100, -100);
