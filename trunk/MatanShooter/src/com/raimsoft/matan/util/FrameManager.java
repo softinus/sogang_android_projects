@@ -35,5 +35,4 @@ public class FrameManager
 		}
 		return false;
 	}
-
 }

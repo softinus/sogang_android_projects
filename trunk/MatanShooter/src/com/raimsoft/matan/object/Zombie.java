@@ -44,7 +44,7 @@ public class Zombie extends GameObject implements Moveable
 
 	public void Init(int IDimage, int SpriteNum, int Delay, Resources mRes)
 	{
-		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, SpriteNum, Delay);
+		SPRITE.SpriteModify(IDimage, mRes, 100,100, SpriteNum, Delay);
 	}
 
 
