@@ -21,7 +21,13 @@ public class Vector2Calc
 	public int Vector2Step (FPoint vectorValue, FPoint directionVector)
 	{
 		int res;
-		res=  ( (int) (vectorValue.x / directionVector.x) );
+
+		if (vectorValue.x==0 || directionVector.x==0) // x가 0이면
+		{
+			res=  ( (int) (vectorValue.y / directionVector.y) ); // y로 계산
+		}else{
+			res=  ( (int) (vectorValue.x / directionVector.x) ); // 아니면 x로 계산
+		}
 		return res;
 	}
 
@@ -76,6 +82,20 @@ public class Vector2Calc
 	{
 		return (vec1.x*vec2.x + vec1.y*vec2.y);
 	}
+
+	/**
+	 * 라디안 값을 디그리로 변환
+	 * @param raidian : 라디안값
+	 * @return : 디그리값
+	 */
+	public static float RadianToDegree(float raidian)
+	{
+		float degree;
+		degree= (float) (raidian*180/Math.PI);
+		return degree;
+	}
+
+
 
 	/**
 	 * 외적

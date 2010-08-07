@@ -14,6 +14,7 @@ import com.raimsoft.matan.activity.R;
 import com.raimsoft.matan.info.Stage1Info;
 import com.raimsoft.matan.object.Bullet;
 import com.raimsoft.matan.object.BulletConnection;
+import com.raimsoft.matan.object.Shot;
 import com.raimsoft.matan.object.Zombie;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.SpriteBitmap;
@@ -26,36 +27,30 @@ public class Stage1 extends BaseStage
 
 	private Paint PAINTLine;
 
+	private boolean bRefreshImg_Bullets= true;
+	public static boolean bRefreshImg_Zombies= true;
+	private boolean bRefreshImg_Shot= true;
+
+	private Stage1Info info= Stage1Info.getInstance();
+
 	private Bitmap BITMAPbackground, BITMAPbackline;
 	private SpriteBitmap SPRITEpartner;
 
-	private Stage1Info info;
-
-	private boolean bRefreshImg_Bullets= true;
-	public static boolean bRefreshImg_Zombies= true;
-
 	private BulletConnection mConnection;
+
 	private Bullet mBullet[]= new Bullet[8];
 	private Zombie mZombie[]= new Zombie[16];
+	private Shot mShot;
 	// ************** 선언부 종료 ************** //
 
+	// ************** 생성부 시작 ************** //
 	public Stage1(Context managerContext)
 	{
 		mRes= managerContext.getResources();
 
-		info= new Stage1Info(); // 스테이지 정보
 		info.Init();
 
 		SPRITEpartner= new SpriteBitmap(R.drawable.partner, mRes, 230,230,8, 20);
-
-		for (int i=0; i<8; i++) // 마탄 초기화
-			mBullet[i]= new Bullet(info.pBullet[i].x, info.pBullet[i].y, info.IDBullet[i], 70, 70);
-
-		for (int i=0; i<16; i++) // 좀비 초기화
-			mZombie[i]= new Zombie(info.pZombieStart[i].x, info.pZombieStart[i].y
-					   ,new FPoint(info.pZombieStop[i].x,info.pZombieStop[i].y)
-					   , R.drawable.ch_zombie1_walk, 400,100, mRes);
-
 
 		BITMAPbackground= BitmapFactory.decodeResource(mRes, R.drawable.background_stage01);
 		BITMAPbackline= BitmapFactory.decodeResource(mRes, R.drawable.bg_line);
@@ -66,7 +61,18 @@ public class Stage1 extends BaseStage
 		PAINTLine.setARGB(128, 255, 0, 255);
 		PAINTLine.setStrokeWidth(6.0f);
 		PAINTLine.setAntiAlias(true);
+
+		for (int i=0; i<8; i++) // 마탄 초기화
+			mBullet[i]= new Bullet(info.pBullet[i].x, info.pBullet[i].y, info.IDBullet[i], 70, 70);
+
+		for (int i=0; i<16; i++) // 좀비 초기화
+			mZombie[i]= new Zombie(info.pZombieStart[i].x, info.pZombieStart[i].y
+					   ,new FPoint(info.pZombieStop[i].x,info.pZombieStop[i].y)
+					   , R.drawable.ch_zombie1_walk, 400,100, mRes);
+		mShot= new Shot(0,0, R.drawable.tan_dummy, 10,10);
 	}
+	// ************** 생성부 종료 ************** //
+
 
 	@Override
 	public int GetStageID()
@@ -90,18 +96,12 @@ public class Stage1 extends BaseStage
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 
 
-
-
-
-
-
-
 		for (int i=0; i<8; i++)
 		{
 			mBullet[i].DRAWimage.draw(canvas);	// 마탄 그려줌
 		}
 
-		if (mConnection.bDrag) // 드래그 상태이면
+		if (mConnection.bDrag) // 마탄(선) 그려줌, 드래그 상태이면
 		{
 			for (int i=0; i<8; i++)
 			{
@@ -119,6 +119,14 @@ public class Stage1 extends BaseStage
 							, mConnection.pConnect[i+1].x, mConnection.pConnect[i+1].y, PAINTLine);
 			}
 		}
+
+		if(mShot.bShooting)
+		{
+			if (bRefreshImg_Shot) this.Refresh_Shot();
+			mShot.DRAWimage.setBounds(mShot.getObjectForRect()); // 탄환 그려줌
+			mShot.DRAWimage.draw(canvas);
+		}
+
 	}
 
 	@Override
@@ -141,6 +149,8 @@ public class Stage1 extends BaseStage
 		if (bRefreshImg_Zombies)
 			this.Refresh_Zombies();
 
+		if(mShot.bShooting)	mShot.Move(15.0f);
+
 
 		return false;
 	}
@@ -154,6 +164,7 @@ public class Stage1 extends BaseStage
 	{
 		Log.d("Stage1::Line", Float.toString(mConnection.ConnectionNum));
 
+		if (mShot.bShooting) return;
 
 		switch(actionID)
 		{
@@ -197,21 +208,30 @@ public class Stage1 extends BaseStage
 
 			if (mConnection.ConnectionNum!=0) // 기존 0번째 포인트가 있을 경우
 			{
-				//if (mConnection.bOut) return;
-					mConnection.pConnect[mConnection.ConnectionNum].setFPoint(touchX, touchY);
+				mConnection.pConnect[mConnection.ConnectionNum].setFPoint(touchX, touchY);
 			}
 
 
 			break;
 		case MotionEvent.ACTION_UP:
 
-			for (int i=0; i<mConnection.pConnect.length; i++)
-				mConnection.pConnect[i]= new FPoint(); // 배열 인덱스모두 동적할당
+			if(mConnection.bOut)
+			{
+				for (int i=0; i<mConnection.pConnect.length; i++)
+				{
+					info.pShotRoute[i]= mConnection.pConnect[i];
+					mConnection.pConnect[i]= new FPoint(); // 배열 인덱스모두 동적할당
+				}
+			}
+
+
+			if(mConnection.bOut) mShot.bShooting= true;
 
 			for (int i=0; i<8; i++)
 				mBullet[i].bOpen= false;	// 마탄 모두 열림
 			this.bRefreshImg_Bullets= true;
 
+			mShot.nShootMax= mConnection.ConnectionNum; // 탄환 경로수 설정
 			mConnection.ConnectionNum= 0;	// 연결된 개수없음
 
 			mConnection.bDrag= false;	// 선 끊어짐
@@ -276,6 +296,15 @@ public class Stage1 extends BaseStage
 			mBullet[i].DRAWimage.setBounds(mBullet[i].getObjectForRect());
 		}
 		bRefreshImg_Bullets= false;
+	}
+
+	/**
+	 * 탄환 새로고침
+	 */
+	private void Refresh_Shot()
+	{
+		mShot.DRAWimage= mRes.getDrawable(mShot.IDimage);
+		bRefreshImg_Shot= false;
 	}
 
 }

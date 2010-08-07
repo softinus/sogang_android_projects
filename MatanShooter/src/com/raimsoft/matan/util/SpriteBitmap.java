@@ -40,6 +40,17 @@ public class SpriteBitmap
 		DestRect= new Rect();
 	}
 
+	public void SpriteModify (int ResourceID, Resources _res, int _wid, int _hei,
+							  int _SpriteNum, int _Delay)
+	{
+		mBitmap= BitmapFactory.decodeResource(_res, ResourceID);
+		width= _wid;
+		height= _hei;
+		SpriteNum= _SpriteNum;
+		Delay= _Delay;
+		count= 0;
+	}
+
 
 	/**
 	 * 스프라이트 애니메이션을 루프로 돌린다.

@@ -1,23 +1,38 @@
 package com.raimsoft.matan.info;
 
-import com.raimsoft.matan.activity.R;
-
 import android.graphics.Point;
+
+import com.raimsoft.matan.activity.R;
+import com.raimsoft.matan.util.FPoint;
 
 public class Stage1Info implements IStageInfo
 {
+	private static Stage1Info info= new Stage1Info();
+
 	public Point pBullet[]= new Point[8]; // 마탄 포인트
 	public int  IDBullet[]= new int[8]; // 마탄 열림 이미지ID
 	public int  IDBullet_close[]= new int[8]; // 마탄 닫힘 이미지ID
 
+	public FPoint pShotRoute[]= new FPoint[10]; // 마탄 슈팅 궤도
+
 	public Point pZombieStart[]= new Point[16]; // 좀비 시작포인트
 	public Point pZombieStop[]= new Point[16];  // 좀비 끝포인트
+
+	public static Stage1Info getInstance()
+	{
+		return info;
+	}
 
 	public Stage1Info()
 	{
 		for (int i=0; i<8; i++)
 		{
 			pBullet[i]= new Point();
+		}
+
+		for (int i=0; i<10; i++)
+		{
+			pShotRoute[i]= new FPoint();
 		}
 
 		for (int i=0; i<16; i++)
@@ -89,7 +104,7 @@ public class Stage1Info implements IStageInfo
 		pZombieStop[12].set( 300,  250);
 		pZombieStop[13].set( 350,  250);
 		pZombieStop[14].set( 400,  250);
-		pZombieStop[15].set( 270,  240);
+		pZombieStop[15].set( 435,  240);
 	}
 }
 
