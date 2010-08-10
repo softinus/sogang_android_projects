@@ -51,7 +51,7 @@ public class Zombie extends GameObject implements Moveable
 	@Override
 	public void Move(float speed)
 	{
-		if (nZombieState== ZombieStateEnum.ATTACK) return;
+		if (!(nZombieState== ZombieStateEnum.WALK)) return; // 걷는상태에만 걷는다.
 
 		if (nStepMax==0)
 		{
@@ -68,7 +68,7 @@ public class Zombie extends GameObject implements Moveable
 		if (nStepMax == nStepCount)
 		{
 			nZombieState= ZombieStateEnum.ATTACK; // 공격상태로 변경
-			Stage1.bRefreshImg_Zombies= true;
+			this.bImageRefresh= true;
 			return;
 		}
 

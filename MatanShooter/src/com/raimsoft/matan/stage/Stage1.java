@@ -28,7 +28,6 @@ public class Stage1 extends BaseStage
 	private Paint PAINTLine;
 
 	private boolean bRefreshImg_Bullets= true;
-	public static boolean bRefreshImg_Zombies= true;
 	private boolean bRefreshImg_Shot= true;
 
 	private Stage1Info info= Stage1Info.getInstance();
@@ -140,16 +139,16 @@ public class Stage1 extends BaseStage
 
 		for (int i=0; i<16; i++)
 		{
-			mZombie[i].Move(0.5f);
+			mZombie[i].Move(0.5f); // 좀비 움직임
+			if (mZombie[i].bImageRefresh)
+				Refresh_Zombies(i);
 		}
 
 		if (this.bRefreshImg_Bullets) // 마탄 이미지 새로고침
 			this.Refresh_Bullets();
 
-		if (bRefreshImg_Zombies)
-			this.Refresh_Zombies();
 
-		if(mShot.bShooting)	mShot.Move(15.0f);
+		if(mShot.bShooting)	mShot.Move(15.0f); // 총알 움직임
 
 
 		return false;
@@ -255,24 +254,21 @@ public class Stage1 extends BaseStage
 	/**
 	 * 좀비 새로고침
 	 */
-	private void Refresh_Zombies()
+	private void Refresh_Zombies(int idx)
 	{
-		for (int i=0; i<16; i++)
+		switch (mZombie[idx].nZombieState)
 		{
-			switch (mZombie[i].nZombieState)
-			{
-			case WALK:
-				break;
-			case ATTACK:
-				mZombie[i].Init(R.drawable.ch_zombie1_attack, 7, 3, mRes);
-				break;
-			case HIT:
-				break;
-			case DIE:
-				break;
-			}
+		case WALK:
+			break;
+		case ATTACK:
+			mZombie[idx].Init(R.drawable.ch_zombie1_attack, 7, 3, mRes);
+			break;
+		case HIT:
+			break;
+		case DIE:
+			break;
 		}
-		bRefreshImg_Zombies= false;
+		mZombie[idx].bImageRefresh= false;
 	}
 
 	/**
