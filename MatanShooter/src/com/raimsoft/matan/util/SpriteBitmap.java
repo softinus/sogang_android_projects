@@ -82,19 +82,15 @@ public class SpriteBitmap
 	 */
 	public void AnimateNoLoop(Canvas canvas, int DestinationX, int DestinationY)
 	{
-		if (count == (SpriteNum+1))
-		{
-			this.DeleteSprite();
-			return;
-		}
+		RectSetting(DestinationX, DestinationY);
+		canvas.drawBitmap(mBitmap, CropRect, DestRect, null);
 
 		if (TotalFramePerDelay())
 		{
 			++count;
 		}
-		RectSetting(DestinationX, DestinationY);
-		canvas.drawBitmap(mBitmap, CropRect, DestRect, null);
 	}
+
 
 	/**
 	 * SourceRect와 DestinationRect를 설정하는 메소드

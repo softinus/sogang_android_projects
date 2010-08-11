@@ -4,7 +4,6 @@ import android.content.res.Resources;
 
 import com.raimsoft.matan.info.ZombieStateEnum;
 import com.raimsoft.matan.motion.Moveable;
-import com.raimsoft.matan.stage.Stage1;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.SpriteBitmap;
 import com.raimsoft.matan.util.Vector2Calc;
@@ -15,12 +14,15 @@ public class Zombie extends GameObject implements Moveable
 	//private boolean bPositioning= false;
 	public boolean bImageRefresh= false;
 	public ZombieStateEnum nZombieState= ZombieStateEnum.WALK;
+	private ZombieStateEnum nOldState= ZombieStateEnum.NONE;
 
 	private FPoint vMove, vVecNor, vVecVal;
 	private FPoint vStart, vStop;
 
 	private int nStepCount= 0;
 	private int nStepMax;
+
+	private int nHP= 50;
 
 	private Vector2Calc calc;
 
@@ -42,6 +44,13 @@ public class Zombie extends GameObject implements Moveable
 		vStop= endPoint;
 	}
 
+	/**
+	 * 스프라이트 초기화 한다.
+	 * @param IDimage : 이미지 ID
+	 * @param SpriteNum : 스프라이트 갯수
+	 * @param Delay : 스프라이트 딜레이
+	 * @param mRes : Context의 Resources
+	 */
 	public void Init(int IDimage, int SpriteNum, int Delay, Resources mRes)
 	{
 		SPRITE.SpriteModify(IDimage, mRes, 100,100, SpriteNum, Delay);
@@ -63,8 +72,6 @@ public class Zombie extends GameObject implements Moveable
 			nStepMax= calc.Vector2Step(vVecVal, vMove); // 총 스텝수 계산
 		}
 
-
-		//if (((int)vStop.x) == ((int)this.x) || ((int)vStop.y)==((int)this.y)) // 좀비가 끝지점에 도달
 		if (nStepMax == nStepCount)
 		{
 			nZombieState= ZombieStateEnum.ATTACK; // 공격상태로 변경
@@ -75,6 +82,29 @@ public class Zombie extends GameObject implements Moveable
 		this.x+= vMove.x;
 		this.y+= vMove.y;
 		++nStepCount;
+	}
+
+
+	/**
+	 * 데미지를 입힌다.
+	 * @param minusHP 깍일 HitPoint
+	 */
+	public void Damage(int minusHP)
+	{
+		if (nZombieState==ZombieStateEnum.DIE || nZombieState==ZombieStateEnum.HIT) return;
+		nHP -= minusHP;
+
+		if (this.nHP <= 0)
+		{
+			nZombieState= ZombieStateEnum.DIE; // 히트상태로 변경
+			this.bImageRefresh= true;
+			return;
+		}
+
+		nOldState= nZombieState;
+		nZombieState= ZombieStateEnum.HIT; // 히트상태로 변경
+		this.bImageRefresh= true;
+
 	}
 }
 
