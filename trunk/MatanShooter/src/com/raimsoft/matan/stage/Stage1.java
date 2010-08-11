@@ -131,24 +131,33 @@ public class Stage1 extends BaseStage
 	@Override
 	public boolean StageUpdate()
 	{
-
+		/* 선 */
 		if (mConnection.bOut) // 선이 밖으로 나갔으면
 			PAINTLine.setARGB(128, 0, 255, 0); // 쓰레기색
 		else
 			PAINTLine.setARGB(128, 255, 0, 255); // 아니면 초록색
 
+		/* 좀비 */
 		for (int i=0; i<16; i++)
 		{
 			mZombie[i].Move(0.5f); // 좀비 움직임
-			if (mZombie[i].bImageRefresh)
+
+			if (mZombie[i].bImageRefresh) // 좀비 이미지
 				Refresh_Zombies(i);
+
+			if (mZombie[i].getObjectForRect().intersect(mShot.getObjectForRect())) // 탄환과 충돌
+			{
+				mZombie[i].Damage(5);
+			}
 		}
 
+		/* 마탄 */
 		if (this.bRefreshImg_Bullets) // 마탄 이미지 새로고침
 			this.Refresh_Bullets();
 
 
-		if(mShot.bShooting)	mShot.Move(15.0f); // 총알 움직임
+		if(mShot.bShooting)	mShot.Move(15.0f); // 탄환 움직임
+
 
 
 		return false;
@@ -259,13 +268,16 @@ public class Stage1 extends BaseStage
 		switch (mZombie[idx].nZombieState)
 		{
 		case WALK:
+			mZombie[idx].Init(R.drawable.ch_zombie1_walk, 4, 5, mRes);
 			break;
 		case ATTACK:
 			mZombie[idx].Init(R.drawable.ch_zombie1_attack, 7, 3, mRes);
 			break;
 		case HIT:
+			mZombie[idx].Init(R.drawable.ch_zombie1_hit, 1, 10, mRes);
 			break;
 		case DIE:
+			mZombie[idx].Init(R.drawable.ch_zombie1_die, 8, 2, mRes);
 			break;
 		}
 		mZombie[idx].bImageRefresh= false;
