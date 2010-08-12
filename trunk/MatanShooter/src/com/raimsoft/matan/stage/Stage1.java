@@ -67,7 +67,7 @@ public class Stage1 extends BaseStage
 		for (int i=0; i<16; i++) // 좀비 초기화
 			mZombie[i]= new Zombie(info.pZombieStart[i].x, info.pZombieStart[i].y
 					   ,new FPoint(info.pZombieStop[i].x,info.pZombieStop[i].y)
-					   , R.drawable.ch_zombie1_walk, 400,100, mRes);
+					   , R.drawable.ch_zombie1_walk, 100,100, mRes);
 		mShot= new Shot(0,0, R.drawable.tan_dummy, 10,10);
 	}
 	// ************** 생성부 종료 ************** //
@@ -145,7 +145,7 @@ public class Stage1 extends BaseStage
 			if (mZombie[i].bImageRefresh) // 좀비 이미지
 				Refresh_Zombies(i);
 
-			if (mZombie[i].getObjectForRect().intersect(mShot.getObjectForRect())) // 탄환과 충돌
+			if (mZombie[i].getObjectForRect().contains(mShot.getObjectForRect())) // 탄환과 충돌
 			{
 				mZombie[i].Damage(5);
 			}

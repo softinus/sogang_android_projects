@@ -92,6 +92,7 @@ public class Zombie extends GameObject implements Moveable
 	public void Damage(int minusHP)
 	{
 		if (nZombieState==ZombieStateEnum.DIE || nZombieState==ZombieStateEnum.HIT) return;
+		
 		nHP -= minusHP;
 
 		if (this.nHP <= 0)
