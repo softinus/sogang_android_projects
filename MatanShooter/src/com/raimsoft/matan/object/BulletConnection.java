@@ -18,7 +18,7 @@ public class BulletConnection
 	 */
 	public BulletConnection()
 	{
-		for (int i=0; i<8; i++)
+		for (int i=0; i<10; i++)
 		{
 			pConnect[i]= new FPoint();
 		}
