@@ -3,12 +3,13 @@ package com.raimsoft.matan.object;
 import android.content.res.Resources;
 
 import com.raimsoft.matan.info.ZombieStateEnum;
-import com.raimsoft.matan.motion.Moveable;
+import com.raimsoft.matan.motion.IHitting;
+import com.raimsoft.matan.motion.IMoving;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.SpriteBitmap;
 import com.raimsoft.matan.util.Vector2Calc;
 
-public class Zombie extends GameObject implements Moveable
+public class Zombie extends GameObject implements IMoving, IHitting
 {
 	public SpriteBitmap SPRITE;
 	//private boolean bPositioning= false;
@@ -85,14 +86,12 @@ public class Zombie extends GameObject implements Moveable
 	}
 
 
-	/**
-	 * 데미지를 입힌다.
-	 * @param minusHP 깍일 HitPoint
-	 */
+
+	@Override
 	public void Damage(int minusHP)
 	{
 		if (nZombieState==ZombieStateEnum.DIE || nZombieState==ZombieStateEnum.HIT) return;
-		
+
 		nHP -= minusHP;
 
 		if (this.nHP <= 0)
