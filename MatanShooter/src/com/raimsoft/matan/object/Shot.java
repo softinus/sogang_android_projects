@@ -1,11 +1,11 @@
 package com.raimsoft.matan.object;
 
 import com.raimsoft.matan.info.Stage1Info;
-import com.raimsoft.matan.motion.Moveable;
+import com.raimsoft.matan.motion.IMoving;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.Vector2Calc;
 
-public class Shot extends GameObject implements Moveable
+public class Shot extends GameObject implements IMoving
 {
 	public boolean bShooting= false; // 쏘는중?
 
