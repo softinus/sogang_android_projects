@@ -3,7 +3,7 @@ package com.raimsoft.matan.object;
 import com.raimsoft.matan.util.FPoint;
 
 
-public class BulletConnection
+public class MatanConnection
 {
 	//public ArrayList<FPoint> pConnect= new ArrayList<FPoint>();
 	public FPoint[] pConnect= new FPoint[10];
@@ -16,7 +16,7 @@ public class BulletConnection
 	/**
 	 * 배열 모든 인덱스 동적 할당
 	 */
-	public BulletConnection()
+	public MatanConnection()
 	{
 		for (int i=0; i<10; i++)
 		{

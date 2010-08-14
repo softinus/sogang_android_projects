@@ -75,12 +75,19 @@ public class SpriteBitmap
 	}
 
 	/**
+	 *
+	 * @param canvas :
+	 * @param DestinationX
+	 * @param DestinationY : 애니메이션을 찍을 Y좌표
+	 */
+	/**
 	 * 스프라이트 애니메이션을 한번 그리고 끝낸다.
 	 * @param canvas : 그릴 캔버스
 	 * @param DestinationX : 애니메이션을 찍을 X좌표
 	 * @param DestinationY : 애니메이션을 찍을 Y좌표
+	 * @return : 반복끝나면=true
 	 */
-	public void AnimateNoLoop(Canvas canvas, int DestinationX, int DestinationY)
+	public boolean AnimateNoLoop(Canvas canvas, int DestinationX, int DestinationY)
 	{
 		RectSetting(DestinationX, DestinationY);
 		canvas.drawBitmap(mBitmap, CropRect, DestRect, null);
@@ -89,6 +96,8 @@ public class SpriteBitmap
 		{
 			++count;
 		}
+		if (count == SpriteNum) return true; // 반복끝나면 true리턴
+		return false;
 	}
 
 
