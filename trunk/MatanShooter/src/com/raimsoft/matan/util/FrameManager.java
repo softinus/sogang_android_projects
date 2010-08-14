@@ -7,7 +7,8 @@ public class FrameManager
 
 	public int TotalFrame=0;
 
-	public static final long DelayTime= 100;	//
+	public static final long FrameDealy= 1;
+	public static final long TouchDelay= 100;	//
 	public static long CurrentTime;				//현재 시간
 	public static int LastTouchFrame= 0;		//마지막으로 터치한 프레임
 

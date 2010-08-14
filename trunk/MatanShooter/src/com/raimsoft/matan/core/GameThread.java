@@ -23,6 +23,7 @@ public class GameThread extends Thread
 
 	public GameThread(GameActivity context, SurfaceHolder holder)
 	{
+		this.setName("MainThread");
 		start(); // Thread 시작
 		mStageMgr= new StageManager(context);
 		surfaceHolder = holder;
@@ -86,7 +87,7 @@ public class GameThread extends Thread
 
 			try
 			{
-				Thread.sleep(10);
+				Thread.sleep(FrameManager.FrameDealy);
 
 				synchronized(surfaceHolder)
 				{

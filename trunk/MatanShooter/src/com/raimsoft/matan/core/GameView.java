@@ -45,16 +45,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		if(gameThread == null)
 			return;
 
-		while(true)
+		try
 		{
-			try
-			{
-				gameThread.join();
-				break;
-			}
-			catch(InterruptedException e)
-			{
-			}
+			gameThread.join();
+		}
+		catch(InterruptedException e)
+		{
+			
 		}
 	}
 

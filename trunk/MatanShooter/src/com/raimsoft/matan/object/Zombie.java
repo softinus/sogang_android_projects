@@ -15,7 +15,7 @@ public class Zombie extends GameObject implements IMoving, IHitting
 	//private boolean bPositioning= false;
 	public boolean bImageRefresh= false;
 	public ZombieStateEnum nZombieState= ZombieStateEnum.WALK;
-	private ZombieStateEnum nOldState= ZombieStateEnum.NONE;
+	public ZombieStateEnum nOldState= ZombieStateEnum.NONE;
 
 	private FPoint vMove, vVecNor, vVecVal;
 	private FPoint vStart, vStop;
@@ -84,7 +84,6 @@ public class Zombie extends GameObject implements IMoving, IHitting
 		this.y+= vMove.y;
 		++nStepCount;
 	}
-
 
 
 	@Override
