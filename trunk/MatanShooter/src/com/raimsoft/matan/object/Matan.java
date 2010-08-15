@@ -4,6 +4,8 @@ package com.raimsoft.matan.object;
 public class Matan extends GameObject
 {
 	public boolean bOpen= false;
+	public boolean bImageRefresh= true;
+
 	private static int nBulletCount;
 	public int nBulletNum; // 자신 마탄의 번호
 

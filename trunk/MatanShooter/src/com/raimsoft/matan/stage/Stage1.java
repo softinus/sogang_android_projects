@@ -74,7 +74,7 @@ public class Stage1 extends BaseStage
 					   , R.drawable.ch_zombie1_walk, 100,100, mRes);
 		mShot= new Bullet(0,0, R.drawable.tan_dummy, 10,10);
 
-		traffic= new TrafficLights(0,0, R.drawable.background_stage01_time_ui, 182,265);
+		traffic= new TrafficLights(0,0, R.drawable.background_stage01_time_ui, 182,265); // 신호등 초기화
 		traffic.DRAWimage= mRes.getDrawable(traffic.IDimage);
 		traffic.DRAWimage.setBounds(traffic.getObjectForRect());
 	}
@@ -100,10 +100,10 @@ public class Stage1 extends BaseStage
 
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 
-		this.Render_Matans(canvas);	// 마탄
-		this.Render_Bullets(canvas);
+		this.Render_Matans(canvas);	// 마탄 그려줌
+		this.Render_Bullets(canvas); // 총알 그려줌
 
-		traffic.DRAWimage.draw(canvas);
+		traffic.DRAWimage.draw(canvas); //신호등 그려줌
 
 	}
 
@@ -136,10 +136,7 @@ public class Stage1 extends BaseStage
 		if (this.bRefreshImg_Bullets) // 마탄 이미지 새로고침
 			this.Refresh_Bullets();
 
-
-		if(mShot.bShooting)	mShot.Move(50.0f); // 탄환 움직임
-
-
+		if(mShot.bShooting)	mShot.Move(30.0f); // 탄환 움직임
 
 		return false;
 	}

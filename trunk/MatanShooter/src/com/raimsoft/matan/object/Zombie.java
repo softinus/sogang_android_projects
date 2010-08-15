@@ -2,6 +2,7 @@ package com.raimsoft.matan.object;
 
 import android.content.res.Resources;
 
+import com.raimsoft.matan.info.Stage1Info;
 import com.raimsoft.matan.info.ZombieStateEnum;
 import com.raimsoft.matan.motion.IHitting;
 import com.raimsoft.matan.motion.IMoving;
@@ -24,8 +25,10 @@ public class Zombie extends GameObject implements IMoving, IHitting
 	private int nStepMax;
 
 	private int nHP= 50;
+	public int nRoute;
 
 	private Vector2Calc calc;
+	private Stage1Info info;
 
 	public Zombie(float X, float Y,  FPoint endPoint, int IDimage, int Width, int Height, Resources mRes)
 	{
@@ -43,6 +46,25 @@ public class Zombie extends GameObject implements IMoving, IHitting
 
 		vStop= new FPoint();
 		vStop= endPoint;
+	}
+
+	public Zombie(int RouteNum, int IDimage, int Width, int Height, Resources mRes)
+	{
+		super(IDimage, Height, Width);
+
+		nRoute= RouteNum;
+
+		calc= new Vector2Calc();
+		info= new Stage1Info();
+
+		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, 4, 5);
+
+		vMove= new FPoint();
+		vVecNor= new FPoint();
+		vVecVal= new FPoint();
+
+		vStart= new FPoint(info.pZombieStart[RouteNum].x, info.pZombieStart[RouteNum].y);
+		vStop= new FPoint(info.pZombieStop[RouteNum].x, info.pZombieStop[RouteNum].y);
 	}
 
 	/**
