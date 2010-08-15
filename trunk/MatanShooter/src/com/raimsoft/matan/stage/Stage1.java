@@ -13,9 +13,10 @@ import android.view.MotionEvent;
 import com.raimsoft.matan.activity.R;
 import com.raimsoft.matan.info.Stage1Info;
 import com.raimsoft.matan.info.ZombieStateEnum;
+import com.raimsoft.matan.object.Bullet;
 import com.raimsoft.matan.object.Matan;
 import com.raimsoft.matan.object.MatanConnection;
-import com.raimsoft.matan.object.Bullet;
+import com.raimsoft.matan.object.TrafficLights;
 import com.raimsoft.matan.object.Zombie;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.SpriteBitmap;
@@ -41,6 +42,8 @@ public class Stage1 extends BaseStage
 	private Matan mMatan[]= new Matan[8];
 	private Zombie mZombie[]= new Zombie[16];
 	private Bullet mShot;
+
+	private TrafficLights traffic;
 	// ************** 선언부 종료 ************** //
 
 	// ************** 생성부 시작 ************** //
@@ -50,7 +53,7 @@ public class Stage1 extends BaseStage
 
 		info.Init();
 
-		SPRITEpartner= new SpriteBitmap(R.drawable.partner, mRes, 230,230,8, 20);
+		SPRITEpartner= new SpriteBitmap(R.drawable.ch_crossbow01_sprite, mRes, 230,230,6, 7);
 
 		BITMAPbackground= BitmapFactory.decodeResource(mRes, R.drawable.background_stage01);
 		BITMAPbackline= BitmapFactory.decodeResource(mRes, R.drawable.bg_line);
@@ -70,6 +73,10 @@ public class Stage1 extends BaseStage
 					   ,new FPoint(info.pZombieStop[i].x,info.pZombieStop[i].y)
 					   , R.drawable.ch_zombie1_walk, 100,100, mRes);
 		mShot= new Bullet(0,0, R.drawable.tan_dummy, 10,10);
+
+		traffic= new TrafficLights(0,0, R.drawable.background_stage01_time_ui, 182,265);
+		traffic.DRAWimage= mRes.getDrawable(traffic.IDimage);
+		traffic.DRAWimage.setBounds(traffic.getObjectForRect());
 	}
 	// ************** 생성부 종료 ************** //
 
@@ -93,8 +100,10 @@ public class Stage1 extends BaseStage
 
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 
-		this.Render_Matans(canvas);
+		this.Render_Matans(canvas);	// 마탄
 		this.Render_Bullets(canvas);
+
+		traffic.DRAWimage.draw(canvas);
 
 	}
 
@@ -228,7 +237,7 @@ public class Stage1 extends BaseStage
 		{
 			return true;
 		}
-		return true;
+		return false;
 	}
 
 	// ************** 렌더 메소드 시작 ************** //
