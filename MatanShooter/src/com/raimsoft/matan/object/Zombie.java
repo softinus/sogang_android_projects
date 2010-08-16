@@ -4,11 +4,13 @@ import android.content.res.Resources;
 
 import com.raimsoft.matan.info.Stage1Info;
 import com.raimsoft.matan.info.ZombieStateEnum;
+import com.raimsoft.matan.motion.IHitting;
+import com.raimsoft.matan.motion.IMoving;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.SpriteBitmap;
 import com.raimsoft.matan.util.Vector2Calc;
 
-public abstract class Zombie extends GameObject
+public abstract class Zombie extends GameObject implements IMoving, IHitting
 {
 	public SpriteBitmap SPRITE;
 	public boolean bImageRefresh= false;
@@ -25,7 +27,7 @@ public abstract class Zombie extends GameObject
 	public int nRoute;
 
 	protected Vector2Calc calc;
-	protected Stage1Info info= new Stage1Info();
+	protected Stage1Info info;
 
 	public Zombie(float X, float Y,  FPoint endPoint, int IDimage, int Width, int Height, Resources mRes)
 	{

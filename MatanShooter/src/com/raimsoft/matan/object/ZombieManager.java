@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class ZombieManager
 {
-	public ArrayList<Zombie> mZombieList;
+	public ArrayList<Zombie> List;
 
 	public ZombieManager()
 	{
-		mZombieList= new ArrayList<Zombie>();
+		List= new ArrayList<Zombie>();
 	}
 }

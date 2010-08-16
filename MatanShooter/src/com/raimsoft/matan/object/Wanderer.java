@@ -3,10 +3,8 @@ package com.raimsoft.matan.object;
 import android.content.res.Resources;
 
 import com.raimsoft.matan.info.ZombieStateEnum;
-import com.raimsoft.matan.motion.IHitting;
-import com.raimsoft.matan.motion.IMoving;
 
-public class Wanderer extends Zombie  implements IMoving, IHitting
+public class Wanderer extends Zombie
 {
 
 	public Wanderer(int RouteNum, int IDimage, int Width, int Height, Resources mRes)
