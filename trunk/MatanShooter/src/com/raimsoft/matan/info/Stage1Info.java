@@ -18,6 +18,11 @@ public class Stage1Info implements IStageInfo
 	public Point pZombieStart[]= new Point[16]; // 좀비 시작포인트
 	public Point pZombieStop[]= new Point[16];  // 좀비 끝포인트
 
+	public final int spdZombieWalk= 12;
+	public final int spdZombieAtt= 7;
+	public final int spdZombieHit= 50;
+	public final int spdZombieDie= 3;
+
 	public static Stage1Info getInstance()
 	{
 		return info;

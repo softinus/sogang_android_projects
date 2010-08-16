@@ -69,9 +69,8 @@ public class Stage1 extends BaseStage
 			mMatan[i]= new Matan(info.pBullet[i].x, info.pBullet[i].y, info.IDBullet[i], 70, 70);
 
 		for (int i=0; i<16; i++) // 좀비 초기화
-			mZombie[i]= new Zombie(info.pZombieStart[i].x, info.pZombieStart[i].y
-					   ,new FPoint(info.pZombieStop[i].x,info.pZombieStop[i].y)
-					   , R.drawable.ch_zombie1_walk, 100,100, mRes);
+			mZombie[i]= new Zombie(i, R.drawable.ch_zombie1_walk, 100,100, mRes);
+
 		mShot= new Bullet(0,0, R.drawable.tan_dummy, 10,10);
 
 		traffic= new TrafficLights(0,0, R.drawable.background_stage01_time_ui, 182,265); // 신호등 초기화
@@ -98,13 +97,12 @@ public class Stage1 extends BaseStage
 
 		this.Render_ZombiesFront(canvas); // 좀비 앞 그려줌
 
+		traffic.DRAWimage.draw(canvas); //신호등 그려줌
+
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 
 		this.Render_Matans(canvas);	// 마탄 그려줌
 		this.Render_Bullets(canvas); // 총알 그려줌
-
-		traffic.DRAWimage.draw(canvas); //신호등 그려줌
-
 	}
 
 
@@ -157,8 +155,8 @@ public class Stage1 extends BaseStage
 		case MotionEvent.ACTION_DOWN:
 
 			mConnection.bDrag= true; // 선 시작됨
-
 			break;
+
 		case MotionEvent.ACTION_MOVE:
 
 			if (!mConnection.bDrag) return; // 터치가 안된상태면 그냥 넘어감
@@ -178,7 +176,7 @@ public class Stage1 extends BaseStage
 
 					if (mConnection.LastConnectBulletNum != -1)
 					{// 마지막으로 연결된 마탄의 정보가 있으면
-						Log.d("Stage1::OutCheck", Float.toString(mConnection.LastConnectBulletNum)+"-"+Float.toString(i));
+						Log.d("Stage1::OutCheck", Float.toString(mConnection.LastConnectBulletNum)+"-->"+Float.toString(i));
 
 						if (mConnection.OutCombination(mConnection.LastConnectBulletNum, i))
 						{// 마지막 연결된 마탄번호와 최근연결된 마탄번호를 통해 선이 밖으로 나갔으면
@@ -327,16 +325,16 @@ public class Stage1 extends BaseStage
 		switch (mZombie[idx].nZombieState)
 		{
 		case WALK:
-			mZombie[idx].Init(R.drawable.ch_zombie1_walk, 4, 12, mRes);
+			mZombie[idx].Init(R.drawable.ch_zombie1_walk, 4, info.spdZombieWalk, mRes);
 			break;
 		case ATTACK:
-			mZombie[idx].Init(R.drawable.ch_zombie1_attack, 7, 7, mRes);
+			mZombie[idx].Init(R.drawable.ch_zombie1_attack, 7, info.spdZombieAtt, mRes);
 			break;
 		case HIT:
-			mZombie[idx].Init(R.drawable.ch_zombie1_hit, 1, 50, mRes);
+			mZombie[idx].Init(R.drawable.ch_zombie1_hit, 1, info.spdZombieHit, mRes);
 			break;
 		case DIE:
-			mZombie[idx].Init(R.drawable.ch_zombie1_die, 8, 3, mRes);
+			mZombie[idx].Init(R.drawable.ch_zombie1_die, 8, info.spdZombieDie, mRes);
 			break;
 		}
 		mZombie[idx].bImageRefresh= false;
