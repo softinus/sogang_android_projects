@@ -28,7 +28,7 @@ public class Zombie extends GameObject implements IMoving, IHitting
 	public int nRoute;
 
 	private Vector2Calc calc;
-	private Stage1Info info;
+	private Stage1Info info= new Stage1Info();
 
 	public Zombie(float X, float Y,  FPoint endPoint, int IDimage, int Width, int Height, Resources mRes)
 	{
@@ -36,7 +36,7 @@ public class Zombie extends GameObject implements IMoving, IHitting
 
 		calc= new Vector2Calc();
 
-		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, 4, 5);
+		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, 4, info.spdZombieWalk);
 
 		vMove= new FPoint();
 		vVecNor= new FPoint();
@@ -52,19 +52,22 @@ public class Zombie extends GameObject implements IMoving, IHitting
 	{
 		super(IDimage, Height, Width);
 
+		info= Stage1Info.getInstance();
+
+		vStart= new FPoint(info.pZombieStart[RouteNum].x, info.pZombieStart[RouteNum].y);
+		vStop= new FPoint(info.pZombieStop[RouteNum].x, info.pZombieStop[RouteNum].y);
 		nRoute= RouteNum;
 
-		calc= new Vector2Calc();
-		info= new Stage1Info();
+		this.x= info.pZombieStart[RouteNum].x;
+		this.y= info.pZombieStart[RouteNum].y;
 
-		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, 4, 5);
+		calc= new Vector2Calc();
+
+		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, 4, info.spdZombieWalk);
 
 		vMove= new FPoint();
 		vVecNor= new FPoint();
 		vVecVal= new FPoint();
-
-		vStart= new FPoint(info.pZombieStart[RouteNum].x, info.pZombieStart[RouteNum].y);
-		vStop= new FPoint(info.pZombieStop[RouteNum].x, info.pZombieStop[RouteNum].y);
 	}
 
 	/**
