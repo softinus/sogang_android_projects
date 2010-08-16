@@ -4,31 +4,28 @@ import android.content.res.Resources;
 
 import com.raimsoft.matan.info.Stage1Info;
 import com.raimsoft.matan.info.ZombieStateEnum;
-import com.raimsoft.matan.motion.IHitting;
-import com.raimsoft.matan.motion.IMoving;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.SpriteBitmap;
 import com.raimsoft.matan.util.Vector2Calc;
 
-public class Zombie extends GameObject implements IMoving, IHitting
+public abstract class Zombie extends GameObject
 {
 	public SpriteBitmap SPRITE;
-	//private boolean bPositioning= false;
 	public boolean bImageRefresh= false;
 	public ZombieStateEnum nZombieState= ZombieStateEnum.WALK;
 	public ZombieStateEnum nOldState= ZombieStateEnum.NONE;
 
-	private FPoint vMove, vVecNor, vVecVal;
-	private FPoint vStart, vStop;
+	protected FPoint vMove, vVecNor, vVecVal;
+	protected FPoint vStart, vStop;
 
-	private int nStepCount= 0;
-	private int nStepMax;
+	protected int nStepCount= 0;
+	protected int nStepMax;
 
-	private int nHP= 50;
+	protected int nHP;
 	public int nRoute;
 
-	private Vector2Calc calc;
-	private Stage1Info info= new Stage1Info();
+	protected Vector2Calc calc;
+	protected Stage1Info info= new Stage1Info();
 
 	public Zombie(float X, float Y,  FPoint endPoint, int IDimage, int Width, int Height, Resources mRes)
 	{
@@ -80,55 +77,6 @@ public class Zombie extends GameObject implements IMoving, IHitting
 	public void Init(int IDimage, int SpriteNum, int Delay, Resources mRes)
 	{
 		SPRITE.SpriteModify(IDimage, mRes, 100,100, SpriteNum, Delay);
-	}
-
-
-	@Override
-	public void Move(float speed)
-	{
-		if (!(nZombieState== ZombieStateEnum.WALK)) return; // 걷는상태에만 걷는다.
-
-		if (nStepMax==0)
-		{
-			vVecVal= calc.CalVec(vStart, vStop); // 벡터값 연산
-
-			vVecNor= calc.CalVecNormalize(vVecVal); // 벡터값 정규화
-			vMove= calc.CalScale(vVecNor, speed); // 정규화값 스칼라곱
-
-			nStepMax= calc.Vector2Step(vVecVal, vMove); // 총 스텝수 계산
-		}
-
-		if (nStepMax == nStepCount)
-		{
-			nZombieState= ZombieStateEnum.ATTACK; // 공격상태로 변경
-			this.bImageRefresh= true;
-			return;
-		}
-
-		this.x+= vMove.x;
-		this.y+= vMove.y;
-		++nStepCount;
-	}
-
-
-	@Override
-	public void Damage(int minusHP)
-	{
-		if (nZombieState==ZombieStateEnum.DIE || nZombieState==ZombieStateEnum.HIT) return;
-
-		nHP -= minusHP;
-
-		if (this.nHP <= 0)
-		{
-			nZombieState= ZombieStateEnum.DIE; // 히트상태로 변경
-			this.bImageRefresh= true;
-			return;
-		}
-
-		nOldState= nZombieState;
-		nZombieState= ZombieStateEnum.HIT; // 히트상태로 변경
-		this.bImageRefresh= true;
-
 	}
 }
 

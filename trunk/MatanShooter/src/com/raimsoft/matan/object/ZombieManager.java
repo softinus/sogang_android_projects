@@ -2,11 +2,11 @@ package com.raimsoft.matan.object;
 
 import java.util.ArrayList;
 
-public class ZombieList
+public class ZombieManager
 {
-	ArrayList<Zombie> mZombieList;
+	public ArrayList<Zombie> mZombieList;
 
-	public ZombieList()
+	public ZombieManager()
 	{
 		mZombieList= new ArrayList<Zombie>();
 	}
