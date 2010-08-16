@@ -28,7 +28,7 @@ public class Stage1Info implements IStageInfo
 		return info;
 	}
 
-	public Stage1Info()
+	protected Stage1Info()
 	{
 		for (int i=0; i<8; i++)
 		{

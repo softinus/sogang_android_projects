@@ -8,22 +8,22 @@ public abstract class GameObject
 {
 	public float   x, y;
 	public int	 IDimage;
-	public int   Width, Height;
+	protected int   Width, Height;
 	public Drawable DRAWimage;
 
-	public GameObject(int IDimage)
+	protected GameObject(int IDimage)
 	{
 		this.IDimage = IDimage;
 	}
 
-	public GameObject(int IDimage, int Width, int Height)
+	protected GameObject(int IDimage, int Width, int Height)
 	{
 		this.IDimage = IDimage;
 		this.Width = Width;
 		this.Height = Height;
 	}
 
-	public GameObject(float X, float Y, int IDimage, int Width, int Height)
+	protected GameObject(float X, float Y, int IDimage, int Width, int Height)
 	{
 		this.x = X;
 		this.y = Y;
