@@ -17,7 +17,7 @@ import com.raimsoft.matan.object.Bullet;
 import com.raimsoft.matan.object.Matan;
 import com.raimsoft.matan.object.MatanConnection;
 import com.raimsoft.matan.object.TrafficLights;
-import com.raimsoft.matan.object.Zombie;
+import com.raimsoft.matan.object.Wanderer;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.SpriteBitmap;
 
@@ -40,7 +40,7 @@ public class Stage1 extends BaseStage
 	private MatanConnection mConnection;
 
 	private Matan mMatan[]= new Matan[8];
-	private Zombie mZombie[]= new Zombie[16];
+	private Wanderer mWanderer[]= new Wanderer[16];
 	private Bullet mShot;
 
 	private TrafficLights traffic;
@@ -69,7 +69,7 @@ public class Stage1 extends BaseStage
 			mMatan[i]= new Matan(info.pBullet[i].x, info.pBullet[i].y, info.IDBullet[i], 70, 70);
 
 		for (int i=0; i<16; i++) // 좀비 초기화
-			mZombie[i]= new Zombie(i, R.drawable.ch_zombie1_walk, 100,100, mRes);
+			mWanderer[i]= new Wanderer(i, R.drawable.ch_zombie1_walk, 100,100, mRes);
 
 		mShot= new Bullet(0,0, R.drawable.tan_dummy, 10,10);
 
@@ -119,14 +119,14 @@ public class Stage1 extends BaseStage
 		/* 좀비 */
 		for (int i=0; i<16; i++)
 		{
-			mZombie[i].Move(0.3f); // 좀비 움직임
+			mWanderer[i].Move(0.3f); // 좀비 움직임
 
-			if (mZombie[i].bImageRefresh) // 좀비 이미지
+			if (mWanderer[i].bImageRefresh) // 좀비 이미지
 				Refresh_Zombies(i);
 
-			if (mZombie[i].getObjectForRect().intersect(mShot.getObjectForRect())) // 탄환과 충돌
+			if (mWanderer[i].getObjectForRect().intersect(mShot.getObjectForRect())) // 탄환과 충돌
 			{
-				mZombie[i].Damage(20);
+				mWanderer[i].Damage(20);
 			}
 		}
 
@@ -241,17 +241,17 @@ public class Stage1 extends BaseStage
 	{
 		for (int i=8; i<16; i++)
 		{
-			if (mZombie[i].nZombieState==ZombieStateEnum.WALK || mZombie[i].nZombieState==ZombieStateEnum.ATTACK)
-				mZombie[i].SPRITE.Animate(canvas, (int)mZombie[i].x, (int)mZombie[i].y);
+			if (mWanderer[i].nZombieState==ZombieStateEnum.WALK || mWanderer[i].nZombieState==ZombieStateEnum.ATTACK)
+				mWanderer[i].SPRITE.Animate(canvas, (int)mWanderer[i].x, (int)mWanderer[i].y);
 
-			if (mZombie[i].nZombieState==ZombieStateEnum.HIT || mZombie[i].nZombieState==ZombieStateEnum.DIE)
+			if (mWanderer[i].nZombieState==ZombieStateEnum.HIT || mWanderer[i].nZombieState==ZombieStateEnum.DIE)
 			{ // 맞거나 죽으면
-				if (mZombie[i].SPRITE.AnimateNoLoop(canvas, (int)mZombie[i].x, (int)mZombie[i].y))
+				if (mWanderer[i].SPRITE.AnimateNoLoop(canvas, (int)mWanderer[i].x, (int)mWanderer[i].y))
 				{ // 1번반복끝나면
-					if (mZombie[i].nOldState==ZombieStateEnum.NONE) return;
-					mZombie[i].nZombieState= mZombie[i].nOldState;	// 전상태를 현상태로
-					mZombie[i].bImageRefresh= true;
-					mZombie[i].nOldState= ZombieStateEnum.NONE; // 전상태=NONE
+					if (mWanderer[i].nOldState==ZombieStateEnum.NONE) return;
+					mWanderer[i].nZombieState= mWanderer[i].nOldState;	// 전상태를 현상태로
+					mWanderer[i].bImageRefresh= true;
+					mWanderer[i].nOldState= ZombieStateEnum.NONE; // 전상태=NONE
 				}
 			}
 		}
@@ -261,17 +261,17 @@ public class Stage1 extends BaseStage
 	{
 		for (int i=0; i<8; i++)
 		{
-			if (mZombie[i].nZombieState==ZombieStateEnum.WALK || mZombie[i].nZombieState==ZombieStateEnum.ATTACK)
-				mZombie[i].SPRITE.Animate(canvas, (int)mZombie[i].x, (int)mZombie[i].y);
+			if (mWanderer[i].nZombieState==ZombieStateEnum.WALK || mWanderer[i].nZombieState==ZombieStateEnum.ATTACK)
+				mWanderer[i].SPRITE.Animate(canvas, (int)mWanderer[i].x, (int)mWanderer[i].y);
 
-			if (mZombie[i].nZombieState==ZombieStateEnum.HIT || mZombie[i].nZombieState==ZombieStateEnum.DIE)
+			if (mWanderer[i].nZombieState==ZombieStateEnum.HIT || mWanderer[i].nZombieState==ZombieStateEnum.DIE)
 			{
-				if (mZombie[i].SPRITE.AnimateNoLoop(canvas, (int)mZombie[i].x, (int)mZombie[i].y))
+				if (mWanderer[i].SPRITE.AnimateNoLoop(canvas, (int)mWanderer[i].x, (int)mWanderer[i].y))
 				{
-					if (mZombie[i].nOldState==ZombieStateEnum.NONE) return;
-					mZombie[i].nZombieState= mZombie[i].nOldState;
-					mZombie[i].bImageRefresh= true;
-					mZombie[i].nOldState= ZombieStateEnum.NONE;
+					if (mWanderer[i].nOldState==ZombieStateEnum.NONE) return;
+					mWanderer[i].nZombieState= mWanderer[i].nOldState;
+					mWanderer[i].bImageRefresh= true;
+					mWanderer[i].nOldState= ZombieStateEnum.NONE;
 				}
 			}
 		}
@@ -322,22 +322,22 @@ public class Stage1 extends BaseStage
 	 */
 	private void Refresh_Zombies(int idx)
 	{
-		switch (mZombie[idx].nZombieState)
+		switch (mWanderer[idx].nZombieState)
 		{
 		case WALK:
-			mZombie[idx].Init(R.drawable.ch_zombie1_walk, 4, info.spdZombieWalk, mRes);
+			mWanderer[idx].Init(R.drawable.ch_zombie1_walk, 4, info.spdZombieWalk, mRes);
 			break;
 		case ATTACK:
-			mZombie[idx].Init(R.drawable.ch_zombie1_attack, 7, info.spdZombieAtt, mRes);
+			mWanderer[idx].Init(R.drawable.ch_zombie1_attack, 7, info.spdZombieAtt, mRes);
 			break;
 		case HIT:
-			mZombie[idx].Init(R.drawable.ch_zombie1_hit, 1, info.spdZombieHit, mRes);
+			mWanderer[idx].Init(R.drawable.ch_zombie1_hit, 1, info.spdZombieHit, mRes);
 			break;
 		case DIE:
-			mZombie[idx].Init(R.drawable.ch_zombie1_die, 8, info.spdZombieDie, mRes);
+			mWanderer[idx].Init(R.drawable.ch_zombie1_die, 8, info.spdZombieDie, mRes);
 			break;
 		}
-		mZombie[idx].bImageRefresh= false;
+		mWanderer[idx].bImageRefresh= false;
 	}
 
 	/**
