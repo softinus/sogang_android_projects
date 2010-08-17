@@ -118,7 +118,7 @@ public class Stage1 extends BaseStage
 			PAINTLine.setARGB(128, 255, 0, 255); // 아니면 초록색
 
 		/* 좀비 */
-		for (int i=0; i<16; i++)
+		for (int i=0; i<mZombieMgr.List.size(); i++)
 		{
 			mZombieMgr.List.get(i).Move(0.3f); // 좀비 움직임
 
@@ -127,7 +127,7 @@ public class Stage1 extends BaseStage
 
 			if (mZombieMgr.List.get(i).getObjectForRect().intersect(mShot.getObjectForRect())) // 탄환과 충돌
 			{
-				mZombieMgr.List.get(i).Damage(20);
+				if (mShot.bShooting) mZombieMgr.List.get(i).Damage(20);
 			}
 		}
 
@@ -249,7 +249,7 @@ public class Stage1 extends BaseStage
 			{ // 맞거나 죽으면
 				if (mZombieMgr.List.get(i).SPRITE.AnimateNoLoop(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y))
 				{ // 1번반복끝나면
-					if (mZombieMgr.List.get(i).nOldState==ZombieStateEnum.NONE) return;
+					if (mZombieMgr.List.get(i).nOldState==ZombieStateEnum.NONE) continue;
 					mZombieMgr.List.get(i).nZombieState= mZombieMgr.List.get(i).nOldState;	// 전상태를 현상태로
 					mZombieMgr.List.get(i).bImageRefresh= true;
 					mZombieMgr.List.get(i).nOldState= ZombieStateEnum.NONE; // 전상태=NONE
@@ -269,7 +269,7 @@ public class Stage1 extends BaseStage
 			{
 				if (mZombieMgr.List.get(i).SPRITE.AnimateNoLoop(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y))
 				{
-					if (mZombieMgr.List.get(i).nOldState==ZombieStateEnum.NONE) return;
+					if (mZombieMgr.List.get(i).nOldState==ZombieStateEnum.NONE) continue;
 					mZombieMgr.List.get(i).nZombieState= mZombieMgr.List.get(i).nOldState;
 					mZombieMgr.List.get(i).bImageRefresh= true;
 					mZombieMgr.List.get(i).nOldState= ZombieStateEnum.NONE;

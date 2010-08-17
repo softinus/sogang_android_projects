@@ -96,7 +96,8 @@ public class SpriteBitmap
 		{
 			++count;
 		}
-		if (count == SpriteNum) return true; // 반복끝나면 true리턴
+		if (count == SpriteNum)
+			return true; // 반복끝나면 true리턴
 		return false;
 	}
 
