@@ -8,36 +8,11 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
 	<ImageView
 	android:src="@drawable/ui_buttonintermission_slug_1"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:layout_x="285px"
-	android:layout_y="-16px"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:layout_x="0px"
+	android:layout_y="0px"
 	></ImageView>
-
-	<ImageView
-	android:src="@drawable/ui_buttonintermission_slug_1"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:layout_x="352px"
-	android:layout_y="96px"
-	></ImageView>
-
-	<ImageView
-	android:src="@drawable/ui_buttonintermission_slug_1"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:layout_x="405px"
-	android:layout_y="226px"
-	></ImageView>
-
-	<ImageView
-	android:src="@drawable/ui_buttonintermission_slug_1"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:layout_x="395px"
-	android:layout_y="347px"
-	></ImageView>
-
 
 	<Button
 	android:id="@+id/btn_inter_opening"

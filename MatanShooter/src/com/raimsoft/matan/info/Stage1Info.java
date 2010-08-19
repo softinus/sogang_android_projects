@@ -1,5 +1,6 @@
 package com.raimsoft.matan.info;
 
+import android.graphics.Path;
 import android.graphics.Point;
 
 import com.raimsoft.matan.activity.R;
@@ -8,6 +9,11 @@ import com.raimsoft.matan.util.FPoint;
 public class Stage1Info implements IStageInfo
 {
 	private static Stage1Info info= new Stage1Info();
+
+	public static Stage1Info getInstance()
+	{
+		return info;
+	}
 
 	public Point pBullet[]= new Point[8]; // 마탄 포인트
 	public int  IDBullet[]= new int[8]; // 마탄 열림 이미지ID
@@ -18,15 +24,13 @@ public class Stage1Info implements IStageInfo
 	public Point pZombieStart[]= new Point[16]; // 좀비 시작포인트
 	public Point pZombieStop[]= new Point[16];  // 좀비 끝포인트
 
-	public final int spdZombieWalk= 12;
-	public final int spdZombieAtt= 7;
-	public final int spdZombieHit= 50;
+	// 좀비 속도
+	public final int spdZombieWalk= 10;
+	public final int spdZombieAtt= 4;
+	public final int spdZombieHit= 40;
 	public final int spdZombieDie= 3;
 
-	public static Stage1Info getInstance()
-	{
-		return info;
-	}
+
 
 	protected Stage1Info()
 	{
@@ -47,9 +51,30 @@ public class Stage1Info implements IStageInfo
 		}
 	}
 
+    public Path makePathDash()
+    {
+        Path p = new Path();
+        p.moveTo(0,10);
+        p.lineTo(10,2);
+        p.lineTo(15,2);
+        p.lineTo(25,10);
+        p.lineTo(25,6);
+        p.lineTo(18,0);
+        p.lineTo(25,-6);
+        p.lineTo(25,-10);
+        p.lineTo(15,-2);
+        p.lineTo(10,-2);
+        p.lineTo(0,-10);
+        p.lineTo(0,-6);
+        p.lineTo(7,0);
+        p.lineTo(0,6);
+        return p;
+    }
+
 	@Override
 	public void Init()
 	{
+		// 마탄 좌표
 		pBullet[0].set(0  ,   0);
 		pBullet[1].set(365,   0);
 		pBullet[2].set(730,   0);
@@ -59,6 +84,7 @@ public class Stage1Info implements IStageInfo
 		pBullet[6].set(365, 410);
 		pBullet[7].set(730, 410);
 
+		// 마탄의 이미지ID (열림,닫힘)
 		IDBullet[0]= R.drawable.obj_thron_open;
 		IDBullet[1]= R.drawable.obj_normal_open;
 		IDBullet[2]= R.drawable.obj_fire_open;
@@ -77,6 +103,7 @@ public class Stage1Info implements IStageInfo
 		IDBullet_close[6]= R.drawable.obj_normal_close;
 		IDBullet_close[7]= R.drawable.obj_ice_close;
 
+		// 좀비 시작 좌표
 		pZombieStart[0] .set(-100, -100);
 		pZombieStart[1] .set( 100, -100);
 		pZombieStart[2] .set( 350, -100);
@@ -94,6 +121,7 @@ public class Stage1Info implements IStageInfo
 		pZombieStart[14].set( 600,  480);
 		pZombieStart[15].set( 800,  480);
 
+		// 좀비 도착 좌표
 		pZombieStop[0] .set( 270,  130);
 		pZombieStop[1] .set( 300,  115);
 		pZombieStop[2] .set( 350,   95);

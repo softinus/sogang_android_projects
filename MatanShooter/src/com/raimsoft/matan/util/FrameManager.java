@@ -5,7 +5,7 @@ public class FrameManager
 {
 	private static FrameManager fm= new FrameManager();	// 싱글톤
 
-	public int TotalFrame=0;
+	public static int TotalFrame=0;
 
 	public static final long FrameDealy= 1;
 	public static final long TouchDelay= 100;	//
@@ -21,6 +21,15 @@ public class FrameManager
 	{
 		++TotalFrame;
 		//Log.d("FrameManager", Float.toString(TotalFrame));
+	}
+
+	public static boolean FrameTimer (int Delay)
+	{
+		if (TotalFrame % Delay==0)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	public boolean TouchToDealy(int Delay)
