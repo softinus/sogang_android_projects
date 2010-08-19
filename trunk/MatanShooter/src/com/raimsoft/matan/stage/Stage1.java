@@ -6,6 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PathDashPathEffect;
+import android.graphics.PathEffect;
+import android.media.AudioManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -20,15 +23,20 @@ import com.raimsoft.matan.object.TrafficLights;
 import com.raimsoft.matan.object.Wanderer;
 import com.raimsoft.matan.object.ZombieManager;
 import com.raimsoft.matan.util.FPoint;
+import com.raimsoft.matan.util.FrameManager;
+import com.raimsoft.matan.util.SoundManager;
 import com.raimsoft.matan.util.SpriteBitmap;
 
 public class Stage1 extends BaseStage
 {
-
 	// ************** 선언부 시작 ************** //
 	private Resources mRes;
+	//private SoundManager sm;
+	//private MediaPlayer mp;
+	AudioManager mAudioManager;
 
 	private Paint PAINTLine;
+	private PathEffect EFFPath;
 
 	private boolean bRefreshImg_Bullets= true;
 	private boolean bRefreshImg_Shot= true;
@@ -47,10 +55,21 @@ public class Stage1 extends BaseStage
 	private TrafficLights traffic;
 	// ************** 선언부 종료 ************** //
 
+
+
 	// ************** 생성부 시작 ************** //
 	public Stage1(Context managerContext)
 	{
 		mRes= managerContext.getResources();
+		//sm= new SoundManager (managerContext);
+		//sm.create();
+		//sm.load(0, R.raw.sfx_drag);
+		//sm.load(1, R.raw.sfx_drag_one_65);
+		//mp= new MediaPlayer();
+		//mp= MediaPlayer.create(managerContext, R.raw.stage_bgm);
+		//mp.start();
+
+		mAudioManager = (AudioManager)managerContext.getSystemService(managerContext.AUDIO_SERVICE);
 
 		info.Init();
 
@@ -61,16 +80,18 @@ public class Stage1 extends BaseStage
 
 		mConnection= new MatanConnection();
 
+		EFFPath= new PathDashPathEffect(info.makePathDash(), 25, 0, PathDashPathEffect.Style.ROTATE);
 		PAINTLine= new Paint();
 		PAINTLine.setARGB(128, 255, 0, 255);
-		PAINTLine.setStrokeWidth(6.0f);
+		PAINTLine.setPathEffect(EFFPath);
 		PAINTLine.setAntiAlias(true);
 
 		for (int i=0; i<8; i++) // 마탄 초기화
 			mMatan[i]= new Matan(info.pBullet[i].x, info.pBullet[i].y, info.IDBullet[i], 70, 70);
 
-		for (int i=0; i<16; i++) // 좀비 초기화
-			mZombieMgr.List.add(new Wanderer(i, R.drawable.ch_zombie1_walk, 100,100, mRes));
+		//for (int i=0; i<16; i++) // 좀비 초기화
+		//mZombieMgr.List.add(new Wanderer(i, R.drawable.ch_zombie1_walk, 100,100, mRes));
+
 
 		mShot= new Bullet(0,0, R.drawable.tan_dummy, 10,10);
 
@@ -111,6 +132,12 @@ public class Stage1 extends BaseStage
 	@Override
 	public boolean StageUpdate()
 	{
+		if (FrameManager.FrameTimer(50) && (mZombieMgr.List.size()<50))
+		{
+			mZombieMgr.List.add(new Wanderer((int) (Math.random()*16), R.drawable.ch_zombie1_walk, 100,100, mRes));
+			Log.i("Stage1::ZombieMgr", mZombieMgr.List.size() + "th Zombie Added.");
+		}
+
 		/* 선 */
 		if (mConnection.bOut) // 선이 밖으로 나갔으면
 			PAINTLine.setARGB(128, 0, 255, 0); // 쓰레기색
@@ -166,6 +193,7 @@ public class Stage1 extends BaseStage
 			{
 				if (mMatan[i].getObjectForRect().contains((int)touchX, (int)touchY))
 				{ // 마탄을 터치했는가
+				//	sm.play(1);
 					if (mMatan[i].bOpen) return; // 해당 마탄이 이미 닫혀있으면 선 추가안함
 
 					mConnection.pConnect[mConnection.ConnectionNum].setPoint(mMatan[i].getObjectMiddleSpot());
@@ -200,6 +228,8 @@ public class Stage1 extends BaseStage
 			break;
 		case MotionEvent.ACTION_UP:
 
+			//sm.stop(0);
+
 			if(mConnection.bOut)
 			{
 				for (int i=0; i<mConnection.pConnect.length; i++)
@@ -233,6 +263,12 @@ public class Stage1 extends BaseStage
 		{
 			return true;
 		}
+
+		if (keyCode==KeyEvent.KEYCODE_VOLUME_UP)
+			mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);  //media volume down!
+
+		if (keyCode==KeyEvent.KEYCODE_VOLUME_DOWN)
+			mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);  //media volume down!
 		return false;
 	}
 
@@ -240,8 +276,10 @@ public class Stage1 extends BaseStage
 
 	private void Render_ZombiesFront(Canvas canvas)
 	{
-		for (int i=8; i<16; i++)
+		for (int i=0; i<mZombieMgr.List.size(); i++)
 		{
+			if ((mZombieMgr.List.get(i).nRoute > 0) && (mZombieMgr.List.get(i).nRoute < 8)) continue;
+
 			if (mZombieMgr.List.get(i).nZombieState==ZombieStateEnum.WALK || mZombieMgr.List.get(i).nZombieState==ZombieStateEnum.ATTACK)
 				mZombieMgr.List.get(i).SPRITE.Animate(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y);
 
@@ -249,6 +287,7 @@ public class Stage1 extends BaseStage
 			{ // 맞거나 죽으면
 				if (mZombieMgr.List.get(i).SPRITE.AnimateNoLoop(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y))
 				{ // 1번반복끝나면
+					if (mZombieMgr.List.get(i).nZombieState==ZombieStateEnum.DIE) mZombieMgr.List.remove(i);
 					if (mZombieMgr.List.get(i).nOldState==ZombieStateEnum.NONE) continue;
 					mZombieMgr.List.get(i).nZombieState= mZombieMgr.List.get(i).nOldState;	// 전상태를 현상태로
 					mZombieMgr.List.get(i).bImageRefresh= true;
@@ -260,8 +299,10 @@ public class Stage1 extends BaseStage
 
 	private void Render_ZombiesBehind(Canvas canvas)
 	{
-		for (int i=0; i<8; i++)
+		for (int i=0; i<mZombieMgr.List.size(); i++)
 		{
+			if ((mZombieMgr.List.get(i).nRoute > 8) && (mZombieMgr.List.get(i).nRoute < 16)) continue;
+
 			if (mZombieMgr.List.get(i).nZombieState==ZombieStateEnum.WALK || mZombieMgr.List.get(i).nZombieState==ZombieStateEnum.ATTACK)
 				mZombieMgr.List.get(i).SPRITE.Animate(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y);
 
@@ -269,6 +310,7 @@ public class Stage1 extends BaseStage
 			{
 				if (mZombieMgr.List.get(i).SPRITE.AnimateNoLoop(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y))
 				{
+					if (mZombieMgr.List.get(i).nZombieState==ZombieStateEnum.DIE) mZombieMgr.List.remove(i);
 					if (mZombieMgr.List.get(i).nOldState==ZombieStateEnum.NONE) continue;
 					mZombieMgr.List.get(i).nZombieState= mZombieMgr.List.get(i).nOldState;
 					mZombieMgr.List.get(i).bImageRefresh= true;
