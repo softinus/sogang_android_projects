@@ -16,8 +16,8 @@ public abstract class Zombie extends GameObject implements IMoving, IHitting, IA
 {
 	public SpriteBitmap SPRITE;
 	public boolean bImageRefresh= false;
-	public ZombieStateEnum nZombieState= ZombieStateEnum.WALK;
-	public ZombieStateEnum nOldState= ZombieStateEnum.NONE;
+	public ZombieStateEnum eZombieState= ZombieStateEnum.WALK;
+	public ZombieStateEnum eOldState= ZombieStateEnum.NONE;
 
 	protected FPoint vMove, vVecNor, vVecVal;
 	protected FPoint vStart, vStop;

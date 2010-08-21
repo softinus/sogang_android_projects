@@ -17,7 +17,7 @@ public class Wanderer extends Zombie
 	@Override
 	public void Move(float speed)
 	{
-		if (!(nZombieState== ZombieStateEnum.WALK)) return; // 걷는상태에만 걷는다.
+		if (!(eZombieState== ZombieStateEnum.WALK)) return; // 걷는상태에만 걷는다.
 
 		if (nStepMax==0)
 		{
@@ -31,7 +31,7 @@ public class Wanderer extends Zombie
 
 		if (nStepMax == nStepCount)
 		{
-			nZombieState= ZombieStateEnum.ATTACK; // 공격상태로 변경
+			eZombieState= ZombieStateEnum.ATTACK; // 공격상태로 변경
 			this.bImageRefresh= true;
 			return;
 		}
@@ -44,19 +44,19 @@ public class Wanderer extends Zombie
 	@Override
 	public void Damage(int minusHP, int delay)
 	{
-		if (nZombieState==ZombieStateEnum.DIE || nZombieState==ZombieStateEnum.HIT) return;
+		if (eZombieState==ZombieStateEnum.DIE || eZombieState==ZombieStateEnum.HIT) return;
 
 		nHP -= minusHP;
 
 		if (this.nHP <= 0)
 		{
-			nZombieState= ZombieStateEnum.DIE; // 히트상태로 변경
+			eZombieState= ZombieStateEnum.DIE; // 히트상태로 변경
 			this.bImageRefresh= true;
 			return;
 		}
 
-		nOldState= nZombieState;
-		nZombieState= ZombieStateEnum.HIT; // 히트상태로 변경
+		eOldState= eZombieState;
+		eZombieState= ZombieStateEnum.HIT; // 히트상태로 변경
 		this.bImageRefresh= true;
 	}
 

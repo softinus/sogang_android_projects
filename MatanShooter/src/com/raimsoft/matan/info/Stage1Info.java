@@ -35,7 +35,7 @@ public class Stage1Info implements IStageInfo
 	public final int spdZombieDie= 3;
 
 	public final int spdPartnerShot= 7;
-	public final int spdPartnerDie= 3;
+	public final int spdPartnerDie= 4;
 
 
 
