@@ -67,21 +67,11 @@ public class SpriteBitmap
 		{
 			++count;
 		}
-
-
-
 		if (count == SpriteNum) count=0; //스프라이트 루프
-
 	}
 
 	/**
-	 *
-	 * @param canvas :
-	 * @param DestinationX
-	 * @param DestinationY : 애니메이션을 찍을 Y좌표
-	 */
-	/**
-	 * 스프라이트 애니메이션을 한번 그리고 끝낸다.
+	 * 스프라이트 애니메이션을 한번 그리고 사라진다.
 	 * @param canvas : 그릴 캔버스
 	 * @param DestinationX : 애니메이션을 찍을 X좌표
 	 * @param DestinationY : 애니메이션을 찍을 Y좌표
@@ -101,6 +91,30 @@ public class SpriteBitmap
 		return false;
 	}
 
+	/**
+	 * 스프라이트 애니메이션을 한번 그리고 사라진다.
+	 * @param canvas : 그릴 캔버스
+	 * @param DestinationX : 애니메이션을 찍을 X좌표
+	 * @param DestinationY : 애니메이션을 찍을 Y좌표
+	 * @return : 반복끝나면=true
+	 */
+	public void AnimateLastFrameStop(Canvas canvas, int DestinationX, int DestinationY)
+	{
+		RectSetting(DestinationX, DestinationY);
+		canvas.drawBitmap(mBitmap, CropRect, DestRect, null);
+
+		if (TotalFramePerDelay())
+		{
+			if (!(count == SpriteNum))
+				++count;
+		}
+//		if (count == SpriteNum)
+//		{
+//			return true; // 반복끝나면 true리턴
+//		}
+//		return false;
+	}
+
 
 	/**
 	 * SourceRect와 DestinationRect를 설정하는 메소드
@@ -112,6 +126,24 @@ public class SpriteBitmap
 		CropRect.left	= width*count;
 		CropRect.top	= 0;
 		CropRect.right	= width*count+width;
+		CropRect.bottom	= height;
+
+		DestRect.left	= _destX;
+		DestRect.top	= _destY;
+		DestRect.right	= _destX+width;
+		DestRect.bottom	= _destY+height;
+	}
+
+	/**
+	 * 지정된 count의 SourceRect와 DestinationRect를 설정하는 메소드
+	 * @param _destX
+	 * @param _destY
+	 */
+	private void RectSetting(int _destX, int _destY, int _count)
+	{
+		CropRect.left	= width*_count;
+		CropRect.top	= 0;
+		CropRect.right	= width*_count+width;
 		CropRect.bottom	= height;
 
 		DestRect.left	= _destX;
