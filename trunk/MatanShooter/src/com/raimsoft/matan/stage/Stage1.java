@@ -19,13 +19,12 @@ import com.raimsoft.matan.info.ZombieStateEnum;
 import com.raimsoft.matan.object.Bullet;
 import com.raimsoft.matan.object.Matan;
 import com.raimsoft.matan.object.MatanConnection;
+import com.raimsoft.matan.object.Partner;
 import com.raimsoft.matan.object.TrafficLights;
 import com.raimsoft.matan.object.Wanderer;
 import com.raimsoft.matan.object.ZombieManager;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.FrameManager;
-import com.raimsoft.matan.util.SoundManager;
-import com.raimsoft.matan.util.SpriteBitmap;
 
 public class Stage1 extends BaseStage
 {
@@ -38,21 +37,21 @@ public class Stage1 extends BaseStage
 	private Paint PAINTLine;
 	private PathEffect EFFPath;
 
-	private boolean bRefreshImg_Bullets= true;
-	private boolean bRefreshImg_Shot= true;
+	private boolean bRefreshImg_Matans= true;
 
 	private Stage1Info info= Stage1Info.getInstance();
 
 	private Bitmap BITMAPbackground, BITMAPbackline;
-	private SpriteBitmap SPRITEpartner;
+	//private SpriteBitmap SPRITEpartner;
 
 	private MatanConnection mConnection;
 
+	private Partner mPartner;
 	private Matan mMatan[]= new Matan[8];
 	private ZombieManager mZombieMgr= new ZombieManager();
 	private Bullet mShot;
+	private TrafficLights mTraffic;
 
-	private TrafficLights traffic;
 	// ************** 선언부 종료 ************** //
 
 
@@ -61,6 +60,9 @@ public class Stage1 extends BaseStage
 	public Stage1(Context managerContext)
 	{
 		mRes= managerContext.getResources();
+
+		// 사운드 초기화
+		mAudioManager = (AudioManager)managerContext.getSystemService(managerContext.AUDIO_SERVICE);
 		//sm= new SoundManager (managerContext);
 		//sm.create();
 		//sm.load(0, R.raw.sfx_drag);
@@ -69,35 +71,39 @@ public class Stage1 extends BaseStage
 		//mp= MediaPlayer.create(managerContext, R.raw.stage_bgm);
 		//mp.start();
 
-		mAudioManager = (AudioManager)managerContext.getSystemService(managerContext.AUDIO_SERVICE);
-
+		// 정보 초기화
 		info.Init();
 
-		SPRITEpartner= new SpriteBitmap(R.drawable.ch_crossbow01_sprite, mRes, 230,230,6, 7);
+		// 파트너 초기화
+		mPartner= new Partner(285,125, R.drawable.ch_crossbow12_sprite, 230,230, mRes);
+		mPartner.mHPbar.DRAWimage= mRes.getDrawable(mPartner.mHPbar.IDimage); // HP스킨(아이디)
+		mPartner.mHPbar.DRAWimage.setBounds(mPartner.mHPbar.getObjectForRect()); // HP스킨(위치)
+		mPartner.mHPbar.DRAWimageBAR= mRes.getDrawable(mPartner.mHPbar.IDimageBAR); // HP바(아이디)
+		mPartner.mHPbar.DRAWimageBAR.setBounds(mPartner.mHPbar.getRectBar4Rect(100, 100)); // HP바(위치)
 
+		// 배경 초기화
 		BITMAPbackground= BitmapFactory.decodeResource(mRes, R.drawable.background_stage01);
 		BITMAPbackline= BitmapFactory.decodeResource(mRes, R.drawable.bg_line);
 
+		// 선 초기화
 		mConnection= new MatanConnection();
-
 		EFFPath= new PathDashPathEffect(info.makePathDash(), 25, 0, PathDashPathEffect.Style.ROTATE);
 		PAINTLine= new Paint();
 		PAINTLine.setARGB(128, 255, 0, 255);
 		PAINTLine.setPathEffect(EFFPath);
 		PAINTLine.setAntiAlias(true);
 
-		for (int i=0; i<8; i++) // 마탄 초기화
-			mMatan[i]= new Matan(info.pBullet[i].x, info.pBullet[i].y, info.IDBullet[i], 70, 70);
+		// 마탄 초기화
+		for (int i=0; i<8; i++)
+			mMatan[i]= new Matan(info.pMatan[i].x, info.pMatan[i].y, info.IDMatan[i], 70, 70);
 
-		//for (int i=0; i<16; i++) // 좀비 초기화
-		//mZombieMgr.List.add(new Wanderer(i, R.drawable.ch_zombie1_walk, 100,100, mRes));
+		 // 탄환 초기화
+		mShot= new Bullet(0,0, R.drawable.tan_basic, 25,25);
 
-
-		mShot= new Bullet(0,0, R.drawable.tan_dummy, 10,10);
-
-		traffic= new TrafficLights(0,0, R.drawable.background_stage01_time_ui, 182,265); // 신호등 초기화
-		traffic.DRAWimage= mRes.getDrawable(traffic.IDimage);
-		traffic.DRAWimage.setBounds(traffic.getObjectForRect());
+		 // 신호등 초기화
+		mTraffic= new TrafficLights(0,0, R.drawable.background_stage01_time_ui, 182,265);
+		mTraffic.DRAWimage= mRes.getDrawable(mTraffic.IDimage);
+		mTraffic.DRAWimage.setBounds(mTraffic.getObjectForRect());
 	}
 	// ************** 생성부 종료 ************** //
 
@@ -115,11 +121,11 @@ public class Stage1 extends BaseStage
 
 		this.Render_ZombiesBehind(canvas); // 좀비 뒤 그려줌
 
-		SPRITEpartner.Animate(canvas, 285, 125);	// 파트너 그려줌
+		this.Render_Partner(canvas);	// 파트너 그려줌
 
 		this.Render_ZombiesFront(canvas); // 좀비 앞 그려줌
 
-		traffic.DRAWimage.draw(canvas); //신호등 그려줌
+		mTraffic.DRAWimage.draw(canvas); //신호등 그려줌
 
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 
@@ -132,7 +138,7 @@ public class Stage1 extends BaseStage
 	@Override
 	public boolean StageUpdate()
 	{
-		if (FrameManager.FrameTimer(50) && (mZombieMgr.List.size()<50))
+		if (FrameManager.FrameTimer(50) && (mZombieMgr.List.size()<25)) // 50프레임마다 한마리씩 25마리 제한
 		{
 			mZombieMgr.List.add(new Wanderer((int) (Math.random()*16), R.drawable.ch_zombie1_walk, 100,100, mRes));
 			Log.i("Stage1::ZombieMgr", mZombieMgr.List.size() + "th Zombie Added.");
@@ -152,15 +158,18 @@ public class Stage1 extends BaseStage
 			if (mZombieMgr.List.get(i).bImageRefresh) // 좀비 이미지
 				Refresh_Zombies(i);
 
+			if (mZombieMgr.List.get(i).nZombieState== ZombieStateEnum.ATTACK) // 좀비 공격
+				mPartner.Damage(mZombieMgr.List.get(i).nPower, info.spdZombieAtt*7);
+
 			if (mZombieMgr.List.get(i).getObjectForRect().intersect(mShot.getObjectForRect())) // 탄환과 충돌
 			{
-				if (mShot.bShooting) mZombieMgr.List.get(i).Damage(20);
+				if (mShot.bShooting) mZombieMgr.List.get(i).Damage(20, 0);
 			}
 		}
 
 		/* 마탄 */
-		if (this.bRefreshImg_Bullets) // 마탄 이미지 새로고침
-			this.Refresh_Bullets();
+		if (this.bRefreshImg_Matans) // 마탄 이미지 새로고침
+			this.Refresh_Matans();
 
 		if(mShot.bShooting)	mShot.Move(30.0f); // 탄환 움직임
 
@@ -197,11 +206,14 @@ public class Stage1 extends BaseStage
 					if (mMatan[i].bOpen) return; // 해당 마탄이 이미 닫혀있으면 선 추가안함
 
 					mConnection.pConnect[mConnection.ConnectionNum].setPoint(mMatan[i].getObjectMiddleSpot());
+					info.nShotRoute[mConnection.ConnectionNum]= i;
+
 					mConnection.AddConnectionPoint();
 					mConnection.pConnect[mConnection.ConnectionNum+1].setPoint(mMatan[i].getObjectMiddleSpot());
+					info.nShotRoute[mConnection.ConnectionNum+1]= i; // 총알 루트에 추가
 					mMatan[i].bOpen= true; // 해당 마탄 닫힘
 
-					this.bRefreshImg_Bullets= true; // 마탄 이미지 새로고침
+					this.bRefreshImg_Matans= true; // 마탄 이미지 새로고침
 
 					if (mConnection.LastConnectBulletNum != -1)
 					{// 마지막으로 연결된 마탄의 정보가 있으면
@@ -210,6 +222,8 @@ public class Stage1 extends BaseStage
 						if (mConnection.OutCombination(mConnection.LastConnectBulletNum, i))
 						{// 마지막 연결된 마탄번호와 최근연결된 마탄번호를 통해 선이 밖으로 나갔으면
 							mConnection.bOut= true; // 나갔음으로 체크
+						}else{
+							mConnection.bSaving= true;
 						}
 						mConnection.LastConnectBulletNum= i; // 마지막 연결된 마탄번호 지정
 					}else{// 없으면
@@ -244,13 +258,14 @@ public class Stage1 extends BaseStage
 
 			for (int i=0; i<8; i++)
 				mMatan[i].bOpen= false;	// 마탄 모두 열림
-			this.bRefreshImg_Bullets= true;
+			this.bRefreshImg_Matans= true;
 
 			mShot.nShootMax= mConnection.ConnectionNum; // 탄환 경로수 설정
 			mConnection.ConnectionNum= 0;	// 연결된 개수없음
 
 			mConnection.bDrag= false;	// 선 끊어짐
 			mConnection.bOut= false;	// 선이 밖으로 나가지 않음
+			mConnection.bSaving= false; // 세이빙 되지 않음
 			mConnection.LastConnectBulletNum= -1;	// 최근 정보 초기화
 			break;
 		}
@@ -320,6 +335,13 @@ public class Stage1 extends BaseStage
 		}
 	}
 
+	private void Render_Partner(Canvas canvas)
+	{
+		mPartner.SPRITE.Animate(canvas, (int)mPartner.x, (int)mPartner.y);	// 파트너 그려줌
+		mPartner.mHPbar.DRAWimage.draw(canvas);
+		mPartner.mHPbar.DRAWimageBAR.draw(canvas);
+	}
+
 	private void Render_Matans(Canvas canvas)
 	{
 		for (int i=0; i<8; i++)
@@ -351,7 +373,7 @@ public class Stage1 extends BaseStage
 	{
 		if(mShot.bShooting)
 		{
-			if (bRefreshImg_Shot) this.Refresh_Shot();
+			if (mShot.bImageRefresh) this.Refresh_Shot();
 			mShot.DRAWimage.setBounds(mShot.getObjectForRect()); // 탄환 그려줌
 			mShot.DRAWimage.draw(canvas);
 		}
@@ -384,26 +406,59 @@ public class Stage1 extends BaseStage
 	}
 
 	/**
+	 * 파트너 새로고침
+	 */
+	private void Refresh_Partner()
+	{
+		switch (mPartner.nState)
+		{
+		case SHOT_12:
+			mPartner.Init(R.drawable.ch_crossbow12_sprite, 6, info.spdPartnerShot, mRes);
+			break;
+		case SHOT_1:
+			mPartner.Init(R.drawable.ch_crossbow12_sprite, 6, info.spdPartnerShot, mRes);
+			break;
+		case SHOT_3:
+			mPartner.Init(R.drawable.ch_crossbow12_sprite, 6, info.spdPartnerShot, mRes);
+			break;
+		case SHOT_5:
+			mPartner.Init(R.drawable.ch_crossbow12_sprite, 6, info.spdPartnerShot, mRes);
+			break;
+		case SHOT_6:
+			mPartner.Init(R.drawable.ch_crossbow12_sprite, 6, info.spdPartnerShot, mRes);
+			break;
+		case SHOT_7:
+			mPartner.Init(R.drawable.ch_crossbow12_sprite, 6, info.spdPartnerShot, mRes);
+			break;
+		case SHOT_9:
+			mPartner.Init(R.drawable.ch_crossbow12_sprite, 6, info.spdPartnerShot, mRes);
+			break;
+		case SHOT_11:
+			mPartner.Init(R.drawable.ch_crossbow12_sprite, 6, info.spdPartnerShot, mRes);
+			break;
+		case DIE:
+			mPartner.Init(R.drawable.ch_die_sprite, 10, info.spdPartnerDie, mRes);
+			break;
+		}
+		mPartner.bImageRefresh= false;
+	}
+
+	/**
 	 * 마탄 새로고침
 	 */
-	private void Refresh_Bullets()
+	private void Refresh_Matans()
 	{
 		for (int i=0; i<8; i++)
 		{
 			if (mMatan[i].bOpen)
-			{
-				mMatan[i].IDimage= info.IDBullet[i];
-			}
+				mMatan[i].IDimage= info.IDMatan[i];
 			else
-			{
-				mMatan[i].IDimage= info.IDBullet_close[i];
-			}
-
+				mMatan[i].IDimage= info.IDMatan_close[i];
 
 			mMatan[i].DRAWimage= mRes.getDrawable(mMatan[i].IDimage);
 			mMatan[i].DRAWimage.setBounds(mMatan[i].getObjectForRect());
 		}
-		bRefreshImg_Bullets= false;
+		bRefreshImg_Matans= false;
 	}
 
 	/**
@@ -412,7 +467,7 @@ public class Stage1 extends BaseStage
 	private void Refresh_Shot()
 	{
 		mShot.DRAWimage= mRes.getDrawable(mShot.IDimage);
-		bRefreshImg_Shot= false;
+		mShot.bImageRefresh= false;
 	}
 
 }

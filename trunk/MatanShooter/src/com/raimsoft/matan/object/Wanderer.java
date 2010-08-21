@@ -11,6 +11,7 @@ public class Wanderer extends Zombie
 	{
 		super(RouteNum, IDimage, Width, Height, mRes);
 		this.nHP= 50;
+		this.nPower= 5;
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class Wanderer extends Zombie
 	}
 
 	@Override
-	public void Damage(int minusHP)
+	public void Damage(int minusHP, int delay)
 	{
 		if (nZombieState==ZombieStateEnum.DIE || nZombieState==ZombieStateEnum.HIT) return;
 
@@ -57,6 +58,11 @@ public class Wanderer extends Zombie
 		nOldState= nZombieState;
 		nZombieState= ZombieStateEnum.HIT; // 히트상태로 변경
 		this.bImageRefresh= true;
+	}
+
+	@Override
+	public void Attack(int damage, int delay)
+	{
 
 	}
 }

@@ -4,13 +4,15 @@ import android.content.res.Resources;
 
 import com.raimsoft.matan.info.Stage1Info;
 import com.raimsoft.matan.info.ZombieStateEnum;
+import com.raimsoft.matan.motion.IAttacking;
 import com.raimsoft.matan.motion.IHitting;
 import com.raimsoft.matan.motion.IMoving;
+import com.raimsoft.matan.motion.ISpriteModify;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.SpriteBitmap;
 import com.raimsoft.matan.util.Vector2Calc;
 
-public abstract class Zombie extends GameObject implements IMoving, IHitting
+public abstract class Zombie extends GameObject implements IMoving, IHitting, IAttacking, ISpriteModify
 {
 	public SpriteBitmap SPRITE;
 	public boolean bImageRefresh= false;
@@ -24,6 +26,7 @@ public abstract class Zombie extends GameObject implements IMoving, IHitting
 	protected int nStepMax;
 
 	protected int nHP;
+	public int nPower;
 	public int nRoute;
 
 	protected Vector2Calc calc;
@@ -33,6 +36,7 @@ public abstract class Zombie extends GameObject implements IMoving, IHitting
 	{
 		super(X, Y, IDimage, Width, Height);
 
+		info= Stage1Info.getInstance();
 		calc= new Vector2Calc();
 
 		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, 4, info.spdZombieWalk);
@@ -69,16 +73,10 @@ public abstract class Zombie extends GameObject implements IMoving, IHitting
 		vVecVal= new FPoint();
 	}
 
-	/**
-	 * 스프라이트 초기화 한다.
-	 * @param IDimage : 이미지 ID
-	 * @param SpriteNum : 스프라이트 갯수
-	 * @param Delay : 스프라이트 딜레이
-	 * @param mRes : Context의 Resources
-	 */
+	@Override
 	public void Init(int IDimage, int SpriteNum, int Delay, Resources mRes)
 	{
-		SPRITE.SpriteModify(IDimage, mRes, 100,100, SpriteNum, Delay);
+		SPRITE.SpriteModify(IDimage, mRes, Width,Height, SpriteNum, Delay);
 	}
 }
 

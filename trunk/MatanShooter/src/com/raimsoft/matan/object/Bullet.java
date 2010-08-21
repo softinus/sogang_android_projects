@@ -11,6 +11,8 @@ public class Bullet extends GameObject implements IMoving
 
 	private Stage1Info info= Stage1Info.getInstance();
 
+	public boolean bImageRefresh= true;
+
 	private FPoint vMove, vVecNor, vVecVal; // 움직임(결과), 정규화, 벡터값
 	private FPoint vStart, vStop; // 시작, 멈춤 포인트
 
@@ -39,13 +41,16 @@ public class Bullet extends GameObject implements IMoving
 	 */
 	private boolean InitRoute()
 	{
-		if (nShootCount==nShootMax-1) return true;
+		if (nShootCount==nShootMax-1) return true; // 다 쐈으면 true
 
-		this.x= (info.pShotRoute[nShootCount].x);
-		this.y= (info.pShotRoute[nShootCount].y);
-		vStart.set(info.pShotRoute[nShootCount].x, info.pShotRoute[nShootCount].y);
-		vStop.set(info.pShotRoute[nShootCount+1].x, info.pShotRoute[nShootCount+1].y);
-		nStepCount= 0;
+		this.IDimage= info.IDShot[info.nShotRoute[nShootCount]]; // 다음이미지ID 대입
+		bImageRefresh= true; // 이미지 바꿈
+
+		this.x= (info.pShotRoute[nShootCount].x); // 다음 루트대입
+		this.y= (info.pShotRoute[nShootCount].y); //
+		vStart.set(info.pShotRoute[nShootCount].x, info.pShotRoute[nShootCount].y); // 시작좌표 대입
+		vStop.set(info.pShotRoute[nShootCount+1].x, info.pShotRoute[nShootCount+1].y); // 끝좌표 대입
+		nStepCount= 0; // 걸음수초기화
 		++nShootCount;
 		return false;
 	}
@@ -54,7 +59,6 @@ public class Bullet extends GameObject implements IMoving
 	@Override
 	public void Move(float speed)
 	{
-
 		if (nStepMax == nStepCount) // end
 		{
 			if(InitRoute()) // 다음 경로 변환 없으면
