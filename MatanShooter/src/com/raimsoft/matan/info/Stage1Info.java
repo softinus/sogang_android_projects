@@ -15,11 +15,15 @@ public class Stage1Info implements IStageInfo
 		return info;
 	}
 
-	public Point pBullet[]= new Point[8]; // 마탄 포인트
-	public int  IDBullet[]= new int[8]; // 마탄 열림 이미지ID
-	public int  IDBullet_close[]= new int[8]; // 마탄 닫힘 이미지ID
+	public Point pMatan[]= new Point[8]; // 마탄 포인트
+	public int  IDMatan[]= new int[8]; // 마탄 열림 이미지ID
+	public int  IDMatan_close[]= new int[8]; // 마탄 닫힘 이미지ID
 
 	public FPoint pShotRoute[]= new FPoint[10]; // 마탄 슈팅 궤도
+	public int nShotRoute[]= new int[10];
+
+	public int IDShot[]= new int[8];
+	public int IDShot_saving[]= new int[8];
 
 	public Point pZombieStart[]= new Point[16]; // 좀비 시작포인트
 	public Point pZombieStop[]= new Point[16];  // 좀비 끝포인트
@@ -30,13 +34,16 @@ public class Stage1Info implements IStageInfo
 	public final int spdZombieHit= 40;
 	public final int spdZombieDie= 3;
 
+	public final int spdPartnerShot= 7;
+	public final int spdPartnerDie= 3;
+
 
 
 	protected Stage1Info()
 	{
 		for (int i=0; i<8; i++)
 		{
-			pBullet[i]= new Point();
+			pMatan[i]= new Point();
 		}
 
 		for (int i=0; i<10; i++)
@@ -51,23 +58,31 @@ public class Stage1Info implements IStageInfo
 		}
 	}
 
+
     public Path makePathDash()
     {
         Path p = new Path();
-        p.moveTo(0,10);
-        p.lineTo(10,2);
-        p.lineTo(15,2);
-        p.lineTo(25,10);
-        p.lineTo(25,6);
-        p.lineTo(18,0);
-        p.lineTo(25,-6);
-        p.lineTo(25,-10);
-        p.lineTo(15,-2);
-        p.lineTo(10,-2);
-        p.lineTo(0,-10);
-        p.lineTo(0,-6);
-        p.lineTo(7,0);
-        p.lineTo(0,6);
+
+        p.moveTo(4, 0);
+        p.lineTo(0, -4);
+        p.lineTo(8, -4);
+        p.lineTo(12, 0);
+        p.lineTo(8, 4);
+        p.lineTo(0, 4);
+//        p.moveTo(0,10);
+//        p.lineTo(10,2);
+//        p.lineTo(15,2);
+//        p.lineTo(25,10);
+//        p.lineTo(25,6);
+//        p.lineTo(18,0);
+//        p.lineTo(25,-6);
+//        p.lineTo(25,-10);
+//        p.lineTo(15,-2);
+//        p.lineTo(10,-2);
+//        p.lineTo(0,-10);
+//        p.lineTo(0,-6);
+//        p.lineTo(7,0);
+//        p.lineTo(0,6);
         return p;
     }
 
@@ -75,33 +90,54 @@ public class Stage1Info implements IStageInfo
 	public void Init()
 	{
 		// 마탄 좌표
-		pBullet[0].set(0  ,   0);
-		pBullet[1].set(365,   0);
-		pBullet[2].set(730,   0);
-		pBullet[3].set(0  , 205);
-		pBullet[4].set(730, 205);
-		pBullet[5].set(0,   410);
-		pBullet[6].set(365, 410);
-		pBullet[7].set(730, 410);
+		pMatan[0].set(0  ,   0);
+		pMatan[1].set(365,   0);
+		pMatan[2].set(730,   0);
+		pMatan[3].set(0  , 205);
+		pMatan[4].set(730, 205);
+		pMatan[5].set(0,   410);
+		pMatan[6].set(365, 410);
+		pMatan[7].set(730, 410);
 
-		// 마탄의 이미지ID (열림,닫힘)
-		IDBullet[0]= R.drawable.obj_thron_open;
-		IDBullet[1]= R.drawable.obj_normal_open;
-		IDBullet[2]= R.drawable.obj_fire_open;
-		IDBullet[3]= R.drawable.obj_normal_open;
-		IDBullet[4]= R.drawable.obj_normal_open;
-		IDBullet[5]= R.drawable.obj_light_open;
-		IDBullet[6]= R.drawable.obj_normal_open;
-		IDBullet[7]= R.drawable.obj_ice_open;
+		// 마탄의 이미지ID (열림)
+		IDMatan[0]= R.drawable.obj_thron_open;
+		IDMatan[1]= R.drawable.obj_normal_open;
+		IDMatan[2]= R.drawable.obj_fire_open;
+		IDMatan[3]= R.drawable.obj_normal_open;
+		IDMatan[4]= R.drawable.obj_normal_open;
+		IDMatan[5]= R.drawable.obj_light_open;
+		IDMatan[6]= R.drawable.obj_normal_open;
+		IDMatan[7]= R.drawable.obj_ice_open;
 
-		IDBullet_close[0]= R.drawable.obj_thron_close;
-		IDBullet_close[1]= R.drawable.obj_normal_close;
-		IDBullet_close[2]= R.drawable.obj_fire_close;
-		IDBullet_close[3]= R.drawable.obj_normal_close;
-		IDBullet_close[4]= R.drawable.obj_normal_close;
-		IDBullet_close[5]= R.drawable.obj_light_close;
-		IDBullet_close[6]= R.drawable.obj_normal_close;
-		IDBullet_close[7]= R.drawable.obj_ice_close;
+		// (닫힘)
+		IDMatan_close[0]= R.drawable.obj_thron_close;
+		IDMatan_close[1]= R.drawable.obj_normal_close;
+		IDMatan_close[2]= R.drawable.obj_fire_close;
+		IDMatan_close[3]= R.drawable.obj_normal_close;
+		IDMatan_close[4]= R.drawable.obj_normal_close;
+		IDMatan_close[5]= R.drawable.obj_light_close;
+		IDMatan_close[6]= R.drawable.obj_normal_close;
+		IDMatan_close[7]= R.drawable.obj_ice_close;
+
+		// 탄환 (일반)
+		IDShot[0]= R.drawable.tan_sting;
+		IDShot[1]= R.drawable.tan_basic;
+		IDShot[2]= R.drawable.tan_fire;
+		IDShot[3]= R.drawable.tan_basic;
+		IDShot[4]= R.drawable.tan_basic;
+		IDShot[5]= R.drawable.tan_lightning;
+		IDShot[6]= R.drawable.tan_basic;
+		IDShot[7]= R.drawable.tan_ice;
+
+		// 탄환 (세이빙)
+		IDShot_saving[0]= R.drawable.tan_sting_saving01;
+		IDShot_saving[1]= R.drawable.tan_basic_saving01;
+		IDShot_saving[2]= R.drawable.tan_fire_saving01;
+		IDShot_saving[3]= R.drawable.tan_basic_saving01;
+		IDShot_saving[4]= R.drawable.tan_basic_saving01;
+		IDShot_saving[5]= R.drawable.tan_lightning_saving01;
+		IDShot_saving[6]= R.drawable.tan_basic_saving01;
+		IDShot_saving[7]= R.drawable.tan_ice_saving01;
 
 		// 좀비 시작 좌표
 		pZombieStart[0] .set(-100, -100);

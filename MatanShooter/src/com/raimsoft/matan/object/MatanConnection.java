@@ -10,6 +10,7 @@ public class MatanConnection
 
 	public boolean bDrag= false;
 	public boolean bOut= false;
+	public boolean bSaving= false;
 	public int ConnectionNum= 0;
 	public int LastConnectBulletNum= -1;
 
