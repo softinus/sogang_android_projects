@@ -1,7 +1,9 @@
 package com.raimsoft.matan.util;
 
 import android.graphics.Point;
-
+/**
+ * @author Choi Jun Hyeok (http://raimsoft.com)
+ */
 public class FPoint
 {
 	public float x;

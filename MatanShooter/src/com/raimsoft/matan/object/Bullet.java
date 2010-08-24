@@ -1,5 +1,6 @@
 package com.raimsoft.matan.object;
 
+import com.raimsoft.matan.activity.R;
 import com.raimsoft.matan.info.Stage1Info;
 import com.raimsoft.matan.motion.IMoving;
 import com.raimsoft.matan.util.FPoint;
@@ -23,6 +24,8 @@ public class Bullet extends GameObject implements IMoving
 
 	private Vector2Calc calc= new Vector2Calc();
 
+	public BulletEffect[] mEff= new BulletEffect[5];
+
 	public Bullet(float X, float Y, int IDimage, int Width, int Height)
 	{
 		super(X, Y, IDimage, Width, Height);
@@ -33,6 +36,9 @@ public class Bullet extends GameObject implements IMoving
 		vVecNor= new FPoint();
 		vVecVal= new FPoint();
 		vMove= new FPoint();
+
+		for (int i=0; i<5; i++)
+			mEff[i]= new BulletEffect(R.drawable.tan_basic_eff, 25, 25);
 	}
 
 
@@ -83,6 +89,8 @@ public class Bullet extends GameObject implements IMoving
 
 		if (!bShooting) return;
 
+		BackupCoordinate(this.x, this.y);
+
 		this.x+= vMove.x;
 		this.y+= vMove.y;
 		++nStepCount;
@@ -93,6 +101,31 @@ public class Bullet extends GameObject implements IMoving
 		nStepCount= 0;
 		nStepMax= 0;
 		nShootCount= 0;
+	}
+
+	private void BackupCoordinate(float x, float y)
+	{
+		for (int i=4; i>0; i--)
+		{
+			if (mEff[i].x==(float)0 && mEff[i].y==(float)0)
+			{
+				mEff[i].x= x;
+				mEff[i].y= y;
+				return;
+			}
+		}
+		push(x,y);
+	}
+
+	private void push(float x, float y)
+	{
+		for (int i=0; i<3; i++)
+		{
+			mEff[i].x= mEff[i+1].x;
+			mEff[i].y= mEff[i+1].y;
+		}
+		mEff[4].x= x;
+		mEff[4].y= y;
 	}
 
 

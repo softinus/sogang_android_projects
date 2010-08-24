@@ -105,7 +105,7 @@ public class SpriteBitmap
 
 		if (TotalFramePerDelay())
 		{
-			if (!(count == SpriteNum))
+			if (!(count == SpriteNum-1))
 				++count;
 		}
 //		if (count == SpriteNum)
