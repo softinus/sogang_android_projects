@@ -14,12 +14,6 @@ public class StageManager
 	public final static int STAGE_SCENARIO =3;
 	public final static int STAGE_STORE	   =4;
 	public final static int STAGE_INTER    =5;
-	public final static int STAGE_READY_1  =101;
-	public final static int STAGE_READY_2  =102;
-	public final static int STAGE_READY_3  =103;
-	public final static int STAGE_READY_4  =104;
-	public final static int STAGE_READY_5  =105;
-	public final static int STAGE_READY_6  =106;
 	public final static int STAGE_1		   =1001;
 	public final static int STAGE_2		   =1002;
 	public final static int STAGE_3		   =1003;
@@ -45,9 +39,6 @@ public class StageManager
 
 		switch(_stageID)
 		{
-		case STAGE_READY_1:
-			mStage=new ReadyStage1(ManagerContext);
-			break;
 		case STAGE_1:
 			mStage=new Stage1(ManagerContext);
 			break;

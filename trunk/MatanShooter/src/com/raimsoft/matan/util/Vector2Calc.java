@@ -1,6 +1,8 @@
 package com.raimsoft.matan.util;
 
-
+/**
+ * @author Choi Jun Hyeok (http://raimsoft.com)
+ */
 public class Vector2Calc
 {
 

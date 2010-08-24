@@ -18,6 +18,7 @@ import com.raimsoft.matan.info.PartnerStateEnum;
 import com.raimsoft.matan.info.Stage1Info;
 import com.raimsoft.matan.info.ZombieStateEnum;
 import com.raimsoft.matan.object.Bullet;
+import com.raimsoft.matan.object.GameTimer;
 import com.raimsoft.matan.object.Matan;
 import com.raimsoft.matan.object.MatanConnection;
 import com.raimsoft.matan.object.Partner;
@@ -52,6 +53,7 @@ public class Stage1 extends BaseStage
 	private ZombieManager mZombieMgr= new ZombieManager();
 	private Bullet mShot;
 	private TrafficLights mTraffic;
+	private GameTimer mGTimer= new GameTimer();
 
 	// ************** 선언부 종료 ************** //
 
@@ -63,7 +65,7 @@ public class Stage1 extends BaseStage
 		mRes= managerContext.getResources();
 
 		// 사운드 초기화
-		mAudioManager = (AudioManager)managerContext.getSystemService(managerContext.AUDIO_SERVICE);
+		mAudioManager = (AudioManager)managerContext.getSystemService(Context.AUDIO_SERVICE);
 		//sm= new SoundManager (managerContext);
 		//sm.create();
 		//sm.load(0, R.raw.sfx_drag);
@@ -100,11 +102,19 @@ public class Stage1 extends BaseStage
 
 		 // 탄환 초기화
 		mShot= new Bullet(0,0, R.drawable.tan_basic, 25,25);
+		for (int i=0; i<5; i++)
+		{
+			mShot.mEff[i].DRAWimage= mRes.getDrawable(mShot.mEff[i].IDimage);
+			mShot.mEff[i].DRAWimage.setAlpha(i*50+25);
+		}
+
 
 		 // 신호등 초기화
 		mTraffic= new TrafficLights(0,0, R.drawable.background_stage01_time_ui, 182,265);
 		mTraffic.DRAWimage= mRes.getDrawable(mTraffic.IDimage);
 		mTraffic.DRAWimage.setBounds(mTraffic.getObjectForRect());
+
+		mGTimer.setTimer(150);
 	}
 	// ************** 생성부 종료 ************** //
 
@@ -127,6 +137,7 @@ public class Stage1 extends BaseStage
 		this.Render_ZombiesFront(canvas); // 좀비 앞 그려줌
 
 		mTraffic.DRAWimage.draw(canvas); //신호등 그려줌
+		mGTimer.ShowTimer(canvas, 95, 245);
 
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 
@@ -182,7 +193,10 @@ public class Stage1 extends BaseStage
 		if (this.bRefreshImg_Matans) // 마탄 이미지 새로고침
 			this.Refresh_Matans();
 
+		/* 탄환 */
 		if(mShot.bShooting)	mShot.Move(30.0f); // 탄환 움직임
+
+		mGTimer.Update();
 
 		return false;
 	}
@@ -323,6 +337,17 @@ public class Stage1 extends BaseStage
 		}
 	}
 
+
+	private void Render_Partner(Canvas canvas)
+	{
+		if (mPartner.eState==PartnerStateEnum.DIE)
+			mPartner.SPRITE.AnimateLastFrameStop(canvas, (int)mPartner.x, (int)mPartner.y);	// 파트너 그려줌
+		else
+			mPartner.SPRITE.Animate(canvas, (int)mPartner.x, (int)mPartner.y);	// 파트너 그려줌
+		mPartner.mHPbar.DRAWimage.draw(canvas);
+		mPartner.mHPbar.DRAWimageBAR.draw(canvas);
+	}
+
 	private void Render_ZombiesBehind(Canvas canvas)
 	{
 		for (int i=0; i<mZombieMgr.List.size(); i++)
@@ -346,15 +371,6 @@ public class Stage1 extends BaseStage
 		}
 	}
 
-	private void Render_Partner(Canvas canvas)
-	{
-		if (mPartner.eState==PartnerStateEnum.DIE)
-			mPartner.SPRITE.AnimateLastFrameStop(canvas, (int)mPartner.x, (int)mPartner.y);	// 파트너 그려줌
-		else
-			mPartner.SPRITE.Animate(canvas, (int)mPartner.x, (int)mPartner.y);	// 파트너 그려줌
-		mPartner.mHPbar.DRAWimage.draw(canvas);
-		mPartner.mHPbar.DRAWimageBAR.draw(canvas);
-	}
 
 	private void Render_Matans(Canvas canvas)
 	{
@@ -388,6 +404,13 @@ public class Stage1 extends BaseStage
 		if(mShot.bShooting)
 		{
 			if (mShot.bImageRefresh) this.Refresh_Shot();
+
+			for (int i=0; i<5; i++)
+			{
+				mShot.mEff[i].DRAWimage.setBounds(mShot.mEff[i].getObjectForRect());
+				mShot.mEff[i].DRAWimage.draw(canvas);
+			}
+
 			mShot.DRAWimage.setBounds(mShot.getObjectForRect()); // 탄환 그려줌
 			mShot.DRAWimage.draw(canvas);
 		}
@@ -425,6 +448,9 @@ public class Stage1 extends BaseStage
 	private void Refresh_Partner()
 	{
 		mPartner.bImageRefresh= false;
+		if (mPartner.eState == PartnerStateEnum.DIE && mPartner.IDimage==R.drawable.ch_die_sprite)
+			return;
+
 		switch (mPartner.eState)
 		{
 		case SHOT_12:

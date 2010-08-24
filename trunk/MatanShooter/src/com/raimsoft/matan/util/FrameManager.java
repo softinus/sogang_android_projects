@@ -1,16 +1,20 @@
 package com.raimsoft.matan.util;
 
-
+/**
+ * @author Choi Jun Hyeok (http://raimsoft.com)
+ */
 public class FrameManager
 {
 	private static FrameManager fm= new FrameManager();	// 싱글톤
 
-	public static int TotalFrame=0;
+	public static int TotalFrame=0;				// 총 동작된 프레임수
 
-	public static final long FrameDealy= 1;
-	public static final long TouchDelay= 100;	//
-	public static long CurrentTime;				//현재 시간
-	public static int LastTouchFrame= 0;		//마지막으로 터치한 프레임
+	public static final long FrameDealy= 1;		// 지정 딜레이 타임 (ms)
+	public static final long TouchDelay= 100;	// 터치 딜레이 타임 (ms)
+	public static long RealFrameDelay;			// 실제 딜레이 타임 (ms)
+	public static long CurrentTime;				// 스레드 동작 시간- 루프돌기전 (ms)
+	public static long CurrentAfterTime;		// 스레드 동작 시간- 루프돌고서 (ms)
+	public static int LastTouchFrame= 0;		// 마지막으로 터치한 프레임
 
 
 	public static FrameManager getInstance()
@@ -30,6 +34,11 @@ public class FrameManager
 			return true;
 		}
 		return false;
+	}
+
+	public static void CalRealTime(long after, long before)
+	{
+		RealFrameDelay= after-before;
 	}
 
 	public boolean TouchToDealy(int Delay)

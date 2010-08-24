@@ -16,6 +16,7 @@ public class GameActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		view = new GameView(this);
+		view.setFocusable(true);
 		setContentView(view);
 	}
 
@@ -23,6 +24,20 @@ public class GameActivity extends Activity
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		return view.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	protected void onRestart()
+	{
+		view.setFocusable(true);
+		super.onRestart();
+	}
+
+	@Override
+	protected void onResume()
+	{
+		view.setFocusable(true);
+		super.onResume();
 	}
 
 }

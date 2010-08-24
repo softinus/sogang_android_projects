@@ -1,6 +1,7 @@
 package com.raimsoft.matan.core;
 
 import android.graphics.Canvas;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -83,7 +84,7 @@ public class GameThread extends Thread
 		while(true)
 		{
 			mFrameMgr.IncreaseTotalFrame();				// ++TotalFrame
-			mFrameMgr.CurrentTime= System.currentTimeMillis();
+			FrameManager.CurrentTime= SystemClock.currentThreadTimeMillis();
 
 			try
 			{
@@ -109,12 +110,14 @@ public class GameThread extends Thread
 				if(canvas != null)
 					surfaceHolder.unlockCanvasAndPost(canvas);
 			}
+			FrameManager.CurrentAfterTime= SystemClock.currentThreadTimeMillis();
+			FrameManager.CalRealTime(FrameManager.CurrentAfterTime, FrameManager.CurrentTime);
 		}
 	}
 
 	public void OnTouchEvent(MotionEvent event)
 	{
-		synchronized (surfaceHolder)
+		//synchronized (surfaceHolder)
 		{
 			mStageMgr.Touch(event);
 		}
@@ -122,8 +125,11 @@ public class GameThread extends Thread
 
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
-		bKeyResult= mStageMgr.KeyDown(keyCode,event);
-		return bKeyResult;
+		synchronized (surfaceHolder)
+		{
+			bKeyResult= mStageMgr.KeyDown(keyCode,event);
+			return bKeyResult;
+		}
 	}
 
 }
