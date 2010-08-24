@@ -15,8 +15,8 @@ import android.widget.ImageView;
 
 public class LogoActivity extends Activity
 {
-	private final long LogoTime=3000;
-	private final long NextActivity=4500;
+	private final long LogoTime=2500;
+	private final long NextActivity=3000;
 	private boolean already_Next=false;
 
     @Override

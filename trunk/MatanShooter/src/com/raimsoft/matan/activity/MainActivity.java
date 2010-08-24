@@ -1,26 +1,63 @@
 package com.raimsoft.matan.activity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends Activity implements OnClickListener
 {
 	ImageView IMG_main_bg, IMG_main_press;
+
+	Gallery GAL_inter_mapsel;
+	ImageView IMG_inter_light;
+
 	Button BTN_main_start, BTN_main_bonus, BTN_main_option, BTN_main_exit;
-
-	Button BTN_inter_shop, BTN_inter_opening, BTN_inter_save, BTN_inter_next;
-
-	Button BTN_store_buy, BTN_store_exit;
+	Button BTN_inter_main, BTN_inter_next;
 
 	private boolean already_Next=false;
 	private boolean bPressed= false;
+	private boolean bInterMission= false;
 
+	private Timer timer = new Timer();
+	private final long nFlickDelay= 100;
+	private int rndNum= (int) (Math.random()*10);
+    private Integer[] mImageIds = {
+            R.drawable.ui_map_light_01,
+            R.drawable.ui_map_light_02,
+            R.drawable.ui_map_light_03,
+            R.drawable.ui_map_light_04,
+            R.drawable.ui_map_light_05,
+            R.drawable.ui_map_light_06,
+            R.drawable.ui_map_light_07,
+            R.drawable.ui_map_light_08,
+            R.drawable.ui_map_light_09
+    };
+
+    TimerTask TIMERLight = new TimerTask()
+    {
+        public void run()
+        {
+        	rndNum= (int) (Math.random()*10);
+        	IMG_inter_light.setImageResource(mImageIds[rndNum]);
+        }
+    };
+
+
+	/**
+	 * GameActivity로 넘어감
+	 */
 	private void GotoGame()
 	{
 		if(!already_Next)
@@ -32,27 +69,35 @@ public class MainActivity extends Activity implements OnClickListener
 		}
 	}
 
+	/**
+	 * 인터미션으로 넘어감
+	 */
 	private void GotoInterMission()
 	{
 		this.setContentView(R.layout.intermission);
 
-		BTN_inter_shop= (Button) findViewById(R.id.btn_inter_shop);
-		BTN_inter_shop.setOnClickListener(this);
+		BTN_inter_main= (Button) findViewById(R.id.btn_inter_next);
+		BTN_inter_main.setOnClickListener(this);
 
 		BTN_inter_next= (Button) findViewById(R.id.btn_inter_next);
 		BTN_inter_next.setOnClickListener(this);
+
+		IMG_inter_light= (ImageView) findViewById(R.id.img_backlight);
+
+		GAL_inter_mapsel= (Gallery) findViewById(R.id.gallery_mapsel);
+		GAL_inter_mapsel.setAdapter(new ImageAdapter(this));
+
+		GAL_inter_mapsel.setOnItemClickListener(new OnItemClickListener() {
+	         public void onItemClick(AdapterView parent, View v, int position, long id) {
+	             Toast.makeText(MainActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+	         }
+	     });
+
+		timer.schedule(TIMERLight, nFlickDelay, nFlickDelay);
+
+		bInterMission= true;
 	}
 
-	private void GotoStore()
-	{
-		this.setContentView(R.layout.store);
-
-		BTN_store_buy= (Button) findViewById(R.id.btn_store_buy);
-		BTN_store_buy.setOnClickListener(this);
-
-		BTN_store_exit= (Button) findViewById(R.id.btn_store_exit);
-		BTN_store_exit.setOnClickListener(this);
-	}
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -94,13 +139,9 @@ public class MainActivity extends Activity implements OnClickListener
 			finish();
 			break;
 
-		case R.id.btn_inter_shop:
-			this.GotoStore();
-			break;
 		case R.id.btn_inter_next:
 			this.GotoGame();
 			break;
-
 
 		case R.id.btn_store_exit:
 			this.GotoInterMission();
@@ -113,6 +154,7 @@ public class MainActivity extends Activity implements OnClickListener
 	{
 		if (!bPressed)
 		{
+
 			IMG_main_bg.setImageResource(R.drawable.ui_mainbackground_fade_01);
 			IMG_main_press.setVisibility(View.INVISIBLE);
 			BTN_main_start.setVisibility(View.VISIBLE);
