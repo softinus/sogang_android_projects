@@ -16,7 +16,7 @@ public class GameActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		view = new GameView(this);
-		view.setFocusable(true);
+		Focusable();
 		setContentView(view);
 	}
 
@@ -29,15 +29,22 @@ public class GameActivity extends Activity
 	@Override
 	protected void onRestart()
 	{
-		view.setFocusable(true);
+		Focusable();
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume()
 	{
-		view.setFocusable(true);
+		Focusable();
 		super.onResume();
+	}
+
+	private void Focusable()
+	{
+		view.setFocusable(true);
+		view.setFocusableInTouchMode(true);
+		view.setClickable(true);
 	}
 
 }

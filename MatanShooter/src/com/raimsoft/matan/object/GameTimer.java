@@ -1,13 +1,14 @@
 package com.raimsoft.matan.object;
 
-import java.text.DecimalFormat;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.raimsoft.matan.util.FrameManager;
 
+/**
+ * @author Choi Jun Hyeok (http://raimsoft.com)
+ */
 public class GameTimer
 {
 	public static long TimeLimit= 0;
@@ -18,14 +19,15 @@ public class GameTimer
 	private long min;
 	private long sec;
 
-	private DecimalFormat FORMAT = new DecimalFormat();
+	//private SimpleDateFormat FORMAT = new SimpleDateFormat ("ss");
+	//private DecimalFormat FORMAT = new DecimalFormat();
 
 	public GameTimer()
 	{
 		PAINTtimer.setColor(Color.MAGENTA);
 		PAINTtimer.setTextSize(18.0f);
 		PAINTtimer.setAntiAlias(true);
-		FORMAT.applyPattern("##");
+		//FORMAT.applyPattern("##");
 	}
 
 	/**
@@ -58,24 +60,24 @@ public class GameTimer
 		canvas.drawText(this.toStringMin(), x, y, PAINTtimer);
 	}
 
-	/**
-	 * 밀리초단위로 반환
-	 * @return [밀리초]
-	 */
-	private String toStringMillSec()
-	{
-		return Long.toString(TimeLimit);
-	}
-
-	/**
-	 * 초단위로 반환
-	 * @return [초]
-	 */
-	private String toStringSec()
-	{
-		TimeSec= TimeLimit / 1000;
-		return Long.toString(TimeSec);
-	}
+//	/**
+//	 * 밀리초단위로 반환
+//	 * @return [밀리초]
+//	 */
+//	private String toStringMillSec()
+//	{
+//		return Long.toString(TimeLimit);
+//	}
+//
+//	/**
+//	 * 초단위로 반환
+//	 * @return [초]
+//	 */
+//	private String toStringSec()
+//	{
+//		TimeSec= TimeLimit / 1000;
+//		return Long.toString(TimeSec);
+//	}
 
 	/**
 	 * 분단위로 반환
@@ -87,7 +89,7 @@ public class GameTimer
 		min= TimeSec/60;
 		sec= TimeSec%60;
 
-		return Long.toString(min)+"'"+ FORMAT.format(sec)+"\"";
+		return Long.toString(min)+"'"+ Long.toString(sec)+"\"";
 	}
 
 }
