@@ -1,11 +1,10 @@
 package com.raimsoft.matan.activity;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,10 +27,8 @@ public class MainActivity extends Activity implements OnClickListener
 
 	private boolean already_Next=false;
 	private boolean bPressed= false;
-	private boolean bInterMission= false;
 
-	private Timer timer = new Timer();
-	private final long nFlickDelay= 100;
+
 	private int rndNum= (int) (Math.random()*10);
     private Integer[] mImageIds = {
             R.drawable.ui_map_light_01,
@@ -45,14 +42,34 @@ public class MainActivity extends Activity implements OnClickListener
             R.drawable.ui_map_light_09
     };
 
-    TimerTask TIMERLight = new TimerTask()
+	private final long nFlickDelay= 200;
+    private InterMissionThread mThread= new InterMissionThread();
+    private Handler handler= new Handler()
     {
-        public void run()
-        {
-        	rndNum= (int) (Math.random()*10);
-        	IMG_inter_light.setImageResource(mImageIds[rndNum]);
-        }
+    	public void handleMessage(Message msg)
+    	{
+    		rndNum= (int) (Math.random()*9);
+    		IMG_inter_light.setImageResource(mImageIds[rndNum]);
+    	}
     };
+
+    class InterMissionThread extends Thread
+    {
+    	public void run()
+    	{
+    		while(true)
+    		{
+    			Message msg= handler.obtainMessage();
+    			handler.sendMessage(msg);
+    			try {
+					sleep(nFlickDelay);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+    		}
+    	}
+    }
+
 
 
 	/**
@@ -62,6 +79,7 @@ public class MainActivity extends Activity implements OnClickListener
 	{
 		if(!already_Next)
 		{
+			mThread.stop();
 			Intent intent=new Intent(MainActivity.this, GameActivity.class);
 	        startActivity(intent);
 	        already_Next=true;
@@ -93,10 +111,12 @@ public class MainActivity extends Activity implements OnClickListener
 	         }
 	     });
 
-		timer.schedule(TIMERLight, nFlickDelay, nFlickDelay);
-
-		bInterMission= true;
+		mThread.start();
 	}
+
+
+
+
 
 
     @Override
