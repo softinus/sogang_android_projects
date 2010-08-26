@@ -1,5 +1,6 @@
 package com.raimsoft.matan.core;
 
+import android.graphics.Rect;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -69,5 +70,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		bKeyResult= gameThread.onKeyDown(keyCode, event);
 
 		return bKeyResult;
+	}
+
+	@Override
+	protected void onFocusChanged(boolean gainFocus, int direction,	Rect previouslyFocusedRect)
+	{
+		this.setFocusable(true);
+		this.setFocusableInTouchMode(true);
+		super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 	}
 }

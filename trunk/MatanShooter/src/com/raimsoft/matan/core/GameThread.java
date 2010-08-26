@@ -16,6 +16,7 @@ public class GameThread extends Thread
 	private final SurfaceHolder surfaceHolder; // 화면관리
 	private boolean bKeyResult;
 
+	Thread.State State;
 	StageManager mStageMgr;		// 스테이지관리
 	FrameManager mFrameMgr= FrameManager.getInstance(); 	// 프레임관리 (싱글톤)
 	int nPresentStageID=0;		// 현재의 StageID
@@ -76,6 +77,12 @@ public class GameThread extends Thread
 		}
 	}
 
+	private void beforeRoutine()
+	{
+		mFrameMgr.IncreaseTotalFrame();				// ++TotalFrame
+		FrameManager.CurrentTime= SystemClock.currentThreadTimeMillis();
+	}
+
 
 	@Override
 	public void run()
@@ -83,8 +90,7 @@ public class GameThread extends Thread
 		Canvas canvas = null;
 		while(true)
 		{
-			mFrameMgr.IncreaseTotalFrame();				// ++TotalFrame
-			FrameManager.CurrentTime= SystemClock.currentThreadTimeMillis();
+			beforeRoutine();
 
 			try
 			{
@@ -117,16 +123,19 @@ public class GameThread extends Thread
 
 	public void OnTouchEvent(MotionEvent event)
 	{
-		//synchronized (surfaceHolder)
-		{
-			mStageMgr.Touch(event);
-		}
+		mStageMgr.Touch(event);
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		synchronized (surfaceHolder)
 		{
+			if (keyCode==KeyEvent.KEYCODE_MENU)
+			{
+				State= Thread.currentThread().getState();
+				Log.w("Thread::Routine", State.toString());
+			}
+
 			bKeyResult= mStageMgr.KeyDown(keyCode,event);
 			return bKeyResult;
 		}

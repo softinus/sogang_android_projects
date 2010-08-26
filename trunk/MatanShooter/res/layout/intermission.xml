@@ -7,20 +7,19 @@ android:background="#171717"
 xmlns:android="http://schemas.android.com/apk/res/android"
 >
 	<ImageView
-		android:src="@drawable/map_background_01"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:layout_x="0px"
-		android:layout_y="0px"
-	></ImageView>
-
-
-	<ImageView
 		android:id="@+id/img_backlight"
 		android:layout_width="400px"
 		android:layout_height="240px"
 		android:layout_x="200px"
 		android:layout_y="40px"
+	></ImageView>
+
+	<ImageView
+		android:src="@drawable/map_background_01"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_x="0px"
+		android:layout_y="0px"
 	></ImageView>
 
 

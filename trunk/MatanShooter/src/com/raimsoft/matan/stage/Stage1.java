@@ -301,7 +301,7 @@ public class Stage1 extends BaseStage
 	{
 		if(keyCode==KeyEvent.KEYCODE_BACK)
 		{
-			return true;
+			FrameManager.bThreadStop= true;
 		}
 
 		if (keyCode==KeyEvent.KEYCODE_VOLUME_UP)
