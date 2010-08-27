@@ -16,16 +16,18 @@ public class GameThread extends Thread
 	private final SurfaceHolder surfaceHolder; // 화면관리
 	private boolean bKeyResult;
 
-	Thread.State State;
-	StageManager mStageMgr;		// 스테이지관리
-	FrameManager mFrameMgr= FrameManager.getInstance(); 	// 프레임관리 (싱글톤)
-	int nPresentStageID=0;		// 현재의 StageID
-	int nPrevStageID=0;			// 한단계 루프 이전의 StageID
+	private GameActivity mContext;
+	private Thread.State State;
+	private StageManager mStageMgr;		// 스테이지관리
+	private FrameManager mFrameMgr= FrameManager.getInstance(); 	// 프레임관리 (싱글톤)
+	private int nPresentStageID=0;		// 현재의 StageID
+	private int nPrevStageID=0;			// 한단계 루프 이전의 StageID
 
 
 	public GameThread(GameActivity context, SurfaceHolder holder)
 	{
-		this.setName("MainThread");
+		mContext= context;
+		this.setName("GameThread");
 		start(); // Thread 시작
 		mStageMgr= new StageManager(context);
 		surfaceHolder = holder;
@@ -41,20 +43,8 @@ public class GameThread extends Thread
 		{
 		case 0:
 			return;
-		case StageManager.STAGE_MAIN:
-			mStageMgr.ChangeStage(StageManager.STAGE_MAIN);
-			break;
-		case StageManager.STAGE_OPTION:
-			mStageMgr.ChangeStage(StageManager.STAGE_OPTION);
-			break;
 		case StageManager.STAGE_SCENARIO:
 			mStageMgr.ChangeStage(StageManager.STAGE_SCENARIO);
-			break;
-		case StageManager.STAGE_STORE:
-			mStageMgr.ChangeStage(StageManager.STAGE_STORE);
-			break;
-		case StageManager.STAGE_INTER:
-			mStageMgr.ChangeStage(StageManager.STAGE_INTER);
 			break;
 		case StageManager.STAGE_1:
 			mStageMgr.ChangeStage(StageManager.STAGE_1);

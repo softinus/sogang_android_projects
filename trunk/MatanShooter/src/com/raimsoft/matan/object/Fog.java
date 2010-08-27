@@ -2,7 +2,7 @@ package com.raimsoft.matan.object;
 
 import com.raimsoft.matan.motion.IMoving;
 
-public class Fog extends GameObject implements IMoving
+public class Fog extends AbstractGameObject implements IMoving
 {
 
 	public Fog(int X, int Y, int IDimage, int Width, int Height) {

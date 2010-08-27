@@ -43,7 +43,7 @@ public class StageManager
 			mStage=new Stage1(ManagerContext);
 			break;
 		case STAGE_2:
-			//mStage=new Stage2(ManagerContext);
+			mStage=new Stage2(ManagerContext);
 			break;
 
 		}

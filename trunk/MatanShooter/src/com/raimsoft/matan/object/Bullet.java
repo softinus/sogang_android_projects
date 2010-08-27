@@ -6,7 +6,7 @@ import com.raimsoft.matan.motion.IMoving;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.Vector2Calc;
 
-public class Bullet extends GameObject implements IMoving
+public class Bullet extends AbstractGameObject implements IMoving
 {
 	public boolean bShooting= false; // 쏘는중?
 

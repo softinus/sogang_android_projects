@@ -11,7 +11,7 @@ import com.raimsoft.matan.motion.ISpriteModify;
 import com.raimsoft.matan.util.FrameManager;
 import com.raimsoft.matan.util.SpriteBitmap;
 
-public class Partner extends GameObject implements IHitting, ISpriteModify
+public class Partner extends AbstractGameObject implements IHitting, ISpriteModify
 {
 	public SpriteBitmap SPRITE;
 
