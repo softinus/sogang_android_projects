@@ -3,7 +3,7 @@ package com.raimsoft.matan.object;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
-public class HPbar extends GameObject
+public class HPbar extends AbstractGameObject
 {
 	private Rect rBarDst;
 	public int IDimageBAR;

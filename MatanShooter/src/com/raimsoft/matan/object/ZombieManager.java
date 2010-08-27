@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class ZombieManager
 {
-	public ArrayList<Zombie> List;
+	public ArrayList<AbstractZombie> List;
 	private int nClosestStepCount= -1;
 	public int nClosestRouteNum= -1;
 	public int nClosestListNum= -1;
 
 	public ZombieManager()
 	{
-		List= new ArrayList<Zombie>();
+		List= new ArrayList<AbstractZombie>();
 	}
 
 	/**

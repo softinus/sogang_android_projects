@@ -1,8 +1,10 @@
 package com.raimsoft.matan.object;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 
 import com.raimsoft.matan.util.FrameManager;
 
@@ -13,21 +15,21 @@ public class GameTimer
 {
 	public static long TimeLimit= 0;
 	public static boolean bStart= false;
+	//public static boolean bTimeup= false;
 	private Paint PAINTtimer= new Paint();
+	private Typeface TYPEfont;
 
 	private long TimeSec;
 	private long min;
 	private long sec;
 
-	//private SimpleDateFormat FORMAT = new SimpleDateFormat ("ss");
-	//private DecimalFormat FORMAT = new DecimalFormat();
-
-	public GameTimer()
+	public GameTimer(Context mContext)
 	{
+		TYPEfont= Typeface.createFromAsset(mContext.getAssets(), "fonts/font.ttf");
 		PAINTtimer.setColor(Color.MAGENTA);
-		PAINTtimer.setTextSize(18.0f);
+		PAINTtimer.setTypeface(TYPEfont);
+		PAINTtimer.setTextSize(24.0f);
 		PAINTtimer.setAntiAlias(true);
-		//FORMAT.applyPattern("##");
 	}
 
 	/**
@@ -42,11 +44,17 @@ public class GameTimer
 
 	/**
 	 * 시간 업데이트
+	 * @return 시작전(false), 진행중(false), 끝남(true)
 	 */
-	public void Update()
+	public boolean Update()
 	{
-		if(!bStart) return;
+		if(!bStart) return false;
 		TimeLimit -= FrameManager.RealFrameDelay;
+
+		if (TimeLimit <= 0)
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -89,7 +97,7 @@ public class GameTimer
 		min= TimeSec/60;
 		sec= TimeSec%60;
 
-		return Long.toString(min)+"'"+ Long.toString(sec)+"\"";
+		return Long.toString(min)+"'"+ String.format("%02d", sec)+"\"";
 	}
 
 }

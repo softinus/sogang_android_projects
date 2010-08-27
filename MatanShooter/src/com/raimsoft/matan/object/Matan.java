@@ -1,7 +1,7 @@
 package com.raimsoft.matan.object;
 
 
-public class Matan extends GameObject
+public class Matan extends AbstractGameObject
 {
 	public boolean bOpen= false;
 	public boolean bImageRefresh= true;

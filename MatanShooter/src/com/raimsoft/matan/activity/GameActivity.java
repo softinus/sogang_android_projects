@@ -47,4 +47,9 @@ public class GameActivity extends Activity
 		view.setClickable(true);
 	}
 
+	public void Exit()
+	{
+		finish();
+	}
+
 }

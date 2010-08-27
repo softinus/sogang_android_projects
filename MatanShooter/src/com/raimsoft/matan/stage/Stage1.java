@@ -44,7 +44,6 @@ public class Stage1 extends BaseStage
 	private Stage1Info info= Stage1Info.getInstance();
 
 	private Bitmap BITMAPbackground, BITMAPbackline;
-	//private SpriteBitmap SPRITEpartner;
 
 	private MatanConnection mConnection;
 
@@ -53,15 +52,17 @@ public class Stage1 extends BaseStage
 	private ZombieManager mZombieMgr= new ZombieManager();
 	private Bullet mShot;
 	private TrafficLights mTraffic;
-	private GameTimer mGTimer= new GameTimer();
+	private GameTimer mGTimer;
 
 	// ************** 선언부 종료 ************** //
 
 
 
-	// ************** 생성부 시작 ************** //
+
 	public Stage1(Context managerContext)
 	{
+		// ************** 생성부 시작 ************** //
+
 		mRes= managerContext.getResources();
 
 		// 사운드 초기화
@@ -114,9 +115,12 @@ public class Stage1 extends BaseStage
 		mTraffic.DRAWimage= mRes.getDrawable(mTraffic.IDimage);
 		mTraffic.DRAWimage.setBounds(mTraffic.getObjectForRect());
 
-		mGTimer.setTimer(150);
+		mGTimer= new GameTimer(managerContext);
+		mGTimer.setTimer(10);
+
+		// ************** 생성부 종료 ************** //
 	}
-	// ************** 생성부 종료 ************** //
+
 
 
 	@Override
@@ -170,7 +174,7 @@ public class Stage1 extends BaseStage
 			if (mZombieMgr.List.get(i).bImageRefresh) // 좀비 이미지
 				Refresh_Zombies(i);
 
-			if (mZombieMgr.List.get(i).eZombieState== ZombieStateEnum.ATTACK) // 좀비 공격
+			if (mZombieMgr.List.get(i).eState== ZombieStateEnum.ATTACK) // 좀비 공격
 				mPartner.Damage(mZombieMgr.List.get(i).nPower, info.spdZombieAtt*7);
 
 			if (mZombieMgr.List.get(i).getObjectForRect().intersect(mShot.getObjectForRect())) // 탄환과 충돌
@@ -182,11 +186,11 @@ public class Stage1 extends BaseStage
 		/* 파트너 */
 		if (mPartner.bImageRefresh)	this.Refresh_Partner();
 
-		nCloseZombie= mZombieMgr.ClosestZombieNum();
-		if (!mPartner.Shooting(nCloseZombie, mZombieMgr.List.get(mZombieMgr.nClosestListNum).eZombieState))
-		{
-			nCloseZombie= mZombieMgr.ClosestZombieNum();
-		}
+//		nCloseZombie= mZombieMgr.ClosestZombieNum();
+//		if (!mPartner.Shooting(nCloseZombie, mZombieMgr.List.get(mZombieMgr.nClosestListNum).eState))
+//		{
+//			nCloseZombie= mZombieMgr.ClosestZombieNum();
+//		}
 
 
 		/* 마탄 */
@@ -196,7 +200,11 @@ public class Stage1 extends BaseStage
 		/* 탄환 */
 		if(mShot.bShooting)	mShot.Move(30.0f); // 탄환 움직임
 
-		mGTimer.Update();
+		if (mGTimer.Update())
+		{ // 타이머가 끝나면
+			this.NextStageID= StageManager.STAGE_2;
+			return true;
+		}
 
 		return false;
 	}
@@ -320,16 +328,16 @@ public class Stage1 extends BaseStage
 		{
 			if ((mZombieMgr.List.get(i).nRoute > 0) && (mZombieMgr.List.get(i).nRoute < 8)) continue;
 
-			if (mZombieMgr.List.get(i).eZombieState==ZombieStateEnum.WALK || mZombieMgr.List.get(i).eZombieState==ZombieStateEnum.ATTACK)
+			if (mZombieMgr.List.get(i).eState==ZombieStateEnum.WALK || mZombieMgr.List.get(i).eState==ZombieStateEnum.ATTACK)
 				mZombieMgr.List.get(i).SPRITE.Animate(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y);
 
-			if (mZombieMgr.List.get(i).eZombieState==ZombieStateEnum.HIT || mZombieMgr.List.get(i).eZombieState==ZombieStateEnum.DIE)
+			if (mZombieMgr.List.get(i).eState==ZombieStateEnum.HIT || mZombieMgr.List.get(i).eState==ZombieStateEnum.DIE)
 			{ // 맞거나 죽으면
 				if (mZombieMgr.List.get(i).SPRITE.AnimateNoLoop(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y))
 				{ // 1번반복끝나면
-					if (mZombieMgr.List.get(i).eZombieState==ZombieStateEnum.DIE) mZombieMgr.List.remove(i);
+					if (mZombieMgr.List.get(i).eState==ZombieStateEnum.DIE) mZombieMgr.List.remove(i);
 					if (mZombieMgr.List.get(i).eOldState==ZombieStateEnum.NONE) continue;
-					mZombieMgr.List.get(i).eZombieState= mZombieMgr.List.get(i).eOldState;	// 전상태를 현상태로
+					mZombieMgr.List.get(i).eState= mZombieMgr.List.get(i).eOldState;	// 전상태를 현상태로
 					mZombieMgr.List.get(i).bImageRefresh= true;
 					mZombieMgr.List.get(i).eOldState= ZombieStateEnum.NONE; // 전상태=NONE
 				}
@@ -354,16 +362,16 @@ public class Stage1 extends BaseStage
 		{
 			if ((mZombieMgr.List.get(i).nRoute > 8) && (mZombieMgr.List.get(i).nRoute < 16)) continue;
 
-			if (mZombieMgr.List.get(i).eZombieState==ZombieStateEnum.WALK || mZombieMgr.List.get(i).eZombieState==ZombieStateEnum.ATTACK)
+			if (mZombieMgr.List.get(i).eState==ZombieStateEnum.WALK || mZombieMgr.List.get(i).eState==ZombieStateEnum.ATTACK)
 				mZombieMgr.List.get(i).SPRITE.Animate(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y);
 
-			if (mZombieMgr.List.get(i).eZombieState==ZombieStateEnum.HIT || mZombieMgr.List.get(i).eZombieState==ZombieStateEnum.DIE)
+			if (mZombieMgr.List.get(i).eState==ZombieStateEnum.HIT || mZombieMgr.List.get(i).eState==ZombieStateEnum.DIE)
 			{
 				if (mZombieMgr.List.get(i).SPRITE.AnimateNoLoop(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y))
 				{
-					if (mZombieMgr.List.get(i).eZombieState==ZombieStateEnum.DIE) mZombieMgr.List.remove(i);
+					if (mZombieMgr.List.get(i).eState==ZombieStateEnum.DIE) mZombieMgr.List.remove(i);
 					if (mZombieMgr.List.get(i).eOldState==ZombieStateEnum.NONE) continue;
-					mZombieMgr.List.get(i).eZombieState= mZombieMgr.List.get(i).eOldState;
+					mZombieMgr.List.get(i).eState= mZombieMgr.List.get(i).eOldState;
 					mZombieMgr.List.get(i).bImageRefresh= true;
 					mZombieMgr.List.get(i).eOldState= ZombieStateEnum.NONE;
 				}
@@ -424,7 +432,7 @@ public class Stage1 extends BaseStage
 	 */
 	private void Refresh_Zombies(int idx)
 	{
-		switch (mZombieMgr.List.get(idx).eZombieState)
+		switch (mZombieMgr.List.get(idx).eState)
 		{
 		case WALK:
 			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_walk, 4, info.spdZombieWalk, mRes);
