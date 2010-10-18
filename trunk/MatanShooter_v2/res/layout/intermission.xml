@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/widget0"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:background="#171717"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+	<ImageView
+		android:id="@+id/img_backlight"
+		android:layout_width="400px"
+		android:layout_height="240px"
+		android:layout_x="200px"
+		android:layout_y="40px"
+	></ImageView>
+
+	<Gallery
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/gallery_mapsel"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_x="0px"
+		android:layout_y="20px"
+	></Gallery>
+
+	<ImageView
+		android:src="@drawable/map_background_01"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_x="0px"
+		android:layout_y="0px"
+	></ImageView>
+
+	<ImageView
+		android:id="@+id/img_inter_left"
+		android:src="@drawable/ui_buttonstore_left"
+		android:layout_width="25px"
+		android:layout_height="49px"
+		android:layout_x="180px"
+		android:layout_y="126px"
+	></ImageView>
+
+	<ImageView
+		android:id="@+id/btn_inter_right"
+		android:src="@drawable/ui_buttonstore_right"
+		android:layout_width="25px"
+		android:layout_height="49px"
+		android:layout_x="595px"
+		android:layout_y="126px"
+	></ImageView>
+
+	<ImageView
+		android:id="@+id/img_inter_chatwindow"
+		android:src="@drawable/ui_map_chat"
+		android:layout_width="0px"
+		android:layout_height="00px"
+		android:layout_x="100px"
+		android:layout_y="320px"
+	></ImageView>
+
+
+	<Button
+		android:id="@+id/btn_inter_main"
+		android:background="@xml/inter_main"
+		android:layout_width="87px"
+		android:layout_height="36px"
+		android:layout_x="356px"
+		android:layout_y="337px"
+	></Button>
+
+	<Button
+		android:id="@+id/btn_inter_next"
+		android:background="@xml/inter_next"
+		android:layout_width="93px"
+		android:layout_height="36px"
+		android:layout_x="351px"
+		android:layout_y="405px"
+	></Button>
+
+</AbsoluteLayout>

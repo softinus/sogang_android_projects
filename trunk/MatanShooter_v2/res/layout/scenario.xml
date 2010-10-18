@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/scenario"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:background="#00171717"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+
+
+	<ImageView
+		android:id="@+id/img_scenario_shooter"
+		android:src="@drawable/ch_scenario_shooter"
+		android:layout_width="400px"
+		android:layout_height="440px"
+		android:layout_x="6px"
+		android:layout_y="60px"
+	></ImageView>
+
+	<ImageView
+		android:id="@+id/img_scenario_partner"
+		android:src="@drawable/ch_scenario_partner"
+		android:layout_width="400px"
+		android:layout_height="440px"
+		android:layout_x="417px"
+		android:layout_y="60px"
+	></ImageView>
+
+<RelativeLayout
+android:layout_width="fill_parent"
+android:layout_height= "wrap_content"
+android:background= "#44000000"
+android:layout_y="365px"
+>
+	<TextView
+		android:id="@+id/txt_scenario_script"
+		android:text="sample text"
+		android:layout_centerHorizontal="true"
+		android:layout_centerVertical="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+	></TextView>
+</RelativeLayout>
+
+
+	<Button
+		android:id="@+id/btn_scenatio_skip"
+		android:text="skip>>"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_x="700px"
+		android:layout_y="20px"
+	></Button>
+
+
+
+</AbsoluteLayout>
