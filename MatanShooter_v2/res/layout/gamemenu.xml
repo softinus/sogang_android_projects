@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/gamemenu"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:background="#00171717"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+	<ImageView
+		android:id="@+id/img_inter_chatwindow"
+		android:src="@drawable/ui_gamemenu_transpercy"
+		android:layout_width="584px"
+		android:layout_height="433px"
+		android:layout_x="0px"
+		android:layout_y="40px"
+	></ImageView>
+
+	<Button
+		android:id="@+id/btn_gamemenu_continue"
+		android:background="@xml/gamemenu_continue"
+		android:layout_width="160px"
+		android:layout_height="37px"
+		android:layout_x="248px"
+		android:layout_y="230px"
+	></Button>
+
+	<Button
+		android:id="@+id/btn_gamemenu_exit"
+		android:background="@xml/gamemenu_exit"
+		android:layout_width="69px"
+		android:layout_height="37px"
+		android:layout_x="450px"
+		android:layout_y="230px"
+	></Button>
+
+
+</AbsoluteLayout>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+
+
+	<Button
+	android:id="@+id/btn_store_buy"
+	android:background="@xml/store_buy"
+	android:layout_width="247px"
+	android:layout_height="36px"
+	android:layout_x="322px"
+	android:layout_y="338px"
+	></Button>
+
+	<Button
+	android:id="@+id/btn_store_exit"
+	android:background="@xml/store_exit"
+	android:layout_width="247px"
+	android:layout_height="36px"
+	android:layout_x="318px"
+	android:layout_y="398px"
+	></Button>
+
+
+
+ 	<ScrollView
+ 	android:layout_width="wrap_content"
+ 	android:layout_height="wrap_content"
+ 	android:layout_x="460px"
+ 	android:layout_y="0px"
+ 	>
+
+ 		<TableLayout
+ 		android:layout_width="340px"
+ 		android:layout_height="wrap_content"
+ 		android:stretchColumns="0">
+
+	 		<TableRow>
+	 			<View
+	 			android:layout_width="50px"
+	 			android:layout_height="80px"
+	 			android:background="#ffffff"/>
+	 		</TableRow>
+
+	 		<TableRow>
+	 			<View
+	 			android:layout_width="120px"
+	 			android:layout_height="80px"
+	 			android:background="#440000"/>
+	 			<View
+	 			android:layout_width="170px"
+	 			android:layout_height="80px"
+	 			android:background="#2391ef"/>
+	 		</TableRow>
+
+	 		 <TableRow>
+	 			<View
+	 			android:layout_width="120px"
+	 			android:layout_height="80px"
+	 			android:background="#884400"/>
+	 			<View
+	 			android:layout_width="170px"
+	 			android:layout_height="80px"
+	 			android:background="#e51892"/>
+	 		</TableRow>
+
+	 		<TableRow>
+	 			<View
+	 			android:layout_width="100px"
+	 			android:layout_height="80px"
+	 			android:background="#aa8844"/>
+	 			<View
+	 			android:layout_width="170px"
+	 			android:layout_height="80px"
+	 			android:background="#440022"/>
+	 		</TableRow>
+
+	 		<TableRow>
+	 			<View
+	 			android:layout_width="100px"
+	 			android:layout_height="80px"
+	 			android:background="#ffaa88"/>
+	 			<View
+	 			android:layout_width="170px"
+	 			android:layout_height="80px"
+	 			android:background="#884400"/>
+	 		</TableRow>
+
+	 		<TableRow>
+	 			<View
+	 			android:layout_width="170px"
+	 			android:layout_height="80px"
+	 			android:background="#ffffaa"/>
+	 		</TableRow>
+
+	 		<TableRow>
+	 			<View
+	 			android:layout_width="170px"
+	 			android:layout_height="80px"
+	 			android:background="#ffff00"/>
+	 			<View
+	 			android:layout_width="170px"
+	 			android:layout_height="80px"
+	 			android:background="#00ff00"/>
+	 		</TableRow>
+
+	 		<TableRow>
+	 			<View
+	 			android:layout_width="170px"
+	 			android:layout_height="80px"
+	 			android:background="#ff00ff"/>
+	 			<View
+	 			android:layout_width="170px"
+	 			android:layout_height="80px"
+	 			android:background="#00ffff"/>
+	 		</TableRow>
+ 		</TableLayout>
+
+	</ScrollView>
+
+</AbsoluteLayout>
