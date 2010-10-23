@@ -20,8 +20,6 @@ public class GameThread extends Thread
 	private Thread.State State;
 	static private StageManager mStageMgr;		// 스테이지관리
 	private FrameManager mFrameMgr= FrameManager.getInstance(); 	// 프레임관리 (싱글톤)
-	private int nPresentStageID=0;		// 현재의 StageID
-	private int nPrevStageID=0;			// 한단계 루프 이전의 StageID
 
 
 	GameThread(GameActivity context, SurfaceHolder holder)
@@ -45,16 +43,14 @@ public class GameThread extends Thread
 	{
 		switch(mStageMgr.GetNextStageID())
 		{
-		case 0:
-			return;
-		case StageManager.STAGE_SCENARIO:
-			mStageMgr.ChangeStage(StageManager.STAGE_SCENARIO);
-			break;
 		case StageManager.STAGE_1:
 			mStageMgr.ChangeStage(StageManager.STAGE_1);
 			break;
 		case StageManager.STAGE_2:
 			mStageMgr.ChangeStage(StageManager.STAGE_2);
+			break;
+		case StageManager.STAGE_3:
+			mStageMgr.ChangeStage(StageManager.STAGE_3);
 			break;
 		}
 	}

@@ -17,25 +17,25 @@ public class GameActivity extends Activity
 
 	public void PopUpResult()
 	{
-		Intent intent= new Intent(GameActivity.this, ResultActivity.class);
+		Intent intent= new Intent(GameActivity.this, MenuActivity.class);
 		startActivity(intent);
 		FrameManager.bPause= true;
 
-		ResultActivity.mGameAct= this;
-		ResultActivity.bStageOver= true;
-		ResultActivity.strTitle= "::: Stage Over :::";
+		MenuActivity.mGameAct= this;
+		MenuActivity.bStageOver= true;
+		MenuActivity.strTitle= "::: Stage Over :::";
 		//view.gameThread.SoundStop();
 	}
 
 	public void PopUpMenu()
 	{
-		Intent intent= new Intent(GameActivity.this, ResultActivity.class);
+		Intent intent= new Intent(GameActivity.this, MenuActivity.class);
 		startActivity(intent);
 		FrameManager.bPause= true;
 
-		ResultActivity.mGameAct= this;
-		ResultActivity.bStageOver= false;
-		ResultActivity.strTitle= "::: Game Pause :::";
+		MenuActivity.mGameAct= this;
+		MenuActivity.bStageOver= false;
+		MenuActivity.strTitle= "::: Game Pause :::";
 		//view.gameThread.SoundStop();
 	}
 

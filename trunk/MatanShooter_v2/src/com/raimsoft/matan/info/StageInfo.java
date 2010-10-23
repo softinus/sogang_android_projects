@@ -30,22 +30,42 @@ public class StageInfo implements IGameInfo
 	public Point pZombieStart[]= new Point[16]; // 좀비 시작포인트
 	public Point pZombieStop[]= new Point[16];  // 좀비 끝포인트
 
-	// 좀비 속도
-	public final int spdZombie1Walk= 10;
-	public final int spdZombie1Att= 4;
-	public final int spdZombie1Hit= 40;
-	public final int spdZombie1Die= 3;
+	// 원더러 속도
+	public final int spdZombie1Walk=10; // 4
+	public final int spdZombie1Att= 4;	// 7
+	public final int spdZombie1Hit= 40; // 1
+	public final int spdZombie1Die= 3;  // 8
 
-	public final int spdZombie2Walk= 6;
-	public final int spdZombie2Att= 5;
-	public final int spdZombie2Hit= 40;
-	public final int spdZombie2Die= 3;
+	// 그래버 속도
+	public final int spdZombie2Walk=6;  // 6
+	public final int spdZombie2Att= 5; 	// 5
+	public final int spdZombie2Hit= 40; // 1
+	public final int spdZombie2Die= 3;	// 8
+
+	// 댄서 속도
+	public final int spdZombie3Walk=10; // 4
+	public final int spdZombie3Att= 4;  // 6
+	public final int spdZombie3Hit= 40; // 1
+	public final int spdZombie3Die= 3;  // 7
+	public final int spdZombie3Avoid=8;// 3
+
+	// 볼러 속도
+	public final int spdZombie4Walk=6;  // 6
+	public final int spdZombie4Att= 6;  // 4
+	public final int spdZombie4Hit= 40; // 1
+	public final int spdZombie4Die= 3;  // 7
+
+	// 드릴러 속도
+	public final int spdZombie5Walk=10; // 4
+	public final int spdZombie5Att= 8;  // 3
+	public final int spdZombie5Hit= 40; // 1
+	public final int spdZombie5Die= 3;  // 7
 
 	public final int spdPartnerShot= 7;
 	public final int spdPartnerDie= 4;
 
 	public final float spdAllZombie= 0.3f;
-	public final float spdAllBullet= 22.0f;
+	public final float spdAllBullet= 40.0f;
 
 
 
@@ -97,7 +117,7 @@ public class StageInfo implements IGameInfo
     }
 
 	@Override
-	public void Init()
+	public void Init(int nStage)
 	{
 		// 마탄 좌표
 		pMatan[0].set(0  ,   0);
