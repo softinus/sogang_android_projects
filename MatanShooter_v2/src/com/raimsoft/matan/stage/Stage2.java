@@ -20,10 +20,10 @@ import com.raimsoft.matan.activity.R;
 import com.raimsoft.matan.info.PartnerStateEnum;
 import com.raimsoft.matan.info.StageInfo;
 import com.raimsoft.matan.info.ZombieStateEnum;
+import com.raimsoft.matan.object.AbstractZombie;
 import com.raimsoft.matan.object.Bullet;
 import com.raimsoft.matan.object.Doodad;
 import com.raimsoft.matan.object.GameTimer;
-import com.raimsoft.matan.object.Grabber;
 import com.raimsoft.matan.object.Matan;
 import com.raimsoft.matan.object.MatanConnection;
 import com.raimsoft.matan.object.Partner;
@@ -52,9 +52,10 @@ public class Stage2 extends BaseStage {
 
 	private MatanConnection mConnection;
 
-	private Partner mPartner; private int nCloseZombie;
+	private Partner mPartner; //private int nCloseZombie;
 	private Matan mMatan[]= new Matan[8];
 	private ZombieManager mZombieMgr;
+	private AbstractZombie mZombie;
 	private Bullet mShot;
 	private Doodad mSign;
 	private GameTimer mGTimer;
@@ -77,12 +78,19 @@ public class Stage2 extends BaseStage {
 		sm.load(0, R.raw.sfx_drag);
 		sm.load(1, R.raw.sfx_drag_one_65);
 		sm.load(2, R.raw.sfx_touch_matan);
+		sm.load(100, R.raw.sfx_shot_sting);
+		sm.load(101, R.raw.sfx_bullet_2);
+		sm.load(102, R.raw.sfx_shot_fire);
+		sm.load(103, R.raw.sfx_shot_bolt);
+		sm.load(104, R.raw.sfx_ice_1);
+
 		mp= new MediaPlayer();
-		mp= MediaPlayer.create(managerContext, R.raw.stage_bgm);
+		mp= MediaPlayer.create(managerContext, R.raw.bgm);
 		mp.start();
 
+
 		// 정보 초기화
-		info.Init();
+		info.Init( 2 );
 
 		// 파트너 초기화
 		mPartner= new Partner(285,125, R.drawable.ch_crossbow12_sprite, 230,230, mRes);
@@ -121,7 +129,7 @@ public class Stage2 extends BaseStage {
 		mSign.DRAWimage.setBounds(mSign.getObjectForRect());
 
 		mGTimer= new GameTimer(managerContext);
-		mGTimer.setTimer(150);
+		mGTimer.setTimer(40);
 
 		// ************** 생성부 종료 ************** //
 	}
@@ -143,14 +151,14 @@ public class Stage2 extends BaseStage {
 	{
 		canvas.drawBitmap(BITMAPbackground, 0, 0, null);	// 배경 그려줌
 
-		this.Render_ZombiesBehind(canvas); // 좀비 뒤 그려줌
+		this.Render_AllZombies(canvas, 8, 16); // 좀비 앞 그려줌
 
 		this.Render_Partner(canvas);	// 파트너 그려줌
 
-		this.Render_ZombiesFront(canvas); // 좀비 앞 그려줌
+		this.Render_AllZombies(canvas, 0, 8); // 좀비 앞 그려줌
 
 		mSign.DRAWimage.draw(canvas); //신호등 그려줌
-		mGTimer.ShowTimer(canvas, 149, 160);
+		mGTimer.ShowTimer(canvas, 149, 163);
 
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 
@@ -164,9 +172,15 @@ public class Stage2 extends BaseStage {
 	@Override
 	public boolean StageUpdate()
 	{
+		if (mGTimer.Update())
+		{ // 타이머가 끝나면
+			this.NextStageID= StageManager.STAGE_3;
+			m_sGame.PopUpResult();
+		}
+
 		if (FrameManager.FrameTimer(50) && (mZombieMgr.List.size()<20)) // 50프레임마다 한마리씩 25마리 제한
 		{
-			mZombieMgr.List.add(new Grabber((int) (Math.random()*16), R.drawable.ch_zombie2_walk, 100,100, mRes));
+			mZombieMgr.AddRandomZombie( 2 );
 			Log.i("Stage1::ZombieMgr", mZombieMgr.List.size() + "th Zombie Added.");
 		}
 
@@ -210,16 +224,14 @@ public class Stage2 extends BaseStage {
 		/* 탄환 */
 		if(mShot.bShooting)	mShot.Move(info.spdAllBullet); // 탄환 움직임
 
-		if (mGTimer.Update())
-		{ // 타이머가 끝나면
-			//this.NextStageID= StageManager.STAGE_2;
-			//return true;
-		}
+
 		for (int i=0; i<mShot.mEffList.size(); i++)
 			if (mShot.mEffList.get(i).AlphaDrop())
 			{
 				mShot.mEffList.remove(i);
 			}
+
+		SoundPlay(mShot.nSoundPlayID);
 
 		return false;
 	}
@@ -318,29 +330,32 @@ public class Stage2 extends BaseStage {
 
 	// ************** 렌더 메소드 시작 ************** //
 
-	private void Render_ZombiesFront(Canvas canvas)
+	private void Render_AllZombies(Canvas canvas, int nStart, int nEnd)
 	{
 		for (int i=0; i<mZombieMgr.List.size(); i++)
 		{
-			if ((mZombieMgr.List.get(i).nRoute > 0) && (mZombieMgr.List.get(i).nRoute < 8)) continue;
+			mZombie= mZombieMgr.List.get(i);
 
-			if (mZombieMgr.List.get(i).eState==ZombieStateEnum.WALK || mZombieMgr.List.get(i).eState==ZombieStateEnum.ATTACK)
-				mZombieMgr.List.get(i).SPRITE.Animate(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y);
+			if ((mZombie.nRoute > nStart) && (mZombie.nRoute < nEnd)) continue;
 
-			if (mZombieMgr.List.get(i).eState==ZombieStateEnum.HIT || mZombieMgr.List.get(i).eState==ZombieStateEnum.DIE)
-			{ // 맞거나 죽으면
-				if (mZombieMgr.List.get(i).SPRITE.AnimateNoLoop(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y))
-				{ // 1번반복끝나면
-					if (mZombieMgr.List.get(i).eState==ZombieStateEnum.DIE) mZombieMgr.List.remove(i);
-					if (mZombieMgr.List.get(i).eOldState==ZombieStateEnum.NONE) continue;
-					mZombieMgr.List.get(i).eState= mZombieMgr.List.get(i).eOldState;	// 전상태를 현상태로
-					mZombieMgr.List.get(i).bImageRefresh= true;
-					mZombieMgr.List.get(i).eOldState= ZombieStateEnum.NONE; // 전상태=NONE
+			if (mZombie.eState==ZombieStateEnum.WALK || mZombie.eState==ZombieStateEnum.ATTACK)
+				mZombie.SPRITE.Animate(canvas, (int)mZombie.x, (int)mZombie.y);
+
+			if (mZombie.eState==ZombieStateEnum.HIT || mZombie.eState==ZombieStateEnum.DIE || mZombie.eState==ZombieStateEnum.AVOID)
+			{ // 맞거나 죽거나 피하면
+				if (mZombie.SPRITE.AnimateNoLoop(canvas, (int)mZombie.x, (int)mZombie.y))
+				{ // 해당 SPRITE 애니메이션 1번 반복 끝나면
+					if (mZombie.eState 	 == ZombieStateEnum.DIE) // 죽으면 노드 삭제
+						mZombieMgr.List.remove(i);
+					if (mZombie.eOldState == ZombieStateEnum.NONE) //
+						continue;
+					mZombie.eState   = mZombie.eOldState;	// 전상태를 현상태로
+					mZombie.eOldState= ZombieStateEnum.NONE; // 전상태=NONE
+					mZombie.bImageRefresh= true;
 				}
 			}
 		}
 	}
-
 
 	private void Render_Partner(Canvas canvas)
 	{
@@ -352,28 +367,6 @@ public class Stage2 extends BaseStage {
 		mPartner.mHPbar.DRAWimageBAR.draw(canvas);
 	}
 
-	private void Render_ZombiesBehind(Canvas canvas)
-	{
-		for (int i=0; i<mZombieMgr.List.size(); i++)
-		{
-			if ((mZombieMgr.List.get(i).nRoute > 8) && (mZombieMgr.List.get(i).nRoute < 16)) continue;
-
-			if (mZombieMgr.List.get(i).eState==ZombieStateEnum.WALK || mZombieMgr.List.get(i).eState==ZombieStateEnum.ATTACK)
-				mZombieMgr.List.get(i).SPRITE.Animate(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y);
-
-			if (mZombieMgr.List.get(i).eState==ZombieStateEnum.HIT || mZombieMgr.List.get(i).eState==ZombieStateEnum.DIE)
-			{
-				if (mZombieMgr.List.get(i).SPRITE.AnimateNoLoop(canvas, (int)mZombieMgr.List.get(i).x, (int)mZombieMgr.List.get(i).y))
-				{
-					if (mZombieMgr.List.get(i).eState==ZombieStateEnum.DIE) mZombieMgr.List.remove(i);
-					if (mZombieMgr.List.get(i).eOldState==ZombieStateEnum.NONE) continue;
-					mZombieMgr.List.get(i).eState= mZombieMgr.List.get(i).eOldState;
-					mZombieMgr.List.get(i).bImageRefresh= true;
-					mZombieMgr.List.get(i).eOldState= ZombieStateEnum.NONE;
-				}
-			}
-		}
-	}
 
 
 	private void Render_Matans(Canvas canvas)
@@ -427,7 +420,12 @@ public class Stage2 extends BaseStage {
 	// ************** 렌더 메소드 끝 ************** //
 
 
-
+	private void SoundPlay(int ID)
+	{
+		if (ID==-1) return;
+		sm.play(ID);
+		mShot.nSoundPlayID= -1;
+	}
 
 
 
@@ -459,10 +457,9 @@ public class Stage2 extends BaseStage {
 	}
 
 	@Override
-	public void SoundStop() {
-		sm.destroy();
+	public void SoundStop()
+	{
 		mp.stop();
-		mp.release();
 
 	}
 

@@ -9,6 +9,14 @@ import com.raimsoft.matan.util.SpriteBitmap;
 public class Wanderer extends AbstractZombie
 {
 
+	/**
+	 * 위치에 따라 생성
+	 * @param RouteNum : 좀비 경로 번호 (0-~15)
+	 * @param IDimage : 이미지 ID
+	 * @param Width : 가로길이
+	 * @param Height : 세로길이
+	 * @param mRes : 리소스
+	 */
 	public Wanderer(int RouteNum, int IDimage, int Width, int Height, Resources mRes)
 	{
 		super(RouteNum, IDimage, Width, Height, mRes);

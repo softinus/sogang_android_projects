@@ -6,6 +6,7 @@ import android.content.res.Resources;
 
 import com.raimsoft.matan.activity.R;
 import com.raimsoft.matan.info.StageInfo;
+import com.raimsoft.matan.info.ZombieNameEnum;
 
 public class ZombieManager
 {
@@ -41,6 +42,69 @@ public class ZombieManager
 		return nClosestRouteNum;
 	}
 
+	/**
+	 * 스테이지에 따른 좀비를 랜덤으로 불러옵니다.
+	 * @param _StageNum 1~3
+	 */
+	public void AddRandomZombie(int _StageNum)
+	{
+		ZombieNameEnum eZombieKind= GetRandomKindOfZombie( _StageNum );
+
+		switch( eZombieKind )
+		{
+		case WANDERER:
+			List.add(new Wanderer((int) (Math.random()*16), R.drawable.ch_zombie1_walk, 100,100, mRes));
+			break;
+		case GRABBER:
+			List.add(new Grabber((int) (Math.random()*16), R.drawable.ch_zombie2_walk, 100,100, mRes));
+			break;
+		case DANCER:
+			List.add(new Dancer((int) (Math.random()*16), R.drawable.ch_zombie3_walk, 100,100, mRes));
+			break;
+		case BOWLER:
+			List.add(new Bowler((int) (Math.random()*16), R.drawable.ch_zombie4_walk, 100,100, mRes));
+			break;
+		case DRILLER:
+			List.add(new Driller((int) (Math.random()*16), R.drawable.ch_zombie5_walk, 100,100, mRes));
+			break;
+		case ANGER:
+			//List.add(new Wanderer((int) (Math.random()*16), R.drawable.ch_zombie1_walk, 100,100, mRes));
+			break;
+		}
+
+	}
+
+	/**
+	 * 스테이지에 따라 좀비 종류를 랜덤으로 반환함.
+	 * @param StageNum : 1~3
+	 * @return
+	 * 1스테이지일 경우 : 1,2 반환,
+	 * 2스테이지일 경우 : 3,4 반환,
+	 * 3스테이지일 경우 : 5,6 반환,
+	 */
+	private ZombieNameEnum GetRandomKindOfZombie(int _StageNum)
+	{
+		int nZombieKind= (int) (Math.random() * 2) + ((_StageNum-1) * 2);
+
+		switch(nZombieKind)
+		{
+		case 0:
+			return ZombieNameEnum.WANDERER;
+		case 1:
+			return ZombieNameEnum.GRABBER;
+		case 2:
+			return ZombieNameEnum.DANCER;
+		case 3:
+			return ZombieNameEnum.BOWLER;
+		case 4:
+			return ZombieNameEnum.DRILLER;
+		case 5:
+			return ZombieNameEnum.ANGER;
+		default:
+			return ZombieNameEnum.WANDERER;
+		}
+	}
+
 
 	/**
 	 * 좀비 새로고침
@@ -64,7 +128,12 @@ public class ZombieManager
 			case DIE:
 				List.get(idx).Init(R.drawable.ch_zombie1_die, 8, info.spdZombie1Die, mRes);
 				break;
-			}break;
+			default:
+				List.get(idx).Init(R.drawable.ch_zombie1_walk, 4, info.spdZombie1Walk, mRes);
+				break;
+			}
+		break;
+
 		case GRABBER:
 			switch (List.get(idx).eState)
 			{
@@ -80,55 +149,78 @@ public class ZombieManager
 			case DIE:
 				List.get(idx).Init(R.drawable.ch_zombie2_die, 8, info.spdZombie2Die, mRes);
 				break;
-			}break;
-	//	case BOWLER:
-	//		switch (mZombieMgr.List.get(idx).eState)
-	//		{
-	//		case WALK:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_walk, 4, info.spdZombieWalk, mRes);
-	//			break;
-	//		case ATTACK:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_attack, 7, info.spdZombieAtt, mRes);
-	//			break;
-	//		case HIT:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_hit, 1, info.spdZombieHit, mRes);
-	//			break;
-	//		case DIE:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_die, 8, info.spdZombieDie, mRes);
-	//			break;
-	//		}
-	//	case DANCER:
-	//		switch (mZombieMgr.List.get(idx).eState)
-	//		{
-	//		case WALK:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_walk, 4, info.spdZombieWalk, mRes);
-	//			break;
-	//		case ATTACK:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_attack, 7, info.spdZombieAtt, mRes);
-	//			break;
-	//		case HIT:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_hit, 1, info.spdZombieHit, mRes);
-	//			break;
-	//		case DIE:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_die, 8, info.spdZombieDie, mRes);
-	//			break;
-	//		}
-	//	case DRILLER:
-	//		switch (mZombieMgr.List.get(idx).eState)
-	//		{
-	//		case WALK:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_walk, 4, info.spdZombieWalk, mRes);
-	//			break;
-	//		case ATTACK:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_attack, 7, info.spdZombieAtt, mRes);
-	//			break;
-	//		case HIT:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_hit, 1, info.spdZombieHit, mRes);
-	//			break;
-	//		case DIE:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_die, 8, info.spdZombieDie, mRes);
-	//			break;
-	//		}
+			default:
+				List.get(idx).Init(R.drawable.ch_zombie2_walk, 6, info.spdZombie2Walk, mRes);
+				break;
+			}
+		break;
+
+		case DANCER:
+			switch (List.get(idx).eState)
+			{
+			case WALK:
+				List.get(idx).Init(R.drawable.ch_zombie3_walk, 4, info.spdZombie3Walk, mRes);
+				break;
+			case ATTACK:
+				List.get(idx).Init(R.drawable.ch_zombie3_attack, 6, info.spdZombie3Att, mRes);
+				break;
+			case HIT:
+				List.get(idx).Init(R.drawable.ch_zombie3_hit, 1, info.spdZombie3Hit, mRes);
+				break;
+			case DIE:
+				List.get(idx).Init(R.drawable.ch_zombie3_die, 7, info.spdZombie3Die, mRes);
+				break;
+			case AVOID:
+				List.get(idx).Init(R.drawable.ch_zombie3_avoid, 3, info.spdZombie3Avoid, mRes);
+				break;
+			default:
+				List.get(idx).Init(R.drawable.ch_zombie3_walk, 4, info.spdZombie3Walk, mRes);
+				break;
+			}
+		break;
+
+		case BOWLER:
+			switch (List.get(idx).eState)
+			{
+			case WALK:
+				List.get(idx).Init(R.drawable.ch_zombie4_walk, 6, info.spdZombie4Walk, mRes);
+				break;
+			case ATTACK:
+				List.get(idx).Init(R.drawable.ch_zombie4_attack, 4, info.spdZombie4Att, mRes);
+				break;
+			case HIT:
+				List.get(idx).Init(R.drawable.ch_zombie4_hit, 1, info.spdZombie4Hit, mRes);
+				break;
+			case DIE:
+				List.get(idx).Init(R.drawable.ch_zombie4_die, 7, info.spdZombie4Die, mRes);
+				break;
+			default:
+				List.get(idx).Init(R.drawable.ch_zombie4_walk, 6, info.spdZombie4Walk, mRes);
+				break;
+			}
+		break;
+
+		case DRILLER:
+			switch (List.get(idx).eState)
+			{
+			case WALK:
+				List.get(idx).Init(R.drawable.ch_zombie5_walk, 4, info.spdZombie5Walk, mRes);
+				break;
+			case ATTACK:
+				List.get(idx).Init(R.drawable.ch_zombie5_attack, 3, info.spdZombie5Att, mRes);
+				break;
+			case HIT:
+				List.get(idx).Init(R.drawable.ch_zombie5_hit, 1, info.spdZombie5Hit, mRes);
+				break;
+			case DIE:
+				List.get(idx).Init(R.drawable.ch_zombie5_die, 7, info.spdZombie5Die, mRes);
+				break;
+			default:
+				List.get(idx).Init(R.drawable.ch_zombie5_walk, 4, info.spdZombie5Walk, mRes);
+				break;
+			}
+		break;
+
 	//	case ANGER:
 	//		switch (mZombieMgr.List.get(idx).eState)
 	//		{

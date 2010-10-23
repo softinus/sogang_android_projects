@@ -8,16 +8,20 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.raimsoft.matan.core.GameThread;
+import com.raimsoft.matan.info.ScenarioInfo;
+import com.raimsoft.matan.util.FrameManager;
+
 public class ScenarioActivity extends Activity
 {
-	private Typeface TYPEfont;
-	private TextView txtScript;
-
-	private int nScriptCount= 1;  // 대사 카운트
-	private int nScriptNum= 15; // 대사 갯수
-	private String[] strScript= new String[nScriptNum];
+	ScenarioInfo kScenInfo= new ScenarioInfo();
 
 	private boolean already_Next= false;
+
+	private TextView txtScript;
+	public Typeface TYPEfont;
+
+	public static int nCurrStage= 1;
 
 
 	@Override
@@ -25,39 +29,34 @@ public class ScenarioActivity extends Activity
 	{
 		setContentView(R.layout.scenario);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+
+		txtScript=  (TextView) findViewById(R.id.txt_scenario_script);
+
+		TYPEfont= Typeface.createFromAsset(this.getAssets(), "fonts/font.ttf");
+		txtScript.setTypeface(TYPEfont);
+		txtScript.setTextSize(32.0f);
+
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
 	protected void onStart()
 	{
-		TYPEfont= Typeface.createFromAsset(this.getAssets(), "fonts/font.ttf");
-		txtScript= (TextView) findViewById(R.id.txt_scenario_script);
-		txtScript.setTypeface(TYPEfont);
-		txtScript.setTextSize(32.0f);
+		kScenInfo.Init( nCurrStage );
 
-		strScript[0]= "Weber: This place is not the city";
-		strScript[1]= "Already, I feel thick smell of zombie..";
+		switch(nCurrStage)
+		{
+		case 1:
+			txtScript.setText( kScenInfo.strScript1[0] );
+			break;
+		case 2:
+			txtScript.setText( kScenInfo.strScript2[0] );
+			break;
+		case 3:
+			txtScript.setText( kScenInfo.strScript3[0] );
+			break;
+		}
 
-		strScript[2]= "Keane: Ha ha ha! Okay. Okay. This feels good..";
-		strScript[3]= "Everything seems to be what I want. Zombie, atmosphere, smell and so on. He he he.";
-		strScript[4]= "Zombieee~ Where are you~?";
-
-		strScript[5]= "Weber: Keane. Do not get excited. ";
-		strScript[6]= "If this smell…That would be a lot of zombies.";
-		strScript[7]= "Keane! Watch your back ";
-
-		strScript[8]= "Bang!! ";
-
-		strScript[9]= "Keane: Oh, Thanks.";
-		strScript[10]= "Disgust Baby zombie. He he.";
-		strScript[11]= "I’ll start shoot movies!";
-		strScript[12]= "I stood in the middle of the intersection to attract them. And I'll even shoot film.";
-		strScript[13]= "I want to shoot a movie soon. Superstar in movie!";
-
-		strScript[14]= "Weber: OK. Now let's get started. ";
-
-		txtScript.setText( strScript[0] );
 
 		super.onStart();
 	}
@@ -65,18 +64,41 @@ public class ScenarioActivity extends Activity
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
+
+
 		if (! (event.getAction()==MotionEvent.ACTION_DOWN) )
 			return super.onTouchEvent(event);
 
-		++nScriptCount;
+		++kScenInfo.nScriptCount;
 
-		if(nScriptCount == nScriptNum)
+		if(kScenInfo.nScriptCount >= kScenInfo.nScriptNum)
 		{
-			this.GotoStage();
+			if ( nCurrStage == 1 )
+			{
+				this.GotoStage();
+				this.finish();
+			}else
+			{
+				GameThread.GotoCurrStage();
+				FrameManager.bPause= false;
+				this.finish();
+			}
+
 			return super.onTouchEvent(event);
 		}
 
-		txtScript.setText( strScript[nScriptCount] );
+		switch(nCurrStage)
+		{
+		case 1:
+			txtScript.setText( kScenInfo.strScript1[kScenInfo.nScriptCount] );
+			break;
+		case 2:
+			txtScript.setText( kScenInfo.strScript2[kScenInfo.nScriptCount] );
+			break;
+		case 3:
+			txtScript.setText( kScenInfo.strScript3[kScenInfo.nScriptCount] );
+			break;
+		}
 
 
 		return super.onTouchEvent(event);

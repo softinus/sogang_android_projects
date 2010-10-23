@@ -16,7 +16,7 @@ public class Partner extends AbstractGameObject implements IHitting, ISpriteModi
 	public SpriteBitmap SPRITE;
 	private Resources mRes;
 
-	private int nHP= 200;
+	private int nHP= 500;
 	private final int nTotalHP= nHP; // 총HP
 	public HPbar mHPbar;
 

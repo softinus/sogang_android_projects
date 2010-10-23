@@ -9,11 +9,6 @@ import com.raimsoft.matan.activity.GameActivity;
 
 public class StageManager
 {
-	public final static int STAGE_MAIN	   =1;
-	public final static int STAGE_OPTION   =2;
-	public final static int STAGE_SCENARIO =3;
-	public final static int STAGE_STORE	   =4;
-	public final static int STAGE_INTER    =5;
 	public final static int STAGE_1		   =1001;
 	public final static int STAGE_2		   =1002;
 	public final static int STAGE_3		   =1003;
@@ -45,10 +40,13 @@ public class StageManager
 		switch(_stageID)
 		{
 		case STAGE_1:
-			mStage=new Stage1(ManagerContext);
+			mStage= new Stage1(ManagerContext);
 			break;
 		case STAGE_2:
-			mStage=new Stage2(ManagerContext);
+			mStage= new Stage2(ManagerContext);
+			break;
+		case STAGE_3:
+			mStage= new Stage3(ManagerContext);
 			break;
 
 		}

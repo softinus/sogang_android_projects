@@ -93,7 +93,8 @@ public class MainActivity extends Activity implements OnClickListener
 		GAL_inter_mapsel.setAdapter(new ImageAdapter(this));
 
 		GAL_inter_mapsel.setOnItemClickListener(new OnItemClickListener() {
-	         public void onItemClick(AdapterView parent, View v, int position, long id) {
+	         @SuppressWarnings("unchecked")
+			public void onItemClick(AdapterView parent, View v, int position, long id) {
 	             Toast.makeText(MainActivity.this, "" + position, Toast.LENGTH_SHORT).show();
 	         }
 	     });
