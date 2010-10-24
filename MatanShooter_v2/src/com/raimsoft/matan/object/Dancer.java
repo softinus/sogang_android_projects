@@ -23,9 +23,9 @@ public class Dancer extends AbstractZombie
 
 		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, 4, info.spdZombie3Walk);
 		this.eName= ZombieNameEnum.DANCER;
-		this.nHP= 70;
+		this.nHP= 50;
 		this.nPower= 25;
-		this.fSpeed= 2.4f;
+		this.fSpeed= 5.0f;
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class Dancer extends AbstractZombie
 	{
 		if (eState==ZombieStateEnum.DIE || eState==ZombieStateEnum.HIT || eState==ZombieStateEnum.AVOID) return;
 
-		if ( (Math.random()*100) >= 50 ) // 50% 확률로 피함
+		if ( (Math.random()*100) <= 25 ) // 25% 확률로 피함
 		{
 			eOldState= eState;
 			eState= ZombieStateEnum.AVOID;
@@ -69,7 +69,7 @@ public class Dancer extends AbstractZombie
 			return;
 		}
 
-		nHP -= minusHP; // 데미지 입음
+		nHP= nHP - minusHP; // 피해 입음
 
 		if (this.nHP <= 0)
 		{

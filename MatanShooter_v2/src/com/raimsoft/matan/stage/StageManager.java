@@ -9,13 +9,9 @@ import com.raimsoft.matan.activity.GameActivity;
 
 public class StageManager
 {
-	public final static int STAGE_1		   =1001;
-	public final static int STAGE_2		   =1002;
-	public final static int STAGE_3		   =1003;
-	public final static int STAGE_4		   =1004;
-	public final static int STAGE_5		   =1005;
-	public final static int STAGE_6	   	   =1006;
-
+	public final static int STAGE_1		   =1;
+	public final static int STAGE_2		   =2;
+	public final static int STAGE_3		   =3;
 	private BaseStage mStage;
 	private GameActivity ManagerContext;
 	private boolean bKeyResult;
@@ -27,6 +23,21 @@ public class StageManager
 
 		mStage=new Stage1(ManagerContext);
 	}
+
+	/**
+	 * StageManager 생성자
+	 * @param context
+	 * @param nSelectStage : 생성할 때 시작할 스테이지 번호
+	 */
+	public StageManager(GameActivity context, int nSelectStage)
+	{
+		Log.i("StageManager","Construct");
+		ManagerContext = context;
+
+		ChangeStage(nSelectStage);
+	}
+
+
 
 	public void SoundStop()
 	{
@@ -48,7 +59,9 @@ public class StageManager
 		case STAGE_3:
 			mStage= new Stage3(ManagerContext);
 			break;
-
+		default:
+			Log.e("StageManager::ChangeStage", "Wrong stage number!");
+			break;
 		}
 	}
 
@@ -99,6 +112,9 @@ public class StageManager
 	public void Touch(MotionEvent event)
 	{
 		Log.i("StageManager","Touch");
+
+		if (mStage==null)
+			return;
 
 		mStage.Touch(event.getAction(), event.getX(), event.getY());
 	}

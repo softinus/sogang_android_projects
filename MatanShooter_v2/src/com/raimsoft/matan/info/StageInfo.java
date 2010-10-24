@@ -26,6 +26,7 @@ public class StageInfo implements IGameInfo
 	public int IDShot_saving[]= new int[8];
 	public int IDShotEff[]= new int[8];
 	public int IDShotSound[]= new int[8];
+	public int IDMatanCollEff[]= new int[8];
 
 	public Point pZombieStart[]= new Point[16]; // 좀비 시작포인트
 	public Point pZombieStop[]= new Point[16];  // 좀비 끝포인트
@@ -61,11 +62,21 @@ public class StageInfo implements IGameInfo
 	public final int spdZombie5Hit= 40; // 1
 	public final int spdZombie5Die= 3;  // 7
 
+	// 앵거 속도
+	public final int spdZombie6Walk=10; // 4
+	public final int spdZombie6Att= 8;  // 4
+	public final int spdZombie6Hit= 40; // 1
+	public final int spdZombie6Die= 3;  // 7
+
+	// 파트너 속도
 	public final int spdPartnerShot= 7;
 	public final int spdPartnerDie= 4;
 
+	// 총알
 	public final float spdAllZombie= 0.3f;
 	public final float spdAllBullet= 40.0f;
+
+	public final int spdMatanCollisionEffect= 2;
 
 
 
@@ -178,6 +189,16 @@ public class StageInfo implements IGameInfo
 		IDShotEff[5]= R.drawable.tan_lightning_eff;
 		IDShotEff[6]= R.drawable.tan_basic_eff;
 		IDShotEff[7]= R.drawable.tan_ice_eff;
+
+		// 마탄 충돌 (이펙트)
+		IDMatanCollEff[0]= R.drawable.eff_spark_sting;
+		IDMatanCollEff[1]= R.drawable.eff_spark_basic;
+		IDMatanCollEff[2]= R.drawable.eff_spark_fire;
+		IDMatanCollEff[3]= R.drawable.eff_spark_basic;
+		IDMatanCollEff[4]= R.drawable.eff_spark_basic;
+		IDMatanCollEff[5]= R.drawable.eff_spark_lightning;
+		IDMatanCollEff[6]= R.drawable.eff_spark_basic;
+		IDMatanCollEff[7]= R.drawable.eff_spark_ice;
 
 		// (Sound)
 		IDShotSound[0]= 100; //R.raw.sfx_shot_sting;

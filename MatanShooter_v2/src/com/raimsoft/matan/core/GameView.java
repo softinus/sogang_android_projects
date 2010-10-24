@@ -13,7 +13,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	public GameThread gameThread;
 	private boolean bKeyResult;
 
-	public GameView(GameActivity context)
+	public GameView(GameActivity context, int nSelStage)
 	{
 		super(context);
 
@@ -21,7 +21,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		holder.addCallback(this);
 		this.setFocusable(true);
 
-		gameThread = new GameThread(context, holder);
+		gameThread = new GameThread(context, holder, nSelStage);
 	}
 
 	public void SoundStop()

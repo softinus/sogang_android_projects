@@ -28,6 +28,8 @@ public class MainActivity extends Activity implements OnClickListener
 	private boolean already_Next=false;
 	private boolean bPressed= false;
 
+	private int nMapSel= 0;
+
 
 	private int rndNum= (int) (Math.random()*10);
     private Integer[] mImageIds = {
@@ -92,10 +94,20 @@ public class MainActivity extends Activity implements OnClickListener
 		GAL_inter_mapsel= (Gallery) findViewById(R.id.gallery_mapsel);
 		GAL_inter_mapsel.setAdapter(new ImageAdapter(this));
 
-		GAL_inter_mapsel.setOnItemClickListener(new OnItemClickListener() {
+		GAL_inter_mapsel.setOnItemClickListener(new OnItemClickListener()
+		{
 	         @SuppressWarnings("unchecked")
-			public void onItemClick(AdapterView parent, View v, int position, long id) {
-	             Toast.makeText(MainActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+			public void onItemClick(AdapterView parent, View v, int position, long id)
+	         {
+	        	 nMapSel= position;
+
+	        	 if ( nMapSel==0 || nMapSel==5 )
+	        	 {
+	        		 Toast.makeText(MainActivity.this, "올바른 스테이지를 선택해주세요.", Toast.LENGTH_SHORT).show();
+	        		 return;
+	        	 }
+	        	 ScenarioActivity.nCurrStage= nMapSel;
+	        	 GotoGame();
 	         }
 	     });
 
@@ -110,6 +122,7 @@ public class MainActivity extends Activity implements OnClickListener
 	{
 		if(!already_Next)
 		{
+			GameActivity.nSelStage= nMapSel;
 			//mThread.stop();
 			Intent intent=new Intent(MainActivity.this, ScenarioActivity.class);
 	        startActivity(intent);
@@ -161,7 +174,17 @@ public class MainActivity extends Activity implements OnClickListener
 			break;
 
 		case R.id.btn_inter_next:
+
+			ScenarioActivity.nCurrStage= nMapSel;
+
+			if ( nMapSel==0 || nMapSel==5 )
+       	 	{
+				Toast.makeText(MainActivity.this, "올바른 스테이지를 선택해주세요.", Toast.LENGTH_SHORT).show();
+				return;
+       	 	}
+
 			this.GotoGame();
+
 			break;
 
 		case R.id.btn_store_exit:
@@ -175,7 +198,6 @@ public class MainActivity extends Activity implements OnClickListener
 	{
 		if (!bPressed)
 		{
-
 			IMG_main_bg.setImageResource(R.drawable.ui_mainbackground_fade_01);
 			IMG_main_press.setVisibility(View.INVISIBLE);
 			BTN_main_start.setVisibility(View.VISIBLE);
