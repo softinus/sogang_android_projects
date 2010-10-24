@@ -4,5 +4,6 @@ public enum ZombieStateEnum
 {
 	NONE,
 	WALK, ATTACK, HIT, DIE,
-	AVOID;
+	AVOID,
+	BLOCK;
 }

@@ -163,6 +163,8 @@ public class Stage3 extends BaseStage
 		this.Render_BulletEffects(canvas); // 총알 이펙트 그려줌
 
 		this.Render_Bullets(canvas); // 총알 그려줌
+
+		this.Render_MatanCollisionEffects(canvas);
 	}
 
 
@@ -452,6 +454,19 @@ public class Stage3 extends BaseStage
 			mShot.mEffList.get(i).DRAWimage.setBounds(mShot.mEffList.get(i).getObjectForRect());
 			mShot.mEffList.get(i).DRAWimage.setAlpha(mShot.mEffList.get(i).nAlpha);
 			mShot.mEffList.get(i).DRAWimage.draw(canvas);
+		}
+	}
+
+	private void Render_MatanCollisionEffects(Canvas canvas)
+	{
+		for(int i=0; i<mShot.mCollEffList.size(); i++)
+		{
+			if ( mShot.mCollEffList.get(i).SPRITE.AnimateNoLoop(canvas,
+					(int)mShot.mCollEffList.get(i).x,
+					(int)mShot.mCollEffList.get(i).y) )
+			{
+				mShot.mCollEffList.remove(i);
+			}
 		}
 	}
 

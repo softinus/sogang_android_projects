@@ -23,9 +23,9 @@ public class Wanderer extends AbstractZombie
 
 		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, 4, info.spdZombie1Walk);
 		this.eName= ZombieNameEnum.WANDERER;
-		this.nHP= 100;
-		this.nPower= 20;
-		this.fSpeed= 1.2f;
+		this.nHP= 40;
+		this.nPower= 18;
+		this.fSpeed= 2.4f;
 	}
 
 	@Override

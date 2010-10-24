@@ -23,9 +23,9 @@ public class Bowler extends AbstractZombie
 
 		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, 6, info.spdZombie4Walk);
 		this.eName= ZombieNameEnum.BOWLER;
-		this.nHP= 155;
+		this.nHP= 80;
 		this.nPower= 35;
-		this.fSpeed= 0.6f;
+		this.fSpeed= 1.3f;
 	}
 
 	@Override

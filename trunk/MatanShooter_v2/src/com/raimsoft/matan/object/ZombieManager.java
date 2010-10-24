@@ -68,7 +68,7 @@ public class ZombieManager
 			List.add(new Driller((int) (Math.random()*16), R.drawable.ch_zombie5_walk, 100,100, mRes));
 			break;
 		case ANGER:
-			//List.add(new Wanderer((int) (Math.random()*16), R.drawable.ch_zombie1_walk, 100,100, mRes));
+			List.add(new Anger((int) (Math.random()*16), R.drawable.ch_zombie6_walk, 150,150, mRes));
 			break;
 		}
 
@@ -221,22 +221,26 @@ public class ZombieManager
 			}
 		break;
 
-	//	case ANGER:
-	//		switch (mZombieMgr.List.get(idx).eState)
-	//		{
-	//		case WALK:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_walk, 4, info.spdZombieWalk, mRes);
-	//			break;
-	//		case ATTACK:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_attack, 7, info.spdZombieAtt, mRes);
-	//			break;
-	//		case HIT:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_hit, 1, info.spdZombieHit, mRes);
-	//			break;
-	//		case DIE:
-	//			mZombieMgr.List.get(idx).Init(R.drawable.ch_zombie1_die, 8, info.spdZombieDie, mRes);
-	//			break;
-	//		}
+		case ANGER:
+			switch (List.get(idx).eState)
+			{
+			case WALK:
+				List.get(idx).Init(R.drawable.ch_zombie6_walk, 4, info.spdZombie6Walk, mRes);
+				break;
+			case ATTACK:
+				List.get(idx).Init(R.drawable.ch_zombie6_attack, 4, info.spdZombie6Att, mRes);
+				break;
+			case HIT:
+				List.get(idx).Init(R.drawable.ch_zombie6_hit, 1, info.spdZombie6Hit, mRes);
+				break;
+			case DIE:
+				List.get(idx).Init(R.drawable.ch_zombie6_die,7, info.spdZombie6Die, mRes);
+				break;
+			default:
+				List.get(idx).Init(R.drawable.ch_zombie6_walk, 4, info.spdZombie6Walk, mRes);
+				break;
+			}
+		break;
 		}
 
 		List.get(idx).bImageRefresh= false;

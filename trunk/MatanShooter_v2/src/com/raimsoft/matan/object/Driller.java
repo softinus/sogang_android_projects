@@ -23,9 +23,9 @@ public class Driller extends AbstractZombie
 
 		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, 4, info.spdZombie5Walk);
 		this.eName= ZombieNameEnum.DRILLER;
-		this.nHP= 90;
-		this.nPower= 40;
-		this.fSpeed= 1.5f;
+		this.nHP= 70;
+		this.nPower= 35;
+		this.fSpeed= 1.8f;
 	}
 
 	@Override

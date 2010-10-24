@@ -15,9 +15,9 @@ public class Grabber extends AbstractZombie
 
 		SPRITE= new SpriteBitmap(IDimage, mRes, 100,100, 5, info.spdZombie2Walk);
 		this.eName= ZombieNameEnum.GRABBER;
-		this.nHP= 60;
-		this.nPower= 15;
-		this.fSpeed= 0.9f;
+		this.nHP= 20;
+		this.nPower= 10;
+		this.fSpeed= 4.2f;
 	}
 
 	@Override

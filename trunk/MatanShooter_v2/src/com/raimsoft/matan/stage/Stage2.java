@@ -38,6 +38,7 @@ public class Stage2 extends BaseStage {
 	private Resources mRes;
 	private SoundManager sm;
 	private MediaPlayer mp;
+	@SuppressWarnings("unused")
 	private AudioManager mAudioManager;
 	private Vibrator mVib;
 
@@ -167,8 +168,11 @@ public class Stage2 extends BaseStage {
 		this.Render_BulletEff(canvas); // 총알 이펙트 그려줌
 
 		this.Render_Bullets(canvas); // 총알 그려줌
+
+		this.Render_MatanCollisionEffects(canvas);
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public boolean StageUpdate()
 	{
@@ -414,6 +418,19 @@ public class Stage2 extends BaseStage {
 			mShot.mEffList.get(i).DRAWimage.setBounds(mShot.mEffList.get(i).getObjectForRect());
 			mShot.mEffList.get(i).DRAWimage.setAlpha(mShot.mEffList.get(i).nAlpha);
 			mShot.mEffList.get(i).DRAWimage.draw(canvas);
+		}
+	}
+
+	private void Render_MatanCollisionEffects(Canvas canvas)
+	{
+		for(int i=0; i<mShot.mCollEffList.size(); i++)
+		{
+			if ( mShot.mCollEffList.get(i).SPRITE.AnimateNoLoop(canvas,
+					(int)mShot.mCollEffList.get(i).x,
+					(int)mShot.mCollEffList.get(i).y) )
+			{
+				mShot.mCollEffList.remove(i);
+			}
 		}
 	}
 

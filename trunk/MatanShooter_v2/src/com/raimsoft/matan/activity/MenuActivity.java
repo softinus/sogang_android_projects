@@ -34,6 +34,8 @@ public class MenuActivity extends Activity implements OnClickListener
 	@Override
 	protected void onStart()
 	{
+		mGameAct.view.gameThread.SoundStop();
+
 		findViewById(R.id.btn_gamemenu_continue).setOnClickListener(this);
 		findViewById(R.id.btn_gamemenu_exit).setOnClickListener(this);
 
@@ -50,8 +52,11 @@ public class MenuActivity extends Activity implements OnClickListener
 
 			if (bStageOver)
 			{
+				mGameAct.view.gameThread.SoundStop();
+
 				++ScenarioActivity.nCurrStage;
 				this.GotoScenario();
+
 				finish();
 			}else
 			{

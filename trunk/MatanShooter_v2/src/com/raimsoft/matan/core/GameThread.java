@@ -22,11 +22,11 @@ public class GameThread extends Thread
 	private FrameManager mFrameMgr= FrameManager.getInstance(); 	// 프레임관리 (싱글톤)
 
 
-	GameThread(GameActivity context, SurfaceHolder holder)
+	GameThread(GameActivity context, SurfaceHolder holder, int nSelStage)
 	{
 		this.setName("GameThread");
 		start(); // Thread 시작
-		mStageMgr= new StageManager(context);
+		mStageMgr= new StageManager(context, nSelStage);
 		surfaceHolder = holder;
 	}
 

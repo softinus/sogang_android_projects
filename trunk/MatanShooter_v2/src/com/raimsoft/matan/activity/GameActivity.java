@@ -13,6 +13,8 @@ import com.raimsoft.matan.util.FrameManager;
 public class GameActivity extends Activity
 {
 	GameView view;
+	static int nSelStage;
+	static boolean bGameStarted= false;
 
 
 	public void PopUpResult()
@@ -23,7 +25,6 @@ public class GameActivity extends Activity
 
 		MenuActivity.mGameAct= this;
 		MenuActivity.bStageOver= true;
-		MenuActivity.strTitle= "::: Stage Over :::";
 		//view.gameThread.SoundStop();
 	}
 
@@ -35,8 +36,6 @@ public class GameActivity extends Activity
 
 		MenuActivity.mGameAct= this;
 		MenuActivity.bStageOver= false;
-		MenuActivity.strTitle= "::: Game Pause :::";
-		//view.gameThread.SoundStop();
 	}
 
 	public GameActivity ReturnGameActivity()
@@ -50,7 +49,9 @@ public class GameActivity extends Activity
 		super.onCreate(savedInstanceState);
 		BaseStage.m_sGame= this;
 
-		view = new GameView(this);
+		view = new GameView(this, nSelStage);
+		this.bGameStarted= true;
+
 		setContentView(view);
 	}
 

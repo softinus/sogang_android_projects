@@ -73,14 +73,14 @@ public class ScenarioActivity extends Activity
 
 		if(kScenInfo.nScriptCount >= kScenInfo.nScriptNum)
 		{
-			if ( nCurrStage == 1 )
-			{
-				this.GotoStage();
-				this.finish();
-			}else
+			if ( GameActivity.bGameStarted ) // 게임이 시작되었으면
 			{
 				GameThread.GotoCurrStage();
 				FrameManager.bPause= false;
+				this.finish();
+
+			}else{
+				this.GotoStage();
 				this.finish();
 			}
 
