@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AbsoluteLayout
-android:id="@+id/gamemenu"
+android:id="@+id/view_gamemenu"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:background="#00171717"
 xmlns:android="http://schemas.android.com/apk/res/android"
 >
 	<ImageView
-		android:id="@+id/img_inter_chatwindow"
+		android:id="@+id/img_menu"
 		android:src="@drawable/ui_gamemenu_transpercy"
 		android:layout_width="584px"
 		android:layout_height="433px"

@@ -123,7 +123,7 @@ public class Stage3 extends BaseStage
 
 
 		 // 신호등 초기화
-		mCrain= new Crain(400,0, R.drawable.background_stage03_crain, 155,271);
+		mCrain= new Crain(0,0, R.drawable.background_stage03_crain, 155,271);
 		mCrain.DRAWimage= mRes.getDrawable(mCrain.IDimage);
 		mCrain.DRAWimage.setBounds(mCrain.getObjectForRect());
 
@@ -154,7 +154,7 @@ public class Stage3 extends BaseStage
 		this.Render_ZombiesFront(canvas); // 좀비 앞 그려줌
 
 		mCrain.DRAWimage.draw(canvas); //신호등 그려줌
-		mGTimer.ShowTimer(canvas, 495, 205);
+		mGTimer.ShowTimer(canvas, 102, 152);
 
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 

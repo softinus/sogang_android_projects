@@ -28,7 +28,7 @@ public class MainActivity extends Activity implements OnClickListener
 	private boolean already_Next=false;
 	private boolean bPressed= false;
 
-	private int nMapSel= 0;
+	private int nMapSel= -1;
 
 
 	private int rndNum= (int) (Math.random()*10);
@@ -94,23 +94,37 @@ public class MainActivity extends Activity implements OnClickListener
 		GAL_inter_mapsel= (Gallery) findViewById(R.id.gallery_mapsel);
 		GAL_inter_mapsel.setAdapter(new ImageAdapter(this));
 
+		GAL_inter_mapsel.setSelection(1); // 첫번째 화면으로 이동
+
 		GAL_inter_mapsel.setOnItemClickListener(new OnItemClickListener()
 		{
 	         @SuppressWarnings("unchecked")
 			public void onItemClick(AdapterView parent, View v, int position, long id)
 	         {
-	        	 nMapSel= position;
 
-	        	 if ( nMapSel==0 || nMapSel==5 )
+	        	 if ( position==0 || position==4 )
 	        	 {
-	        		 Toast.makeText(MainActivity.this, "올바른 스테이지를 선택해주세요.", Toast.LENGTH_SHORT).show();
+	        		 WrongMessage();
 	        		 return;
 	        	 }
-	        	 ScenarioActivity.nCurrStage= nMapSel;
-	        	 GotoGame();
+
+	        	 if (nMapSel == -1)
+	        	 {
+	        		 nMapSel= position; // 첫번째 선택
+	        		 StartMessage(nMapSel);
+	        		 return;
+	        	 }
+
+	        	 if (nMapSel == position)
+	        	 {
+		        	 GotoGame(nMapSel);
+	        	 }else{
+	        		 nMapSel= position; // 첫번째 선택
+	        		 StartMessage(nMapSel);
+	        	 }
+
 	         }
 	     });
-
 		mThread.start();
 	}
 
@@ -118,18 +132,32 @@ public class MainActivity extends Activity implements OnClickListener
 	/**
 	 * GameActivity로 넘어감
 	 */
-	private void GotoGame()
+	private void GotoGame(int _nStage)
 	{
 		if(!already_Next)
 		{
-			GameActivity.nSelStage= nMapSel;
-			//mThread.stop();
+			GameActivity.nSelStage= _nStage;
+			ScenarioActivity.nCurrStage= _nStage;
+
 			Intent intent=new Intent(MainActivity.this, ScenarioActivity.class);
 	        startActivity(intent);
+
 	        already_Next=true;
-	       // finish();
 		}
 	}
+
+	private void WrongMessage()
+	{
+		Toast.makeText(MainActivity.this, "잘못된 맵을 선택하셨습니다.", Toast.LENGTH_SHORT).show();
+		GAL_inter_mapsel.setSelection(1, true);
+		return;
+	}
+
+	private void StartMessage(int _nStage)
+	{
+		Toast.makeText(MainActivity.this, "한번 더 터치하면 "+ _nStage + "번 스테이지로 이동합니다.", Toast.LENGTH_SHORT).show();
+	}
+
 
 
 
@@ -175,15 +203,14 @@ public class MainActivity extends Activity implements OnClickListener
 
 		case R.id.btn_inter_next:
 
-			ScenarioActivity.nCurrStage= nMapSel;
+			int nStage= GAL_inter_mapsel.getSelectedItemPosition();
 
-			if ( nMapSel==0 || nMapSel==5 )
-       	 	{
-				Toast.makeText(MainActivity.this, "올바른 스테이지를 선택해주세요.", Toast.LENGTH_SHORT).show();
-				return;
-       	 	}
-
-			this.GotoGame();
+	       	if ( nStage==0 || nStage==4 )
+	       	{
+	       		WrongMessage();
+	    		return;
+	       	}
+			this.GotoGame(nStage);
 
 			break;
 
