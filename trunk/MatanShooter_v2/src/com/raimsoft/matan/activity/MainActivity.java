@@ -103,7 +103,7 @@ public class MainActivity extends Activity implements OnClickListener
 			public void onItemClick(AdapterView parent, View v, int position, long id)
 	         {
 
-	        	 if ( position==0 || position==4 )
+	        	 if ( position == 0 || position == 4 )
 	        	 {
 	        		 WrongMessage();
 	        		 return;

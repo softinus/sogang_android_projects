@@ -61,14 +61,14 @@ public class MenuActivity extends Activity implements OnClickListener
 	{
 		switch (v.getId())
 		{
-		case R.id.btn_gamemenu_continue:
+		case R.id.btn_gamemenu_continue: // 게임 계속
 
 			FrameManager.bPause= false;
 			finish();
 
 			break;
 
-		case R.id.btn_gamemenu_exit:
+		case R.id.btn_gamemenu_exit: // 게임 종료
 
 			GameActivity.s_GameAct.bGameStarted= false;
 
