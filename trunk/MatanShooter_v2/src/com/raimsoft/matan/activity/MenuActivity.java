@@ -15,12 +15,10 @@ import com.raimsoft.matan.util.FrameManager;
 
 public class MenuActivity extends Activity implements OnClickListener
 {
-	static GameActivity mGameAct;
 	static boolean bStageOver;
-
 	private boolean already_Next= false;
 
-	Animation a;
+	Animation animSlideR;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -33,21 +31,21 @@ public class MenuActivity extends Activity implements OnClickListener
 
         final View target = findViewById(R.id.view_gamemenu);
 
-		a = new TranslateAnimation( -500.0f	,0.0f	 ,0.0f ,0.0f);
-        a.setDuration(700);
-        a.setStartOffset(0);
+        animSlideR = new TranslateAnimation( -500.0f,0.0f ,0.0f,0.0f );
+        animSlideR.setDuration(700);
+        animSlideR.setStartOffset(0);
 
-        a.setInterpolator(AnimationUtils.loadInterpolator(this,
+        animSlideR.setInterpolator(AnimationUtils.loadInterpolator(this,
                 android.R.anim.decelerate_interpolator));
 
-        target.startAnimation(a);
+        target.startAnimation( animSlideR );
 	}
 
 
 	@Override
 	protected void onStart()
 	{
-		mGameAct.view.gameThread.SoundStop();
+		GameActivity.s_GameAct.view.gameThread.SoundStop();
 
 		findViewById(R.id.btn_gamemenu_continue).setOnClickListener(this);
 		findViewById(R.id.btn_gamemenu_exit).setOnClickListener(this);
@@ -65,28 +63,19 @@ public class MenuActivity extends Activity implements OnClickListener
 		{
 		case R.id.btn_gamemenu_continue:
 
-			if (bStageOver)
-			{
-				mGameAct.view.gameThread.SoundStop();
-
-				++ScenarioActivity.nCurrStage;
-				this.GotoScenario();
-
-				finish();
-			}else
-			{
-				FrameManager.bPause= false;
-				finish();
-			}
+			FrameManager.bPause= false;
+			finish();
 
 			break;
 
 		case R.id.btn_gamemenu_exit:
-			mGameAct.view.DestroyThread();
+
+			GameActivity.s_GameAct.bGameStarted= false;
 
 			Intent intent= new Intent(MenuActivity.this, MainActivity.class);
-			mGameAct.finish();
 	        startActivity(intent);
+
+	        GameActivity.s_GameAct.finish();
 			this.finish();
 
 			break;
@@ -96,21 +85,10 @@ public class MenuActivity extends Activity implements OnClickListener
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
-		if (bStageOver)
+		if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK)
 		{
-			if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK)
-			{
-				FrameManager.bPause= false;
-				GameThread.GotoCurrStage();
-				finish();
-			}
-		}else
-		{
-			if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK)
-			{
-				FrameManager.bPause= false;
-				finish();
-			}
+			FrameManager.bPause= false;
+			finish();
 		}
 		return super.onKeyDown(keyCode, event);
 	}

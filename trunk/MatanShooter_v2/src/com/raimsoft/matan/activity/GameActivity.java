@@ -15,15 +15,15 @@ public class GameActivity extends Activity
 	GameView view;
 	static int nSelStage;
 	static boolean bGameStarted= false;
+	static GameActivity s_GameAct;
 
 
 	public void PopUpResult()
 	{
-		Intent intent= new Intent(GameActivity.this, MenuActivity.class);
+		Intent intent= new Intent(GameActivity.this, StageClearActivity.class);
 		startActivity(intent);
 		FrameManager.bPause= true;
 
-		MenuActivity.mGameAct= this;
 		MenuActivity.bStageOver= true;
 		//view.gameThread.SoundStop();
 	}
@@ -34,7 +34,6 @@ public class GameActivity extends Activity
 		startActivity(intent);
 		FrameManager.bPause= true;
 
-		MenuActivity.mGameAct= this;
 		MenuActivity.bStageOver= false;
 	}
 
@@ -51,6 +50,8 @@ public class GameActivity extends Activity
 
 		view = new GameView(this, nSelStage);
 		this.bGameStarted= true;
+
+		s_GameAct= this;
 
 		setContentView(view);
 	}

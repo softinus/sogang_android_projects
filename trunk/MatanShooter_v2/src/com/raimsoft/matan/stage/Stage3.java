@@ -154,7 +154,7 @@ public class Stage3 extends BaseStage
 		this.Render_ZombiesFront(canvas); // 좀비 앞 그려줌
 
 		mCrain.DRAWimage.draw(canvas); //신호등 그려줌
-		mGTimer.ShowTimer(canvas, 102, 152);
+		mGTimer.ShowTimer(canvas, 102, 175);
 
 		canvas.drawBitmap(BITMAPbackline, 0, 0, null);	// 배경라인 그려줌
 

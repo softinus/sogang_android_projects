@@ -44,12 +44,14 @@ public class LogoActivity extends Activity
 	{
 		super.onStart();
 
-		final ImageView imageID=(ImageView) findViewById(R.id.logo);
+		final ImageView img_Logo1=(ImageView) findViewById(R.id.logo);
+		final ImageView img_Logo2=(ImageView) findViewById(R.id.logo2);
 
 		final Animation fadein = new AlphaAnimation( 0.0f, 1.0f );
         fadein.setDuration(LogoTime);
 
-        imageID.startAnimation(fadein);
+        img_Logo1.startAnimation(fadein);
+        img_Logo2.startAnimation(fadein);
 
 
         TimerTask Next = new TimerTask()

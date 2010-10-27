@@ -47,11 +47,19 @@
         </activity>
 
         <activity
+	        android:name=".StageClearActivity"
+	        android:screenOrientation="landscape"
+	        android:configChanges="keyboardHidden|orientation"
+	        android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+        </activity>
+
+        <activity
 	        android:name=".ScenarioActivity"
 	        android:screenOrientation="landscape"
 	        android:configChanges="keyboardHidden|orientation"
 	        android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
+
 
 
     </application>

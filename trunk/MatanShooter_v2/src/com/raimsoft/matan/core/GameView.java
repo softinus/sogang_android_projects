@@ -1,12 +1,14 @@
 package com.raimsoft.matan.core;
 
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.raimsoft.matan.activity.GameActivity;
+import com.raimsoft.matan.util.FrameManager;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
@@ -31,35 +33,52 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,	int height)
-	{
-
-	}
+	{ 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder)
 	{
+		gameThread.setRunning(true);
+		FrameManager.bPause= false; //
+
+		if ( !(Thread.State.TERMINATED == gameThread.getState()) )
+			gameThread.start();
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder)
 	{
-		this.DestroyThread();
+        boolean retry = true;
+        gameThread.setRunning(false);
+
+        while (retry)
+        {
+            try
+            {
+            	gameThread.join();
+                retry = false;
+            }
+            catch (InterruptedException e)
+            {
+            	Log.e("GameView", e.toString());
+            }
+        }
 	}
 
-	public void DestroyThread()
-	{
-		if(gameThread == null)
-			return;
-
-		try
-		{
-			gameThread.join();
-		}
-		catch(InterruptedException e)
-		{
-
-		}
-	}
+//	public void DestroyThread()
+//	{
+//		if(gameThread == null)
+//			return;
+//
+//		try
+//		{
+//			gameThread.join();
+//		}
+//		catch(InterruptedException e)
+//		{
+//
+//		}
+//	}
 
 
 	@Override

@@ -5,13 +5,24 @@ android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 xmlns:android="http://schemas.android.com/apk/res/android"
 >
-<ImageView
-android:id="@+id/logo"
-android:src="@drawable/ci_5_eng"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_x="50px"
-android:layout_y="170px"
->
-</ImageView>
+	<ImageView
+	android:id="@+id/logo"
+	android:src="@drawable/ci_5_eng"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_x="150px"
+	android:layout_y="170px"
+	>
+	</ImageView>
+
+	<ImageView
+	android:id="@+id/logo2"
+	android:src="@drawable/icon"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_x="500px"
+	android:layout_y="200px"
+	>
+	</ImageView>
+
 </AbsoluteLayout>
