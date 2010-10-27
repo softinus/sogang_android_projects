@@ -62,9 +62,6 @@ public class Stage1 extends BaseStage
 	private GameTimer mGameOverTimer;
 
 
-	//private GameActivity mGame= new GameActivity();
-
-
 	// ************** 선언부 종료 ************** //
 
 
@@ -240,6 +237,8 @@ public class Stage1 extends BaseStage
 //		{
 //			nCloseZombie= mZombieMgr.ClosestZombieNum();
 //		}
+		
+		
 
 		/* 마탄 */
 		if (this.bRefreshImg_Matans) // 마탄 이미지 새로고침

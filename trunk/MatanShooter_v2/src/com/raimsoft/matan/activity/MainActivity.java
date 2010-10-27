@@ -23,7 +23,7 @@ public class MainActivity extends Activity implements OnClickListener
 	Gallery GAL_inter_mapsel;
 	ImageView IMG_inter_light;
 
-	Button BTN_main_start, BTN_main_bonus, BTN_main_option, BTN_main_exit;
+	Button BTN_main_start, BTN_main_bonus, BTN_main_option, BTN_main_help, BTN_main_exit;
 	Button BTN_inter_main, BTN_inter_next;
 
 	private boolean already_Next=false;
@@ -76,6 +76,147 @@ public class MainActivity extends Activity implements OnClickListener
 
 
 
+
+
+
+
+
+	private void WrongMessage()
+	{
+		Toast.makeText(MainActivity.this, "잘못된 맵을 선택하셨습니다.", Toast.LENGTH_SHORT).show();
+		GAL_inter_mapsel.setSelection(2, true); // 중간으로 이동 (마지막 애니메이션시 1,3으로 이동됨.
+		return;
+	}
+
+	private void StartMessage(int _nStage)
+	{
+		Toast.makeText(MainActivity.this, "한번 더 터치하면 "+ _nStage + "번 스테이지로 이동합니다.", Toast.LENGTH_SHORT).show();
+	}
+
+
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.mainmenu);
+
+        IMG_main_bg= (ImageView) findViewById(R.id.imageview_main_bg);
+        IMG_main_press= (ImageView) findViewById(R.id.imageview_presstouch);
+
+        BTN_main_start= (Button) findViewById(R.id.btn_main_story);
+        BTN_main_start.setOnClickListener(this);
+
+        BTN_main_bonus= (Button) findViewById(R.id.btn_main_bonus);
+        BTN_main_bonus.setOnClickListener(this);
+
+        BTN_main_option= (Button) findViewById(R.id.btn_main_option);
+        BTN_main_option.setOnClickListener(this);
+
+        BTN_main_help= (Button) findViewById(R.id.btn_main_help);
+        BTN_main_help.setOnClickListener(this);
+
+        BTN_main_exit= (Button) findViewById(R.id.btn_main_exit);
+        BTN_main_exit.setOnClickListener(this);
+    }
+
+	@Override
+	public void onClick(View v)
+	{
+		if (!bPressed) return;
+
+		switch (v.getId())
+		{
+		case R.id.btn_main_story:
+			GotoInterMission();
+			break;
+
+		case R.id.btn_main_bonus:
+			Toast.makeText(MainActivity.this, "준비중입니다.", Toast.LENGTH_SHORT).show();
+			break;
+
+		case R.id.btn_main_option:
+			break;
+
+		case R.id.btn_main_help:
+			this.GotoHowtoplay();
+			break;
+
+		case R.id.btn_main_exit:
+			finish();
+			break;
+
+
+		case R.id.btn_inter_next:
+
+			int nStage= GAL_inter_mapsel.getSelectedItemPosition();
+
+	       	if ( nStage==0 || nStage==4 )
+	       	{
+	       		WrongMessage();
+	    		return;
+	       	}
+			this.GotoGame(nStage);
+
+			break;
+
+		case R.id.btn_inter_main:
+			this.GotoMain();
+			break;
+		}
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event)
+	{
+		if (!bPressed)
+		{
+			IMG_main_bg.setImageResource(R.drawable.ui_mainbackground_fade_01);
+			IMG_main_press.setVisibility(View.INVISIBLE);
+			BTN_main_start.setVisibility(View.VISIBLE);
+			BTN_main_bonus.setVisibility(View.VISIBLE);
+			//BTN_main_option.setVisibility(View.VISIBLE);
+			BTN_main_help.setVisibility(View.VISIBLE);
+			BTN_main_exit.setVisibility(View.VISIBLE);
+			bPressed= true;
+		}
+
+
+		return super.onTouchEvent(event);
+	}
+
+
+	/**
+	 * Help
+	 */
+	private void GotoHowtoplay()
+	{
+		if(!already_Next)
+		{
+			Intent intent=new Intent(MainActivity.this, HelpActivity.class);
+	        startActivity(intent);
+
+	        already_Next=true;
+		}
+	}
+
+	/**
+	 * GameActivity로 넘어감
+	 */
+	private void GotoGame(int _nStage)
+	{
+		if(!already_Next)
+		{
+			GameActivity.nSelStage= _nStage;
+			ScenarioActivity.nCurrStage= _nStage;
+
+			Intent intent=new Intent(MainActivity.this, ScenarioActivity.class);
+	        startActivity(intent);
+
+	        already_Next=true;
+		}
+	}
 
 	/**
 	 * 인터미션으로 넘어감
@@ -140,116 +281,6 @@ public class MainActivity extends Activity implements OnClickListener
         setContentView(R.layout.mainmenu);
 	}
 
-
-	/**
-	 * GameActivity로 넘어감
-	 */
-	private void GotoGame(int _nStage)
-	{
-		if(!already_Next)
-		{
-			GameActivity.nSelStage= _nStage;
-			ScenarioActivity.nCurrStage= _nStage;
-
-			Intent intent=new Intent(MainActivity.this, ScenarioActivity.class);
-	        startActivity(intent);
-
-	        already_Next=true;
-		}
-	}
-
-	private void WrongMessage()
-	{
-		Toast.makeText(MainActivity.this, "잘못된 맵을 선택하셨습니다.", Toast.LENGTH_SHORT).show();
-		GAL_inter_mapsel.setSelection(2, true); // 중간으로 이동 (마지막 애니메이션시 1,3으로 이동됨.
-		return;
-	}
-
-	private void StartMessage(int _nStage)
-	{
-		Toast.makeText(MainActivity.this, "한번 더 터치하면 "+ _nStage + "번 스테이지로 이동합니다.", Toast.LENGTH_SHORT).show();
-	}
-
-
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.mainmenu);
-
-        IMG_main_bg= (ImageView) findViewById(R.id.imageview_main_bg);
-        IMG_main_press= (ImageView) findViewById(R.id.imageview_presstouch);
-
-        BTN_main_start= (Button) findViewById(R.id.btn_main_story);
-        BTN_main_start.setOnClickListener(this);
-
-        BTN_main_bonus= (Button) findViewById(R.id.btn_main_bonus);
-        BTN_main_bonus.setOnClickListener(this);
-
-        BTN_main_option= (Button) findViewById(R.id.btn_main_option);
-        BTN_main_option.setOnClickListener(this);
-
-        BTN_main_exit= (Button) findViewById(R.id.btn_main_exit);
-        BTN_main_exit.setOnClickListener(this);
-    }
-
-	@Override
-	public void onClick(View v)
-	{
-		if (!bPressed) return;
-
-		switch (v.getId())
-		{
-		case R.id.btn_main_story:
-			GotoInterMission();
-			break;
-		case R.id.btn_main_bonus:
-			break;
-		case R.id.btn_main_option:
-			break;
-		case R.id.btn_main_exit:
-			finish();
-			break;
-
-
-		case R.id.btn_inter_next:
-
-			int nStage= GAL_inter_mapsel.getSelectedItemPosition();
-
-	       	if ( nStage==0 || nStage==4 )
-	       	{
-	       		WrongMessage();
-	    		return;
-	       	}
-			this.GotoGame(nStage);
-
-			break;
-
-		case R.id.btn_inter_main:
-			this.GotoMain();
-			break;
-		}
-	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event)
-	{
-		if (!bPressed)
-		{
-			IMG_main_bg.setImageResource(R.drawable.ui_mainbackground_fade_01);
-			IMG_main_press.setVisibility(View.INVISIBLE);
-			BTN_main_start.setVisibility(View.VISIBLE);
-			BTN_main_bonus.setVisibility(View.VISIBLE);
-			BTN_main_option.setVisibility(View.VISIBLE);
-			BTN_main_exit.setVisibility(View.VISIBLE);
-			bPressed= true;
-		}
-
-
-		return super.onTouchEvent(event);
-	}
 
 
 }

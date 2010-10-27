@@ -59,7 +59,9 @@ public class Stage2 extends BaseStage {
 	private AbstractZombie mZombie;
 	private Bullet mShot;
 	private Doodad mSign;
+
 	private GameTimer mGTimer;
+	private GameTimer mGameOverTimer;
 
 	// ************** 선언부 종료 ************** //
 
@@ -131,6 +133,9 @@ public class Stage2 extends BaseStage {
 
 		mGTimer= new GameTimer(managerContext);
 		mGTimer.setTimer(40);
+
+		mGameOverTimer= new GameTimer(managerContext);
+		mGameOverTimer.setTimer( 2 );
 
 		// ************** 생성부 종료 ************** //
 	}
@@ -213,6 +218,14 @@ public class Stage2 extends BaseStage {
 
 		/* 파트너 */
 		if (mPartner.bImageRefresh)	mPartner.Refresh_Partner();
+
+		if ( mPartner.eState == PartnerStateEnum.DIE )
+		{
+			this.SoundStop(); // 죽으면 바로 소리 끔
+
+			if ( mGameOverTimer.Update() ) // 파트너 죽으면 타이머 지나감
+				s_GameAct.PopUpGameOver(); // 타이머 끝나면 게임오버 화면 출력
+		}
 
 //		nCloseZombie= mZombieMgr.ClosestZombieNum();
 //		if (!mPartner.Shooting(nCloseZombie, mZombieMgr.List.get(mZombieMgr.nClosestListNum).eState))

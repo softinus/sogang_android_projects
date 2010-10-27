@@ -48,10 +48,23 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 	android:visibility="invisible"
 	>
 	</Button>
+
 	<Button
 	android:id="@+id/btn_main_option"
 	android:background="@xml/main_option"
 	android:layout_width="147px"
+	android:layout_height="36px"
+	android:layout_x="185px"
+	android:layout_y="341px"
+	android:visibility="invisible"
+	>
+	</Button>
+
+
+	<Button
+	android:id="@+id/btn_main_help"
+	android:background="@xml/main_help"
+	android:layout_width="212px"
 	android:layout_height="36px"
 	android:layout_x="185px"
 	android:layout_y="341px"

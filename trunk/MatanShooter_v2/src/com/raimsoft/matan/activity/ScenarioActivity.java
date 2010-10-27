@@ -80,16 +80,7 @@ public class ScenarioActivity extends Activity implements OnClickListener
 
 		if(kScenInfo.nScriptCount >= kScenInfo.nScriptNum)
 		{
-			if ( GameActivity.bGameStarted ) // 게임이 시작되었으면
-			{
-				GameThread.GotoCurrStage();
-				FrameManager.bPause= false;
-				this.finish();
-
-			}else{
-				this.GotoStage();
-				this.finish();
-			}
+			this.GameStart();
 
 			return super.onTouchEvent(event);
 		}
@@ -111,15 +102,7 @@ public class ScenarioActivity extends Activity implements OnClickListener
 		return super.onTouchEvent(event);
 	}
 
-	private void GotoStage()
-	{
-		if(!already_Next)
-		{
-			Intent intent=new Intent(ScenarioActivity.this, GameActivity.class);
-	        startActivity(intent);
-	        already_Next=true;
-		}
-	}
+
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
@@ -130,7 +113,31 @@ public class ScenarioActivity extends Activity implements OnClickListener
 	@Override
 	public void onClick(View v)
 	{
-		this.GotoStage();
+		this.GameStart();
 	}
 
+
+	private void GotoStage()
+	{
+		if(!already_Next)
+		{
+			Intent intent=new Intent(ScenarioActivity.this, GameActivity.class);
+	        startActivity(intent);
+	        already_Next=true;
+		}
+	}
+
+	private void GameStart()
+	{
+		if ( GameActivity.bGameStarted ) // 게임이 시작되었으면
+		{
+			GameThread.GotoCurrStage();
+			FrameManager.bPause= false;
+			this.finish();
+
+		}else{
+			this.GotoStage();
+			this.finish();
+		}
+	}
 }
