@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import com.raimsoft.matan.core.GameView;
 import com.raimsoft.matan.stage.BaseStage;
 import com.raimsoft.matan.util.FrameManager;
+import com.raimsoft.matan.util.SoundManager;
 
 
 public class GameActivity extends Activity
@@ -17,9 +18,13 @@ public class GameActivity extends Activity
 	static boolean bGameStarted= false;
 	static GameActivity s_GameAct;
 
+	private SoundManager sm;
+
 
 	public void PopUpResult()
 	{
+		sm.play(0);
+
 		Intent intent= new Intent(GameActivity.this, StageClearActivity.class);
 		startActivity(intent);
 		FrameManager.bPause= true;
@@ -38,6 +43,8 @@ public class GameActivity extends Activity
 
 	public void PopUpGameOver()
 	{
+		sm.play(1);
+
 		Intent intent= new Intent(GameActivity.this, StageOverActivity.class);
 		startActivity(intent);
 		FrameManager.bPause= true;
@@ -62,6 +69,11 @@ public class GameActivity extends Activity
 		this.bGameStarted= true;
 
 		s_GameAct= this;
+
+		sm= new SoundManager(this);
+		sm.create();
+		sm.load(0, R.raw.sfx_game_clear);
+		sm.load(1, R.raw.sfx_game_over);
 
 		setContentView(view);
 	}

@@ -40,6 +40,14 @@
         </activity>
 
         <activity
+	        android:name=".HelpActivity"
+	        android:screenOrientation="landscape"
+	        android:configChanges="keyboardHidden|orientation"
+	        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        </activity>
+
+
+        <activity
 	        android:name=".MenuActivity"
 	        android:screenOrientation="landscape"
 	        android:configChanges="keyboardHidden|orientation"
