@@ -57,8 +57,9 @@ public class Stage1 extends BaseStage
 	private AbstractZombie mZombie;
 	private Bullet mShot;
 	private TrafficLights mTraffic;
-	private GameTimer mGTimer;
 
+	private GameTimer mGTimer;
+	private GameTimer mGameOverTimer;
 
 
 	//private GameActivity mGame= new GameActivity();
@@ -135,6 +136,9 @@ public class Stage1 extends BaseStage
 		mGTimer= new GameTimer(managerContext);
 		mGTimer.setTimer( 45 );
 
+		mGameOverTimer= new GameTimer(managerContext);
+		mGameOverTimer.setTimer( 2 );
+
 		// ************** 생성부 종료 ************** //
 	}
 
@@ -179,11 +183,13 @@ public class Stage1 extends BaseStage
 	{
 		if (FrameManager.bPause) return false;
 
-		if (mGTimer.Update())
+		if ( mGTimer.Update() )
 		{ // 타이머가 끝나면
 			this.NextStageID= StageManager.STAGE_2;
-			m_sGame.PopUpResult();
+			s_GameAct.PopUpResult();
 		}
+
+
 
 		if (FrameManager.FrameTimer(50) && (mZombieMgr.List.size() < 20)) // 50프레임마다 한마리씩 20마리 제한
 		{
@@ -218,6 +224,16 @@ public class Stage1 extends BaseStage
 
 		/* 파트너 */
 		if (mPartner.bImageRefresh)	mPartner.Refresh_Partner();
+
+		if ( mPartner.eState == PartnerStateEnum.DIE )
+		{
+			this.SoundStop(); // 죽으면 바로 소리 끔
+
+			if ( mGameOverTimer.Update() ) // 파트너 죽으면 타이머 지나감
+				s_GameAct.PopUpGameOver(); // 타이머 끝나면 게임오버 화면 출력
+		}
+
+
 
 //		nCloseZombie= mZombieMgr.ClosestZombieNum();
 //		if (!mPartner.Shooting(nCloseZombie, mZombieMgr.List.get(mZombieMgr.nClosestListNum).eState))

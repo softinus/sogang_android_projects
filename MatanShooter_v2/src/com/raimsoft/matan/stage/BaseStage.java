@@ -8,7 +8,7 @@ import com.raimsoft.matan.activity.GameActivity;
 public abstract class BaseStage
 {
 	public static int NextStageID= 0;
-	public static GameActivity m_sGame;
+	public static GameActivity s_GameAct;
 	public abstract int GetStageID();
 	public abstract boolean StageUpdate();
 	public abstract void StageRender(Canvas canvas);

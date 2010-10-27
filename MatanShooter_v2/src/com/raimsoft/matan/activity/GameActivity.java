@@ -25,7 +25,6 @@ public class GameActivity extends Activity
 		FrameManager.bPause= true;
 
 		MenuActivity.bStageOver= true;
-		//view.gameThread.SoundStop();
 	}
 
 	public void PopUpMenu()
@@ -37,6 +36,17 @@ public class GameActivity extends Activity
 		MenuActivity.bStageOver= false;
 	}
 
+	public void PopUpGameOver()
+	{
+		Intent intent= new Intent(GameActivity.this, StageOverActivity.class);
+		startActivity(intent);
+		FrameManager.bPause= true;
+
+		MenuActivity.bStageOver= true;
+	}
+
+
+
 	public GameActivity ReturnGameActivity()
 	{
 		return this;
@@ -46,7 +56,7 @@ public class GameActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		BaseStage.m_sGame= this;
+		BaseStage.s_GameAct= this;
 
 		view = new GameView(this, nSelStage);
 		this.bGameStarted= true;

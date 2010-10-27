@@ -13,8 +13,8 @@ import com.raimsoft.matan.util.FrameManager;
  */
 public class GameTimer
 {
-	public static long TimeLimit= 0;
-	public static boolean bStart= false;
+	public long TimeLimit= 0;
+	public boolean bStart= false;
 	//public static boolean bTimeup= false;
 	private Paint PAINTtimer= new Paint();
 	private Typeface TYPEfont;

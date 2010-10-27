@@ -178,7 +178,7 @@ public class Stage3 extends BaseStage
 		if (mGTimer.Update())
 		{ // 타이머가 끝나면
 			this.NextStageID= StageManager.STAGE_1;
-			m_sGame.PopUpResult();
+			s_GameAct.PopUpResult();
 		}
 
 		if (FrameManager.FrameTimer(50) && (mZombieMgr.List.size()<20)) // 50프레임마다 한마리씩 20마리 제한
