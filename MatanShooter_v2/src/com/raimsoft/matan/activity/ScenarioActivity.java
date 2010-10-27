@@ -4,15 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.raimsoft.matan.core.GameThread;
 import com.raimsoft.matan.info.ScenarioInfo;
 import com.raimsoft.matan.util.FrameManager;
 
-public class ScenarioActivity extends Activity
+public class ScenarioActivity extends Activity implements OnClickListener
 {
 	ScenarioInfo kScenInfo= new ScenarioInfo();
 
@@ -29,6 +32,8 @@ public class ScenarioActivity extends Activity
 	{
 		setContentView(R.layout.scenario);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+
+		findViewById(R.id.btn_scenatio_skip).setOnClickListener(this);
 
 		txtScript=  (TextView) findViewById(R.id.txt_scenario_script);
 
@@ -55,6 +60,8 @@ public class ScenarioActivity extends Activity
 		case 3:
 			txtScript.setText( kScenInfo.strScript3[0] );
 			break;
+		default:
+			txtScript.setText( "XXX "+ nCurrStage + " XXX");
 		}
 
 
@@ -112,6 +119,18 @@ public class ScenarioActivity extends Activity
 	        startActivity(intent);
 	        already_Next=true;
 		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		return true; // 키 입력 막음
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		this.GotoStage();
 	}
 
 }

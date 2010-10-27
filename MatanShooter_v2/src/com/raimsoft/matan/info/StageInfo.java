@@ -64,7 +64,7 @@ public class StageInfo implements IGameInfo
 
 	// 앵거 속도
 	public final int spdZombie6Walk=10; // 4
-	public final int spdZombie6Att= 8;  // 4
+	public final int spdZombie6Att= 5;  // 4
 	public final int spdZombie6Hit= 40; // 1
 	public final int spdZombie6Die= 3;  // 7
 

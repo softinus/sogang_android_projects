@@ -16,6 +16,7 @@ public class GameThread extends Thread
 
 	private final SurfaceHolder surfaceHolder; // 화면관리
 	private boolean bKeyResult;
+	private boolean bLoop= true;
 
 	private Thread.State State;
 	static private StageManager mStageMgr;		// 스테이지관리
@@ -25,7 +26,7 @@ public class GameThread extends Thread
 	GameThread(GameActivity context, SurfaceHolder holder, int nSelStage)
 	{
 		this.setName("GameThread");
-		start(); // Thread 시작
+		//start(); // Thread 시작
 		mStageMgr= new StageManager(context, nSelStage);
 		surfaceHolder = holder;
 	}
@@ -78,7 +79,8 @@ public class GameThread extends Thread
 	public void run()
 	{
 		Canvas canvas = null;
-		while(true)
+
+		while( bLoop )
 		{
 			beforeRoutine();
 
@@ -131,6 +133,11 @@ public class GameThread extends Thread
 			bKeyResult= mStageMgr.KeyDown(keyCode,event);
 			return bKeyResult;
 		}
+	}
+
+	public void setRunning(boolean _bRun)
+	{
+		bLoop= _bRun;
 	}
 
 }

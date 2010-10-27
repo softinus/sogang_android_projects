@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -83,7 +84,7 @@ public class MainActivity extends Activity implements OnClickListener
 	{
 		this.setContentView(R.layout.intermission);
 
-		BTN_inter_main= (Button) findViewById(R.id.btn_inter_next);
+		BTN_inter_main= (Button) findViewById(R.id.btn_inter_main);
 		BTN_inter_main.setOnClickListener(this);
 
 		BTN_inter_next= (Button) findViewById(R.id.btn_inter_next);
@@ -128,6 +129,17 @@ public class MainActivity extends Activity implements OnClickListener
 		mThread.start();
 	}
 
+	/**
+	 * InterMission -> Main (BACK)
+	 */
+	private void GotoMain()
+	{
+		Log.d("MainActivity","GotoMain()");
+		bPressed= false;
+
+        setContentView(R.layout.mainmenu);
+	}
+
 
 	/**
 	 * GameActivity로 넘어감
@@ -149,7 +161,7 @@ public class MainActivity extends Activity implements OnClickListener
 	private void WrongMessage()
 	{
 		Toast.makeText(MainActivity.this, "잘못된 맵을 선택하셨습니다.", Toast.LENGTH_SHORT).show();
-		GAL_inter_mapsel.setSelection(1, true);
+		GAL_inter_mapsel.setSelection(2, true); // 중간으로 이동 (마지막 애니메이션시 1,3으로 이동됨.
 		return;
 	}
 
@@ -201,6 +213,7 @@ public class MainActivity extends Activity implements OnClickListener
 			finish();
 			break;
 
+
 		case R.id.btn_inter_next:
 
 			int nStage= GAL_inter_mapsel.getSelectedItemPosition();
@@ -214,8 +227,8 @@ public class MainActivity extends Activity implements OnClickListener
 
 			break;
 
-		case R.id.btn_store_exit:
-			this.GotoInterMission();
+		case R.id.btn_inter_main:
+			this.GotoMain();
 			break;
 		}
 	}
