@@ -13,17 +13,18 @@ import com.raimsoft.matan.util.SoundManager;
 
 public class GameActivity extends Activity
 {
+
 	GameView view;
 	static int nSelStage;
 	static boolean bGameStarted= false;
 	static GameActivity s_GameAct;
 
-	private SoundManager sm;
+	static public SoundManager mSound; // 게임 효과음 총관리
 
 
 	public void PopUpResult()
 	{
-		sm.play(0);
+		mSound.play(-10);
 
 		Intent intent= new Intent(GameActivity.this, StageClearActivity.class);
 		startActivity(intent);
@@ -43,7 +44,7 @@ public class GameActivity extends Activity
 
 	public void PopUpGameOver()
 	{
-		sm.play(1);
+		mSound.play(-20);
 
 		Intent intent= new Intent(GameActivity.this, StageOverActivity.class);
 		startActivity(intent);
@@ -70,10 +71,26 @@ public class GameActivity extends Activity
 
 		s_GameAct= this;
 
-		sm= new SoundManager(this);
-		sm.create();
-		sm.load(0, R.raw.sfx_game_clear);
-		sm.load(1, R.raw.sfx_game_over);
+		mSound= new SoundManager (this);
+		mSound.create();
+		mSound.load(0, R.raw.sfx_drag);			 // 선 드래그1
+		mSound.load(1, R.raw.sfx_drag_one_65);	 // 선 드래그2
+		mSound.load(2, R.raw.sfx_touch_matan);	 // 마탄 터치음
+
+		mSound.load(100, R.raw.sfx_shot_sting);	 // 가시 발사
+		mSound.load(101, R.raw.sfx_bullet_2);	 // 일반 발사
+		mSound.load(102, R.raw.sfx_shot_fire);	 // 불 발사
+		mSound.load(103, R.raw.sfx_shot_bolt);	 // 전기 발사
+		mSound.load(104, R.raw.sfx_ice_1);		 // 얼음 발사
+
+		mSound.load(200, R.raw.sfx_hit_1);		 // 좀비 피격음
+		mSound.load(201, R.raw.sfx_zombie_attack);// 좀비 공격음
+		mSound.load(202, R.raw.sfx_anger_block); // anger block
+		mSound.load(203, R.raw.sfx_dancer_avoid); // dancer avoid
+		mSound.load(999, R.raw.partner_die);	 // 파트너 죽음
+
+		mSound.load(-10, R.raw.sfx_game_clear);
+		mSound.load(-20, R.raw.sfx_game_over);
 
 		setContentView(view);
 	}

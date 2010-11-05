@@ -35,7 +35,7 @@ android:layout_y="425px"
 	<TextView
 		android:id="@+id/txt_help_detail"
 		android:text="Sample Text"
-		android:background="#55000000"
+		android:background="#99000000"
 		android:textColor="#ffffff"
 		android:textSize="23sp"
 		android:layout_centerHorizontal="true"

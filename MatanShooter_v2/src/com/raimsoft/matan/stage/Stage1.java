@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import com.raimsoft.matan.activity.GameActivity;
 import com.raimsoft.matan.activity.R;
 import com.raimsoft.matan.info.PartnerStateEnum;
 import com.raimsoft.matan.info.StageInfo;
@@ -27,16 +28,15 @@ import com.raimsoft.matan.object.MatanConnection;
 import com.raimsoft.matan.object.Partner;
 import com.raimsoft.matan.object.TrafficLights;
 import com.raimsoft.matan.object.ZombieManager;
+import com.raimsoft.matan.object.effect.HitEffect;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.FrameManager;
-import com.raimsoft.matan.util.SoundManager;
 
 public class Stage1 extends BaseStage
 {
 	// ************** 선언부 시작 ************** //
 	private Resources mRes;
-	private SoundManager sm;
-	private MediaPlayer mp;
+	private MediaPlayer mBGM;
 	private AudioManager mAudioManager;
 	private Vibrator mVib;
 
@@ -78,20 +78,11 @@ public class Stage1 extends BaseStage
 
 		// 사운드 초기화
 		mAudioManager = (AudioManager)managerContext.getSystemService(Context.AUDIO_SERVICE);
-		sm= new SoundManager (managerContext);
-		sm.create();
-		sm.load(0, R.raw.sfx_drag);
-		sm.load(1, R.raw.sfx_drag_one_65);
-		sm.load(2, R.raw.sfx_touch_matan);
-		sm.load(100, R.raw.sfx_shot_sting);
-		sm.load(101, R.raw.sfx_bullet_2);
-		sm.load(102, R.raw.sfx_shot_fire);
-		sm.load(103, R.raw.sfx_shot_bolt);
-		sm.load(104, R.raw.sfx_ice_1);
 
-		mp= new MediaPlayer();
-		mp= MediaPlayer.create(managerContext, R.raw.bgm);
-		mp.start();
+		mBGM= new MediaPlayer();
+		mBGM= MediaPlayer.create(managerContext, R.raw.matanstage1);
+		mBGM.setLooping(true);
+		mBGM.start();
 
 		// 정보 초기화
 		info.Init( 1 );
@@ -169,6 +160,7 @@ public class Stage1 extends BaseStage
 
 		this.Render_Bullets(canvas); // 총알 그려줌
 
+		this.Render_HitEffects(canvas); //
 		this.Render_MatanCollisionEffects(canvas); // 마탄 충돌 이펙트
 	}
 
@@ -211,11 +203,25 @@ public class Stage1 extends BaseStage
 				mZombieMgr.Refresh_Zombies(i);
 
 			if (mZombie.eState== ZombieStateEnum.ATTACK) // 좀비 공격
-				mPartner.Damage(mZombie.nPower, info.spdZombie1Att*7);
-
-			if (mZombie.getObjectForRect().intersect(mShot.getObjectForRect())) // 탄환과 충돌
 			{
-				if (mShot.bShooting) mZombie.Damage(35, 0);
+				if( FrameManager.FrameTimer(20) )
+					GameActivity.mSound.play(201);
+				mPartner.Damage(mZombie.nPower, info.spdZombie1Att*7, 0);
+			}
+
+
+			if( mZombie.getObjectForRect().intersect( mShot.getObjectForRect() ) ) // 탄환과 충돌
+			{
+				if (mShot.bShooting)
+				{
+					if (! (mZombie.eState==ZombieStateEnum.DIE ||
+						   mZombie.eState==ZombieStateEnum.HIT) )
+				   {
+						mShot.m_vHitEff.add(new HitEffect(mShot.x-50, mShot.y-25, R.drawable.eff_hit, 100,50, mRes));
+						mZombie.Damage(35, 0, mShot.IDimage);
+				   }
+
+				}
 			}
 		}
 
@@ -224,6 +230,12 @@ public class Stage1 extends BaseStage
 
 		if ( mPartner.eState == PartnerStateEnum.DIE )
 		{
+			if (mPartner.bDeathSound)
+			{
+				GameActivity.mSound.play(999); // 파트너 죽는 소리 재생
+				mPartner.bDeathSound= false;
+			}
+
 			this.SoundStop(); // 죽으면 바로 소리 끔
 
 			if ( mGameOverTimer.Update() ) // 파트너 죽으면 타이머 지나감
@@ -237,8 +249,8 @@ public class Stage1 extends BaseStage
 //		{
 //			nCloseZombie= mZombieMgr.ClosestZombieNum();
 //		}
-		
-		
+
+
 
 		/* 마탄 */
 		if (this.bRefreshImg_Matans) // 마탄 이미지 새로고침
@@ -247,11 +259,16 @@ public class Stage1 extends BaseStage
 		/* 탄환 */
 		if(mShot.bShooting)	mShot.Move(info.spdAllBullet); // 탄환 움직임
 
-		for (int i=0; i<mShot.mEffList.size(); i++)
-			if (mShot.mEffList.get(i).AlphaDrop())
+		for (int i=0; i<mShot.m_vEff.size(); i++)
+			if (mShot.m_vEff.get(i).AlphaDrop())
 			{
-				mShot.mEffList.remove(i);
-				Log.i("Stage1::Eff_removed", "BulletEffectNum= "+mShot.mEffList.size());
+				mShot.m_vEff.remove(i);
+			}
+
+		for (int i=0; i<mShot.m_vHitEff.size(); i++)
+			if (((HitEffect) mShot.m_vHitEff.get(i)).AlphaDrop())
+			{
+				mShot.m_vHitEff.remove(i);
 			}
 
 		SoundPlay(mShot.nSoundPlayID);
@@ -303,7 +320,7 @@ public class Stage1 extends BaseStage
 							mConnection.bSaving= true;
 						}
 						mVib.vibrate(50);
-						sm.play(2);
+						GameActivity.mSound.play(2);
 						mConnection.LastConnectBulletNum= i; // 마지막 연결된 마탄번호 지정
 					}else{// 없으면
 						mVib.vibrate(50);
@@ -448,24 +465,34 @@ public class Stage1 extends BaseStage
 
 	private void Render_BulletEffects(Canvas canvas)
 	{
-		for (int i=0; i<mShot.mEffList.size(); i++)
+		for (int i=0; i<mShot.m_vEff.size(); i++)
 		{
-			mShot.mEffList.get(i).DRAWimage.setBounds(mShot.mEffList.get(i).getObjectForRect());
-			mShot.mEffList.get(i).DRAWimage.setAlpha(mShot.mEffList.get(i).nAlpha);
-			mShot.mEffList.get(i).DRAWimage.draw(canvas);
+			mShot.m_vEff.get(i).DRAWimage.setBounds(mShot.m_vEff.get(i).getObjectForRect());
+			mShot.m_vEff.get(i).DRAWimage.setAlpha(mShot.m_vEff.get(i).nAlpha);
+			mShot.m_vEff.get(i).DRAWimage.draw(canvas);
+		}
+	}
+
+	private void Render_HitEffects(Canvas canvas)
+	{
+		for (int i=0; i<mShot.m_vHitEff.size(); ++i)
+		{
+			mShot.m_vHitEff.get(i).DRAWimage.setBounds(mShot.m_vHitEff.get(i).getObjectForRect());
+			mShot.m_vHitEff.get(i).DRAWimage.setAlpha(mShot.m_vHitEff.get(i).nAlpha);
+			mShot.m_vHitEff.get(i).DRAWimage.draw(canvas);
 		}
 	}
 
 
 	private void Render_MatanCollisionEffects(Canvas canvas)
 	{
-		for(int i=0; i<mShot.mCollEffList.size(); i++)
+		for(int i=0; i<mShot.m_vCollEff.size(); i++)
 		{
-			if ( mShot.mCollEffList.get(i).SPRITE.AnimateNoLoop(canvas,
-					(int)mShot.mCollEffList.get(i).x,
-					(int)mShot.mCollEffList.get(i).y) )
+			if ( mShot.m_vCollEff.get(i).SPRITE.AnimateNoLoop(canvas,
+					(int)mShot.m_vCollEff.get(i).x,
+					(int)mShot.m_vCollEff.get(i).y) )
 			{
-				mShot.mCollEffList.remove(i);
+				mShot.m_vCollEff.remove(i);
 			}
 		}
 	}
@@ -481,7 +508,7 @@ public class Stage1 extends BaseStage
 	private void SoundPlay(int ID)
 	{
 		if (ID==-1) return;
-		sm.play(ID);
+		GameActivity.mSound.play(ID);
 		mShot.nSoundPlayID= -1;
 	}
 
@@ -517,7 +544,7 @@ public class Stage1 extends BaseStage
 	@Override
 	public void SoundStop()
 	{
-		mp.stop();
+		mBGM.stop();
 	}
 
 

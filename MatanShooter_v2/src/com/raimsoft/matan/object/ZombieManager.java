@@ -236,6 +236,9 @@ public class ZombieManager
 			case DIE:
 				List.get(idx).Init(R.drawable.ch_zombie6_die,7, info.spdZombie6Die, mRes);
 				break;
+			case BLOCK:
+				List.get(idx).Init(R.drawable.ch_zombie6_block,1, info.spdZombie6Block, mRes);
+				break;
 			default:
 				List.get(idx).Init(R.drawable.ch_zombie6_walk, 4, info.spdZombie6Walk, mRes);
 				break;

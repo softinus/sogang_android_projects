@@ -55,7 +55,7 @@ public class FrameManager
 	 */
 	public static void CalRealTime(long after, long before)
 	{
-		RealFrameDelay= after-before;
+		RealFrameDelay= after - before;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class FrameManager
 	{
 		if (bPause)
 		{
-			bPause=false;
+			bPause= false;
 			Log.i("FrameManager", "Pause= false");
 		}
 		else

@@ -1,17 +1,24 @@
 package com.raimsoft.matan.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class HelpActivity extends Activity
+public class HelpActivity extends Activity implements OnClickListener
 {
 	private ImageView imgHelp;
 	private TextView  txtHelp;
-	public Typeface TYPEfont;
+	private Typeface  TYPEfont;
+	private Button	  btnBack;
+
+	private boolean already_Next= false;
 
 	private int		  nImgCount= 0;
 	private final int IMG_MAX= 1;
@@ -26,7 +33,11 @@ public class HelpActivity extends Activity
 		imgHelp= (ImageView) findViewById(R.id.img_help);
 		txtHelp= (TextView)  findViewById(R.id.txt_help_detail);
 
+		btnBack= (Button) findViewById(R.id.btn_help_next);
+		btnBack.setOnClickListener(this);
+
 		txtHelp.setTypeface(TYPEfont);
+		txtHelp.setTextSize(35.0f);
 		txtHelp.setText("Tip: More connect, More damage!");
 
 		super.onCreate(savedInstanceState);
@@ -61,6 +72,17 @@ public class HelpActivity extends Activity
 			nImgCount= -1;
 
 		return super.onTouchEvent(event);
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		if(!already_Next)
+		{
+			Intent intent=new Intent(HelpActivity.this, MainActivity.class);
+	        startActivity(intent);
+	        already_Next=true;
+		}
 	}
 
 }
