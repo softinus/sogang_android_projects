@@ -66,6 +66,7 @@ public class StageInfo implements IGameInfo
 	public final int spdZombie6Walk=10; // 4
 	public final int spdZombie6Att= 5;  // 4
 	public final int spdZombie6Hit= 40; // 1
+	public final int spdZombie6Block= 40;// 1
 	public final int spdZombie6Die= 3;  // 7
 
 	// 파트너 속도
@@ -74,7 +75,7 @@ public class StageInfo implements IGameInfo
 
 	// 총알
 	public final float spdAllZombie= 0.3f;
-	public final float spdAllBullet= 40.0f;
+	public final float spdAllBullet= 50.0f;
 
 	public final int spdMatanCollisionEffect= 2;
 
@@ -170,25 +171,16 @@ public class StageInfo implements IGameInfo
 		IDShot[6]= R.drawable.tan_basic;
 		IDShot[7]= R.drawable.tan_ice;
 
-		// 탄환 (세이빙)
-		IDShot_saving[0]= R.drawable.tan_sting_saving01;
-		IDShot_saving[1]= R.drawable.tan_basic_saving01;
-		IDShot_saving[2]= R.drawable.tan_fire_saving01;
-		IDShot_saving[3]= R.drawable.tan_basic_saving01;
-		IDShot_saving[4]= R.drawable.tan_basic_saving01;
-		IDShot_saving[5]= R.drawable.tan_lightning_saving01;
-		IDShot_saving[6]= R.drawable.tan_basic_saving01;
-		IDShot_saving[7]= R.drawable.tan_ice_saving01;
 
 		// 탄환 (이펙트)
-		IDShotEff[0]= R.drawable.tan_sting_eff;
-		IDShotEff[1]= R.drawable.tan_basic_eff;
-		IDShotEff[2]= R.drawable.tan_fire_eff;
-		IDShotEff[3]= R.drawable.tan_basic_eff;
-		IDShotEff[4]= R.drawable.tan_basic_eff;
-		IDShotEff[5]= R.drawable.tan_lightning_eff;
-		IDShotEff[6]= R.drawable.tan_basic_eff;
-		IDShotEff[7]= R.drawable.tan_ice_eff;
+		IDShotEff[0]= R.drawable.tan_sting_eff_saving;
+		IDShotEff[1]= R.drawable.tan_basic_eff_saving;
+		IDShotEff[2]= R.drawable.tan_fire_eff_saving;
+		IDShotEff[3]= R.drawable.tan_basic_eff_saving;
+		IDShotEff[4]= R.drawable.tan_basic_eff_saving;
+		IDShotEff[5]= R.drawable.tan_lightning_eff_saving;
+		IDShotEff[6]= R.drawable.tan_basic_eff_saving;
+		IDShotEff[7]= R.drawable.tan_ice_eff_saving;
 
 		// 마탄 충돌 (이펙트)
 		IDMatanCollEff[0]= R.drawable.eff_spark_sting;

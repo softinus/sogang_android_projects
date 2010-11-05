@@ -2,8 +2,10 @@ package com.raimsoft.matan.object;
 
 import android.content.res.Resources;
 
+import com.raimsoft.matan.activity.R;
 import com.raimsoft.matan.info.ZombieNameEnum;
 import com.raimsoft.matan.info.ZombieStateEnum;
+import com.raimsoft.matan.object.effect.HitEffect;
 import com.raimsoft.matan.util.SpriteBitmap;
 
 public class Wanderer extends AbstractZombie
@@ -56,11 +58,12 @@ public class Wanderer extends AbstractZombie
 	}
 
 	@Override
-	public void Damage(int minusHP, int delay)
+	public void Damage(int nMinusHP, int nDelay, int nProperty)
 	{
 		if (eState==ZombieStateEnum.DIE || eState==ZombieStateEnum.HIT) return;
 
-		nHP -= minusHP;
+
+		nHP -= nMinusHP;
 
 		if (this.nHP <= 0)
 		{

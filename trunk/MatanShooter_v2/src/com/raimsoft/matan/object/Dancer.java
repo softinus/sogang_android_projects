@@ -1,5 +1,6 @@
 package com.raimsoft.matan.object;
 
+import com.raimsoft.matan.activity.GameActivity;
 import com.raimsoft.matan.info.ZombieNameEnum;
 import com.raimsoft.matan.info.ZombieStateEnum;
 import com.raimsoft.matan.util.SpriteBitmap;
@@ -57,19 +58,21 @@ public class Dancer extends AbstractZombie
 	}
 
 	@Override
-	public void Damage(int minusHP, int delay)
+	public void Damage(int nMinusHP, int nDelay, int nProperty)
 	{
 		if (eState==ZombieStateEnum.DIE || eState==ZombieStateEnum.HIT || eState==ZombieStateEnum.AVOID) return;
 
 		if ( (Math.random()*100) <= 25 ) // 25% 확률로 피함
 		{
+			GameActivity.mSound.play(203);
 			eOldState= eState;
 			eState= ZombieStateEnum.AVOID;
 			this.bImageRefresh= true;
 			return;
 		}
 
-		nHP= nHP - minusHP; // 피해 입음
+		GameActivity.mSound.play(200);
+		nHP= nHP - nMinusHP; // 피해 입음
 
 		if (this.nHP <= 0)
 		{

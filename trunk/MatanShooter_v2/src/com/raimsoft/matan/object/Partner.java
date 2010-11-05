@@ -23,6 +23,7 @@ public class Partner extends AbstractGameObject implements IHitting, ISpriteModi
 	public PartnerStateEnum eState= PartnerStateEnum.SHOT_6;
 	public boolean bImageRefresh= false;
 	public boolean bShooting= false;
+	public boolean bDeathSound= true;
 
 	private StageInfo info;
 
@@ -137,13 +138,13 @@ public class Partner extends AbstractGameObject implements IHitting, ISpriteModi
 
 
 	@Override
-	public void Damage(int minusHP, int delay)
+	public void Damage(int nMinusHP, int nDelay, int nProperty)
 	{
 		if (eState==PartnerStateEnum.DIE) return;
 
-		if (FrameManager.FrameTimer(delay))
+		if (FrameManager.FrameTimer(nDelay))
 		{
-			this.nHP -= minusHP;
+			this.nHP -= nMinusHP;
 			mHPbar.DRAWimageBAR.setBounds(mHPbar.getRectBar4Rect(this.nHP, nTotalHP)); // HP바(위치)
 
 			if (this.nHP<=0)

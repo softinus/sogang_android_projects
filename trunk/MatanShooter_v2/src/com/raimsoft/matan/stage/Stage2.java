@@ -28,17 +28,15 @@ import com.raimsoft.matan.object.Matan;
 import com.raimsoft.matan.object.MatanConnection;
 import com.raimsoft.matan.object.Partner;
 import com.raimsoft.matan.object.ZombieManager;
+import com.raimsoft.matan.object.effect.HitEffect;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.FrameManager;
-import com.raimsoft.matan.util.SoundManager;
 
-public class Stage2 extends BaseStage {
-
+public class Stage2 extends BaseStage
+{
 	// ************** 선언부 시작 ************** //
 	private Resources mRes;
-	private SoundManager sm;
-	private MediaPlayer mp;
-	@SuppressWarnings("unused")
+	private MediaPlayer mBGM;
 	private AudioManager mAudioManager;
 	private Vibrator mVib;
 
@@ -53,7 +51,7 @@ public class Stage2 extends BaseStage {
 
 	private MatanConnection mConnection;
 
-	private Partner mPartner; //private int nCloseZombie;
+	private Partner mPartner;// private int nCloseZombie;
 	private Matan mMatan[]= new Matan[8];
 	private ZombieManager mZombieMgr;
 	private AbstractZombie mZombie;
@@ -63,9 +61,13 @@ public class Stage2 extends BaseStage {
 	private GameTimer mGTimer;
 	private GameTimer mGameOverTimer;
 
+
 	// ************** 선언부 종료 ************** //
 
-	public Stage2(GameActivity managerContext)
+
+
+
+	public Stage2(Context managerContext)
 	{
 		// ************** 생성부 시작 ************** //
 
@@ -76,21 +78,12 @@ public class Stage2 extends BaseStage {
 
 		// 사운드 초기화
 		mAudioManager = (AudioManager)managerContext.getSystemService(Context.AUDIO_SERVICE);
-		sm= new SoundManager (managerContext);
-		sm.create();
-		sm.load(0, R.raw.sfx_drag);
-		sm.load(1, R.raw.sfx_drag_one_65);
-		sm.load(2, R.raw.sfx_touch_matan);
-		sm.load(100, R.raw.sfx_shot_sting);
-		sm.load(101, R.raw.sfx_bullet_2);
-		sm.load(102, R.raw.sfx_shot_fire);
-		sm.load(103, R.raw.sfx_shot_bolt);
-		sm.load(104, R.raw.sfx_ice_1);
 
-		mp= new MediaPlayer();
-		mp= MediaPlayer.create(managerContext, R.raw.bgm);
-		mp.start();
 
+		mBGM= new MediaPlayer();
+		mBGM= MediaPlayer.create(managerContext, R.raw.matanstage2);
+		mBGM.setLooping(true);
+		mBGM.start();
 
 		// 정보 초기화
 		info.Init( 2 );
@@ -120,25 +113,26 @@ public class Stage2 extends BaseStage {
 
 		 // 탄환 초기화
 		mShot= new Bullet(0,0, R.drawable.tan_basic, 25,25, mRes);
-		for (int i=0; i<mShot.mEffList.size(); i++)
-		{
-			mShot.mEffList.get(i).DRAWimage= mRes.getDrawable(mShot.mEffList.get(i).IDimage);
-		}
 
 
-		 // 신호등 초기화
+
+		 // 간판 초기화
 		mSign= new Doodad(0,0, R.drawable.background_stage02_sign, 232,346);
 		mSign.DRAWimage= mRes.getDrawable(mSign.IDimage);
 		mSign.DRAWimage.setBounds(mSign.getObjectForRect());
 
+
+		// 타이머 초기화
 		mGTimer= new GameTimer(managerContext);
-		mGTimer.setTimer(40);
+		mGTimer.setTimer( 45 );
 
 		mGameOverTimer= new GameTimer(managerContext);
 		mGameOverTimer.setTimer( 2 );
 
 		// ************** 생성부 종료 ************** //
 	}
+
+
 
 	@Override
 	public int GetStageID()
@@ -147,17 +141,11 @@ public class Stage2 extends BaseStage {
 	}
 
 	@Override
-	public boolean KeyDown(int keyCode, KeyEvent event)
-	{
-		return false;
-	}
-
-	@Override
 	public void StageRender(Canvas canvas)
 	{
 		canvas.drawBitmap(BITMAPbackground, 0, 0, null);	// 배경 그려줌
 
-		this.Render_AllZombies(canvas, 8, 16); // 좀비 앞 그려줌
+		this.Render_AllZombies(canvas, 8, 16); // 좀비 뒤 그려줌
 
 		this.Render_Partner(canvas);	// 파트너 그려줌
 
@@ -170,24 +158,31 @@ public class Stage2 extends BaseStage {
 
 		this.Render_Matans(canvas);	// 마탄 그려줌
 
-		this.Render_BulletEff(canvas); // 총알 이펙트 그려줌
+		this.Render_BulletEffects(canvas); // 총알 이펙트 그려줌
 
 		this.Render_Bullets(canvas); // 총알 그려줌
 
-		this.Render_MatanCollisionEffects(canvas);
+		this.Render_HitEffects(canvas); //
+		this.Render_MatanCollisionEffects(canvas); // 마탄 충돌 이펙트
 	}
+
+
 
 	@SuppressWarnings("static-access")
 	@Override
 	public boolean StageUpdate()
 	{
-		if (mGTimer.Update())
+		if (FrameManager.bPause) return false;
+
+		if ( mGTimer.Update() )
 		{ // 타이머가 끝나면
 			this.NextStageID= StageManager.STAGE_3;
 			s_GameAct.PopUpResult();
 		}
 
-		if (FrameManager.FrameTimer(50) && (mZombieMgr.List.size()<20)) // 50프레임마다 한마리씩 25마리 제한
+
+
+		if (FrameManager.FrameTimer(50) && (mZombieMgr.List.size() < 20)) // 50프레임마다 한마리씩 20마리 제한
 		{
 			mZombieMgr.AddRandomZombie( 2 );
 			Log.i("Stage1::ZombieMgr", mZombieMgr.List.size() + "th Zombie Added.");
@@ -202,17 +197,27 @@ public class Stage2 extends BaseStage {
 		/* 좀비 */
 		for (int i=0; i<mZombieMgr.List.size(); i++)
 		{
-			mZombieMgr.List.get(i).Move(info.spdAllZombie); // 좀비 움직임
+			mZombie= mZombieMgr.List.get(i); // 현재 좀비 가져옴
 
-			if (mZombieMgr.List.get(i).bImageRefresh) // 좀비 이미지
+			mZombie.Move(info.spdAllZombie); // 좀비 움직임
+
+			if (mZombie.bImageRefresh) // 좀비 이미지
 				mZombieMgr.Refresh_Zombies(i);
 
-			if (mZombieMgr.List.get(i).eState== ZombieStateEnum.ATTACK) // 좀비 공격
-				mPartner.Damage(mZombieMgr.List.get(i).nPower, info.spdZombie1Att*7);
-
-			if (mZombieMgr.List.get(i).getObjectForRect().intersect(mShot.getObjectForRect())) // 탄환과 충돌
+			if (mZombie.eState== ZombieStateEnum.ATTACK) // 좀비 공격
 			{
-				if (mShot.bShooting) mZombieMgr.List.get(i).Damage(20, 0);
+				if( FrameManager.FrameTimer(20) )
+					GameActivity.mSound.play(201);
+				mPartner.Damage(mZombie.nPower, info.spdZombie1Att*7, 0);
+			}
+
+
+			if( mZombie.getObjectForRect().intersect( mShot.getObjectForRect() ) ) // 탄환과 충돌
+			{
+				if (mShot.bShooting)
+				{
+					mZombie.Damage(35, 0, mShot.IDimage);
+				}
 			}
 		}
 
@@ -221,17 +226,26 @@ public class Stage2 extends BaseStage {
 
 		if ( mPartner.eState == PartnerStateEnum.DIE )
 		{
+			if (mPartner.bDeathSound)
+			{
+				GameActivity.mSound.play(999); // 파트너 죽는 소리 재생
+				mPartner.bDeathSound= false;
+			}
+
 			this.SoundStop(); // 죽으면 바로 소리 끔
 
 			if ( mGameOverTimer.Update() ) // 파트너 죽으면 타이머 지나감
 				s_GameAct.PopUpGameOver(); // 타이머 끝나면 게임오버 화면 출력
 		}
 
+
+
 //		nCloseZombie= mZombieMgr.ClosestZombieNum();
 //		if (!mPartner.Shooting(nCloseZombie, mZombieMgr.List.get(mZombieMgr.nClosestListNum).eState))
 //		{
 //			nCloseZombie= mZombieMgr.ClosestZombieNum();
 //		}
+
 
 
 		/* 마탄 */
@@ -241,17 +255,27 @@ public class Stage2 extends BaseStage {
 		/* 탄환 */
 		if(mShot.bShooting)	mShot.Move(info.spdAllBullet); // 탄환 움직임
 
-
-		for (int i=0; i<mShot.mEffList.size(); i++)
-			if (mShot.mEffList.get(i).AlphaDrop())
+		for (int i=0; i<mShot.m_vEff.size(); i++)
+			if (mShot.m_vEff.get(i).AlphaDrop())
 			{
-				mShot.mEffList.remove(i);
+				mShot.m_vEff.remove(i);
+				Log.i("Stage1::Eff_removed", "BulletEffectNum= "+mShot.m_vEff.size());
+			}
+
+		for (int i=0; i<mShot.m_vHitEff.size(); i++)
+			if (((HitEffect) mShot.m_vHitEff.get(i)).AlphaDrop())
+			{
+				mShot.m_vHitEff.remove(i);
 			}
 
 		SoundPlay(mShot.nSoundPlayID);
 
 		return false;
 	}
+
+
+
+
 
 	@Override
 	public void Touch(int actionID, float touchX, float touchY)
@@ -275,10 +299,9 @@ public class Stage2 extends BaseStage {
 			{
 				if (mMatan[i].getObjectForRect().contains((int)touchX, (int)touchY))
 				{ // 마탄을 터치했는가
-				//
 					if (mMatan[i].bOpen) return; // 해당 마탄이 이미 닫혀있으면 선 추가안함
 
-					mConnection.AddConnectionPoint(i, mMatan[i].getObjectMiddleSpot());
+					mConnection.AddConnectionPoint(i, mMatan[i].getObjectMiddleSpot()); // 포인트 추가
 					mMatan[i].bOpen= true; // 해당 마탄 닫힘
 
 					this.bRefreshImg_Matans= true; // 마탄 이미지 새로고침
@@ -294,28 +317,23 @@ public class Stage2 extends BaseStage {
 							mConnection.bSaving= true;
 						}
 						mVib.vibrate(50);
-						sm.play(2);
+						GameActivity.mSound.play(2);
 						mConnection.LastConnectBulletNum= i; // 마지막 연결된 마탄번호 지정
 					}else{// 없으면
 						mVib.vibrate(50);
 
 						mConnection.LastConnectBulletNum= i; // 마지막 연결된 마탄번호 지정
-
 					}
 					return;
 				}
 			}
 
 			if (mConnection.ConnectionNum!=0) // 기존 0번째 포인트가 있을 경우
-			{
 				mConnection.pConnect[mConnection.ConnectionNum].setFPoint(touchX, touchY);
-			}
 
 
 			break;
 		case MotionEvent.ACTION_UP:
-
-			//sm.stop(0);
 
 			if(mConnection.bOut)
 			{
@@ -344,6 +362,22 @@ public class Stage2 extends BaseStage {
 		}
 	}
 
+	@Override
+	public boolean KeyDown(int keyCode, KeyEvent event)
+	{
+		if(keyCode==KeyEvent.KEYCODE_MENU)
+			FrameManager.TogglePause();
+
+		if(keyCode==KeyEvent.KEYCODE_BACK)
+			return true;
+
+		if (keyCode==KeyEvent.KEYCODE_VOLUME_UP)
+			mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);  //media volume down!
+
+		if (keyCode==KeyEvent.KEYCODE_VOLUME_DOWN)
+			mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);  //media volume down!
+		return false;
+	}
 
 	// ************** 렌더 메소드 시작 ************** //
 
@@ -353,18 +387,21 @@ public class Stage2 extends BaseStage {
 		{
 			mZombie= mZombieMgr.List.get(i);
 
-			if ((mZombie.nRoute > nStart) && (mZombie.nRoute < nEnd)) continue;
+			if ( (mZombie.nRoute > nStart) && (mZombie.nRoute < nEnd) ) continue;
 
-			if (mZombie.eState==ZombieStateEnum.WALK || mZombie.eState==ZombieStateEnum.ATTACK)
-				mZombie.SPRITE.Animate(canvas, (int)mZombie.x, (int)mZombie.y);
+			if (mZombie.eState==ZombieStateEnum.WALK ||
+				mZombie.eState==ZombieStateEnum.ATTACK )
+					mZombie.SPRITE.Animate(canvas, (int)mZombie.x, (int)mZombie.y);
 
-			if (mZombie.eState==ZombieStateEnum.HIT || mZombie.eState==ZombieStateEnum.DIE || mZombie.eState==ZombieStateEnum.AVOID)
-			{ // 맞거나 죽거나 피하면
-				if (mZombie.SPRITE.AnimateNoLoop(canvas, (int)mZombie.x, (int)mZombie.y))
+			if ( mZombie.eState==ZombieStateEnum.HIT ||
+				 mZombie.eState==ZombieStateEnum.DIE ||
+				 mZombie.eState==ZombieStateEnum.AVOID)
+			{ // 맞거나 죽으면
+				if ( mZombie.SPRITE.AnimateNoLoop(canvas, (int)mZombie.x, (int)mZombie.y) )
 				{ // 해당 SPRITE 애니메이션 1번 반복 끝나면
-					if (mZombie.eState 	 == ZombieStateEnum.DIE) // 죽으면 노드 삭제
+					if ( mZombie.eState 	 == ZombieStateEnum.DIE ) // 죽으면 노드 삭제
 						mZombieMgr.List.remove(i);
-					if (mZombie.eOldState == ZombieStateEnum.NONE) //
+					if ( mZombie.eOldState == ZombieStateEnum.NONE )  //
 						continue;
 					mZombie.eState   = mZombie.eOldState;	// 전상태를 현상태로
 					mZombie.eOldState= ZombieStateEnum.NONE; // 전상태=NONE
@@ -373,6 +410,8 @@ public class Stage2 extends BaseStage {
 			}
 		}
 	}
+
+
 
 	private void Render_Partner(Canvas canvas)
 	{
@@ -424,28 +463,45 @@ public class Stage2 extends BaseStage {
 		}
 	}
 
-	private void Render_BulletEff(Canvas canvas)
+
+	private void Render_HitEffects(Canvas canvas)
 	{
-		for (int i=0; i<mShot.mEffList.size(); i++)
+		for (int i=0; i<mShot.m_vHitEff.size(); ++i)
 		{
-			mShot.mEffList.get(i).DRAWimage.setBounds(mShot.mEffList.get(i).getObjectForRect());
-			mShot.mEffList.get(i).DRAWimage.setAlpha(mShot.mEffList.get(i).nAlpha);
-			mShot.mEffList.get(i).DRAWimage.draw(canvas);
+			mShot.m_vHitEff.get(i).DRAWimage.setBounds(mShot.m_vHitEff.get(i).getObjectForRect());
+			mShot.m_vHitEff.get(i).DRAWimage.setAlpha(mShot.m_vHitEff.get(i).nAlpha);
+			mShot.m_vHitEff.get(i).DRAWimage.draw(canvas);
 		}
 	}
 
+	private void Render_BulletEffects(Canvas canvas)
+	{
+		for (int i=0; i<mShot.m_vEff.size(); i++)
+		{
+			mShot.m_vEff.get(i).DRAWimage.setBounds(mShot.m_vEff.get(i).getObjectForRect());
+			mShot.m_vEff.get(i).DRAWimage.setAlpha(mShot.m_vEff.get(i).nAlpha);
+			mShot.m_vEff.get(i).DRAWimage.draw(canvas);
+		}
+	}
+
+
 	private void Render_MatanCollisionEffects(Canvas canvas)
 	{
-		for(int i=0; i<mShot.mCollEffList.size(); i++)
+		for(int i=0; i<mShot.m_vCollEff.size(); i++)
 		{
-			if ( mShot.mCollEffList.get(i).SPRITE.AnimateNoLoop(canvas,
-					(int)mShot.mCollEffList.get(i).x,
-					(int)mShot.mCollEffList.get(i).y) )
+			if ( mShot.m_vCollEff.get(i).SPRITE.AnimateNoLoop(canvas,
+					(int)mShot.m_vCollEff.get(i).x,
+					(int)mShot.m_vCollEff.get(i).y) )
 			{
-				mShot.mCollEffList.remove(i);
+				mShot.m_vCollEff.remove(i);
 			}
 		}
 	}
+//
+//	public void Render_MatanEffect(Canvas canvas)
+//	{
+//		mShot.mCollisionEff.SPRITE.AnimateNoLoop(canvas, (int)mShot.x, (int)mShot.y);
+//	}
 
 	// ************** 렌더 메소드 끝 ************** //
 
@@ -453,11 +509,9 @@ public class Stage2 extends BaseStage {
 	private void SoundPlay(int ID)
 	{
 		if (ID==-1) return;
-		sm.play(ID);
+		GameActivity.mSound.play(ID);
 		mShot.nSoundPlayID= -1;
 	}
-
-
 
 	/**
 	 * 마탄 새로고침
@@ -486,11 +540,13 @@ public class Stage2 extends BaseStage {
 		mShot.bImageRefresh= false;
 	}
 
+
+
 	@Override
 	public void SoundStop()
 	{
-		mp.stop();
-
+		mBGM.stop();
 	}
+
 
 }

@@ -57,11 +57,11 @@ public class Bowler extends AbstractZombie
 	}
 
 	@Override
-	public void Damage(int minusHP, int delay)
+	public void Damage(int nMinusHP, int nDelay, int nProperty)
 	{
 		if (eState==ZombieStateEnum.DIE || eState==ZombieStateEnum.HIT) return;
 
-		nHP -= minusHP;
+		nHP -= nMinusHP;
 
 		if (this.nHP <= 0)
 		{

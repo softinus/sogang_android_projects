@@ -1,5 +1,7 @@
 package com.raimsoft.matan.object;
 
+import com.raimsoft.matan.activity.GameActivity;
+import com.raimsoft.matan.activity.R;
 import com.raimsoft.matan.info.ZombieNameEnum;
 import com.raimsoft.matan.info.ZombieStateEnum;
 import com.raimsoft.matan.util.SpriteBitmap;
@@ -23,9 +25,9 @@ public class Anger extends AbstractZombie
 
 		SPRITE= new SpriteBitmap(IDimage, mRes, 150,150, 4, info.spdZombie6Walk);
 		this.eName= ZombieNameEnum.ANGER;
-		this.nHP= 300;
+		this.nHP= 200;
 		this.nPower= 70;
-		this.fSpeed= 0.8f;
+		this.fSpeed= 1.1f;
 	}
 
 	@Override
@@ -57,31 +59,33 @@ public class Anger extends AbstractZombie
 	}
 
 	@Override
-	public void Damage(int minusHP, int delay)
+	public void Damage(int nMinusHP, int nDelay, int nProperty)
 	{
-		if (eState==ZombieStateEnum.DIE || eState==ZombieStateEnum.HIT ) return;
+		if ( eState==ZombieStateEnum.DIE || eState==ZombieStateEnum.HIT || eState==ZombieStateEnum.BLOCK ) return;
 
-//		if ( (Math.random()*100) <= 25 ) // 25% 확률로 피함
-//		{
-//			eOldState= eState;
-//			eState= ZombieStateEnum.BLOCK;
-//			this.bImageRefresh= true;
-//			return;
-//		}
-
-		nHP= nHP - minusHP; // 피해 입음
-
-		if (this.nHP <= 0)
+		if (nProperty == R.drawable.tan_sting)
 		{
-			eState= ZombieStateEnum.DIE; // 죽음 상태로 변경
+			GameActivity.mSound.play(200);
+			nHP= nHP - nMinusHP; // 피해 입음
+
+			if (this.nHP <= 0)
+			{
+				eState= ZombieStateEnum.DIE; // 죽음 상태로 변경
+				this.bImageRefresh= true;
+				return;
+			}
+
+			eOldState= eState;
+			eState= ZombieStateEnum.HIT; // 히트 상태로 변경
 			this.bImageRefresh= true;
-			return;
 		}
-
-		eOldState= eState;
-		eState= ZombieStateEnum.HIT; // 히트 상태로 변경
-		this.bImageRefresh= true;
-
+		else
+		{
+			GameActivity.mSound.play(202);
+			eOldState= eState;
+			eState= ZombieStateEnum.BLOCK;
+			this.bImageRefresh= true;
+		}
 	}
 
 	@Override

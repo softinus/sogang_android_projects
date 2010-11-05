@@ -226,7 +226,8 @@ public class MainActivity extends Activity implements OnClickListener
 		this.setContentView(R.layout.intermission);
 
 		BTN_inter_main= (Button) findViewById(R.id.btn_inter_main);
-		BTN_inter_main.setOnClickListener(this);
+		BTN_inter_main.setVisibility(View.INVISIBLE);
+		//BTN_inter_main.setOnClickListener(this);
 
 		BTN_inter_next= (Button) findViewById(R.id.btn_inter_next);
 		BTN_inter_next.setOnClickListener(this);

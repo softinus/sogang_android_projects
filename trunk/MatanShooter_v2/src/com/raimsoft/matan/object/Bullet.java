@@ -1,6 +1,5 @@
 package com.raimsoft.matan.object;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 import android.content.res.Resources;
@@ -8,6 +7,9 @@ import android.content.res.Resources;
 import com.raimsoft.matan.activity.R;
 import com.raimsoft.matan.info.StageInfo;
 import com.raimsoft.matan.motion.IMoving;
+import com.raimsoft.matan.object.effect.BaseEffect;
+import com.raimsoft.matan.object.effect.BulletEffect;
+import com.raimsoft.matan.object.effect.MatanCollisionEffect;
 import com.raimsoft.matan.util.FPoint;
 import com.raimsoft.matan.util.Vector2Calc;
 
@@ -28,13 +30,14 @@ public class Bullet extends AbstractGameObject implements IMoving
 	private int nStepCount= 0;	// 움직임 횟수 (연산된 벡터에서의 진행된 스칼라 카운트)
 	private int nStepMax;		// 총 움직임수 (연산된 벡터에서의 총 스칼라 횟수)
 	private int nShootCount= 0; // 발사될 횟수
-	public int nShootMax= 0;	// 총 탄환 경로수 (몇번을 튕겼나)
+	public 	int nShootMax= 0;	// 총 탄환 경로수 (몇번을 튕겼나)
 
 
 	private Vector2Calc calc= new Vector2Calc();
 
-	public ArrayList<BulletEffect> mEffList= new ArrayList<BulletEffect>(); // 이펙트
-	public Vector<MatanCollisionEffect> mCollEffList= new Vector<MatanCollisionEffect>();
+	public Vector<BulletEffect> 		m_vEff    =  new Vector<BulletEffect>(); 		 // 마탄 꼬리 이펙트
+	public Vector<MatanCollisionEffect> m_vCollEff=  new Vector<MatanCollisionEffect>(); // 마탄효과 이펙트
+	public Vector<BaseEffect>	m_vHitEff =  new Vector<BaseEffect>(); 			 // hit effect
 
 	public Bullet(float X, float Y, int IDimage, int Width, int Height, Resources _Res)
 	{
@@ -50,6 +53,7 @@ public class Bullet extends AbstractGameObject implements IMoving
 		vMove= new FPoint();
 
 	}
+
 
 
 	/**
@@ -75,12 +79,16 @@ public class Bullet extends AbstractGameObject implements IMoving
 		++nShootCount;
 
 
-
-
-		this.MatanEffectAdd();
-		// 충돌 이펙트 추가
+		this.MatanEffectAdd();	// 마탄 충돌 이펙트 추가
 
 		return false;
+	}
+
+	private void InitStep()
+	{
+		nStepCount= 0;
+		nStepMax= 0;
+		nShootCount= 0;
 	}
 
 
@@ -108,7 +116,7 @@ public class Bullet extends AbstractGameObject implements IMoving
 			nStepMax= calc.Vector2Step(vVecVal, vMove); // 총 스텝수 계산
 		}
 
-		mEffList.add(new BulletEffect(x,y, nEffID, 25, 25, mRes));
+		m_vEff.add(new BulletEffect(x,y, nEffID, 25, 25, mRes));
 		//Log.i("Bullet::Eff_added", "BulletEffectNum= "+mEffList.size());
 
 
@@ -120,12 +128,7 @@ public class Bullet extends AbstractGameObject implements IMoving
 		++nStepCount;
 	}
 
-	private void InitStep()
-	{
-		nStepCount= 0;
-		nStepMax= 0;
-		nShootCount= 0;
-	}
+
 
 	private void MatanEffectAdd()
 	{
@@ -134,35 +137,35 @@ public class Bullet extends AbstractGameObject implements IMoving
 		switch( info.nShotRoute[nShootCount-1] ) // 부딪힌 마탄에 따라 다른 이펙트 생성
 		{
 		case 0:
-			mCollEffList.add(new MatanCollisionEffect(this.x - 110,this.y - 100
+			m_vCollEff.add(new MatanCollisionEffect(this.x - 110,this.y - 100
 					,R.drawable.eff_spark_sting, 220,200, mRes));
 			break;
 		case 1:
-			mCollEffList.add(new MatanCollisionEffect(this.x - 110,this.y - 100
+			m_vCollEff.add(new MatanCollisionEffect(this.x - 110,this.y - 100
 					,R.drawable.eff_spark_basic, 220,200, mRes));
 			break;
 		case 2:
-			mCollEffList.add(new MatanCollisionEffect(this.x - 110,this.y - 100
+			m_vCollEff.add(new MatanCollisionEffect(this.x - 110,this.y - 100
 					,R.drawable.eff_spark_fire, 220,200, mRes));
 			break;
 		case 3:
-			mCollEffList.add(new MatanCollisionEffect(this.x - 110,this.y - 100
+			m_vCollEff.add(new MatanCollisionEffect(this.x - 110,this.y - 100
 					,R.drawable.eff_spark_basic, 220,200, mRes));
 			break;
 		case 4:
-			mCollEffList.add(new MatanCollisionEffect(this.x - 110,this.y - 100
+			m_vCollEff.add(new MatanCollisionEffect(this.x - 110,this.y - 100
 					,R.drawable.eff_spark_basic, 220,200, mRes));
 			break;
 		case 5:
-			mCollEffList.add(new MatanCollisionEffect(this.x - 110,this.y - 100
+			m_vCollEff.add(new MatanCollisionEffect(this.x - 110,this.y - 100
 					,R.drawable.eff_spark_lightning, 220,200, mRes));
 			break;
 		case 6:
-			mCollEffList.add(new MatanCollisionEffect(this.x - 110,this.y - 100
+			m_vCollEff.add(new MatanCollisionEffect(this.x - 110,this.y - 100
 					,R.drawable.eff_spark_basic, 220,200, mRes));
 			break;
 		case 7:
-			mCollEffList.add(new MatanCollisionEffect(this.x - 110,this.y - 100
+			m_vCollEff.add(new MatanCollisionEffect(this.x - 110,this.y - 100
 					,R.drawable.eff_spark_ice, 220,200, mRes));
 			break;
 		}

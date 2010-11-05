@@ -1,5 +1,6 @@
 package com.raimsoft.matan.object;
 
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -16,7 +17,12 @@ public abstract class AbstractGameObject
 		this.IDimage = IDimage;
 	}
 
-	protected AbstractGameObject(int IDimage, int Width, int Height)
+	protected AbstractGameObject(Resources _Res)
+	{
+
+	}
+
+	public AbstractGameObject(int IDimage, int Width, int Height)
 	{
 		this.IDimage = IDimage;
 		this.Width = Width;
