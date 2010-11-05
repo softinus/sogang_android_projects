@@ -30,6 +30,7 @@ public class MainActivity extends Activity implements OnClickListener
 	private boolean bPressed= false;
 
 	private int nMapSel= -1;
+	private static MainActivity Instance;
 
 
 	private int rndNum= (int) (Math.random()*10);
@@ -119,6 +120,8 @@ public class MainActivity extends Activity implements OnClickListener
 
         BTN_main_exit= (Button) findViewById(R.id.btn_main_exit);
         BTN_main_exit.setOnClickListener(this);
+
+        Instance= this;
     }
 
 	@Override
@@ -282,6 +285,9 @@ public class MainActivity extends Activity implements OnClickListener
         setContentView(R.layout.mainmenu);
 	}
 
-
+	public static MainActivity GetInstance()
+	{
+		return Instance;
+	}
 
 }

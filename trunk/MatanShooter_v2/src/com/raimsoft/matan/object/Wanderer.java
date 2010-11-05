@@ -2,6 +2,7 @@ package com.raimsoft.matan.object;
 
 import android.content.res.Resources;
 
+import com.raimsoft.matan.activity.GameActivity;
 import com.raimsoft.matan.activity.R;
 import com.raimsoft.matan.info.ZombieNameEnum;
 import com.raimsoft.matan.info.ZombieStateEnum;
@@ -62,6 +63,7 @@ public class Wanderer extends AbstractZombie
 	{
 		if (eState==ZombieStateEnum.DIE || eState==ZombieStateEnum.HIT) return;
 
+		GameActivity.mSound.play(200);
 
 		nHP -= nMinusHP;
 

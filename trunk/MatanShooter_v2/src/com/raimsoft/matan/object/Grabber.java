@@ -1,5 +1,6 @@
 package com.raimsoft.matan.object;
 
+import com.raimsoft.matan.activity.GameActivity;
 import com.raimsoft.matan.info.ZombieNameEnum;
 import com.raimsoft.matan.info.ZombieStateEnum;
 import com.raimsoft.matan.util.SpriteBitmap;
@@ -52,6 +53,8 @@ public class Grabber extends AbstractZombie
 	public void Damage(int nMinusHP, int nDelay, int nProperty)
 	{
 		if (eState==ZombieStateEnum.DIE || eState==ZombieStateEnum.HIT) return;
+
+		GameActivity.mSound.play(200);
 
 		nHP -= nMinusHP;
 

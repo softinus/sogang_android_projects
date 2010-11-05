@@ -64,6 +64,9 @@ public class GameActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		MainActivity.GetInstance().finish();
+
 		BaseStage.s_GameAct= this;
 
 		view = new GameView(this, nSelStage);
