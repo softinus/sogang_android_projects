@@ -215,7 +215,13 @@ public class Stage3 extends BaseStage
 			{
 				if (mShot.bShooting)
 				{
-					mZombie.Damage(35, 0, mShot.IDimage);
+					if (! (mZombie.eState==ZombieStateEnum.DIE ||
+						   mZombie.eState==ZombieStateEnum.HIT ||
+						   mZombie.eState==ZombieStateEnum.BLOCK ) )
+				   {
+						mShot.m_vHitEff.add(new HitEffect(mShot.x-50, mShot.y-25, R.drawable.eff_hit, 100,50, mRes));
+						mZombie.Damage(35, 0, mShot.IDimage);
+				   }
 				}
 			}
 		}
